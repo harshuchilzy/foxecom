@@ -1,5 +1,5 @@
 .hero-section-gif{
-    background-image: url('/images/bgvid.mp4');
+    background-image: url('/images/bgvid.gif');
 }
 
 #myVideo {
@@ -10,4 +10,11 @@
   min-height: 100%;
   width: 100% !important;
     height: 100% !important;
+}
+
+.seventhsection{
+    background-image: url('/images/seven-section-bg.png');
+    background-size: contain;
+    background-position: center bottom;
+    border-radius: 14px;
 }
