@@ -171,6 +171,162 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-6">
+
+                        <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                </div>
+
+                                <p class="text-gray-700 text-base leading-relaxed mb-6 max-w-xs">
+                                    Stock up and get rewarded. Free outers available when you explore the offer.
+                                </p>
+                            </div>
+
+                            <!-- Call to Action -->
+                            <button class="group flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200">
+                                <span class="border-b border-gray-800 group-hover:border-gray-900">
+                                    Reveal Offer
+                                </span>
+                                <span class="text-lg group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-[120px] h-[160px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+
+                            <!-- Corner Accent (Optional) -->
+                            <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
+                                <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
+                            </div>
+
+                        </div>
+
+                        <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                </div>
+
+                                <p class="text-gray-700 text-base leading-relaxed mb-6 max-w-xs">
+                                    Stock up and get rewarded. Free outers available when you explore the offer.
+                                </p>
+                            </div>
+
+                            <!-- Call to Action -->
+                            <button class="group flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200">
+                                <span class="border-b border-gray-800 group-hover:border-gray-900">
+                                    Reveal Offer
+                                </span>
+                                <span class="text-lg group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-6 h-[160px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
+
+                            <!-- Corner Accent (Optional) -->
+                            <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
+                                <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
+                            </div>
+
+                        </div>
+
+                        <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                </div>
+
+                                <p class="text-gray-700 text-base leading-relaxed mb-6 max-w-xs">
+                                    Stock up and get rewarded. Free outers available when you explore the offer.
+                                </p>
+                            </div>
+
+                            <!-- Call to Action -->
+                            <button class="group flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200">
+                                <span class="border-b border-gray-800 group-hover:border-gray-900">
+                                    Reveal Offer
+                                </span>
+                                <span class="text-lg group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <img src="{{ asset('images/elfbar1.png') }}" alt="Titan Product" class="absolute right-1 -bottom-[120px] h-[160px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+
+                            <!-- Corner Accent (Optional) -->
+                            <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
+                                <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
+                            </div>
+
+                        </div>
+
+                        <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                </div>
+
+                                <p class="text-gray-700 text-base leading-relaxed mb-6 max-w-xs">
+                                    Stock up and get rewarded. Free outers available when you explore the offer.
+                                </p>
+                            </div>
+
+                            <!-- Call to Action -->
+                            <button class="group flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200">
+                                <span class="border-b border-gray-800 group-hover:border-gray-900">
+                                    Reveal Offer
+                                </span>
+                                <span class="text-lg group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <img src="{{ asset('images/lostmarybm6.png') }}" alt="Titan Product" class="absolute right-1 -bottom-[120px] h-[160px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+
+                            <!-- Corner Accent (Optional) -->
+                            <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
+                                <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
+                            </div>
+
+                        </div>
+
+                        <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                </div>
+
+                                <p class="text-gray-700 text-base leading-relaxed mb-6 max-w-xs">
+                                    Stock up and get rewarded. Free outers available when you explore the offer.
+                                </p>
+                            </div>
+
+                            <!-- Call to Action -->
+                            <button class="group flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200">
+                                <span class="border-b border-gray-800 group-hover:border-gray-900">
+                                    Reveal Offer
+                                </span>
+                                <span class="text-lg group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-[120px] h-[160px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+
+                            <!-- Corner Accent (Optional) -->
+                            <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
+                                <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
+                            </div>
+
+                        </div>
+
                         <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
 
                             <div class="mb-4">
