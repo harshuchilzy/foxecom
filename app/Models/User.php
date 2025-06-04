@@ -19,7 +19,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'country_code',
+        'phone',
+        'company_name',
+        'company_registration',
+        'store_name',
+        'store_url',
+        'vat_certificate',
+        'id_proof',
+        'address_proof',
         'email',
         'password',
     ];
@@ -52,7 +62,7 @@ class User extends Authenticatable
      */
     public function initials(): string
     {
-        return Str::of($this->name)
+        return Str::of($this->first_name)
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
