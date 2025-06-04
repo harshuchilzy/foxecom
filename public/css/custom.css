@@ -1,3 +1,13 @@
 .hero-section-gif{
-    background-image: url('/images/hero-animation.gif');
+    background-image: url('/images/bgvid.mp4');
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: 100% !important;
+    height: 100% !important;
 }

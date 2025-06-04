@@ -1,7 +1,7 @@
 <header class="w-full bg-themeblack text-white p-4">
     <div class="flex items-center container mx-auto gap-8">
         <div>
-            {{-- <img class="w-2xs" src="{{ asset('images/logo.png') }}" alt=""> --}}
+            <img class="w-2xs" src="{{ asset('images/logo.png') }}" alt="">
         </div>
         <div class="flex items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-4">
