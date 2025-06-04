@@ -2,4 +2,5 @@
     <div class="container mx-auto text-center">
         <p>&copy; {{ date('Y') }} FoxErgo. All rights reserved.</p>
     </div>
+    <script src="{{ asset('js/age-verification.js') }}"></script>
 </footer>

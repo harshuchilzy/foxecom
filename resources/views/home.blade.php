@@ -21,6 +21,7 @@
             </style>
         @endif
         @vite('resources/css/app.css')
+        @vite(['resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     </head>
     <body class="flex min-h-screen flex-col">
