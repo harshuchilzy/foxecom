@@ -62,6 +62,7 @@
             </main>
         </div>
 
+        
         <x-footer />
 
         @if (Route::has('login'))
