@@ -62,7 +62,7 @@
             </main>
         </div>
 
-        
+        <x-notification.age-verification />
         <x-footer />
 
         @if (Route::has('login'))
