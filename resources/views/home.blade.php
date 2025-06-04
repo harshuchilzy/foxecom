@@ -23,7 +23,7 @@
         @vite('resources/css/app.css')
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex min-h-screen flex-col">
+    <body class="flex min-h-screen flex-col">
 
         {{-- <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
             @if (Route::has('login'))
@@ -57,15 +57,159 @@
         <x-header />
 
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-            <main class="flex w-full flex-col-reverse lg:flex-row">
-                <div class="hero-section-gif bg-cover bg-center h-screen w-full"></div>
+            <main class="flex w-full flex-col">
+                <div class="realtive bg-cover bg-center h-[90vh] w-full">
+                    <div class="w-full h-full flex items-end justify-end relative">
+                        <button class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8">Redeem Free Offer</button>
+                    </div>
+                </div>
+
+                <div class="bg-second-dark-blue flex justify-between items-center py-6 px-5">
+                    <p class="text-white flex items-center gap-2">
+                        <span class="font-semibold text-lg">Al Fakir</span>
+                        <span class="font-strong text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    </p>
+                    <p class="text-white flex items-center gap-2">
+                        <span class="font-semibold text-lg">Al Fakir</span>
+                        <span class="font-strong text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    </p>
+                    <p class="text-white flex items-center gap-2">
+                        <span class="font-semibold text-lg">Al Fakir</span>
+                        <span class="font-strong text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    </p>
+                </div>
+
+                <div class="flex flex-col bg-[#D9D9D97D]">
+                    <div class="py-12">
+                        <h2 class="text-center text-[28px] ">
+                            <span class="font-bold text-black">Promotion Spotlight.</span>
+                            <span class="font-semibold text-[#6E6E73] italic">Our monthly offer selection for you.</span>
+                        </h2>
+
+                        <section class="py-8">
+                            <div class="swiper mySwiper w-full mx-auto">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide rounded-xl">
+                                        <div class="h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide1.png') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 1">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide2.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 2">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide3.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="flex items-center justify-center mt-2 flex-col gap-3">
+                            <h3 class="text-[22px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">Claim Your Free Outer Here</h3>
+                            <p class="text-[16px] font-normal text-black">Limited-time promotion for verified retailers. Claim it fast  </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white px-16 py-12 max-w-[1440px] mx-auto">
+                    <div class="flex w-full justify-start pb-5">
+                        <h2 class="text-left text-[28px] ">
+                            <span class="font-bold text-black">The latest promotions.</span>
+                            <span class="font-semibold text-[#6E6E73] italic">Take a look what’s new.</span>
+                        </h2>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="rounded-[20px] p-8 bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)] shadow-[0px_4px_4px_0px_#00000040]">
+                            <h3 class="font-semibold text-2xl mt-2">Elf Bar AF5000</h3>
+                            <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
+                            <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
+                                <div class="bg-[linear-gradient(360deg,_#95D7EF_0%,_#2E6EA2_100%)] w-[82%] h-[8px] rounded-[20px]"></div>
+                            </div>
+                            <p class="text-[#1D1D1F] text-[12px] font-semibold mt-2">82% claimed</p>
+                            <div class="w-full flex justify-center items-center">
+                                <img class="w-[350px] h-[240px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
+                            </div>
+                        </div>
+
+                        <div class="rounded-[20px] p-8 bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] shadow-[0px_4px_4px_0px_#00000040]">
+                            <h3 class="font-semibold text-2xl mt-2">Titan 10K Puffs</h3>
+                            <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
+                            <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
+                                <div class="bg-[linear-gradient(360deg,_#DEDBDC_0%,_#494D5E_100%)] w-[60%] h-[8px] rounded-[20px]"></div>
+                            </div>
+                            <p class="text-[#1D1D1F] text-[12px] font-semibold mt-2">60% claimed</p>
+                            <div class="w-full flex justify-center items-center">
+                                <img class="w-[350px] h-[240px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
+                            </div>
+                        </div>
+
+                        <div class="rounded-[20px] p-8 bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)] shadow-[0px_4px_4px_0px_#00000040]">
+                            <h3 class="font-semibold text-2xl text-white mt-2">Elf Bar AF5000</h3>
+                            <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
+                            <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
+                                <div class="bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)] w-[96%] h-[8px] rounded-[20px]"></div>
+                            </div>
+                            <p class="text-[#1D1D1F] text-[12px] font-semibold text-white mt-2">96% claimed</p>
+                            <div class="w-full flex justify-center items-center">
+                                <img class="w-[350px] h-[240px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white px-16 py-12 max-w-[1440px] mx-auto w-full">
+                    <div class="flex w-full justify-start pb-5">
+                        <h2 class="text-left text-[28px] ">
+                            <span class="font-bold text-black">All Offers.</span>
+                            <span class="font-semibold text-[#6E6E73] italic">Click to reveal.</span>
+                        </h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="relative w-full h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+
+                            <div class="mb-4">
+                                <div class="mb-4">
+                                    <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                </div>
+
+                                <p class="text-gray-700 text-base leading-relaxed mb-6 max-w-xs">
+                                    Stock up and get rewarded. Free outers available when you explore the offer.
+                                </p>
+                            </div>
+
+                            <!-- Call to Action -->
+                            <button class="group flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200">
+                                <span class="border-b border-gray-800 group-hover:border-gray-900">
+                                    Reveal Offer
+                                </span>
+                                <span class="text-lg group-hover:translate-x-1 transition-transform duration-200">→</span>
+                            </button>
+
+                            <!-- Product Image -->
+                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-6 h-[160px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
+
+                            <!-- Corner Accent (Optional) -->
+                            <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
+                                <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
 
         <x-footer />
 
-        @if (Route::has('login'))
+        {{-- @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
-        @endif
+        @endif --}}
     </body>
 </html>
