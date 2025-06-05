@@ -21,12 +21,15 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('company_name');
+            $table->string('company_type');
             $table->string('company_registration');
+            $table->string('company_sector')->nullable();
             $table->string('store_name')->nullable();
             $table->string('store_url')->nullable();
+            $table->string('registration_certificate')->nullable();
             $table->string('vat_certificate')->nullable();
-            $table->string('id_proof')->nullable();
-            $table->string('address_proof')->nullable();
+            $table->string('proof_of_id')->nullable();
+            $table->string('proof_of_address')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

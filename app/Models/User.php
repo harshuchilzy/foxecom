@@ -14,23 +14,26 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, LunarUser;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // /**
+    //  * The attributes that are mass assignable.
+    //  *
+    //  * @var list<string>
+    //  */
     protected $fillable = [
         'first_name',
         'last_name',
         'country_code',
         'phone',
         'company_name',
+        'company_type',
         'company_registration',
+        'company_sector',
         'store_name',
         'store_url',
+        'registration_certificate',
         'vat_certificate',
-        'id_proof',
-        'address_proof',
+        'proof_of_id',
+        'proof_of_address',
         'email',
         'password',
     ];

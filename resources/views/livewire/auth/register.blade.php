@@ -9,13 +9,16 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('components.layouts.auth')] class extends Component {
+
+use Livewire\WithFileUploads;
+
     public string $first_name = '';
     public string $last_name = '';
     public string $country_code = '44'; // Default to UK
     public string $phone = '';
     public string $company_name = '';
     public string $company_type = '';
-    public string $company_registration_number = '';
+    public string $company_registration = '';
     public string $store_name = '';
     public string $address_line_1 = '';
     public string $address_line_2 = '';
@@ -29,6 +32,51 @@ new #[Layout('components.layouts.auth')] class extends Component {
     public string $password_confirmation = '';
     public $registration_certificate, $vat_certificate, $proof_of_id, $proof_of_address;
 
+    public array $cities = array();
+
+    function mount() : void {
+        $this->loadUKCities(); // Load UK cities by default
+    }
+
+    public function updated($property) : void {
+        Log::info("Property updated: {$property}");
+        if($property === 'country') {
+            $this->reset('city');
+            $this->cities = [];
+            if ($this->country === 'uk') {
+                $this->loadUKCities();
+            } elseif ($this->country === 'uae') {
+                $this->loadUAECities();
+            }
+        }
+    }
+
+    function loadUKCities() : void {
+        $this->cities = [
+            ['value' => 'london', 'label' => 'London'],
+            ['value' => 'manchester', 'label' => 'Manchester'],
+            ['value' => 'birmingham', 'label' => 'Birmingham'],
+            ['value' => 'liverpool', 'label' => 'Liverpool'],
+            ['value' => 'leeds', 'label' => 'Leeds'],
+            ['value' => 'glasgow', 'label' => 'Glasgow'],
+            ['value' => 'edinburgh', 'label' => 'Edinburgh'],
+            ['value' => 'bristol', 'label' => 'Bristol'],
+            ['value' => 'sheffield', 'label' => 'Sheffield'],
+            ['value' => 'nottingham', 'label' => 'Nottingham']
+        ];
+    }
+
+    function loadUAECities() : void {
+        $this->cities = [
+            ['value' => 'dubai', 'label' => 'Dubai'],
+            ['value' => 'abu_dhabi', 'label' => 'Abu Dhabi'],
+            ['value' => 'sharjah', 'label' => 'Sharjah'],
+            ['value' => 'ajman', 'label' => 'Ajman'],
+            ['value' => 'fujairah', 'label' => 'Fujairah'],
+            ['value' => 'ras_al_khaimah', 'label' => 'Ras Al Khaimah'],
+            ['value' => 'umm_al_quwain', 'label' => 'Umm Al Quwain']
+        ];
+    }
 
     /**
      * Handle an incoming registration request.
@@ -43,8 +91,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'country_code' => ['required', 'string', 'max:5'],
             'phone' => ['required', 'string', 'max:15', 'regex:/^\d+$/'],
             'company_name' => ['required', 'string', 'max:255'],
-            'company_type' => ['required', 'string', 'in:retail,fmcg,wholesale,importer'],
-            'company_registration_number' => ['required', 'string', 'max:50'],
+            'company_type' => ['required', 'string'],
+            'company_registration' => ['required', 'string', 'max:50'],
             'store_name' => ['nullable', 'string', 'max:255'],
             'address_line_1' => ['required', 'string', 'max:255'],
             'address_line_2' => ['nullable', 'string', 'max:255'],
@@ -61,22 +109,32 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $validated['password'] = Hash::make($validated['password']);
 
+        $validated['registration_certificate'] = $this->registration_certificate->store('uploads/registration_certificates', 'public');
+        $validated['vat_certificate'] = $this->vat_certificate->store('uploads/vat_certificates', 'public');
+        $validated['proof_of_id'] = $this->proof_of_id->store('uploads/proof_of_id', 'public');
+        $validated['proof_of_address'] = $this->proof_of_address->store('uploads/proof_of_address', 'public');
+
+        Log::info('User registration data:' . print_r($validated, false));
+
         event(new Registered(($user = User::create($validated))));
 
         Auth::login($user);
 
-        $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(route('home', absolute: false), navigate: true);
     }
 }; ?>
 
 <div class="flex flex-col gap-6 w-full max-w-xl mx-auto font-zen-kaku-gothic-antique">
+    {{--
     <x-auth-header :title="__('Sign Up')"
-        :description="__('Helping retailers grow with fast access to high-demand products.')" />
+        :description="__('Helping retailers grow with fast access to high-demand products.')" /> --}}
+    <h2 class="text-center text-3xl font-semibold mt-6">{{__('Sign Up')}}</h2>
+    <p class="text-gray-600 text-center">{{__('Helping retailers grow with fast access to high-demand products.')}}</p>
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="register" class="flex flex-col gap-6">
+    <form wire:submit="register" class="flex flex-col gap-6" >
         <div class="grid grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
             <div class=" p-3">
                 <!-- First Name -->
@@ -120,8 +178,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
             </div>
         </div>
 
-        <div class="grid grid-cols-5 gap-4">
-            <div>
+        <div class="grid grid-cols-6 gap-4 border border-theme-zinc dark:border-neutral-700 p-3">
+            <div class="col-span-2">
                 <label for="country_code" class="uppercase text-xs">Country Code <span
                         class="text-red-500 text-xs">*</span></label>
                 <select wire:model="country_code" id="country_code"
@@ -208,7 +266,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div class="border border-theme-zinc dark:border-neutral-700 p-3">
             <!-- Password Confirmation -->
             <label for="password_confirmation" class="uppercase text-xs">Confirm Password</label>
-            <input type="password" wire:model="password" id="password_confirmation"
+            <input type="password" wire:model="password_confirmation" id="password_confirmation"
                 class="bg-white dark:bg-neutral-800  rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                 autofocus autocomplete="false" placeholder="{{ __('********') }}" />
             @error('password_confirmation')
@@ -224,8 +282,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
             @enderror
         </div>
 
-        <div>
-            <h3>Company Details</h3>
+        <div class="mt-4">
+            <h3 class="text-2xl">Company Details</h3>
         </div>
 
         <div class="space-y-4">
@@ -263,7 +321,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     @error('company_type')
                     <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
                         <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="..." />
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
                         </svg>
                         {{ $message }}
                     </div>
@@ -272,13 +332,20 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Company Registration Number -->
                 <div class=" p-3">
-                    <label for="company_registration_number" class="uppercase text-xs">Company Registration Number <span
+                    <label for="company_registration" class="uppercase text-xs">Company Registration Number <span
                             class="text-red-500 text-xs">*</span></label>
-                    <input type="text" wire:model="company_registration_number" id="company_registration_number"
+                    <input type="text" wire:model="company_registration" id="company_registration"
                         class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                         placeholder="Enter registration number" />
-                    @error('company_registration_number')
-                    <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                    @error('company_registration')
+                    <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
             </div>
@@ -290,7 +357,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                     placeholder="Store name" />
                 @error('store_name')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
@@ -302,7 +376,13 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                     placeholder="Street and number" />
                 @error('address_line_1')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400"><svg class="shrink-0 size-5 inline"
+                        viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}</div>
                 @enderror
             </div>
 
@@ -313,83 +393,78 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                     placeholder="Apartment, suite, etc." />
                 @error('address_line_2')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
-            <div x-data="{
-                        country: 'uk',
-                        city: '',
-                        cities: {
-                            uk: [
-                                { 'value': 'london', 'label': 'London' },
-                                { 'value': 'manchester', 'label': 'Manchester' },
-                                { 'value': 'birmingham', 'label': 'Birmingham' },
-                                { 'value': 'liverpool', 'label': 'Liverpool' },
-                                { 'value': 'leeds', 'label': 'Leeds' },
-                                { 'value': 'glasgow', 'label': 'Glasgow' },
-                                { 'value': 'edinburgh', 'label': 'Edinburgh' },
-                                { 'value': 'bristol', 'label': 'Bristol' },
-                                { 'value': 'sheffield', 'label': 'Sheffield' },
-                                { 'value': 'nottingham', 'label': 'Nottingham' }
-                            ],
-                            uae: [
-                                { 'value': 'dubai', 'label': 'Dubai' },
-                                { 'value': 'abu_dhabi', 'label': 'Abu Dhabi' },
-                                { 'value': 'sharjah', 'label': 'Sharjah' },
-                                { 'value': 'ajman', 'label': 'Ajman' },
-                                { 'value': 'fujairah', 'label': 'Fujairah' },
-                                { 'value': 'ras_al_khaimah', 'label': 'Ras Al Khaimah' },
-                                { 'value': 'umm_al_quwain', 'label': 'Umm Al Quwain' },
-                                { 'value': 'al_ain', 'label': 'Al Ain' },
-                                { 'value': 'khorfakkan', 'label': 'Khor Fakkan' },
-                                { 'value': 'dibba', 'label': 'Dibba' }
-                            ]
-                        }
-                    }">
-                <!-- Country (fixed to UK) -->
-                <div class="border border-theme-zinc dark:border-neutral-700 p-3 mb-3">
-                    <label class="uppercase text-xs">Country</label>
-                    <select x-model="country" wire:model="country" id="country"
+
+            <!-- Country (fixed to UK) -->
+            <div class="border border-theme-zinc dark:border-neutral-700 p-3 mb-3">
+                <label class="uppercase text-xs">Country</label>
+                <select wire:model.blur="country" id="country"
+                    class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
+                    <option value="uk">United Kingdom</option>
+                    <option value="uae">United Arab Emirates</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
+                <div class=" p-3">
+                    <!-- City -->
+                    <label for="city" class="uppercase text-xs">Select City <span
+                            class="text-red-500 text-xs">*</span></label>
+                    <select x-model="city" wire:model="city" id="city"
                         class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
-                        <option value="uk">United Kingdom</option>
-                        <option value="uae">United Arab Emirates</option>
+                        <option value="">-- Select City --</option>
+                        @foreach ($cities as $city)
+                            <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
+                        @endforeach
+                        {{-- <option value="london">London</option>
+                        <option value="manchester">Manchester</option>
+                        <option value="birmingham">Birmingham</option> --}}
+                        {{-- <option value="">-- Select City --</option>
+                        <template x-for="option in cities[country] ?? []" :key="option.value">
+                            <option :value="option.value" x-text="option.label"></option>
+                        </template> --}}
+                        <!-- Add more as needed -->
                     </select>
+                    @error('city')
+                    <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
-                    <div class=" p-3">
-                        <!-- City -->
-                        <label for="city" class="uppercase text-xs">Select City <span
-                                class="text-red-500 text-xs">*</span></label>
-                        <select x-model="city" wire:model="city" id="city"
-                            class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
-                            {{-- <option value="">-- Select City --</option>
-                            <option value="london">London</option>
-                            <option value="manchester">Manchester</option>
-                            <option value="birmingham">Birmingham</option> --}}
-                            <option value="">-- Select City --</option>
-                            <template x-for="option in cities[country] ?? []" :key="option.value">
-                                <option :value="option.value" x-text="option.label"></option>
-                            </template>
-                            <!-- Add more as needed -->
-                        </select>
-                        @error('city')
-                        <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
-                        @enderror
+                <!-- Postcode -->
+                <div class="p-3">
+                    <label for="postcode" class="uppercase text-xs">Postcode <span
+                            class="text-red-500 text-xs">*</span></label>
+                    {{-- <input type="text" wire:model="post_code"> --}}
+                    <input type="text" wire:model="postcode" id="postcode"
+                        class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
+                        placeholder="E.g. W1A 1AA" />
+                    @error('postcode')
+                    <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
                     </div>
-
-                    <!-- Postcode -->
-                    <div class="p-3">
-                        <label for="postcode" class="uppercase text-xs">Postcode <span
-                                class="text-red-500 text-xs">*</span></label>
-                        <input type="text" wire:model="postcode" id="postcode"
-                            class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
-                            placeholder="E.g. W1A 1AA" />
-                        @error('postcode')
-                        <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    @enderror
                 </div>
             </div>
 
@@ -400,7 +475,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                     placeholder="E.g. Technology, Retail, Healthcare" />
                 @error('company_sector')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
@@ -411,7 +493,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                     placeholder="https://yourcompany.com" />
                 @error('store_url')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
         </div>
@@ -423,7 +512,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 <input type="file" wire:model="registration_certificate" id="registration_certificate"
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white file:text-zinc-400 dark:file:text-neutral-500 focus:outline-none" />
                 @error('registration_certificate')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
@@ -433,7 +529,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 <input type="file" wire:model="vat_certificate" id="vat_certificate"
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white file:text-zinc-400 dark:file:text-neutral-500 focus:outline-none" />
                 @error('vat_certificate')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
@@ -443,7 +546,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 <input type="file" wire:model="proof_of_id" id="proof_of_id"
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white file:text-zinc-400 dark:file:text-neutral-500 focus:outline-none" />
                 @error('proof_of_id')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
@@ -453,7 +563,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
                 <input type="file" wire:model="proof_of_address" id="proof_of_address"
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white file:text-zinc-400 dark:file:text-neutral-500 focus:outline-none" />
                 @error('proof_of_address')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">{{ $message }}</div>
+                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
         </div>
