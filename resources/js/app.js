@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
             type: 'progressbar',
         },
         breakpoints: {
+            340: {
+                centeredSlides: true,
+                slidesPerView: 1.1,
+            },
             768: {
                 slidesPerView: 3,
             },
