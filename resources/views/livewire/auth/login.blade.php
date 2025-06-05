@@ -74,7 +74,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
 }; ?>
 
 <div class="flex flex-col gap-6 max-w-xl mx-auto font-zen-kaku-gothic-antique">
-    {{-- <x-auth-header :title="__('Sign Up')"
+    {{--
+    <x-auth-header :title="__('Sign Up')"
         :description="__('Helping retailers grow with fast access to high-demand products.')" /> --}}
 
     <h2 class="text-center text-3xl font-semibold mt-6">{{__('Sign Up')}}</h2>
