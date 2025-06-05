@@ -66,23 +66,23 @@
                 </div>
 
                 <div class="bg-second-dark-blue flex justify-between items-center py-6 px-5">
-                    <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold text-lg">Al Fakir</span>
-                        <span class="font-strong text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    <p class="text-white xl:flex items-center gap-2 hidden">
+                        <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
+                        <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
                     </p>
                     <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold text-lg">Al Fakir</span>
-                        <span class="font-strong text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                        <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
+                        <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
                     </p>
                     <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold text-lg">Al Fakir</span>
-                        <span class="font-strong text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                        <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
+                        <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
                     </p>
                 </div>
 
                 <div class="flex flex-col bg-[#D9D9D97D]">
-                    <div class="py-12">
-                        <h2 class="text-center text-[28px] ">
+                    <div class="py-8 lg:py-12">
+                        <h2 class="text-center text-[20px] lg:text-[28px]">
                             <span class="font-bold text-black">Promotion Spotlight.</span>
                             <span class="font-semibold text-[#6E6E73] italic">Our monthly offer selection for you.</span>
                         </h2>
@@ -91,17 +91,17 @@
                             <div class="swiper mySwiper w-full mx-auto">
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide rounded-xl">
-                                        <div class="h-[450px] rounded-[16px] overflow-hidden">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
                                             <img src="{{ asset('images/slide1.png') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 1">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
-                                        <div class="h-[450px] rounded-[16px] overflow-hidden">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
                                             <img src="{{ asset('images/slide2.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 2">
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
-                                        <div class="h-[450px] rounded-[16px] overflow-hidden">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
                                             <img src="{{ asset('images/slide3.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 3">
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                     </div>
                 </div>
 
-                <div class="bg-white px-16 py-12 max-w-[1440px] mx-auto">
+                <div class="bg-white px-4 lg:px-8 xl:px-16 py-12 max-w-[1440px] mx-auto w-full">
                     <div class="flex w-full justify-start pb-5">
                         <h2 class="text-left text-[28px] ">
                             <span class="font-bold text-black">The latest promotions.</span>
@@ -125,45 +125,45 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="rounded-[20px] p-8 bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)] shadow-[0px_4px_4px_0px_#00000040]">
+                        <div class="rounded-[20px] p-4 lg:p-8 bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)] shadow-[0px_4px_4px_0px_#00000040]">
                             <h3 class="font-semibold text-2xl mt-2">Elf Bar AF5000</h3>
                             <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
                             <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
                                 <div class="bg-[linear-gradient(360deg,_#95D7EF_0%,_#2E6EA2_100%)] w-[82%] h-[8px] rounded-[20px]"></div>
                             </div>
                             <p class="text-[#1D1D1F] text-[12px] font-semibold mt-2">82% claimed</p>
-                            <div class="w-full flex justify-center items-center">
-                                <img class="w-[350px] h-[240px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
+                            <div class="w-full flex justify-center items-center lg:mt-8 xl:mt-0">
+                                <img class="lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
                             </div>
                         </div>
 
-                        <div class="rounded-[20px] p-8 bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] shadow-[0px_4px_4px_0px_#00000040]">
+                        <div class="rounded-[20px] p-4 lg:p-8 bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] shadow-[0px_4px_4px_0px_#00000040]">
                             <h3 class="font-semibold text-2xl mt-2">Titan 10K Puffs</h3>
                             <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
                             <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
                                 <div class="bg-[linear-gradient(360deg,_#DEDBDC_0%,_#494D5E_100%)] w-[60%] h-[8px] rounded-[20px]"></div>
                             </div>
                             <p class="text-[#1D1D1F] text-[12px] font-semibold mt-2">60% claimed</p>
-                            <div class="w-full flex justify-center items-center">
-                                <img class="w-[350px] h-[240px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
+                            <div class="w-full flex justify-center items-center lg:mt-8 xl:mt-0">
+                                <img class="lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
                             </div>
                         </div>
 
-                        <div class="rounded-[20px] p-8 bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)] shadow-[0px_4px_4px_0px_#00000040]">
+                        <div class="rounded-[20px] p-4 lg:p-8 bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)] shadow-[0px_4px_4px_0px_#00000040]">
                             <h3 class="font-semibold text-2xl text-white mt-2">Elf Bar AF5000</h3>
                             <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
                             <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
                                 <div class="bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)] w-[96%] h-[8px] rounded-[20px]"></div>
                             </div>
                             <p class="text-[12px] font-semibold text-white mt-2">96% claimed</p>
-                            <div class="w-full flex justify-center items-center">
-                                <img class="w-[350px] h-[240px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
+                            <div class="w-full flex justify-center items-center lg:mt-8 xl:mt-0">
+                                <img class="lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white px-16 py-12 max-w-[1440px] mx-auto w-full">
+                <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:py-12 max-w-[1440px] mx-auto w-full">
                     <div class="flex w-full justify-start pb-5">
                         <h2 class="text-left text-[28px] ">
                             <span class="font-bold text-black">All Offers.</span>
@@ -177,10 +177,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">MAGIC 8K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">MAGIC 8K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -192,7 +192,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -205,10 +205,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/titanlogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">10K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -220,7 +220,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-6 h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
+                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-6 h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -233,10 +233,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/elfbarlogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">AF5000</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">AF5000</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Claim exclusive rewards and bonus stock when you stock this fan-favourite.
                                 </p>
                             </div>
@@ -248,7 +248,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/elfbar1.png') }}" alt="Titan Product" class="absolute right-1 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/elfbar1.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -261,10 +261,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/lostmarylogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">10K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -276,7 +276,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/lostmarybm6.png') }}" alt="Titan Product" class="absolute right-1 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/lostmarybm6.png') }}" alt="Titan Product" class="absolute -right-12 lg:right-1 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -289,10 +289,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">MAGIC 8K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">MAGIC 8K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -304,7 +304,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -317,10 +317,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/titanlogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">10K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -332,7 +332,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-6 h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
+                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-6 h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -351,10 +351,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">MAGIC 8K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">MAGIC 8K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -366,7 +366,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -379,10 +379,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/titanlogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">10K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -394,7 +394,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-6 h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
+                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-6 h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -407,10 +407,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/elfbarlogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">AF5000</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">AF5000</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Claim exclusive rewards and bonus stock when you stock this fan-favourite.
                                 </p>
                             </div>
@@ -422,7 +422,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/elfbar1.png') }}" alt="Titan Product" class="absolute right-1 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/elfbar1.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -435,10 +435,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/lostmarylogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">10K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -450,7 +450,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/lostmarybm6.png') }}" alt="Titan Product" class="absolute right-1 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/lostmarybm6.png') }}" alt="Titan Product" class="absolute -right-12 lg:right-1 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -463,10 +463,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">MAGIC 8K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">MAGIC 8K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -478,7 +478,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-[120px] h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
+                            <img src="{{ asset('images/ticky.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-[120px] h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg scale-150" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -491,10 +491,10 @@
                             <div class="mb-4">
                                 <div class="mb-4">
                                     <img class="w-[140px] mb-2" src="{{ asset('images/titanlogo.png') }}" alt="Tick Tock Logo">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">10K</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">10K</h2>
                                 </div>
 
-                                <p class="text-black font-semibold text-[20px] max-w-[35%]">
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%]">
                                     Stock up and get rewarded. Free outers available when you explore the offer.
                                 </p>
                             </div>
@@ -506,7 +506,7 @@
                                 <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                             </button>
 
-                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-8 -bottom-6 h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
+                            <img src="{{ asset('images/titan10k.png') }}" alt="Titan Product" class="absolute -right-12 lg:-right-8 -bottom-6 h-[300px] lg:h-[350px] xl:h-[450px] w-full object-bottom-right object-contain drop-shadow-lg" />
 
                             <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full flex items-center justify-center">
                                 <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
@@ -515,9 +515,9 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-start items-center my-12 seventhsection flex-col h-[600px] pt-5 bg-no-repeat rounded-[14px] bg-[#F6F6F8]">
-                        <h2 class="bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] text-transparent text-[64px] font-semibold">Looking for Wholesale?</h2>
-                        <p class="font-thin text-[26px] text-black">Click Here to Shop</p>
+                    <div class="flex justify-start items-center my-12 seventhsection flex-col h-[300px] md:h-[350px] lg:h-[450px] xl:h-[600px] pt-5 bg-no-repeat rounded-[14px] bg-[#F6F6F8]">
+                        <h2 class="bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] text-transparent text-[38px] lg:text-[48px] xl:text-[64px] font-semibold">Looking for Wholesale?</h2>
+                        <p class="font-thin lg:text-[20px] xl:text-[26px] text-black">Click Here to Shop</p>
                     </div>
 
                     <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
@@ -533,10 +533,10 @@
                             </div>
                             <div class="mb-4">
                                 <div class="mb-4">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">AF5000</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[38px] lg:text-[48px] xl:text-[64px]">AF5000</h2>
                                 </div>
 
-                                <p class="text-black font-thin text-[26px] mb-4">
+                                <p class="text-black font-thin lg:text-[20px] xl:text-[26px] mb-4">
                                     Add movement and energy with flowing waves radiating soft light and a spectrum
                                 </p>
 
@@ -560,10 +560,10 @@
                             </div>
                             <div class="mb-4">
                                 <div class="mb-4">
-                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[64px]">AF5000</h2>
+                                    <h2 class="text-transparent bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[38px] lg:text-[48px] xl:text-[64px]">AF5000</h2>
                                 </div>
 
-                                <p class="text-black font-thin text-[26px] mb-4">
+                                <p class="text-black font-thin lg:text-[20px] xl:text-[26px] mb-4">
                                     Add movement and energy with flowing waves radiating soft light and a spectrum
                                 </p>
 

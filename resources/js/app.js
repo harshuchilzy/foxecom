@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
         slidesPerView: 'auto',
         coverflowEffect: {
             rotate: 0,
-            stretch: 30,
-            depth: 180,
+            stretch: 10,
+            depth: 150,
             modifier: 2,
             slideShadows: true,
         },
@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         breakpoints: {
             768: {
-                slidesPerView: 2.3,
+                slidesPerView: 3,
             },
             1024: {
-                slidesPerView: 2.7,
+                slidesPerView: 3,
             },
         }
     });
