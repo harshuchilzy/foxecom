@@ -318,23 +318,37 @@ new #[Layout('components.layouts.auth')] class extends Component {
             </div>
 
             <div x-data="{
-                        country: @entangle('country'),
-                        city: @entangle('city'),
+                        country: 'uk',
+                        city: '',
                         cities: {
                             uk: [
-                                { value: 'london', label: 'London' },
-                                { value: 'manchester', label: 'Manchester' },
-                                { value: 'birmingham', label: 'Birmingham' }
+                                { 'value': 'london', 'label': 'London' },
+                                { 'value': 'manchester', 'label': 'Manchester' },
+                                { 'value': 'birmingham', 'label': 'Birmingham' },
+                                { 'value': 'liverpool', 'label': 'Liverpool' },
+                                { 'value': 'leeds', 'label': 'Leeds' },
+                                { 'value': 'glasgow', 'label': 'Glasgow' },
+                                { 'value': 'edinburgh', 'label': 'Edinburgh' },
+                                { 'value': 'bristol', 'label': 'Bristol' },
+                                { 'value': 'sheffield', 'label': 'Sheffield' },
+                                { 'value': 'nottingham', 'label': 'Nottingham' }
                             ],
                             uae: [
-                                { value: 'dubai', label: 'Dubai' },
-                                { value: 'abu_dhabi', label: 'Abu Dhabi' },
-                                { value: 'sharjah', label: 'Sharjah' }
+                                { 'value': 'dubai', 'label': 'Dubai' },
+                                { 'value': 'abu_dhabi', 'label': 'Abu Dhabi' },
+                                { 'value': 'sharjah', 'label': 'Sharjah' },
+                                { 'value': 'ajman', 'label': 'Ajman' },
+                                { 'value': 'fujairah', 'label': 'Fujairah' },
+                                { 'value': 'ras_al_khaimah', 'label': 'Ras Al Khaimah' },
+                                { 'value': 'umm_al_quwain', 'label': 'Umm Al Quwain' },
+                                { 'value': 'al_ain', 'label': 'Al Ain' },
+                                { 'value': 'khorfakkan', 'label': 'Khor Fakkan' },
+                                { 'value': 'dibba', 'label': 'Dibba' }
                             ]
                         }
                     }">
                 <!-- Country (fixed to UK) -->
-                <div class="border border-theme-zinc dark:border-neutral-700 p-3">
+                <div class="border border-theme-zinc dark:border-neutral-700 p-3 mb-3">
                     <label class="uppercase text-xs">Country</label>
                     <select x-model="country" wire:model="country" id="country"
                         class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
