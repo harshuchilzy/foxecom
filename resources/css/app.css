@@ -11,6 +11,8 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-zen-kaku-gothic-antique: 'Zen Kaku Gothic Antique', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
     --color-zinc-200: #e5e5e5;
@@ -26,6 +28,9 @@
     --color-themeblack: #0B0E2D;
     --color-themeblue: #1275EE;
     --color-second-dark-blue: #00255D;
+    --color-input-black: #1A1D3F;
+    --color-input-border-gray: #2C3059;
+    --color-theme-zinc: #212121;
 
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);

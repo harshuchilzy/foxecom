@@ -11,6 +11,8 @@ export default {
       colors: {
         themeblack: '#0B0E2D',
         blue_secondary: '#1275EE',
+        input_black:'#1A1D3F',
+        border_input: '#2C3059'
       },
       fontFamily: {
         sans: ['Source Sans 3', 'sans-serif'],
