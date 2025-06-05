@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     new Swiper('.mySwiper', {
         effect: 'coverflow',
         // grabCursor: true,
-        centeredSlides: true,
+        centeredSlides: false,
         loop: true,
         slidesPerView: 'auto',
         coverflowEffect: {
