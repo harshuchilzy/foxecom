@@ -94,6 +94,31 @@
                                             <img src="{{ asset('images/slide3.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 3">
                                         </div>
                                     </div>
+                                    <div class="swiper-slide rounded-xl">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide1.png') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 1">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide2.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 2">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide3.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 3">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide3.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 3">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                            <img src="{{ asset('images/slide3.jpg') }}" class="w-full h-full rounded-xl object-cover" alt="Slide 3">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>

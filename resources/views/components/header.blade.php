@@ -5,11 +5,14 @@
         </div>
         <div class="flex items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-4">
+                @if (auth()->check())
                 <svg width="22" height="27" viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 14.75C13.0711 14.75 14.75 13.0711 14.75 11C14.75 8.92893 13.0711 7.25 11 7.25C8.92893 7.25 7.25 8.92893 7.25 11C7.25 13.0711 8.92893 14.75 11 14.75Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1C8.34784 1 5.8043 2.05357 3.92893 3.92893C2.05357 5.8043 1 8.34784 1 11C1 13.365 1.5025 14.9125 2.875 16.625L11 26L19.125 16.625C20.4975 14.9125 21 13.365 21 11C21 8.34784 19.9464 5.8043 18.0711 3.92893C16.1957 2.05357 13.6522 1 11 1Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                
                 <div class="flex flex-col">
                     <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Deliver to Joseph</span>
                     <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Porthcawl CF36 5</span>
                 </div>
+                @endif
             </div>
 
             <div class="flex items-center gap-4 flex-wrap xl:flex-nowrap lg:w-[20%] xl:w-auto">
