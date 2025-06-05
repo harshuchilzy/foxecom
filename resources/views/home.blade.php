@@ -26,57 +26,31 @@
     </head>
     <body class="flex min-h-screen flex-col">
 
-        {{-- <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
-
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
-        </header> --}}
         <x-header />
 
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex w-full flex-col">
-                <div class="hero-section-gif realtive bg-cover bg-no-repeat bg-center h-[90vh] w-full">
+                <div class="hero-section-gif realtive bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
+                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+                        <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
+                    </video>
                     <div class="w-full h-full flex items-end justify-end relative">
-                        <button class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8">Redeem Free Offer</button>
+                        <button class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block">Redeem Free Offer</button>
                     </div>
                 </div>
 
-                <div class="bg-second-dark-blue flex justify-between items-center py-6 px-5">
+                <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
                     <p class="text-white xl:flex items-center gap-2 hidden">
                         <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
                         <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
                     </p>
                     <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
-                        <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                        <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">Al Fakir</span>
+                        <span class="font-strong text-[10px] lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
                     </p>
                     <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
-                        <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                        <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">Al Fakir</span>
+                        <span class="font-strong text-[10px] lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
                     </p>
                 </div>
 
@@ -109,7 +83,7 @@
                             </div>
                         </section>
 
-                        <div class="flex items-center justify-center mt-2 flex-col gap-3">
+                        <div class="flex items-center justify-center mt-2 flex-col gap-3 px-5 lg:px-0">
                             <h3 class="text-[22px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">Claim Your Free Outer Here</h3>
                             <p class="text-[16px] font-normal text-black">Limited-time promotion for verified retailers. Claim it fast  </p>
                         </div>
