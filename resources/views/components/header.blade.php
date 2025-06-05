@@ -30,8 +30,13 @@
 
             <div class="flex items-center">
                 <div class="flex flex-col">
+                    @auth
                     <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Hello, Joe.</span>
                     <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Account & Settings</span>
+                    @else
+                        <a href="{{ route('login') }}"><span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Login</span></a>
+                        <a href="{{ route('register') }}"><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Register</span></a>
+                    @endauth
                 </div>
             </div>
 
