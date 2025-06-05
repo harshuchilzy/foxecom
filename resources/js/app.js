@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         effect: 'coverflow',
         // grabCursor: true,
         centeredSlides: false,
-        loop: true,
+        loop: false,
         slidesPerView: 'auto',
         coverflowEffect: {
             rotate: 0,
