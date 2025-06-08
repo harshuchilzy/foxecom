@@ -11,6 +11,10 @@ Route::get('/single-product', function () {
     return view('singleproduct');
 });
 
+Route::get('/offer', function () {
+    return view('offerpage');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
