@@ -15,6 +15,10 @@ Route::get('/offer', function () {
     return view('offerpage');
 });
 
+Route::get('/cart', function () {
+    return view('cart');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
