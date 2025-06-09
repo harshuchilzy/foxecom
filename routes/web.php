@@ -7,6 +7,18 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/single-product', function () {
+    return view('singleproduct');
+});
+
+Route::get('/offer', function () {
+    return view('offerpage');
+});
+
+Route::get('/cart', function () {
+    return view('cart');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

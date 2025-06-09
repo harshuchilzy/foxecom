@@ -22,3 +22,15 @@
 .swiper-slide-shadow-right.swiper-slide-shadow-coverflow {
     border-radius: 16px;
 }
+
+.offer-bg{
+    background-image: url('/images/offer1.png');
+    background-size: cover;
+    background-position: top center;
+}
+
+.offer-txt-bg{
+    background-image: url('/images/offer-text-bg.png');
+    background-size: 100%;
+    background-position: center;
+}
