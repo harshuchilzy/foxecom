@@ -35,6 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
             },
         }
     });
+
+    new Swiper('.mySecondSwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 20,
+        freeMode: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            340: {
+                slidesPerView: 2.2,
+            },
+            768: {
+                slidesPerView: 4,
+            },
+            1024: {
+                slidesPerView: 4,
+            },
+        }
+    });
 });
 
 
