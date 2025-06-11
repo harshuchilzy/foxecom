@@ -1,15 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use Lunar\Models\Contracts\Product;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/single-product', function () {
-    return view('single-product');
-});
+// Route::get('/single-product', function () {
+//     return view('single-product');
+// });
 
 Route::get('/offer', function () {
     return view('offerpage');
@@ -37,4 +38,15 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Lunar routes frontend - single product page
+Route::get('products/{product}', function (Product $product) {
+    //dd($product->load(['productType']));
+    // echo '<pre>';
+    // $product = $product->load('variants.prices', 'media');
+    // print_r($product->translateAttribute('name'));
+    // echo '</pre>';
+    return view('single-product', [
+        'product' => $product,
+    ]);
+})->name('products.show');
 

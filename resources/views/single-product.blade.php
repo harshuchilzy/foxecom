@@ -4,9 +4,14 @@
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
             <div x-data="{
                     images: [                 
-                        '{{ asset('images/titan10k.png') }}',
+                        {{-- '{{ asset('images/titan10k.png') }}',
                         '{{ asset('images/lostmarybm6.png') }}',
-                        '{{ asset('images/elfbar1.png') }}',
+                        '{{ asset('images/elfbar1.png') }}', --}}
+                        @foreach($product->variants as $variant)
+                            @foreach($variant->images as $image)
+                                '{{ $image->getUrl() }}',
+                            @endforeach
+                        @endforeach
                     ],
                     currentIndex: 0,
                     zoom: 1,
@@ -62,7 +67,7 @@
             </div>
             <div class="w-full md:w-1/2">
                 <div class="flex justify-between items-center my-3 flex-wrap">
-                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter">TickTock Magic 8K (Pack of 5) </h1>
+                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter">{{$product->translateAttribute('name')}}</h1>
                     <button>
                         <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="group-hover:fill-[#E53935]" d="M6.42634 16.1588L16.3672 26.0996L26.308 16.1588C28.8036 13.6633 28.8036 9.61719 26.308 7.12165C23.8125 4.62612 19.7664 4.62612 17.2709 7.12165L16.3672 8.02537L15.4635 7.12165C12.9679 4.62612 8.92188 4.62612 6.42634 7.12165C3.9308 9.61719 3.9308 13.6633 6.42634 16.1588Z" stroke="black" stroke-width="1.3125" stroke-linejoin="round"/></svg>
                     </button>
@@ -70,8 +75,29 @@
 
                 <div class="flex items-center gap-4 mb-8 border-b-2 border-black pb-4">
                     <div class="flex items-baseline gap-5 border-r border-black pr-3">
-                        <p class="line-through text-[22px] md:text-[28px] font-normal text-black">$54.98</p>
-                        <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">£30</p>
+                        <p class="line-through text-[22px] md:text-[28px] font-normal text-black">
+                            @if($product->variant->first()->prices->count() > 0)
+                                {{ $product->variant->first()->prices->first()->price->formatted }}
+                            @endif
+                        </p>
+                        <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">
+                            @if($product->variant->first()->prices->count() > 0)
+                                {{ $product->variant->first()->prices->first()->compare_price->formatted }}
+                            @endif
+                        </p>
+
+                        {{-- @foreach($product->variants as $variant)
+                            <div class="variant">   
+                                @foreach($variant->images as $image)
+                                    <img 
+                                        src="{{ $image->getUrl() }}" 
+                                        alt="{{ $variant->name }}"
+                                        class="variant-image"
+                                    >
+                                @endforeach
+                                
+                            </div>
+                        @endforeach --}}
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <div>
@@ -84,27 +110,19 @@
                 </div>
 
                 <div class="flex flex-col items-start gap-3">
-                    <p class="text-black font-normal text-[15px] font-inter mb-2">Step into the future with the Tick Tock 8k Magic Disposable Vape, a sleek, powerful, and versatile vaping device designed for all-day satisfaction. Offering up to 8,000 puffs, this TPD-compliant disposable vape redefines your vaping experience by combining style, performance, and an array of flavours.</p>
-
-                    <p class="text-black font-normal text-[15px] font-inter mb-2">Take advantage of our exclusive retailer offer, <strong>powered by FOX ERGO</strong></p>
-
-                    <ul class="text-black font-normal text-[15px] font-inter">
-                        <li>Lemon & Lime</li>
-                        <li>Summer Berries</li>
-                        <li>Fizzy Cherry</li>
-                    </ul>
+                    {!! $product->translateAttribute('short-description') !!}
                 </div>
 
                 <div class="mt-8">
                     <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%]">
                         <select id="countries" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full md:w-1/2 h-12 cursor-pointer font-inter">
-                            <option selected>Lemon & Lime</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
+                            @foreach ($product->productOptions as $option)
+                                @foreach ($option->values as $value)
+                                    <option value="{{ $value->id }}">{{ $value->translate('name') }}</option>
+                                @endforeach
+                            @endforeach
                         </select>
-
+                        
                         <button class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold w-full md:w-1/2 cursor-pointer font-inter">Claim Offer</button>
                     </div>
 
@@ -134,28 +152,22 @@
     </div>
 
     <div class="w-full bg-[#F8F8F8] py-12">
-        <div class="max-w-[1440px] mx-auto px-4 font-inter" x-data="{ expanded: false, maxHeight: '298px', fullHeight: 'auto' }" x-init="$nextTick(() => fullHeight = $refs.content.scrollHeight + 'px')">
+        <div class="max-w-[1440px] mx-auto px-4 font-inter" x-data="{ expanded: false, maxHeight: '220px', fullHeight: 'auto' }" x-init="$nextTick(() => fullHeight = $refs.content.scrollHeight + 'px')">
             <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">Unmatched Features for an Exceptional Vaping Journey</h2>
             <div class="space-y-2 overflow-hidden transition-all duration-300 ease-in-out relative mb-4" x-ref="content" x-bind:style="`max-height: ${expanded ? fullHeight : maxHeight};`">
                 
-                <span>
-                    <ul class="list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
-                        <li>Long-Lasting Puffs: Enjoy up to 8,000 puffs per device, ensuring an ultra-long-lasting experience.</li>
-                        <li>TPD-Compliant Design: Includes 20mg (2%) nicotine strength, adhering to safety and compliance standards.</li>
-                        <li>
-                            Dual Modes for Versatility:
-                            <ol class="list-disc list-inside pl-8">
-                                <li>Eco Mode: Maximizes puff count for extended usage.</li>
-                                <li>Boost Mode: Delivers intense, rich flavor and vapor production.</li>
-                            </ol>
-                        </li>
-                        <li>1.0 Ohm Mesh Coil: Ensures smooth, consistent vapor production with vibrant flavor profiles.</li>
-                        <li>DTL-Friendly Design: Perfect for a Direct-to-Lung (DTL) vaping experience, delivering fuller clouds and stronger flavors</li><br>
-                        <li>Generous E-Liquid Capacity: Features a 2+8ml e-liquid capacity for consistent satisfaction.</li>
-                        <li>Crystal Sleek Design: Ergonomic and stylish, this vape is perfect for on-the-go use.</li>
-                    </ul>
+                <span class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
+                    {!!$product->translateAttribute('long-description')!!}
                 </span>
-
+                <style>
+                    .long-description-wrapper ul, .long-description-wrapper ul li ol{
+                        list-style-type: disc;
+                        list-style-position: inside
+                    }
+                    .long-description-wrapper ul li ol {
+                        margin-left: 2rem;
+                    }
+                </style>
                 <div x-show="!expanded" class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F8F8F8] to-transparent"></div>
             </div>    
                
@@ -172,8 +184,21 @@
             <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">Retailers Also Claimed : </h2>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            <x-product-cards.retailer-card />
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
+            @php
+                $crossSellAssociations = $product->associations->filter(function ($association) {
+                    return $association->type === 'cross-sell';
+                });
+            @endphp
+
+            @foreach ($crossSellAssociations as $association)
+                @php
+                    $relatedProduct = $association->target; 
+                @endphp
+
+                <x-product-cards.retailer-card :relatedProduct="$relatedProduct"/>
+            @endforeach
+            
+            {{-- <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
                 <div class="p-3">
                     <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
                 </div>
@@ -216,8 +241,10 @@
                     <hr>
                     <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
+    
+    
 
 </x-layouts.app.layout>
