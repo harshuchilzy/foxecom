@@ -24,6 +24,10 @@ Route::get('/checkout', function () {
     return view('checkout');
 });
 
+Route::get('/wholesale', function () {
+    return view('wholesale');
+});
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
