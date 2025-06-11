@@ -8,7 +8,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/single-product', function () {
-    return view('singleproduct');
+    return view('single-product');
 });
 
 Route::get('/offer', function () {

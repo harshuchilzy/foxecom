@@ -2,15 +2,63 @@
 
     <div class="max-w-[1440px] mx-auto px-4 py-12">
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
-            <div class="flex gap-4 lg:gap-8 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
-                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3">
-                    <img class="w-[20%] lg:w-[70%]" src="{{ asset('images/titan10k.png') }}" alt="">
-                    <img class="w-[20%] lg:w-[70%]" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                    <img class="w-[20%] lg:w-[70%]" src="{{ asset('images/elfbar1.png') }}" alt="">
+            <div x-data="{
+                    images: [                 
+                        '{{ asset('images/titan10k.png') }}',
+                        '{{ asset('images/lostmarybm6.png') }}',
+                        '{{ asset('images/elfbar1.png') }}',
+                    ],
+                    currentIndex: 0,
+                    zoom: 1,
+                    show: false,
+                    open(index) {
+                        this.currentIndex = index;
+                        this.zoom = 1;
+                        this.show = true;
+                    },
+                    close() {
+                        this.show = false;
+                        this.zoom = 1;
+                    },
+                    zoomIn() {
+                        if (this.zoom < 3) this.zoom += 0.2;
+                    },
+                    zoomOut() {
+                        if (this.zoom > 1) this.zoom -= 0.2;
+                    },
+                    next() {
+                        this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                    },
+                    prev() {
+                        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                    },
+                    set(index) {
+                        this.currentIndex = index;
+                    }    
+                }"
+                class="flex gap-4 lg:gap-8 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
+
+                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[30%]">
+                    <template x-for="(img, index) in images" :key="index">
+                        <img class="w-[20%] lg:w-[70%] border-2" :class="{
+                                    'border-black': currentIndex === index,
+                                    'border-transparent': currentIndex !== index
+                                }" @click="set(index)" :src="img" alt="">
+                    </template>
                 </div>
-                <div class="max-h-[600px] h-[400px]">
-                    <img class="m-auto md:w-full lg:w-[70%] h-[400px] lg:h-auto object-contain" src="{{ asset('images/tiktokmagic.png') }}" alt="">
+                <div class="lg:w-[70%] w-full relative">
+                    <img class="m-auto md:w-full lg:w-[70%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]" alt="">
+                    <!-- Prev/Next Buttons -->
+                    <button @click="prev();" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-r cursor-pointer">◀</button>
+                    <button @click="next();" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">▶</button>
+                    <!-- Lightbox Trigger -->
+                    <div class="absolute top-0 right-0">
+                        <button @click="open(currentIndex);" class=" transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.1429 1.25C15.7286 1.25 15.3929 1.58579 15.3929 2C15.3929 2.41421 15.7286 2.75 16.1429 2.75H20.1893L14.4697 8.46967C14.1768 8.76256 14.1768 9.23744 14.4697 9.53033C14.7626 9.82322 15.2374 9.82322 15.5303 9.53033L21.25 3.81066V7.85714C21.25 8.27136 21.5858 8.60714 22 8.60714C22.4142 8.60714 22.75 8.27136 22.75 7.85714V2C22.75 1.58579 22.4142 1.25 22 1.25H16.1429Z" fill="#1C274C"></path> <path d="M7.85714 22.75C8.27136 22.75 8.60714 22.4142 8.60714 22C8.60714 21.5858 8.27136 21.25 7.85714 21.25H3.81066L9.53033 15.5303C9.82322 15.2374 9.82322 14.7626 9.53033 14.4697C9.23744 14.1768 8.76256 14.1768 8.46967 14.4697L2.75 20.1893V16.1429C2.75 15.7286 2.41421 15.3929 2 15.3929C1.58579 15.3929 1.25 15.7286 1.25 16.1429V22C1.25 22.4142 1.58579 22.75 2 22.75H7.85714Z" fill="#1C274C"></path> </g></svg>
+                        </button>
+                    </div>
                 </div>
+                <x-lightbox />
             </div>
             <div class="w-full md:w-1/2">
                 <div class="flex justify-between items-center my-3 flex-wrap">
