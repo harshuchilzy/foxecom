@@ -34,3 +34,10 @@
     background-size: 100%;
     background-position: center;
 }
+
+
+.wholesale-hero-img{
+    background-image: url('/images/wholesale-hero.jpg');
+    background-size: 100%;
+    background-position: center;
+}

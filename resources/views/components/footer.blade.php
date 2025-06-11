@@ -56,4 +56,5 @@
         <p>&copy; {{ date('Y') }} FoxErgo. All rights reserved.</p>
     </div> --}}
     <script src="{{ asset('js/age-verification.js') }}"></script>
+    <x-notifications.age-verification />
 </footer>
