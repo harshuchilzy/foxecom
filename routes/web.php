@@ -4,6 +4,8 @@ use Livewire\Volt\Volt;
 use Lunar\Models\Contracts\Product;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/auth.php';
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -20,7 +22,6 @@ Route::get('/', function () {
 //     echo $id;
 // });
 
-require __DIR__.'/auth.php';
 
 // Route::get('products/{product}', function (\Lunar\Models\Contracts\Product $product) {
 //     echo '<pre>';
