@@ -65,7 +65,7 @@ Route::get('/cart', function () {
 Route::view('customer.dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('customer.dashboard');
-    
+
 Route::get('/checkout', function () {
     return view('checkout');
 });
@@ -76,6 +76,10 @@ Route::get('/wholesale', function () {
 
 Route::get('/redemptions', function () {
     return view('redemptions');
+});
+
+Route::get('/account', function () {
+    return view('account');
 });
 
 // Route::view('dashboard', 'dashboard')
