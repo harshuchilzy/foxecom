@@ -1,5 +1,5 @@
 <div class="fixed inset-0 backdrop-blur-sm hidden items-center justify-center z-50" :class="{'hidden': !showPopup, 'flex': showPopup}" x-data="foxecomAgeVerification()" x-show="showPopup" x-init="init()">
-  <div class="bg-[radial-gradient(209.04%_209.04%_at_49.6%_50.56%,#0B0E2D_0%,#242E93_100%)] text-white p-14 rounded-xl shadow-xl w-full max-w-2xl h-[672px]  text-center space-y-6" >
+  <div class="bg-[radial-gradient(209.04%_209.04%_at_49.6%_50.56%,#0B0E2D_0%,#242E93_100%)] text-white p-14 rounded-xl shadow-xl w-full  max-w-sm sm:max-w-md md:max-w-2xl h-[780px] lg:h-[672px]  text-center space-y-6" >
     <!-- Logo -->
     <div class="text-3xl font-bold tracking-wide mb-16">
       <img src="{{ asset('images/logo-on-age-verification.png') }}" alt="Logo" class="mx-auto w-[140px]">

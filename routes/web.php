@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Volt\Volt;
-use Lunar\Models\Contracts\Product;
+use Lunar\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -90,9 +90,14 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-Route::get('/wholesale', function () {
-    return view('wholesale');
-})->name('wholesale');
+Route::get('/products', function () {
+    $products = Product::all();
+    $collections = \Lunar\Models\Collection::all();
+    return view('wholesale', [
+        'products' => $products,
+        'collections' => $collections,
+    ]);
+})->name('products.index');
 
 // Lunar routes frontend - single product page
 Route::get('products/{product}', function (Product $product) {
