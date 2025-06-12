@@ -1,7 +1,7 @@
 <header class="w-full bg-themeblack text-white p-4">
     <div class="lg:flex items-center container mx-auto gap-8 hidden">
         <div>
-            <img class="w-3xs xl:w-2xs" src="{{ asset('images/logo.png') }}" alt="">
+            <a href="{{route('home')}}"><img class="w-3xs xl:w-2xs" src="{{ asset('images/logo.png') }}" alt=""></a>
         </div>
         <div class="flex items-center justify-between gap-4 w-full">
             <div class="flex items-center gap-4">
@@ -83,7 +83,7 @@
             <button class="bg-[#3131317D] rounded-[42px] px-6 py-1 font-white">Wholesale</button>
         </div>
         <dialog id="my_modal_3" class="modal">
-            <div class="modal-box rounded-[15px] p-0">
+            <div class="modal-box rounded-[15px] p-0 bg-white">
                 <div class="p-5">
                     <h3 class="text-[24px] font-semibold text-[#000000]">Hi, Joseph!</h3>
                 </div>

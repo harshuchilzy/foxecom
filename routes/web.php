@@ -8,6 +8,30 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('blog', function () {
+    return view('pages.blog');
+})->name('blog');
+
+Route::get('contact', function () {
+    return view('pages.contact');
+})->name('contact');
+
+Route::get('faq', function () {
+    return view('pages.faq');
+})->name('faq');
+
+Route::get('partners', function () {
+    return view('pages.partners');
+})->name('partners');
+
+Route::get('privacy', function () {
+    return view('pages.privacy');
+})->name('privacy');
+
+Route::get('shipping-and-payment', function () {
+    return view('pages.shipping-and-payment');
+})->name('shipping-and-payment');
+
 // Route::get('/single-product', function () {
 //     return view('single-product');
 // });
