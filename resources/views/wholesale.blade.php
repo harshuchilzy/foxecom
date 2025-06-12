@@ -12,9 +12,9 @@
 
         <div class="swiper mySecondSwiper px-5">
             <div class="swiper-wrapper py-8 px-5">
-                {{-- {{$collections->first()->translateAttribute('name')}} --}}
+             
                 @foreach ($collections as $collection)
-                    <x-product-cards.category-card :category="$collection" />
+                    <x-product-cards.category-card :collection="$collection" />
                 @endforeach
                 <div class="swiper-slide">
                     <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />

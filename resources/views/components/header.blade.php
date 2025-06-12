@@ -37,8 +37,8 @@
                     <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">{{auth()->user()->first_name}}</span>
                     <a href="/settings"><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Account & Settings</span></a>
                     @else
-                        <a href="{{ route('login') }}"><span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Login</span></a>
-                        <a href="{{ route('register') }}"><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Register</span></a>
+                        <a href=""><span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Login</span></a>
+                        <a href=""><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Register</span></a>
                     @endauth
                 </div>
             </div>
