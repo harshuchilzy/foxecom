@@ -53,8 +53,8 @@ return [
     'path' => 'admin',
     'brand' => [
         'name' => 'Your Brand',
-        'logo' => asset('images/my-logo.svg'),
-        'favicon' => asset('images/favicon.ico'),
+        'logo' => 'images/my-logo.svg',
+        'favicon' => 'images/favicon.ico',
     ],
 ],
 
