@@ -143,7 +143,7 @@
 
     <div class="max-w-[1280px] mx-auto px-2 py-8">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            <x-product-cards.retailer-card />
+            {{-- <x-product-cards.retailer-card /> --}}
             <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
                 <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
                     <p class="font-semibold text-white text-[14px]">56% OFF</p>

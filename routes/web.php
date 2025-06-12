@@ -70,10 +70,6 @@ Route::get('/checkout', function () {
     return view('checkout');
 });
 
-Route::get('/wholesale', function () {
-    return view('wholesale');
-});
-
 Route::get('/redemptions', function () {
     return view('redemptions');
 });
@@ -90,6 +86,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+Route::get('/wholesale', function () {
+    return view('wholesale');
+})->name('wholesale');
 
 // Lunar routes frontend - single product page
 Route::get('products/{product}', function (Product $product) {
