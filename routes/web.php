@@ -10,6 +10,30 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('blog', function () {
+    return view('pages.blog');
+})->name('blog');
+
+Route::get('contact', function () {
+    return view('pages.contact');
+})->name('contact');
+
+Route::get('faq', function () {
+    return view('pages.faq');
+})->name('faq');
+
+Route::get('partners', function () {
+    return view('pages.partners');
+})->name('partners');
+
+Route::get('privacy', function () {
+    return view('pages.privacy');
+})->name('privacy');
+
+Route::get('shipping-and-payment', function () {
+    return view('pages.shipping-and-payment');
+})->name('shipping-and-payment');
+
 // Route::get('/single-product', function () {
 //     return view('single-product');
 // });
@@ -39,15 +63,20 @@ Route::get('/cart', function () {
     return view('cart');
 });
 
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
+Route::view('customer.dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('customer.dashboard');
+
 Route::get('/checkout', function () {
     return view('checkout');
 });
 
-Route::get('/wholesale', function () {
-    return view('wholesale');
+Route::get('/redemptions', function () {
+    return view('redemptions');
+});
+
+Route::get('/account', function () {
+    return view('account');
 });
 
 // Route::view('dashboard', 'dashboard')
@@ -62,6 +91,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
+Route::get('/wholesale', function () {
+    return view('wholesale');
+})->name('wholesale');
 
 // Lunar routes frontend - single product page
 Route::get('products/{product}', function (Product $product) {

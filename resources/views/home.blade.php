@@ -31,7 +31,7 @@
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex w-full flex-col">
                 <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
-                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
                         <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
                     </video>
                     <div class="w-full h-full flex items-end justify-end relative">
