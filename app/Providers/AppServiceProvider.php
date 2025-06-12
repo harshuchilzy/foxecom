@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        LunarPanel::register();
+        LunarPanel::panel(fn($panel) => $panel->path('dashboard'))->register();
     }
 
     /**

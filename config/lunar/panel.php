@@ -34,7 +34,7 @@ return [
     | want to use Scout when possible on tables in the panel, enable it here.
     |
     */
-    'scout_enabled' => true,
+    'scout_enabled' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -47,5 +47,15 @@ return [
     |
     */
     'order_count_statuses' => ['payment-received'],
+
+    'admin' => [
+    'id' => 'admin',
+    'path' => 'admin',
+    'brand' => [
+        'name' => 'Your Brand',
+        'logo' => asset('images/my-logo.svg'),
+        'favicon' => asset('images/favicon.ico'),
+    ],
+],
 
 ];

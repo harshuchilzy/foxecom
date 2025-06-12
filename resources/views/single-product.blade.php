@@ -2,19 +2,72 @@
 
     <div class="max-w-[1440px] mx-auto px-4 py-12">
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
-            <div class="flex gap-4 lg:gap-8 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
-                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3">
-                    <img class="w-[20%] lg:w-[70%]" src="{{ asset('images/titan10k.png') }}" alt="">
-                    <img class="w-[20%] lg:w-[70%]" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                    <img class="w-[20%] lg:w-[70%]" src="{{ asset('images/elfbar1.png') }}" alt="">
+            <div x-data="{
+                    images: [                 
+                        {{-- '{{ asset('images/titan10k.png') }}',
+                        '{{ asset('images/lostmarybm6.png') }}',
+                        '{{ asset('images/elfbar1.png') }}', --}}
+                        @foreach($product->variants as $variant)
+                            @foreach($variant->images as $image)
+                                '{{ $image->getUrl() }}',
+                            @endforeach
+                        @endforeach
+                    ],
+                    currentIndex: 0,
+                    zoom: 1,
+                    show: false,
+                    open(index) {
+                        this.currentIndex = index;
+                        this.zoom = 1;
+                        this.show = true;
+                    },
+                    close() {
+                        this.show = false;
+                        this.zoom = 1;
+                    },
+                    zoomIn() {
+                        if (this.zoom < 3) this.zoom += 0.2;
+                    },
+                    zoomOut() {
+                        if (this.zoom > 1) this.zoom -= 0.2;
+                    },
+                    next() {
+                        this.currentIndex = (this.currentIndex + 1) % this.images.length;
+                    },
+                    prev() {
+                        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+                    },
+                    set(index) {
+                        this.currentIndex = index;
+                    }    
+                }"
+                class="flex gap-4 lg:gap-8 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
+
+                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[30%]">
+                    <template x-for="(img, index) in images" :key="index">
+                        <img class="w-[20%] lg:w-[70%] border-2" :class="{
+                                    'border-black': currentIndex === index,
+                                    'border-transparent': currentIndex !== index
+                                }" @click="set(index)" :src="img" alt="">
+                    </template>
                 </div>
-                <div class="max-h-[600px] h-[400px]">
-                    <img class="m-auto md:w-full lg:w-[70%] h-[400px] lg:h-auto object-contain" src="{{ asset('images/tiktokmagic.png') }}" alt="">
+                <div class="lg:w-[70%] w-full relative">
+                    <img class="m-auto md:w-full lg:w-[70%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]" alt="">
+                    <!-- Prev/Next Buttons -->
+                    <button @click="prev();" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-r cursor-pointer">◀</button>
+                    <button @click="next();" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">▶</button>
+                    <!-- Lightbox Trigger -->
+                    <div class="absolute top-0 right-0">
+                        <button @click="open(currentIndex);" class=" transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">
+                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.1429 1.25C15.7286 1.25 15.3929 1.58579 15.3929 2C15.3929 2.41421 15.7286 2.75 16.1429 2.75H20.1893L14.4697 8.46967C14.1768 8.76256 14.1768 9.23744 14.4697 9.53033C14.7626 9.82322 15.2374 9.82322 15.5303 9.53033L21.25 3.81066V7.85714C21.25 8.27136 21.5858 8.60714 22 8.60714C22.4142 8.60714 22.75 8.27136 22.75 7.85714V2C22.75 1.58579 22.4142 1.25 22 1.25H16.1429Z" fill="#1C274C"></path> <path d="M7.85714 22.75C8.27136 22.75 8.60714 22.4142 8.60714 22C8.60714 21.5858 8.27136 21.25 7.85714 21.25H3.81066L9.53033 15.5303C9.82322 15.2374 9.82322 14.7626 9.53033 14.4697C9.23744 14.1768 8.76256 14.1768 8.46967 14.4697L2.75 20.1893V16.1429C2.75 15.7286 2.41421 15.3929 2 15.3929C1.58579 15.3929 1.25 15.7286 1.25 16.1429V22C1.25 22.4142 1.58579 22.75 2 22.75H7.85714Z" fill="#1C274C"></path> </g></svg>
+                        </button>
+                    </div>
                 </div>
+                <x-lightbox />
             </div>
             <div class="w-full md:w-1/2">
                 <div class="flex justify-between items-center my-3 flex-wrap">
-                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter">TickTock Magic 8K (Pack of 5) </h1>
+                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter">{{$product->translateAttribute('name')}}</h1>
                     <button>
                         <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="group-hover:fill-[#E53935]" d="M6.42634 16.1588L16.3672 26.0996L26.308 16.1588C28.8036 13.6633 28.8036 9.61719 26.308 7.12165C23.8125 4.62612 19.7664 4.62612 17.2709 7.12165L16.3672 8.02537L15.4635 7.12165C12.9679 4.62612 8.92188 4.62612 6.42634 7.12165C3.9308 9.61719 3.9308 13.6633 6.42634 16.1588Z" stroke="black" stroke-width="1.3125" stroke-linejoin="round"/></svg>
                     </button>
@@ -22,8 +75,29 @@
 
                 <div class="flex items-center gap-4 mb-8 border-b-2 border-black pb-4">
                     <div class="flex items-baseline gap-5 border-r border-black pr-3">
-                        <p class="line-through text-[22px] md:text-[28px] font-normal text-black">$54.98</p>
-                        <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">£30</p>
+                        <p class="line-through text-[22px] md:text-[28px] font-normal text-black">
+                            @if($product->variant->first()->prices->count() > 0)
+                                {{ $product->variant->first()->prices->first()->price->formatted }}
+                            @endif
+                        </p>
+                        <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">
+                            @if($product->variant->first()->prices->count() > 0)
+                                {{ $product->variant->first()->prices->first()->compare_price->formatted }}
+                            @endif
+                        </p>
+
+                        {{-- @foreach($product->variants as $variant)
+                            <div class="variant">   
+                                @foreach($variant->images as $image)
+                                    <img 
+                                        src="{{ $image->getUrl() }}" 
+                                        alt="{{ $variant->name }}"
+                                        class="variant-image"
+                                    >
+                                @endforeach
+                                
+                            </div>
+                        @endforeach --}}
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <div>
@@ -36,27 +110,19 @@
                 </div>
 
                 <div class="flex flex-col items-start gap-3">
-                    <p class="text-black font-normal text-[15px] font-inter mb-2">Step into the future with the Tick Tock 8k Magic Disposable Vape, a sleek, powerful, and versatile vaping device designed for all-day satisfaction. Offering up to 8,000 puffs, this TPD-compliant disposable vape redefines your vaping experience by combining style, performance, and an array of flavours.</p>
-
-                    <p class="text-black font-normal text-[15px] font-inter mb-2">Take advantage of our exclusive retailer offer, <strong>powered by FOX ERGO</strong></p>
-
-                    <ul class="text-black font-normal text-[15px] font-inter">
-                        <li>Lemon & Lime</li>
-                        <li>Summer Berries</li>
-                        <li>Fizzy Cherry</li>
-                    </ul>
+                    {!! $product->translateAttribute('short-description') !!}
                 </div>
 
                 <div class="mt-8">
                     <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%]">
                         <select id="countries" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full md:w-1/2 h-12 cursor-pointer font-inter">
-                            <option selected>Lemon & Lime</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
+                            @foreach ($product->productOptions as $option)
+                                @foreach ($option->values as $value)
+                                    <option value="{{ $value->id }}">{{ $value->translate('name') }}</option>
+                                @endforeach
+                            @endforeach
                         </select>
-
+                        
                         <button class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold w-full md:w-1/2 cursor-pointer font-inter">Claim Offer</button>
                     </div>
 
@@ -86,28 +152,22 @@
     </div>
 
     <div class="w-full bg-[#F8F8F8] py-12">
-        <div class="max-w-[1440px] mx-auto px-4 font-inter" x-data="{ expanded: false, maxHeight: '298px', fullHeight: 'auto' }" x-init="$nextTick(() => fullHeight = $refs.content.scrollHeight + 'px')">
+        <div class="max-w-[1440px] mx-auto px-4 font-inter" x-data="{ expanded: false, maxHeight: '220px', fullHeight: 'auto' }" x-init="$nextTick(() => fullHeight = $refs.content.scrollHeight + 'px')">
             <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">Unmatched Features for an Exceptional Vaping Journey</h2>
             <div class="space-y-2 overflow-hidden transition-all duration-300 ease-in-out relative mb-4" x-ref="content" x-bind:style="`max-height: ${expanded ? fullHeight : maxHeight};`">
                 
-                <span>
-                    <ul class="list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
-                        <li>Long-Lasting Puffs: Enjoy up to 8,000 puffs per device, ensuring an ultra-long-lasting experience.</li>
-                        <li>TPD-Compliant Design: Includes 20mg (2%) nicotine strength, adhering to safety and compliance standards.</li>
-                        <li>
-                            Dual Modes for Versatility:
-                            <ol class="list-disc list-inside pl-8">
-                                <li>Eco Mode: Maximizes puff count for extended usage.</li>
-                                <li>Boost Mode: Delivers intense, rich flavor and vapor production.</li>
-                            </ol>
-                        </li>
-                        <li>1.0 Ohm Mesh Coil: Ensures smooth, consistent vapor production with vibrant flavor profiles.</li>
-                        <li>DTL-Friendly Design: Perfect for a Direct-to-Lung (DTL) vaping experience, delivering fuller clouds and stronger flavors</li><br>
-                        <li>Generous E-Liquid Capacity: Features a 2+8ml e-liquid capacity for consistent satisfaction.</li>
-                        <li>Crystal Sleek Design: Ergonomic and stylish, this vape is perfect for on-the-go use.</li>
-                    </ul>
+                <span class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
+                    {!!$product->translateAttribute('long-description')!!}
                 </span>
-
+                <style>
+                    .long-description-wrapper ul, .long-description-wrapper ul li ol{
+                        list-style-type: disc;
+                        list-style-position: inside
+                    }
+                    .long-description-wrapper ul li ol {
+                        margin-left: 2rem;
+                    }
+                </style>
                 <div x-show="!expanded" class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F8F8F8] to-transparent"></div>
             </div>    
                
@@ -124,8 +184,21 @@
             <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">Retailers Also Claimed : </h2>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            <x-product-cards.retailer-card />
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
+            @php
+                $crossSellAssociations = $product->associations->filter(function ($association) {
+                    return $association->type === 'cross-sell';
+                });
+            @endphp
+
+            @foreach ($crossSellAssociations as $association)
+                @php
+                    $relatedProduct = $association->target; 
+                @endphp
+
+                <x-product-cards.retailer-card :relatedProduct="$relatedProduct"/>
+            @endforeach
+            
+            {{-- <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
                 <div class="p-3">
                     <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
                 </div>
@@ -168,8 +241,10 @@
                     <hr>
                     <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
+    
+    
 
 </x-layouts.app.layout>
