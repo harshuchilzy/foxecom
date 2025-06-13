@@ -1,8 +1,5 @@
 import 'swiper/swiper-bundle.css';
 import Swiper from 'swiper/bundle';
-import Alpine from 'alpinejs'
-window.Alpine = Alpine;
-Alpine.start();
 
 document.addEventListener('DOMContentLoaded', function () {
     new Swiper('.mySwiper', {

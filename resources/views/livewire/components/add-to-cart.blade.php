@@ -1,21 +1,7 @@
 <div>
-    <div class="flex gap-4">
-        <div>
-            <label for="quantity"
-                   class="sr-only">
-                Quantity
-            </label>
-
-            <input class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-lg no-spinner"
-                   type="number"
-                   id="quantity"
-                   min="1"
-                   value="1"
-                   wire:model.live="quantity" />
-        </div>
-
+    <div class="flex w-full">
         <button type="submit"
-                class="w-full px-6 py-4 text-sm font-medium text-center text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
+                class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter"
                 wire:click.prevent="addToCart">
             Add to Cart
         </button>
