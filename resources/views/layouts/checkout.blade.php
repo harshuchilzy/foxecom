@@ -10,7 +10,7 @@
     <title>Foxecom</title>
     <meta
         name="description"
-        content="Example of an ecommerce storefront built with Lunar."
+        content="Foxecom Meta"
     >
     <link
         href="{{ asset('css/app.css') }}"
