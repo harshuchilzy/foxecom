@@ -26,9 +26,10 @@
 </head>
 
 <body class="antialiased text-gray-900">
-    @livewire('components.navigation')
+    {{-- @livewire('components.navigation') --}}
+    <x-header />
 
-    <main>
+    <main class="!p-0">
         {{ $slot }}
     </main>
 
