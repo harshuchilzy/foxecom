@@ -44,7 +44,6 @@ Route::get('shipping-and-payment', function () {
 //     return view('single-product');
 // });
 
-<<<<<<< HEAD
 // Route::get('/cart', function () {
 //     return view('cart');
 // });
@@ -93,9 +92,7 @@ Route::middleware(['auth'])->group(function () {
 // Lunar routes frontend - single product page
 // Route::get('products/{product}', function (Product $product) {
 //     //dd($product->load(['productType']));
-=======
 // Route::get('products/{id}', function ($id) {
->>>>>>> 59efe9a6f2a62b13e951dedd8abdb2015498f5bd
 //     // echo '<pre>';
 //     // print_r($product);
 //     // echo '</pre>';
