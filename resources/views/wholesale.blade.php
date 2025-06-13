@@ -12,29 +12,13 @@
 
         <div class="swiper mySecondSwiper px-5">
             <div class="swiper-wrapper py-8 px-5">
-                <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover shadow-xl" src="{{ asset('images/bigpuffcat.png') }}" alt="Big Puff" />
-                    <p class="text-left mt-2 text-[28px] font-semibold">Big Puff</p>
-                </div>
-                <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />
-                    <p class="text-left mt-2 text-[28px] font-semibold">Liquids</p>
-                </div>
-                <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/snuscat.jpg') }}" alt="Liquids" />
-                    <p class="text-left mt-2 text-[28px] font-semibold">Snus</p>
-                </div>
-                <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/candy.png') }}" alt="Liquids" />
-                    <p class="text-left mt-2 text-[28px] font-semibold">Candy</p>
-                </div>
+             
+                @foreach ($collections as $collection)
+                    <x-product-cards.category-card :collection="$collection" />
+                @endforeach
                 <div class="swiper-slide">
                     <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />
                     <p class="text-left mt-2 text-[28px] font-semibold">Liquids</p>
-                </div>
-                <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover shadow-xl" src="{{ asset('images/bigpuffcat.png') }}" alt="Big Puff" />
-                    <p class="text-left mt-2 text-[28px] font-semibold">Big Puff</p>
                 </div>
             </div>
 
@@ -113,183 +97,13 @@
     </div>
 
     <div class="max-w-[1280px] mx-auto px-2 py-8">
+        {{-- <pre>
+            {{print_r($collections)}}
+            </pre> --}}
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            {{-- <x-product-cards.retailer-card /> --}}
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] relative">
-                <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px]">
-                    <p class="font-semibold text-white text-[14px]">56% OFF</p>
-                </div>
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
-            <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
-                <div class="p-3">
-                    <img class="w-full h-[180px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                </div>
-                <div class="bg-white rounded-b-[16px] p-3">
-                    <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">Elf Bar AF5000</h2>
-                    <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">£8.50</p>
-                    <hr>
-                    <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-                </div>
-            </div>
+            @foreach ($products as $product)
+                <x-product-cards.general-card :product="$product" />
+            @endforeach
         </div>
     </div>
 </x-layouts.app.layout>
