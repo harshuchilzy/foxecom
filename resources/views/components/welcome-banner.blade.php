@@ -33,7 +33,7 @@
                    href="https://github.com/lunarphp/demo-store"
                    target="_blank"
                    rel="noopener noreferrer">
-                    Demo Store Repo
+                    Foxecom
                 </a>
             </div>
         </div>
