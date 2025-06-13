@@ -7,7 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Demo Storefront</title>
+    <title>Foxecom</title>
     <meta
         name="description"
         content="Example of an ecommerce storefront built with Lunar."
@@ -21,15 +21,14 @@
         rel="icon"
         href="{{ asset('favicon.svg') }}"
     >
-    @livewireStyles
+    
     @include('partials.head')
 </head>
 
 <body class="antialiased text-gray-900">
-    {{-- @livewire('components.navigation') --}}
-    <x-header />
+    @livewire('components.navigation')
 
-    <main class="!p-0">
+    <main>
         {{ $slot }}
     </main>
 

@@ -9,7 +9,7 @@
                     <svg width="22" height="27" viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 14.75C13.0711 14.75 14.75 13.0711 14.75 11C14.75 8.92893 13.0711 7.25 11 7.25C8.92893 7.25 7.25 8.92893 7.25 11C7.25 13.0711 8.92893 14.75 11 14.75Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1C8.34784 1 5.8043 2.05357 3.92893 3.92893C2.05357 5.8043 1 8.34784 1 11C1 13.365 1.5025 14.9125 2.875 16.625L11 26L19.125 16.625C20.4975 14.9125 21 13.365 21 11C21 8.34784 19.9464 5.8043 18.0711 3.92893C16.1957 2.05357 13.6522 1 11 1Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 
                     <div class="flex flex-col">
-                        <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Deliver to Joseph</span>
+                        <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Deliver to {{auth()->user()->first_name}}</span>
                         <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Porthcawl CF36 5</span>
                     </div>
                 @endif
@@ -37,8 +37,8 @@
                     <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">{{auth()->user()->first_name}}</span>
                     <a href="/settings"><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Account & Settings</span></a>
                     @else
-                        <a href=""><span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Login</span></a>
-                        <a href=""><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Register</span></a>
+                        <a href="{{route('login')}}"><span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Login</span></a>
+                        <a href="{{route('register')}}"><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Register</span></a>
                     @endauth
                 </div>
             </div>
@@ -59,9 +59,18 @@
     <div class="block lg:hidden p-4">
 
         <div class="flex items-center justify-between gap-4 w-full pt-5 relative">
-            <button class="w-[40px] h-[40px]" @click="show = !show">
-                <img class="w-full h-full rounded-[1000px]" src="https://unavatar.io/x/calebporzio" alt="">
-            </button>
+            @auth
+                <button class="w-[40px] h-[40px]" @click="show = !show">
+                    <img class="w-full h-full rounded-[1000px]" src="https://unavatar.io/x/calebporzio" alt="">
+                </button>
+                @else
+                <div class="grid grid-cols-2 gap-2">
+                <a href="{{route('login')}}"><span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Login</span></a>
+                <a href="{{route('register')}}"><span class="text-sans textwhite lg:text-base xl:text-xl font-bold">Register</span></a>
+                </div>
+            @endauth
+            
+            
             <button>
                 <svg width="35" height="35" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.3 20.2999C20.8127 20.2999 21.3045 20.5036 21.6671 20.8662C22.0296 21.2288 22.2333 21.7205 22.2333 22.2333C22.2333 22.746 22.0296 23.2378 21.6671 23.6003C21.3045 23.9629 20.8127 24.1666 20.3 24.1666C19.7872 24.1666 19.2955 23.9629 18.9329 23.6003C18.5703 23.2378 18.3666 22.746 18.3666 22.2333C18.3666 21.1603 19.227 20.2999 20.3 20.2999ZM4.83331 4.83325H7.99431L8.90298 6.76659H23.2C23.4564 6.76659 23.7022 6.86843 23.8835 7.04972C24.0648 7.231 24.1666 7.47688 24.1666 7.73325C24.1666 7.89759 24.1183 8.06192 24.0506 8.21659L20.59 14.4709C20.2613 15.0606 19.6233 15.4666 18.8983 15.4666H11.6966L10.8266 17.0423L10.7976 17.1583C10.7976 17.2223 10.8231 17.2838 10.8684 17.3291C10.9138 17.3745 10.9752 17.3999 11.0393 17.3999H22.2333V19.3333H10.6333C10.1206 19.3333 9.62881 19.1296 9.26624 18.767C8.90367 18.4044 8.69998 17.9127 8.69998 17.3999C8.69998 17.0616 8.78698 16.7426 8.93198 16.4719L10.2466 14.1036L6.76665 6.76659H4.83331V4.83325ZM10.6333 20.2999C11.1461 20.2999 11.6378 20.5036 12.0004 20.8662C12.363 21.2288 12.5666 21.7205 12.5666 22.2333C12.5666 22.746 12.363 23.2378 12.0004 23.6003C11.6378 23.9629 11.1461 24.1666 10.6333 24.1666C10.1206 24.1666 9.62881 23.9629 9.26624 23.6003C8.90367 23.2378 8.69998 22.746 8.69998 22.2333C8.69998 21.1603 9.56031 20.2999 10.6333 20.2999ZM19.3333 13.5333L22.0206 8.69992H9.80198L12.0833 13.5333H19.3333Z" fill="white"/></svg>
             </button>
@@ -85,10 +94,11 @@
     </div>
 
     {{-- <dialog id="my_modal_3" class="modal"> --}}
+        @if (auth()->check())
         <div class="z-10 p-6 absolute w-full bg-themeblack min-h-screen transition-all duration-300 ease-out transform -translate-y-full" :class="{'translate-y-0': show}" x-show="show" @click.away="show = false">
             <div class="rounded-[15px] p-0 bg-white opacity-100 w-full">
                 <div class="p-5">
-                    <h3 class="text-[24px] font-semibold text-[#000000]">Hi, Joseph!</h3>
+                    <h3 class="text-[24px] font-semibold text-[#000000]">Hi, {{auth()->user()->first_name}}!</h3>
                 </div>
 
                 <hr>
@@ -170,6 +180,9 @@
 
             </div>
         </div>
+        @else
+        
+        @endif
     {{-- </dialog> --}}
 
 

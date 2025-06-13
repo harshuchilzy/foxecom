@@ -6,13 +6,12 @@ use Lunar\Models\Product;
 use App\Livewire\SearchPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
+use App\Livewire\ProductsPage;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('home');
-// })->name('home');
+require __DIR__.'/auth.php';
 
 Route::get('blog', function () {
     return view('pages.blog');
@@ -38,6 +37,23 @@ Route::get('shipping-and-payment', function () {
     return view('pages.shipping-and-payment');
 })->name('shipping-and-payment');
 
+Route::get('/offer', function () {
+    return view('offerpage');
+});
+
+Route::get('/wholesale', function () {
+    return view('wholesale');
+})->name('wholesale');
+
+// Route::get('/products', function () {
+//     $products = Product::all();
+//     $collections = \Lunar\Models\Collection::all();
+//     return view('wholesale', [
+//         'products' => $products,
+//         'collections' => $collections,
+//     ]);
+// })->name('products.index');
+
 // Route::get('/single-product', function () {
 //     return view('single-product');
 // });
@@ -58,14 +74,7 @@ Route::get('shipping-and-payment', function () {
 //     return view('redemptions');
 // });
 
-// Route::get('/products', function () {
-//     $products = Product::all();
-//     $collections = \Lunar\Models\Collection::all();
-//     return view('wholesale', [
-//         'products' => $products,
-//         'collections' => $collections,
-//     ]);
-// })->name('products.index');
+
 
 // Route::get('/account', function () {
 //     return view('account');
@@ -75,13 +84,13 @@ Route::get('shipping-and-payment', function () {
 // //     ->middleware(['auth', 'verified'])
 // //     ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
+// Route::middleware(['auth'])->group(function () {
+//     Route::redirect('settings', 'settings/profile');
 
-    Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-    Volt::route('settings/password', 'settings.password')->name('settings.password');
-    Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-});
+//     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
+//     Volt::route('settings/password', 'settings.password')->name('settings.password');
+//     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+// });
 
 // Route::get('/wholesale', function () {
 //     return view('wholesale');
@@ -98,7 +107,6 @@ Route::middleware(['auth'])->group(function () {
 //     echo $id;
 // });
 
-//require __DIR__.'/auth.php';
 
 // Route::get('products/{product}', function (\Lunar\Models\Contracts\Product $product) {
 //     echo '<pre>';
@@ -108,9 +116,7 @@ Route::middleware(['auth'])->group(function () {
 
 // });
 
-// Route::get('/offer', function () {
-//     return view('offerpage');
-// });
+
 
 // Route::get('/cart', function () {
 //     return view('cart');
@@ -144,9 +150,7 @@ Route::middleware(['auth'])->group(function () {
 //     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 // });
 
-// Route::get('/wholesale', function () {
-//     return view('wholesale');
-// })->name('wholesale');
+
 
 // Lunar routes frontend - single product page
 // Route::get('products/{product}', function (Product $product) {
@@ -163,6 +167,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', Home::class)->name('home');
 
 Route::get('/collections/{slug}', CollectionPage::class)->name('collection.view');
+
+Route::get('products', ProductsPage::class)->name('products.index');
 
 Route::get('/products/{slug}', ProductPage::class)->name('product.view');
 

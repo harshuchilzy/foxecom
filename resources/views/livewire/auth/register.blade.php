@@ -89,7 +89,7 @@ use Livewire\WithFileUploads;
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'string', 'confirmed', 'min:8', 'alpha_num:ascii' , Rules\Password::defaults()],
             'country_code' => ['required', 'string', 'max:5'],
-            'phone' => ['required', 'string', 'max:15', 'regex:/^\d+$/'],
+            'phone' => ['required', 'string', 'max:15'],// 'regex:/^\d+$/'],
             'company_name' => ['required', 'string', 'max:255'],
             'company_type' => ['required', 'string'],
             'company_registration' => ['required', 'string', 'max:50'],
@@ -114,7 +114,7 @@ use Livewire\WithFileUploads;
         $validated['proof_of_id'] = $this->proof_of_id->store('uploads/proof_of_id', 'public');
         $validated['proof_of_address'] = $this->proof_of_address->store('uploads/proof_of_address', 'public');
 
-        Log::info('User registration data:' . print_r($validated, false));
+        // Log::info('User registration data:' . print_r($validated, false));
 
         event(new Registered(($user = User::create($validated))));
 
@@ -132,7 +132,7 @@ use Livewire\WithFileUploads;
     <x-auth-session-status class="text-center" :status="session('status')" />
 
     <form wire:submit="register" class="flex flex-col gap-6" >
-        <div class="grid grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
+        <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
             <div class=" p-3">
                 <!-- First Name -->
                 <label for="first_name" class="uppercase text-xs">First Name <span
@@ -175,7 +175,7 @@ use Livewire\WithFileUploads;
             </div>
         </div>
 
-        <div class="grid grid-cols-6 gap-4 border border-theme-zinc dark:border-neutral-700 p-3">
+        <div class="grid md:not-only-of-type:grid-cols-6 gap-4 border border-theme-zinc dark:border-neutral-700 p-3">
             <div class="col-span-2">
                 <label for="country_code" class="uppercase text-xs">Country Code <span
                         class="text-red-500 text-xs">*</span></label>
@@ -304,7 +304,7 @@ use Livewire\WithFileUploads;
             </div>
 
             <!-- Company Type -->
-            <div class="grid grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
+            <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
                 <div class=" p-3">
                     <label for="company_type" class="uppercase text-xs">Choose Company Type</label>
                     <select wire:model="company_type" id="company_type"
@@ -412,8 +412,8 @@ use Livewire\WithFileUploads;
                 </select>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
-                <div class=" p-3">
+            <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
+                <div class="p-3">
                     <!-- City -->
                     <label for="city" class="uppercase text-xs">Select City <span
                             class="text-red-500 text-xs">*</span></label>
@@ -502,7 +502,7 @@ use Livewire\WithFileUploads;
             </div>
         </div>
 
-        <div class="my-4 grid grid-cols-2 gap-4">
+        <div class="my-4 grid md:grid-cols-2 gap-4">
             <!-- Company Registration Certificate -->
             <div class="border border-theme-zinc dark:border-neutral-700 p-3">
                 <label for="registration_certificate" class="uppercase text-xs">Company Registration Certificate</label>
@@ -574,8 +574,7 @@ use Livewire\WithFileUploads;
 
         <div class="flex items-center justify-end">
             <button type="submit"
-                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign
-                Up')}}</button>
+                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign Up')}}</button>
         </div>
     </form>
 
