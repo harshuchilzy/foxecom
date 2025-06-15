@@ -101,14 +101,14 @@
             {{print_r($collections)}}
             </pre> --}}
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            {{-- @foreach ($this->collections as $collection)
-            @foreach ($collection as $product)
-                <x-product-cards.general-card :product="$product" />
+            @foreach ($this->collections as $collection)
+                @foreach ($collection as $product)
+                    {{-- <x-product-cards.general-card :product="$product" /> --}}
+                @endforeach
             @endforeach
-            @endforeach --}}
-            <pre>
+            {{-- <pre>
             {{print_r($this->collections)}}
-            </pre>
+            </pre> --}}
         </div>
     </div>
 </div>

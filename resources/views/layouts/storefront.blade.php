@@ -19,7 +19,7 @@
 
     <link
         rel="icon"
-        href="{{ asset('favicon.svg') }}"
+        href="{{ asset('images/blacklogo.png') }}"
     >
     
     @include('partials.head')
@@ -27,7 +27,7 @@
 
 <body class="antialiased text-gray-900">
     {{-- @livewire('components.navigation') --}}
-    <x-header />
+    @livewire('components.navigation')
 
     <main class="!p-0">
         {{ $slot }}

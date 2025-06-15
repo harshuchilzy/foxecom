@@ -90,16 +90,20 @@
 <section>
     <div class="max-w-[1440px] mx-auto px-4 py-12">
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
+
             <div x-data="{
-                    images: [                 
-                        {{-- '{{ asset('images/titan10k.png') }}',
-                        '{{ asset('images/lostmarybm6.png') }}',
-                        '{{ asset('images/elfbar1.png') }}', --}}
-                        
-                        @foreach($this->images as $image)
-                            '{{ $image->getUrl() }}',
-                        @endforeach
-                        
+                    images: [                  
+                        @if(!empty($this->images) && count($this->images) > 0)
+                           @foreach($this->images as $image)
+
+                                '{{ $image->getUrl() }}',
+
+                            @endforeach
+                        @else
+
+                            '{{ asset('images/placeholder.jpg') }}'
+                            
+                        @endif
                     ],
                     currentIndex: 0,
                     zoom: 1,
@@ -137,7 +141,9 @@
                                     'border-black': currentIndex === index,
                                     'border-transparent': currentIndex !== index
                                 }" @click="set(index)" :src="img" alt="">
+                                
                     </template>
+                    {{-- <span x-text="images"></span> --}}
                 </div>
                 <div class="lg:w-[70%] w-full relative">
                     <img class="m-auto md:w-full lg:w-[70%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]" alt="">
