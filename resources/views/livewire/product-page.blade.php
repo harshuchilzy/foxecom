@@ -92,7 +92,7 @@
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
 
             <div x-data="{
-                    images: [                  
+                    images: [
                         @if(!empty($this->images) && count($this->images) > 0)
                            @foreach($this->images as $image)
 
@@ -102,7 +102,7 @@
                         @else
 
                             '{{ asset('images/placeholder.jpg') }}'
-                            
+
                         @endif
                     ],
                     currentIndex: 0,
@@ -131,29 +131,29 @@
                     },
                     set(index) {
                         this.currentIndex = index;
-                    }    
+                    }
                 }"
-                class="flex gap-4 lg:gap-8 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
+                class="flex gap-4 lg:gap-5 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
 
-                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[30%]">
+                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[25%]">
                     <template x-for="(img, index) in images" :key="index">
                         <img class="w-[20%] lg:w-[70%] border-2" :class="{
                                     'border-black': currentIndex === index,
                                     'border-transparent': currentIndex !== index
                                 }" @click="set(index)" :src="img" alt="">
-                                
+
                     </template>
                     {{-- <span x-text="images"></span> --}}
                 </div>
-                <div class="lg:w-[70%] w-full relative">
-                    <img class="m-auto md:w-full lg:w-[70%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]" alt="">
+                <div class="lg:w-[75%] w-full relative">
+                    <img class="m-auto md:w-full lg:w-[90%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]" alt="">
                     <!-- Prev/Next Buttons -->
-                    <button @click="prev();" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-r cursor-pointer">◀</button>
-                    <button @click="next();" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">▶</button>
+                    {{-- <button @click="prev();" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-r cursor-pointer">◀</button>
+                    <button @click="next();" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">▶</button> --}}
                     <!-- Lightbox Trigger -->
                     <div class="absolute top-0 right-0">
                         <button @click="open(currentIndex);" class=" transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.1429 1.25C15.7286 1.25 15.3929 1.58579 15.3929 2C15.3929 2.41421 15.7286 2.75 16.1429 2.75H20.1893L14.4697 8.46967C14.1768 8.76256 14.1768 9.23744 14.4697 9.53033C14.7626 9.82322 15.2374 9.82322 15.5303 9.53033L21.25 3.81066V7.85714C21.25 8.27136 21.5858 8.60714 22 8.60714C22.4142 8.60714 22.75 8.27136 22.75 7.85714V2C22.75 1.58579 22.4142 1.25 22 1.25H16.1429Z" fill="#1C274C"></path> <path d="M7.85714 22.75C8.27136 22.75 8.60714 22.4142 8.60714 22C8.60714 21.5858 8.27136 21.25 7.85714 21.25H3.81066L9.53033 15.5303C9.82322 15.2374 9.82322 14.7626 9.53033 14.4697C9.23744 14.1768 8.76256 14.1768 8.46967 14.4697L2.75 20.1893V16.1429C2.75 15.7286 2.41421 15.3929 2 15.3929C1.58579 15.3929 1.25 15.7286 1.25 16.1429V22C1.25 22.4142 1.58579 22.75 2 22.75H7.85714Z" fill="#1C274C"></path> </g></svg>
+                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.1429 1.25C15.7286 1.25 15.3929 1.58579 15.3929 2C15.3929 2.41421 15.7286 2.75 16.1429 2.75H20.1893L14.4697 8.46967C14.1768 8.76256 14.1768 9.23744 14.4697 9.53033C14.7626 9.82322 15.2374 9.82322 15.5303 9.53033L21.25 3.81066V7.85714C21.25 8.27136 21.5858 8.60714 22 8.60714C22.4142 8.60714 22.75 8.27136 22.75 7.85714V2C22.75 1.58579 22.4142 1.25 22 1.25H16.1429Z" fill="#1C274C"></path> <path d="M7.85714 22.75C8.27136 22.75 8.60714 22.4142 8.60714 22C8.60714 21.5858 8.27136 21.25 7.85714 21.25H3.81066L9.53033 15.5303C9.82322 15.2374 9.82322 14.7626 9.53033 14.4697C9.23744 14.1768 8.76256 14.1768 8.46967 14.4697L2.75 20.1893V16.1429C2.75 15.7286 2.41421 15.3929 2 15.3929C1.58579 15.3929 1.25 15.7286 1.25 16.1429V22C1.25 22.4142 1.58579 22.75 2 22.75H7.85714Z" fill="#1C274C"></path> </g></svg>
                         </button>
                     </div>
                 </div>
@@ -198,12 +198,27 @@
                                         Quantity
                                     </label>
 
-                                    <input class="w-16 px-1 py-4 text-sm text-center transition border border-gray-100 rounded-lg no-spinner"
-                                        type="number"
-                                        id="quantity"
-                                        min="1"
-                                        value="1"
-                                        wire:model.live="quantity" />
+
+
+                                    <label for="quantity" class="sr-only">Choose quantity:</label>
+                                    <div class="relative flex items-center">
+                                        <button type="button" id="decrement-button" data-input-counter-decrement="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tl-[100px] rounded-bl-[100px] h-12 cursor-pointer font-inter">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                            </svg>
+                                        </button>
+                                        <input class="bg-gray-50 border-t border-b border-r-0 border-l-0 border-[#282828] text-gray-900 text-center text-sm block px-[24px] w-[30%] h-12 cursor-pointer font-inter"
+                                            type="number"
+                                            id="quantity"
+                                            min="1"
+                                            value="1"
+                                            wire:model.live="quantity" />
+                                        <button type="button" id="increment-button" data-input-counter-increment="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tr-[100px] rounded-br-[100px] h-12 cursor-pointer font-inter">
+                                            <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%] mt-4"
@@ -242,7 +257,7 @@
                         @endforeach
                     </div>
 
-                    
+
                 </form>
 
                 <div class="">
@@ -284,53 +299,93 @@
     </div>
 
     <div class="w-full bg-[#F8F8F8] py-12">
-        <div class="max-w-[1440px] mx-auto px-4 font-inter" x-data="{ expanded: false, maxHeight: '220px', fullHeight: 'auto' }" x-init="$nextTick(() => fullHeight = $refs.content.scrollHeight + 'px')">
-            <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">Unmatched Features for an Exceptional Vaping Journey</h2>
-            <div class="space-y-2 overflow-hidden transition-all duration-300 ease-in-out relative mb-4" x-ref="content" x-bind:style="`max-height: ${expanded ? fullHeight : maxHeight};`">
-                
-                <span class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
-                    {!!$this->product->translateAttribute('long-description')!!}
-                </span>
-                <style>
-                    .long-description-wrapper ul, .long-description-wrapper ul li ol{
-                        list-style-type: disc;
-                        list-style-position: inside
-                    }
-                    .long-description-wrapper ul li ol {
-                        margin-left: 2rem;
-                    }
-                </style>
-                <div x-show="!expanded" class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F8F8F8] to-transparent"></div>
-            </div>    
-               
-            <button @click="expanded = !expanded" class="text-[#1275EE] text-[14px] md:text-[16px] lg:text-[20px] font-bold cursor-pointer">
-                <span x-text="expanded ? 'See Less' : 'See More'"></span>
-            </button>
-            </div>
+        <div
+            class="max-w-[1440px] mx-auto px-4 font-inter"
+            x-data="{
+                expanded: false,
+                maxHeight: 220,
+                fullHeight: 0,
+                showToggle: false,
+                init() {
+                    this.$nextTick(() => {
+                        this.fullHeight = this.$refs.content.scrollHeight;
+                        this.showToggle = this.fullHeight > this.maxHeight;
+                    });
+                }
+            }"
+        >
+            <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">
+                Unmatched Features for an Exceptional Vaping Journey
+            </h2>
+
+                <div
+                    class="space-y-2 overflow-hidden transition-all duration-300 ease-in-out relative mb-4"
+                    x-ref="content"
+                    x-bind:style="`max-height: ${expanded ? fullHeight + 'px' : maxHeight + 'px'}`"
+                >
+                    <span class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
+                        {!! $this->product->translateAttribute('description') !!}
+                    </span>
+
+                    <!-- Only show the fade effect when not expanded -->
+                    <div x-show="!expanded && showToggle" class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F8F8F8] to-transparent pointer-events-none"></div>
+
+                    <style>
+                        .long-description-wrapper ul, .long-description-wrapper ul li ol {
+                            list-style-type: disc;
+                            list-style-position: inside;
+                        }
+
+                        .long-description-wrapper ul li ol {
+                            margin-left: 2rem;
+                        }
+                    </style>
+                </div>
+
+                <!-- Conditionally show toggle button only if content exceeds max height -->
+                <button
+                    x-show="showToggle"
+                    @click="expanded = !expanded"
+                    class="text-[#1275EE] text-[14px] md:text-[16px] lg:text-[20px] font-bold cursor-pointer"
+                >
+                    <span x-text="expanded ? 'See Less' : 'See More'"></span>
+                </button>
         </div>
 
     </div>
 
-    <div class="max-w-[1440px] mx-auto px-4 py-12">
+    {{-- <div class="max-w-[1440px] mx-auto px-4 py-12">
         <div class="pb-5">
             <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">Retailers Also Claimed : </h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            @php
-                $crossSellAssociations = $this->product->associations->filter(function ($association) {
-                    return $association->type === 'cross-sell';
-                });
-            @endphp
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5"> --}}
+            {{-- @if ($this->crossSellProducts->isNotEmpty())
+                <div class="max-w-[1440px] mx-auto px-4 py-12">
+                    <div class="pb-5">
+                        <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">
+                            Retailers Also Claimed:
+                        </h2>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
+                        @foreach ($this->crossSellProducts as $relatedProduct)
+                            <x-product-cards.retailer-card :relatedProduct="$relatedProduct" />
+                        @endforeach
+                    </div>
+                </div>
+            @endif --}}
+            @if ($this->suggestedProducts->isNotEmpty())
+                <div class="max-w-[1440px] mx-auto px-4 py-12">
+                    <div class="pb-5">
+                        <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">Retailers Also Claimed : </h2>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
+                        @foreach ($this->suggestedProducts as $relatedProduct)
+                            <x-product-cards.retailer-card :relatedProduct="$relatedProduct" />
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+        {{-- </div>
+    </div> --}}
 
-            @foreach ($crossSellAssociations as $association)
-                @php
-                    $relatedProduct = $association->target; 
-                @endphp
-
-                <x-product-cards.retailer-card :relatedProduct="$relatedProduct"/>
-            @endforeach
-             
-        </div>
-    </div>
-    
 </section>

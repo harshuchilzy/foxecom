@@ -19,6 +19,9 @@ class ProductPage extends Component
      */
     public array $selectedOptionValues = [];
 
+    public $quantity = 1;
+
+
     public function mount($slug): void
     {
         $this->url = $this->fetchUrl(
@@ -29,6 +32,7 @@ class ProductPage extends Component
                 'element.variants.basePrices.currency',
                 'element.variants.basePrices.priceable',
                 'element.variants.values.option',
+                'element.associations.target',
             ]
         );
 
@@ -39,6 +43,22 @@ class ProductPage extends Component
         $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
             return [$data['option']->id => $data['values']->first()->id];
         })->toArray();
+    }
+
+
+    public function getSuggestedProductsProperty()
+    {
+        return Product::with(['media', 'prices'])
+            ->latest()
+            ->limit(8)
+            ->get();
+    }
+
+    public function getCrossSellProductsProperty(): Collection
+    {
+        return $this->product->associations
+            ->filter(fn ($assoc) => $assoc->type === 'cross-sell' && $assoc->target)
+            ->pluck('target');
     }
 
     /**

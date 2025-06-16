@@ -3,7 +3,7 @@
     <div class="max-w-[1440px] mx-auto px-4 py-12">
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
             <div x-data="{
-                    images: [                 
+                    images: [
                         {{-- '{{ asset('images/titan10k.png') }}',
                         '{{ asset('images/lostmarybm6.png') }}',
                         '{{ asset('images/elfbar1.png') }}', --}}
@@ -39,7 +39,7 @@
                     },
                     set(index) {
                         this.currentIndex = index;
-                    }    
+                    }
                 }"
                 class="flex gap-4 lg:gap-8 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
 
@@ -87,15 +87,15 @@
                         </p>
 
                         {{-- @foreach($product->variants as $variant)
-                            <div class="variant">   
+                            <div class="variant">
                                 @foreach($variant->images as $image)
-                                    <img 
-                                        src="{{ $image->getUrl() }}" 
+                                    <img
+                                        src="{{ $image->getUrl() }}"
                                         alt="{{ $variant->name }}"
                                         class="variant-image"
                                     >
                                 @endforeach
-                                
+
                             </div>
                         @endforeach --}}
                     </div>
@@ -122,7 +122,7 @@
                                 @endforeach
                             @endforeach
                         </select>
-                        
+
                         <button class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold w-full md:w-1/2 cursor-pointer font-inter">Claim Offer</button>
                     </div>
 
@@ -155,10 +155,12 @@
         <div class="max-w-[1440px] mx-auto px-4 font-inter" x-data="{ expanded: false, maxHeight: '220px', fullHeight: 'auto' }" x-init="$nextTick(() => fullHeight = $refs.content.scrollHeight + 'px')">
             <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">Unmatched Features for an Exceptional Vaping Journey</h2>
             <div class="space-y-2 overflow-hidden transition-all duration-300 ease-in-out relative mb-4" x-ref="content" x-bind:style="`max-height: ${expanded ? fullHeight : maxHeight};`">
-                
+
                 <span class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
                     {!!$product->translateAttribute('long-description')!!}
                 </span>
+
+                {!!$product->translateAttribute('status')!!}
                 <style>
                     .long-description-wrapper ul, .long-description-wrapper ul li ol{
                         list-style-type: disc;
@@ -169,8 +171,8 @@
                     }
                 </style>
                 <div x-show="!expanded" class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F8F8F8] to-transparent"></div>
-            </div>    
-               
+            </div>
+
             <button @click="expanded = !expanded" class="text-[#1275EE] text-[14px] md:text-[16px] lg:text-[20px] font-bold cursor-pointer">
                 <span x-text="expanded ? 'See Less' : 'See More'"></span>
             </button>
@@ -192,15 +194,15 @@
 
             @foreach ($crossSellAssociations as $association)
                 @php
-                    $relatedProduct = $association->target; 
+                    $relatedProduct = $association->target;
                 @endphp
 
                 <x-product-cards.retailer-card :relatedProduct="$relatedProduct"/>
             @endforeach
-             
+
         </div>
     </div>
-    
-    
+
+
 
 </x-layouts.app.layout>

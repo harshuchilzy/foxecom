@@ -39,7 +39,7 @@ Route::get('shipping-and-payment', function () {
 
 Route::get('/offer', function () {
     return view('offerpage');
-});
+})->name('offers');
 
 Route::get('/wholesale', function () {
     return view('wholesale');
