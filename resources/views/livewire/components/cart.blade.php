@@ -42,7 +42,7 @@
                                             @endif
 
                                             <div class="flex-1 ml-4">
-                                                <p class="max-w-[20ch] text-sm font-medium">
+                                                <p class="max-w-[20ch] text-sm font-medium text-black">
                                                     {{ $line['description'] }}
                                                 </p>
 
@@ -52,11 +52,11 @@
 
                                                 <div class="flex items-center mt-2">
                                                     <input
-                                                        class="w-16 p-2 text-xs transition-colors border border-gray-100 rounded-lg hover:border-gray-200"
+                                                        class="w-16 p-2 text-xs transition-colors border border-gray-100 rounded-lg text-black"
                                                         type="number"
                                                         wire:model.live="lines.{{ $index }}.quantity" />
 
-                                                    <p class="ml-2 text-xs">
+                                                    <p class="ml-2 text-xs text-black">
                                                         @ {{ $line['unit_price'] }}
                                                     </p>
 
@@ -111,12 +111,12 @@
             @if ($this->cart)
                 <div class="mt-4 space-y-4 text-center">
                     <button
-                        class="block w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-lg hover:ring-1 hover:ring-blue-600"
+                        class="block w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
                         type="button" wire:click="updateLines">
                         Update Cart
                     </button>
 
-                    <a class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    <a class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-[100px] hover:bg-blue-500"
                         href="{{ route('checkout.view') }}" wire:navigate>
                         Checkout
                     </a>
