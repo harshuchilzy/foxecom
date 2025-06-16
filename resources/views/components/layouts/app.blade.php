@@ -1,5 +1,5 @@
-<x-layouts.storefront :title="$title ?? null">
+<x-layouts.app.slidebar :title="$title ?? null">
     <flux:main>
         {{ $slot }}
     </flux:main>
-</x-layouts.storefront>
+</x-layouts.app.slidebar>

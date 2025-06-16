@@ -48,14 +48,4 @@ return [
     */
     'order_count_statuses' => ['payment-received'],
 
-    'admin' => [
-    'id' => 'admin',
-    'path' => 'admin',
-    'brand' => [
-        'name' => 'Your Brand',
-        'logo' => 'images/my-logo.svg',
-        'favicon' => 'images/favicon.ico',
-    ],
-],
-
 ];

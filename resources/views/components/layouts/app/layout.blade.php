@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 <body class="bg-white">
-    <x-header />
+    @livewire('components.navigation')
     <div class="mx-auto">
         {{ $slot }}
     </div>
