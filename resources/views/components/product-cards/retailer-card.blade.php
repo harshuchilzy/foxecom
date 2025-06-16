@@ -1,7 +1,7 @@
 @props(['relatedProduct'])
 <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
     <div class="p-3">
-        <a href="/products/{{$relatedProduct->id}}"><img class="w-full h-[180px] object-contain" src="{{ $relatedProduct->images->first()->getUrl() }}" alt=""></a>
+        <a href="/products/{{$relatedProduct->id}}"><img class="w-full h-[180px] object-contain" src="{{ $relatedProduct->images->first()?->getUrl() }}" alt=""></a>
     </div>
     <div class="bg-white rounded-b-[16px] p-3 h-[45%]">
         <a href="/products/{{$relatedProduct->id}}"><h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">{{$relatedProduct->translateAttribute('name')}}</h2></a>
