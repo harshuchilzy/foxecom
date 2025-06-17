@@ -21,7 +21,7 @@
         href="{{ asset('favicon.svg') }}"
     >
     @livewireStyles
-    @stripeScripts
+    {{-- @stripeScripts --}}
     @include('partials.head')
 </head>
 
