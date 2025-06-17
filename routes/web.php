@@ -82,7 +82,7 @@ Route::get('/redemptions', function () {
 
 Route::get('/account', function () {
     return view('account');
-});
+})->name('account');
 
 // // Route::view('dashboard', 'dashboard')
 // //     ->middleware(['auth', 'verified'])

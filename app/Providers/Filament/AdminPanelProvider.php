@@ -21,7 +21,6 @@ use App\Filament\Resources\PostResource;
 use App\Filament\Resources\ProductResource;
 use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\CustomerResource;
-use App\Filament\Resources\PageResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -36,13 +35,7 @@ class AdminPanelProvider extends PanelProvider
                 // 'primary' => Color::Amber,
                 'primary' => '#1275EE',
             ])
-            ->resources([
-                PageResource::class,
-                PostResource::class,
-                ProductResource::class,
-                OrderResource::class,
-                CustomerResource::class,
-            ])
+            // ->resources()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

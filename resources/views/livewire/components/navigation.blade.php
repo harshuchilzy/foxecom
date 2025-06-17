@@ -82,7 +82,10 @@
 
                     @php
                         $user = auth()->user();
-                        $shipping = $user?->customer->addresses()->where('shipping_default', true)->first();
+                        $shipping = [];
+                        // if($user?->customer->addresses()){
+                            $shipping = $user?->customer?->addresses()->where('shipping_default', true)->first();
+                        // }
                     @endphp
 
                     <div class="flex flex-col">
