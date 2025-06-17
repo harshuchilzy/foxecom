@@ -41,3 +41,12 @@
     background-size: 100%;
     background-position: center;
 }
+
+.custom-shape-divider-bottom{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
