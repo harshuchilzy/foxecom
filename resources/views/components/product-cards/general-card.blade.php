@@ -10,11 +10,11 @@
         <h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">{{$product->translateAttribute('name')}}</h2>
         <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">{{$product->prices->first()->price->formatted}}</p>
         <hr>
-        
+
         @php
             $price = $product->prices->first();
             $saveAmount =  $price->price->decimal - $price->compare_price->decimal;
-            
+
         @endphp
         <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">
             Save - {{ $saveAmount > 0 ? $price->price->currency->code . ' ' . number_format($saveAmount / 100, 2) : $price->price->currency->code . ' 0.00' }}
