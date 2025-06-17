@@ -1,9 +1,10 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import '../../vendor/livewire/flux/dist/flux.css';
 @plugin "daisyui";
 
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
+@source "../../node_modules/flowbite";
 @source "../node_modules/flowbite";
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

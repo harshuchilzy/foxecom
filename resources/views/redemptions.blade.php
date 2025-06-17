@@ -112,7 +112,7 @@
                     <h2 class="font-inter font-semibold text-[16px] text-black">Buy it again</h2>
                     <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
                         <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ asset('images/tiktokmagic.png') }}" alt="">
-                        <div class="flex flex-col gap-1">
+                        <div class="flex flex-col gap-1 pr-5">
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p>
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
 
@@ -128,7 +128,7 @@
 
                     <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
                         <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ asset('images/tiktokmagic.png') }}" alt="">
-                        <div class="flex flex-col gap-1">
+                        <div class="flex flex-col gap-1 pr-5">
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p>
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
 
@@ -144,7 +144,7 @@
 
                     <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
                         <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ asset('images/tiktokmagic.png') }}" alt="">
-                        <div class="flex flex-col gap-1">
+                        <div class="flex flex-col gap-1 pr-5">
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p>
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
 
