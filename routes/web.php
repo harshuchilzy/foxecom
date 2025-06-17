@@ -45,6 +45,10 @@ Route::get('/wholesale', function () {
     return view('wholesale');
 })->name('wholesale');
 
+Route::get('/address', function () {
+    return view('address');
+})->name('address');
+
 // Route::get('/products', function () {
 //     $products = Product::all();
 //     $collections = \Lunar\Models\Collection::all();
@@ -76,9 +80,9 @@ Route::get('/wholesale', function () {
 
 
 
-// Route::get('/account', function () {
-//     return view('account');
-// });
+Route::get('/account', function () {
+    return view('account');
+});
 
 // // Route::view('dashboard', 'dashboard')
 // //     ->middleware(['auth', 'verified'])

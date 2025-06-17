@@ -42,17 +42,19 @@
                 </div>
             </div>
 
-            <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
-                <div class="">
-                    <div class="bg-[#0B0E2D] p-3 rounded-full">
-                        <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.83301 35.875V15.375L20.4997 5.125L34.1663 15.375V35.875H23.9163V23.9167H17.083V35.875H6.83301Z" fill="white"/></svg>
+            <a href="{{ route('address') }}">
+                <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
+                    <div class="">
+                        <div class="bg-[#0B0E2D] p-3 rounded-full">
+                            <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.83301 35.875V15.375L20.4997 5.125L34.1663 15.375V35.875H23.9163V23.9167H17.083V35.875H6.83301Z" fill="white"/></svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="font-inter font-semibold text-[15px] text-black">Your Addresses</p>
+                        <p class="font-inter font-normal text-[12px] text-black">Add, edit, or remove delivery addresses.</p>
                     </div>
                 </div>
-                <div class="flex flex-col">
-                    <p class="font-inter font-semibold text-[15px] text-black">Your Addresses</p>
-                    <p class="font-inter font-normal text-[12px] text-black">Add, edit, or remove delivery addresses.</p>
-                </div>
-            </div>
+            </a>
 
             <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
                 <div class="">
