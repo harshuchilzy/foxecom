@@ -74,9 +74,9 @@ Route::get('/address', function () {
 //     return view('checkout');
 // });
 
-// Route::get('/redemptions', function () {
-//     return view('redemptions');
-// });
+Route::get('/redemptions', function () {
+    return view('redemptions');
+})->name('redemptions');
 
 
 
