@@ -31,6 +31,7 @@
         <div class="p-6">
             @if ($step == $currentStep)
                 <div class="grid grid-cols-6 gap-4">
+                    {{$type}}
                     <x-input.group class="col-span-3"
                                    label="First name"
                                    :errors="$errors->get($type . '.first_name')"

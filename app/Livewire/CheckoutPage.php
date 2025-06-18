@@ -22,7 +22,7 @@ class CheckoutPage extends Component
     /**
      * The shipping address instance.
      */
-    public ?CartAddress $shipping = null;
+    // public ?CartAddress $shipping = null;
 
     /**
      * The billing address instance.
@@ -75,6 +75,9 @@ class CheckoutPage extends Component
         'payment_intent',
         'payment_intent_client_secret',
     ];
+
+    public $address = [];
+    public $shipping = [];
 
     /**
      * {@inheritDoc}
@@ -302,6 +305,7 @@ class CheckoutPage extends Component
 
     public function render(): View
     {
-        return view('livewire.checkout-page');
+        return view('livewire.checkout-page')
+            ->layout('layouts.checkout');
     }
 }

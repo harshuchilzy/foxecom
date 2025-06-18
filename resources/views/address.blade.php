@@ -13,7 +13,7 @@
 
                     <div class="w-full">
                         @php
-                            $billingAddress = auth()->user()?->customer->addresses()->where('billing_default', true)->first();
+                            $billingAddress = auth()->user()?->customer?->addresses()->where('billing_default', true)->first();
                         @endphp
 
                         @if ($billingAddress)
