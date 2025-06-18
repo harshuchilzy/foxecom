@@ -53,7 +53,7 @@
                                 <p class="font-inter font-normal text-[12px] text-black">The shopkeeper received your parcel</p>
                             </div>
                             <div class="flex justify-start py-4 flex-col md:flex-row gap-3 md:gap-1">
-                                <img class="w-[50%] md:w-[20%]" src="{{ asset('images/elfbar1.png') }}" alt="">
+                                <img class="w-[50%] md:w-[20%] object-cover" src="{{ asset('images/elfbar1.png') }}" alt="">
                                 <div>
                                     <p class="text-[15px] font-roboto font-semibold text-black">ELF BAR AF5000 Disposable Vape </p>
                                     <div class="relative overflow-x-auto py-2">

@@ -11,7 +11,7 @@
                 </div>
                 <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
 
-                    <div class="w-full">
+                    {{-- <div class="w-full">
                         @php
                             $billingAddress = auth()->user()?->customer?->addresses()->where('billing_default', true)->first();
                         @endphp
@@ -35,12 +35,30 @@
                         @else
                             <p class="font-inter text-[15px] text-red-500">No billing address found.</p>
                         @endif
+                    </div> --}}
+
+                    <div class="w-full">
+
+                        <p class="font-inter font-normal text-[18px] text-black">Dayz Solutions</p>
+                        <hr class="my-3">
+
+                        <p class="font-inter font-normal text-[15px] text-black">Pieter van Hees</p>
+                        <p class="font-inter font-normal text-[15px] text-black">Nieuw verzenadres 12</p>
+                        <p class="font-inter font-normal text-[15px] text-black">81844 Soest</p>
+
+                        <hr class="my-3">
+                        <p class="font-inter font-normal text-[15px] text-black">administratie@dayzsolutions.nl</p>
+                        <p class="font-inter font-normal text-[15px] text-black">0614384844</p>
+                        <p class="font-inter font-normal text-[15px] text-black">NL003174000B88</p>
                     </div>
 
                     <!-- Shipping Address Edit modal -->
                     <div id="shipping-address-edit" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-2xl max-h-full">
                             <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                                {{-- @php
+                                    $shippingAddress = auth()->user()?->customer->addresses()->where('shipping_default', true)->first();
+                                @endphp --}}
                                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
                                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                                         Edit Shipping Address
@@ -56,28 +74,28 @@
                                     <form>
                                         <div class="mb-6">
                                             <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-                                            <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Flowbite" required />
+                                            <input type="text" id="company" value="{{ $shippingAddress->company_name ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Flowbite" required />
                                         </div>
                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
                                                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-                                                <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
+                                                <input type="text" id="first_name" value="{{ $shippingAddress->first_name ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required />
                                             </div>
                                             <div>
                                                 <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
-                                                <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required />
+                                                <input type="text" id="last_name" value="{{ $shippingAddress->last_name ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required />
                                             </div>
                                             <div>
                                                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                                                <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+                                                <input type="tel" id="phone" value="{{ $shippingAddress->phone ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
                                             </div>
                                             <div>
                                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
-                                                <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
+                                                <input type="email" id="email" value="{{ $shippingAddress->email ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required />
                                             </div>
                                             <div>
                                                 <label for="streetno" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Street Number or House Number</label>
-                                                <input type="streetno" id="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nieuw verzenadres 12" required />
+                                                <input type="streetno" id="streetno" value="{{ $shippingAddress->line_one ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nieuw verzenadres 12" required />
                                             </div>
                                             <div>
                                                 <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
@@ -91,23 +109,21 @@
                                             </div>
                                             <div>
                                                 <label for="btw_no" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">BTW</label>
-                                                <input type="btw_no" id="btw_no" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="NL003174000B88" required />
+                                                <input type="btw_no" id="btw_no" value="{{ $shippingAddress->vat_no ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="NL003174000B88" required />
                                             </div>
                                             <div>
                                                 <label for="postcode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Postcode</label>
-                                                <input type="postcode" id="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="81844" required />
+                                                <input type="postcode" id="postcode" value="{{ $shippingAddress->postcode ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="81844" required />
                                             </div>
                                             <div>
                                                 <label for="province" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Province</label>
-                                                <input type="province" id="province" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Soest" required />
+                                                <input type="province" id="province" value="{{ $shippingAddress->city ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Soest" required />
                                             </div>
                                             <div>
                                                 <label for="kvk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">KVK (optional)</label>
-                                                <input type="kvk" id="kvk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1234" required />
+                                                <input type="kvk" id="kvk" value="{{ $shippingAddress->company_registration_no ?? '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1234" required />
                                             </div>
                                         </div>
-
-
                                     </form>
                                 </div>
                                 <div class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
