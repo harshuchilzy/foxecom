@@ -10,6 +10,7 @@ use App\Livewire\ProductsPage;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\AddressPage;
 
 require __DIR__.'/auth.php';
 
@@ -45,9 +46,10 @@ Route::get('/wholesale', function () {
     return view('wholesale');
 })->name('wholesale');
 
-Route::get('/address', function () {
-    return view('address');
-})->name('address');
+Route::get('/addresses', AddressPage::class)->name('addresses');
+
+
+// Route::put('/address/{address}', [AddressPage::class, 'update'])->name('address.update');
 
 // Route::get('/products', function () {
 //     $products = Product::all();
