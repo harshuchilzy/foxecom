@@ -42,6 +42,14 @@ class ProductsPage extends Component
     {
         return Collection::with(['defaultUrl'])->get()->toTree();
     }
+
+    public function getProductsProperty()
+    {
+        return Product::with([
+            'variants.basePrices',
+            'defaultUrl'
+        ])->get();
+    }
     
     public function render()
     {
