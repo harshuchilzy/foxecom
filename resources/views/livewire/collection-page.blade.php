@@ -30,9 +30,15 @@
 
     <div class="max-w-[1280px] mx-auto px-2 py-8">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            @foreach ($this->collection->products as $product)
-                <x-product-cards.general-card :product="$product" />
-            @endforeach
+            @if ($this->collection && !empty($this->collection->products))
+                @foreach ($this->collection->products as $product)
+                    <x-product-cards.general-card :product="$product" />
+                @endforeach
+            @else
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500 text-lg">No products found.</p>
+                </div>
+            @endif
         </div>
     </div>
 </div>

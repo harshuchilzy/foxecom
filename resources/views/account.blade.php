@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('address') }}">
+            <a href="{{ route('addresses') }}">
                 <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
                     <div class="">
                         <div class="bg-[#0B0E2D] p-3 rounded-full">

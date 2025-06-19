@@ -128,6 +128,16 @@ class ProductPage extends Component
         return $this->images->first();
     }
 
+    /**
+     * Summary of getCrossSellAssociationsProperty
+     */
+    public function getCrossSellAssociationsProperty()
+    {
+        return $this->product->associations->filter(function ($association) {
+            return $association->type === 'cross-sell';
+        })->take(8);
+    }
+
     public function render(): View
     {
         return view('livewire.product-page');
