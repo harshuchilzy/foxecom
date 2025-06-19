@@ -134,7 +134,12 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-            <flux:checkbox wire:model="remember" :label="__('Remember me')" />
+            {{-- <flux:checkbox wire:model="remember" :label="__('Remember me')" value="1" /> --}}
+
+            <div class="flex gap-2 items-center">
+                <input type="checkbox" wire:model="remember" id="remember">
+                <label for="remember" class="p-0 m-0">{{__('Remember me')}}</label>
+    </div>
 
             @if (Route::has('password.request'))
             <div class="text-sm text-right block">

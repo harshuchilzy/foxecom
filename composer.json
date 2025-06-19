@@ -9,12 +9,14 @@
         "php": "^8.2",
         "filament/filament": "^3.3",
         "laravel/fortify": "^1.26",
-        "laravel/framework": "^12.0",
+        "laravel/framework": "^11.0",
         "laravel/scout": "^10.15",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.1.1",
         "livewire/volt": "^1.7.0",
-        "lunarphp/lunar": "^1.0.0-beta"
+        "lunarphp/lunar": "^1.0.0-beta",
+        "lunarphp/table-rate-shipping": "^1.0@beta",
+        "lunarphp/stripe": "^1.0@beta"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

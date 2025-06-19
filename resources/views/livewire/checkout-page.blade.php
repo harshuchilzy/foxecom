@@ -83,14 +83,6 @@
                     'step' => $steps['shipping_address'],
                 ])
 
-                <x-input.group class="col-span-3"
-                                   label="First name"
-                                   :errors="$errors->get('shipping.first_name')"
-                                   required>
-                        <x-input.text wire:model.live="shipping.first_name"
-                                      required />
-                    </x-input.group>
-
                 @include('partials.checkout.shipping_option', [
                     'step' => $steps['shipping_option'],
                 ])

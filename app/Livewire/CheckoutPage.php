@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 use Lunar\Facades\CartSession;
@@ -19,15 +20,19 @@ class CheckoutPage extends Component
      */
     public ?Cart $cart;
 
+    public $test = [];
+
     /**
      * The shipping address instance.
      */
-    // public ?CartAddress $shipping = null;
+    public ?CartAddress $shipping = null;
+    // public $shipping = [];
 
     /**
      * The billing address instance.
      */
     public ?CartAddress $billing = null;
+    // public $billing = [];
 
     /**
      * The current checkout step.
@@ -75,9 +80,6 @@ class CheckoutPage extends Component
         'payment_intent',
         'payment_intent_client_secret',
     ];
-
-    public $address = [];
-    public $shipping = [];
 
     /**
      * {@inheritDoc}
@@ -199,9 +201,13 @@ class CheckoutPage extends Component
      */
     public function saveAddress(string $type): void
     {
+        Log::info($this->{$type});
+
         $validatedData = $this->validate(
             $this->getAddressValidation($type)
         );
+
+        Log::info($validatedData);
 
         $address = $this->{$type};
 
