@@ -9,7 +9,7 @@
     <div class="mb-10">
       <select class="w-64 bg-input-black text-white px-4 py-2 rounded border border-input-border-gray" x-model="country">
         <option value="uk">United Kingdom</option>
-        <option value="us">United States</option>
+        <option value="us">United Arab Emirates</option>
       </select>
     </div>
 

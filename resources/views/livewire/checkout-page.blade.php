@@ -31,60 +31,57 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div id="delivery-option-tab-content">
-                                <div class="hidden p-4 rounded-lg" id="style-shipping-address" role="tabpanel" aria-labelledby="profile-tab">
-                                    {{-- @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
-                                        <div class="py-5">
-                                            <h3 class="font-semibold text-[18px] text-[#111111]">{{ __('Delivery Address') }}</h3>
 
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['first_name'] . ' ' . $shipping['last_name']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['company_name']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_one']}} {{$shipping['line_two']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_three']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['city']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['state']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['postcode']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_email']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_phone']}}</p>
-                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['delivery_instructions']}}</p>
-                                        </div>
-                                    @else --}}
-                                    <div class="py-5" delivery>
-                                        <form wire:submit="save" class="flex flex-col gap-3">
-                                            <div class="w-full">
-                                                <input type="text" wire:model.live="{{$type}}.contact_email" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Email" />
-                                            </div>
-                                            <div class="w-full flex items-center justify-between gap-4">
-                                                <input type="text" wire:model.live="{{$type}}.first_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="First Name" />
-                                                <input type="text" wire:model.live="{{$type}}.last_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Last Name" />
-                                            </div>
-                                            <div class="w-full relative">
-                                                <x-wui-select
-                                                    wire:model.live="selectedShippingAddress"
-                                                    label="Search an address"
-                                                    placeholder="Select shipping address"
-                                                    :async-data="route('api.address.search')"
-                                                    option-label="address"
-                                                    option-value="id"
-                                                />
-                                            </div>
-                                            <div>
-                                                <p class="text-[#111111] font-normal text-[13px] underline">Enter address manually</p>
-                                            </div>
-                                            <div class="lg:w-[40%] xl:w-[30%]">
-                                                <input type="tel" wire:model.live="{{$type}}.contact_phone" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Phone number" />
-                                            </div>
-                                            <div class="lg:w-[40%] xl:w-[30%]">
-                                                <button class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Save & Continue</button>
-                                            </div>
-                                        </form>
+
+
+                            @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
+                                <div class="py-5">
+                                    <h3 class="font-semibold text-[18px] text-[#111111]">{{ __('Delivery Address') }}</h3>
+
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['first_name'] . ' ' . $shipping['last_name']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['company_name']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_one']}} {{$shipping['line_two']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_three']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['city']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['state']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['postcode']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_email']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_phone']}}</p>
+                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['delivery_instructions']}}</p>
+                                </div>
+                            @else
+                            <div class="py-5" delivery>
+                                <form wire:submit="save" class="flex flex-col gap-3">
+                                    <div class="w-full">
+                                        <input type="text" wire:model.live="{{$type}}.contact_email" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Email" />
                                     </div>
-                                    {{-- @endif --}}
-                                </div>
-                                <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="style-billing-address" role="tabpanel" aria-labelledby="dashboard-tab">
-                                    {{-- @include('partials.checkout.address'); --}}
-                                </div>
+                                    <div class="w-full flex items-center justify-between gap-4">
+                                        <input type="text" wire:model.live="{{$type}}.first_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="First Name" />
+                                        <input type="text" wire:model.live="{{$type}}.last_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Last Name" />
+                                    </div>
+                                    <div class="w-full relative">
+                                        <x-wui-select
+                                            wire:model.live="selectedShippingAddress"
+                                            label="Search an address"
+                                            placeholder="Select shipping address"
+                                            :async-data="route('api.address.search')"
+                                            option-label="address"
+                                            option-value="id"
+                                        />
+                                    </div>
+                                    <div>
+                                        <p class="text-[#111111] font-normal text-[13px] underline">Enter address manually</p>
+                                    </div>
+                                    <div class="lg:w-[40%] xl:w-[30%]">
+                                        <input type="tel" wire:model.live="{{$type}}.contact_phone" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Phone number" />
+                                    </div>
+                                    <div class="lg:w-[40%] xl:w-[30%]">
+                                        <button class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Save & Continue</button>
+                                    </div>
+                                </form>
                             </div>
+                            @endif
+
 
                             <div class="pt-5">
                                 <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
