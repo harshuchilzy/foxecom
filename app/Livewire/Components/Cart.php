@@ -35,7 +35,7 @@ class Cart extends Component
 
         $cart = \Lunar\Facades\CartSession::current();
 
-        $this->cart_count = $cart?->lines->count();
+        $this->cart_count = $cart?->lines->count() ?? 0;
     }
 
     /**
