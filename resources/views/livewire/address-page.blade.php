@@ -5,7 +5,7 @@
         <div class="text-green-600 font-medium">{{ session('success') }}</div>
     @endif
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
             <div class="flex flex-col gap-8">
                 <div class="flex justify-between w-full">
                     <p class="font-inter font-semibold text-[22px] text-black">Billing Address</p>
@@ -21,7 +21,7 @@
                         </button>
                     @endif
                 </div>
-                <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
+                <div class="!border !border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
                     <div class="w-full">
                         @if ($billingAddress?->company_name)
                             <p class="font-inter font-normal text-[18px] text-black">{{ $billingAddress->company_name ?? '' }}</p>
@@ -43,7 +43,7 @@
                             <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->contact_email ?? '' }}</p>
                             <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->contact_phone ?? '' }}</p>
                         @endif
-                        
+
                     </div>
 
                     <!-- Billing Address Edit modal -->
@@ -80,7 +80,7 @@
                                         @endif
                                         <div class="mb-6">
                                             <label for="company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
-                                            <input type="text" id="company" name="company" wire:model="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Flowbite" />
+                                            <input type="text" id="company" name="company" wire:model="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" />
                                             @error('company') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                         </div>
                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -99,31 +99,31 @@
                                             </div>
                                             <div>
                                                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
-                                                <input type="email" id="email" name="email" wire:model="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@company.com" required />
+                                                <input type="email" id="email" name="email" wire:model="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
                                                 @error('email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
-                                                <input type="text" id="streetno" name="streetno" wire:model="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="streetno" name="streetno" wire:model="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
                                             </div>
                                             <div>
                                                 <label for="address-line-two" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                                                <input type="text" id="address-line-two" name="address_line_two" wire:model="address_line_two" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="address-line-two" name="address_line_two" wire:model="address_line_two" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
                                                 @error('address-line-two') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
-                                                <input type="text" id="city" name="city" wire:model="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="city" name="city" wire:model="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Manchester" required />
                                                 @error('city') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
-                                                <input type="text" id="postcode" name="postcode" wire:model="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="81844" required />
+                                                <input type="text" id="postcode" name="postcode" wire:model="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
                                                 @error('postcode') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
-                                                <input type="text" id="state" name="state" wire:model="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Soest" required />
+                                                <input type="text" id="state" name="state" wire:model="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
                                                 @error('state') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
@@ -138,7 +138,7 @@
                                             </div>
                                         </div>
                                         <div class="flex justify-end items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
-                                            <button data-modal-hide="billing-address-edit" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save</button>
+                                            <button data-modal-hide="billing-address-edit" type="submit" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save</button>
                                             <button data-modal-hide="billing-address-edit" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Cancel</button>
                                         </div>
                                     </form>
@@ -156,7 +156,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                     </button>
                 </div>
-                <div class="relative overflow-x-auto border border-[#008ECC] rounded-[6px]">
+                <div class="relative overflow-x-auto border !border-[#008ECC] rounded-[6px]">
 
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
@@ -237,7 +237,7 @@
                                     <div class="p-4 md:p-5 space-y-4">
                                         <div class="mb-6">
                                             <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
-                                            <input type="text" id="shipping_company" wire:model="shipping_company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Flowbite" required />
+                                            <input type="text" id="shipping_company" wire:model="shipping_company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" required />
                                         </div>
                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
@@ -254,27 +254,27 @@
                                             </div>
                                             <div>
                                                 <label for="shipping_email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
-                                                <input type="email" id="shipping_email" wire:model="shipping_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@company.com" required />
+                                                <input type="email" id="shipping_email" wire:model="shipping_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
                                             </div>
                                             <div>
                                                 <label for="shipping_streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
-                                                <input type="text" id="shipping_streetno" wire:model="shipping_streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="shipping_streetno" wire:model="shipping_streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
                                             </div>
                                             <div>
                                                 <label for="shipping_address" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                                                <input type="text" id="shipping_address" wire:model="shipping_address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="shipping_address" wire:model="shipping_address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
                                             </div>
                                             <div>
                                                 <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
-                                                <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="81844" required />
-                                            </div>
+                                                <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
+                                            </div> 
                                             <div>
                                                 <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
-                                                <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="81844" required />
+                                                <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
                                             </div>
                                             <div>
                                                 <label for="shipping_state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
-                                                <input type="text" id="shipping_state" wire:model="shipping_state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Soest" required />
+                                                <input type="text" id="shipping_state" wire:model="shipping_state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
                                             </div>
                                             <div>
                                                 <label for="shipping_countries" class="block mb-2 text-sm font-medium text-gray-900 ">Country</label>
