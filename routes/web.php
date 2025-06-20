@@ -19,6 +19,26 @@ Route::get('blog', function () {
     return view('pages.blog');
 })->name('blog');
 
+Route::get('about', function () {
+    return view('pages.about');
+})->name('about');
+
+Route::get('terms-and-conditions', function () {
+    return view('pages.terms-and-conditions');
+})->name('terms-conditions');
+
+Route::get('privacy-policy', function () {
+    return view('pages.privacy-policy');
+})->name('privacy-policy');
+
+Route::get('refund-policy', function () {
+    return view('pages.refund-policy');
+})->name('refund-policy');
+
+Route::get('delivery-policy', function () {
+    return view('pages.delivery-policy');
+})->name('delivery-policy');
+
 Route::get('contact', function () {
     return view('pages.contact');
 })->name('contact');

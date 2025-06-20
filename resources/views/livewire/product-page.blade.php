@@ -468,7 +468,7 @@
                 <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">Retailers Also Claimed : </h2>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-           
+
                 @if(count($this->crossSellAssociations) > 0)
                     @foreach ($this->crossSellAssociations as $association)
                         <x-product-cards.retailer-card :relatedProduct="$association->target"/>

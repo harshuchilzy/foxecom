@@ -16,66 +16,75 @@
                     <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-delivery-options">
                         <div class="py-5 border-b border-gray-200">
                             <div class="lg:w-[50%] xl:w-[50%] grid grid-cols-2 gap-3">
-                                <button class="border border-[#000000] bg-white rounded-[6px] flex items-center justify-center gap-4 w-full py-5">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 6H13.069C14.618 6 15.392 6 16.049 6.346C16.705 6.692 17.143 7.331 18.019 8.608C18.632 9.504 19.277 10.154 20.183 10.733C21.095 11.315 21.529 11.6 21.769 12.057C22 12.494 22 13.012 22 14.049C22 15.416 22 16.099 21.587 16.533L21.533 16.587C21.1 17 20.416 17 19.05 17M5 17C4.68 17 4.385 17 4.23 16.967C4.074 16.933 3.928 16.867 3.635 16.736L2 16C2 12.806 2.479 10.962 3.106 9.45C3.516 8.458 3.722 7.962 3.636 7.52C3.553 7.08 2.5 6 2.5 6M9 17H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 19C18.1046 19 19 18.1046 19 17C19 15.8954 18.1046 15 17 15C15.8954 15 15 15.8954 15 17C15 18.1046 15.8954 19 17 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 19C8.10457 19 9 18.1046 9 17C9 15.8954 8.10457 15 7 15C5.89543 15 5 15.8954 5 17C5 18.1046 5.89543 19 7 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <span class="text-[#111111] font-normal text-[16px]">Delivery</span>
-                                </button>
-                                <button class="border border-[#000000] bg-white rounded-[6px] flex items-center justify-center gap-4 w-full py-5">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 6H13.069C14.618 6 15.392 6 16.049 6.346C16.705 6.692 17.143 7.331 18.019 8.608C18.632 9.504 19.277 10.154 20.183 10.733C21.095 11.315 21.529 11.6 21.769 12.057C22 12.494 22 13.012 22 14.049C22 15.416 22 16.099 21.587 16.533L21.533 16.587C21.1 17 20.416 17 19.05 17M5 17C4.68 17 4.385 17 4.23 16.967C4.074 16.933 3.928 16.867 3.635 16.736L2 16C2 12.806 2.479 10.962 3.106 9.45C3.516 8.458 3.722 7.962 3.636 7.52C3.553 7.08 2.5 6 2.5 6M9 17H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 19C18.1046 19 19 18.1046 19 17C19 15.8954 18.1046 15 17 15C15.8954 15 15 15.8954 15 17C15 18.1046 15.8954 19 17 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 19C8.10457 19 9 18.1046 9 17C9 15.8954 8.10457 15 7 15C5.89543 15 5 15.8954 5 17C5 18.1046 5.89543 19 7 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <span class="text-[#111111] font-normal text-[16px]">Billing</span>
-                                </button>
+                                <ul class="flex text-sm font-medium text-center w-full" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                                    <li class="me-2 w-full" role="presentation">
+                                        <button class="border border-[#000000] bg-white rounded-[6px] flex items-center justify-center gap-4 w-full py-5" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 6H13.069C14.618 6 15.392 6 16.049 6.346C16.705 6.692 17.143 7.331 18.019 8.608C18.632 9.504 19.277 10.154 20.183 10.733C21.095 11.315 21.529 11.6 21.769 12.057C22 12.494 22 13.012 22 14.049C22 15.416 22 16.099 21.587 16.533L21.533 16.587C21.1 17 20.416 17 19.05 17M5 17C4.68 17 4.385 17 4.23 16.967C4.074 16.933 3.928 16.867 3.635 16.736L2 16C2 12.806 2.479 10.962 3.106 9.45C3.516 8.458 3.722 7.962 3.636 7.52C3.553 7.08 2.5 6 2.5 6M9 17H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 19C18.1046 19 19 18.1046 19 17C19 15.8954 18.1046 15 17 15C15.8954 15 15 15.8954 15 17C15 18.1046 15.8954 19 17 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 19C8.10457 19 9 18.1046 9 17C9 15.8954 8.10457 15 7 15C5.89543 15 5 15.8954 5 17C5 18.1046 5.89543 19 7 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <span class="text-[#111111] font-normal text-[16px]">Delivery</span>
+                                        </button>
+                                    </li>
+                                    <li class="me-2 w-full" role="presentation">
+                                        <button class="border border-[#000000] bg-white rounded-[6px] flex items-center justify-center gap-4 w-full py-5" id="dashboard-styled-tab" data-tabs-target="#style-billing-address" type="button" role="tab" aria-controls="dashboard" aria-selected="false">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 6H13.069C14.618 6 15.392 6 16.049 6.346C16.705 6.692 17.143 7.331 18.019 8.608C18.632 9.504 19.277 10.154 20.183 10.733C21.095 11.315 21.529 11.6 21.769 12.057C22 12.494 22 13.012 22 14.049C22 15.416 22 16.099 21.587 16.533L21.533 16.587C21.1 17 20.416 17 19.05 17M5 17C4.68 17 4.385 17 4.23 16.967C4.074 16.933 3.928 16.867 3.635 16.736L2 16C2 12.806 2.479 10.962 3.106 9.45C3.516 8.458 3.722 7.962 3.636 7.52C3.553 7.08 2.5 6 2.5 6M9 17H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 19C18.1046 19 19 18.1046 19 17C19 15.8954 18.1046 15 17 15C15.8954 15 15 15.8954 15 17C15 18.1046 15.8954 19 17 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 19C8.10457 19 9 18.1046 9 17C9 15.8954 8.10457 15 7 15C5.89543 15 5 15.8954 5 17C5 18.1046 5.89543 19 7 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <span class="text-[#111111] font-normal text-[16px]">Billing</span>
+                                        </button>
+                                    </li>
+                                </ul>
                             </div>
+                            <div id="delivery-option-tab-content">
+                                <div class="hidden p-4 rounded-lg" id="style-shipping-address" role="tabpanel" aria-labelledby="profile-tab">
+                                    {{-- @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
+                                        <div class="py-5">
+                                            <h3 class="font-semibold text-[18px] text-[#111111]">{{ __('Delivery Address') }}</h3>
 
-                            
-
-                            @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
-                                <div class="py-5">
-                                    <h3 class="font-semibold text-[18px] text-[#111111]">{{ __('Delivery Address') }}</h3>
-                                    
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['first_name'] . ' ' . $shipping['last_name']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['company_name']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_one']}} {{$shipping['line_two']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_three']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['city']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['state']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['postcode']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_email']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_phone']}}</p>
-                                    <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['delivery_instructions']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['first_name'] . ' ' . $shipping['last_name']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['company_name']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_one']}} {{$shipping['line_two']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['line_three']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['city']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['state']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['postcode']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_email']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_phone']}}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['delivery_instructions']}}</p>
+                                        </div>
+                                    @else --}}
+                                    <div class="py-5" delivery>
+                                        <form wire:submit="save" class="flex flex-col gap-3">
+                                            <div class="w-full">
+                                                <input type="text" wire:model.live="{{$type}}.contact_email" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Email" />
+                                            </div>
+                                            <div class="w-full flex items-center justify-between gap-4">
+                                                <input type="text" wire:model.live="{{$type}}.first_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="First Name" />
+                                                <input type="text" wire:model.live="{{$type}}.last_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Last Name" />
+                                            </div>
+                                            <div class="w-full relative">
+                                                <x-wui-select
+                                                    wire:model.live="selectedShippingAddress"
+                                                    label="Search an address"
+                                                    placeholder="Select shipping address"
+                                                    :async-data="route('api.address.search')"
+                                                    option-label="address"
+                                                    option-value="id"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p class="text-[#111111] font-normal text-[13px] underline">Enter address manually</p>
+                                            </div>
+                                            <div class="lg:w-[40%] xl:w-[30%]">
+                                                <input type="tel" wire:model.live="{{$type}}.contact_phone" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Phone number" />
+                                            </div>
+                                            <div class="lg:w-[40%] xl:w-[30%]">
+                                                <button class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Save & Continue</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    {{-- @endif --}}
                                 </div>
-                            @else
-                            <div class="py-5" delivery>
-                                <form wire:submit="save" class="flex flex-col gap-3">
-                                    <div class="w-full">
-                                        <input type="text" wire:model.live="{{$type}}.contact_email" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Email" />
-                                    </div>
-                                    <div class="w-full flex items-center justify-between gap-4">
-                                        <input type="text" wire:model.live="{{$type}}.first_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="First Name" />
-                                        <input type="text" wire:model.live="{{$type}}.last_name" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Last Name" />
-                                    </div>
-                                    <div class="w-full relative">
-                                        <x-wui-select
-                                            wire:model.live="selectedShippingAddress"
-                                            label="Search an address"
-                                            placeholder="Select shipping address"
-                                            :async-data="route('api.address.search')"
-                                            option-label="address"
-                                            option-value="id"
-                                        />
-                                    </div>
-                                    <div>
-                                        <p class="text-[#111111] font-normal text-[13px] underline">Enter address manually</p>
-                                    </div>
-                                    <div class="lg:w-[40%] xl:w-[30%]">
-                                        <input type="tel" wire:model.live="{{$type}}.contact_phone" class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4" placeholder="Phone number" />
-                                    </div>
-                                    <div class="lg:w-[40%] xl:w-[30%]">
-                                        <button class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Save & Continue</button>
-                                    </div>
-                                </form>
+                                <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="style-billing-address" role="tabpanel" aria-labelledby="dashboard-tab">
+                                    {{-- @include('partials.checkout.address'); --}}
+                                </div>
                             </div>
-                            @endif
-                            
 
                             <div class="pt-5">
                                 <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
