@@ -28,7 +28,7 @@
 
                             
 
-                            @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
+                            {{-- @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
                                 <div class="py-5">
                                     <h3 class="font-semibold text-[18px] text-[#111111]">{{ __('Delivery Address') }}</h3>
                                     
@@ -43,7 +43,7 @@
                                     <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['contact_phone']}}</p>
                                     <p class="font-semibold text-[16px] text-[#70707C]">{{$shipping['delivery_instructions']}}</p>
                                 </div>
-                            @else
+                            @else --}}
                             <div class="py-5" delivery>
                                 <form wire:submit="save" class="flex flex-col gap-3">
                                     <div class="w-full">
@@ -74,8 +74,7 @@
                                     </div>
                                 </form>
                             </div>
-                            @endif
-                            
+                            {{-- @endif --}}
 
                             <div class="pt-5">
                                 <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
