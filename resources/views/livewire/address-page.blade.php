@@ -1,5 +1,10 @@
 {{-- <x-layouts.app.layout> --}}
     <div class="max-w-[1440px] mx-auto px-5 py-12 flex flex-col gap-8 justify-center items-center lg:h-[70vh] bg-white">
+
+    @if (session()->has('success'))
+        <div class="text-green-600 font-medium">{{ session('success') }}</div>
+    @endif
+
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full">
             <div class="flex flex-col gap-8">
                 <div class="flex justify-between w-full">
@@ -18,21 +23,28 @@
                 </div>
                 <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
                     <div class="w-full">
-                        <p class="font-inter font-normal text-[18px] text-black">{{ $billingAddress->company_name ?? '' }}</p>
-                        <hr class="my-3">
+                        @if ($billingAddress?->company_name)
+                            <p class="font-inter font-normal text-[18px] text-black">{{ $billingAddress->company_name ?? '' }}</p>
+                            <hr class="my-3">
+                        @endif
 
-                        <p class="font-inter font-normal text-[15px] text-black">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</p>
-                        <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->line_one ?? '—' }}</p>
-                        <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->postcode ?? '—' }} {{ $billingAddress->city ?? '' }}</p>
-
-                        <hr class="my-3">
-                        <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->contact_email ?? '—' }}</p>
-                        <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->contact_phone ?? '—' }}</p>
+                        <p class="font-inter font-normal text-[15px] text-black">{{ $first_name }} {{ $last_name }}</p>
+                        @if (empty($billingAddress->postcode))
+                            {{-- <button type="button" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">
+                                {{__('Add a billing address')}}
+                            </button> --}}
+                            <button class="cursor-pointer flex gap-4 my-4 border py-3 px-6" data-modal-target="billing-address-edit" data-modal-toggle="billing-address-edit" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> <span>{{__('Add a billing address')}}</span>
+                            </button>
+                        @else
+                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->line_one ?? '' }}</p>
+                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->postcode ?? '' }} {{ $billingAddress->city ?? '' }}</p>
+                            <hr class="my-3">
+                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->contact_email ?? '' }}</p>
+                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->contact_phone ?? '' }}</p>
+                        @endif
+                        
                     </div>
-
-                    @if (session()->has('success'))
-                        <div class="text-green-600 font-medium">{{ session('success') }}</div>
-                    @endif
 
                     <!-- Billing Address Edit modal -->
                     <div id="billing-address-edit" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -92,26 +104,26 @@
                                             </div>
                                             <div>
                                                 <label for="streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
-                                                <input type="streetno" id="streetno" name="streetno" wire:model="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="streetno" name="streetno" wire:model="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
                                             </div>
                                             <div>
                                                 <label for="address-line-two" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                                                <input type="address-line-two" id="address-line-two" name="address_line_two" wire:model="address_line_two" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="address-line-two" name="address_line_two" wire:model="address_line_two" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
                                                 @error('address-line-two') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
-                                                <input type="city" id="city" name="city" wire:model="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
+                                                <input type="text" id="city" name="city" wire:model="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Nieuw verzenadres 12" required />
                                                 @error('city') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
-                                                <input type="postcode" id="postcode" name="postcode" wire:model="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="81844" required />
+                                                <input type="text" id="postcode" name="postcode" wire:model="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="81844" required />
                                                 @error('postcode') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>
                                                 <label for="state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
-                                                <input type="state" id="state" name="state" wire:model="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Soest" required />
+                                                <input type="text" id="state" name="state" wire:model="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Soest" required />
                                                 @error('state') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                                             </div>
                                             <div>

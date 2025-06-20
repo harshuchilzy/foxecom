@@ -35,11 +35,12 @@ class AddressPage extends Component
     public function mount()
     {
         $user = auth()->user();
-        $this->first_name = $user->first_name;
-        $this->last_name = $user->last_name;
+        $customer = $user->customers->first();
+        $this->first_name = $customer->first_name;
+        $this->last_name = $customer->last_name;
         $this->countries = Country::orderBy('name')->get();
 
-        $this->billingAddress = \Lunar\Models\Address::where('customer_id', auth()->id())
+        $this->billingAddress = \Lunar\Models\Address::where('customer_id', $customer->id)
         ->where('billing_default', true)
         ->latest()
         ->first();
@@ -57,8 +58,8 @@ class AddressPage extends Component
             $this->country = $this->billingAddress->country->iso2 ?? '';
         }
 
-        //for shipping addresses
-        $this->shippingAddresses = Address::where('customer_id', $user->id)
+        //for shipping addresses (Assuming if this user has only 1 CUSTOMER)
+        $this->shippingAddresses = Address::where('customer_id', $user->customers->first()->id)
             ->where('title', 'shipping')
             ->latest()
             ->get();
@@ -79,62 +80,33 @@ class AddressPage extends Component
             'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:20',
             'state' => 'nullable|string|max:255',
-            'country' => 'required|string|size:2',
+            'country' => 'required|string|size:2'
         ]);
 
-        $countryModel = Country::where('iso2', $this->country)->first();
+        $country = Country::where('iso2', $this->country)->first();
 
-        if (!$countryModel) {
+        if (!$country) {
             session()->flash('error', 'Invalid country selected.');
             return;
         }
 
-        // if (!$countryModel) {
-        //     logger()->error('Invalid country selected', ['input' => $this->country]);
-        //     session()->flash('error', 'Invalid country selected.');
-        //     return;
-        // }
-        // logger()->info('Country resolved', ['country_id' => $countryModel->id]);
-
-        // logger()->info('Creating address', [
-        //     'first_name' => $this->first_name,
-        //     'last_name' => $this->last_name,
-        //     'email' => $this->email,
-        // ]);
-
-        // Address::create([
-        //     'customer_id' => $user->id,
-        //     'first_name' => $this->first_name,
-        //     'last_name' => $this->last_name,
-        //     'company_name' => $this->company,
-        //     'line_one' => $this->streetno,
-        //     'line_two' => $this->address_line_two,
-        //     'city' => $this->city,
-        //     'state' => $this->state,
-        //     'postcode' => $this->postcode,
-        //     'country_id' => $countryModel->id,
-        //     'contact_email' => $this->email,
-        //     'contact_phone' => $this->phone,
-        //     'billing_default' => true,
-        // ]);
-
+        $customer = $user->customers->first();
         $addressData = [
-            'customer_id' => $user->id,
-            'title' => 'billing',
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
+            'customer_id' => $customer->id,
+            'title' => '',
+            'first_name' => $customer->first_name,
+            'last_name' => $customer->last_name,
             'company_name' => $this->company,
             'line_one' => $this->streetno,
             'line_two' => $this->address_line_two,
             'city' => $this->city,
             'state' => $this->state,
             'postcode' => $this->postcode,
-            'country_id' => $countryModel->id,
+            'country_id' => $country->id,
             'contact_email' => $this->email,
             'contact_phone' => $this->phone,
             'billing_default' => true,
         ];
-
 
         if ($this->billingAddressId) {
             \Lunar\Models\Address::where('id', $this->billingAddressId)->update($addressData);
@@ -169,9 +141,11 @@ class AddressPage extends Component
             return;
         }
 
+        $customer = $user->customers->first();
+
         Address::create([
-            'customer_id' => $user->id,
-            'title' => 'shipping',
+            'customer_id' => $customer->id,
+            'title' => '',
             'first_name' => $this->shipping_first_name,
             'last_name' => $this->shipping_last_name,
             'company_name' => $this->shipping_company,

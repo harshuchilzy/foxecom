@@ -101,22 +101,32 @@ use Livewire\WithFileUploads;
             'postcode' => ['required', 'string', 'max:20'],
             'company_sector' => ['nullable', 'string', 'max:100'],
             'store_url' => ['nullable', 'string', 'url', 'max:255'],
-            'registration_certificate' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'vat_certificate' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'proof_of_id' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'proof_of_address' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'registration_certificate' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'vat_certificate' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'proof_of_id' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'proof_of_address' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        $validated['registration_certificate'] = $this->registration_certificate->store('uploads/registration_certificates', 'public');
-        $validated['vat_certificate'] = $this->vat_certificate->store('uploads/vat_certificates', 'public');
-        $validated['proof_of_id'] = $this->proof_of_id->store('uploads/proof_of_id', 'public');
-        $validated['proof_of_address'] = $this->proof_of_address->store('uploads/proof_of_address', 'public');
+        $validated['registration_certificate'] = $this->registration_certificate?->store('uploads/registration_certificates', 'public');
+        $validated['vat_certificate'] = $this->vat_certificate?->store('uploads/vat_certificates', 'public');
+        $validated['proof_of_id'] = $this->proof_of_id?->store('uploads/proof_of_id', 'public');
+        $validated['proof_of_address'] = $this->proof_of_address?->store('uploads/proof_of_address', 'public');
 
         // Log::info('User registration data:' . print_r($validated, false));
 
         event(new Registered(($user = User::create($validated))));
+
+        $customer = Lunar\Models\Customer::create([
+                        'first_name' => $validated['first_name'],
+                        'last_name' => $validated['last_name'],
+                        'company_name' => $validated['company_name'],
+                        'vat_no' => null,
+                        'meta' => $validated,
+                    ]);
+
+        $customer->users()->attach($user); //Assign User to the Customer
 
         Auth::login($user);
 
@@ -131,7 +141,7 @@ use Livewire\WithFileUploads;
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="register" class="flex flex-col gap-6" >
+    <form wire:submit="register" class="flex flex-col gap-6">
         <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
             <div class=" p-3">
                 <!-- First Name -->
@@ -370,7 +380,7 @@ use Livewire\WithFileUploads;
                 <label for="address_line_1" class="uppercase text-xs">Address Line 1 <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="text" wire:model="address_line_1" id="address_line_1"
-                    class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
+                    class="bg-white dark:bg-neutral-800  rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
                     placeholder="Street and number" />
                 @error('address_line_1')
                 <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400"><svg class="shrink-0 size-5 inline"
@@ -421,7 +431,7 @@ use Livewire\WithFileUploads;
                         class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
                         <option value="">-- Select City --</option>
                         @foreach ($cities as $city)
-                            <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
+                        <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
                         @endforeach
                         {{-- <option value="london">London</option>
                         <option value="manchester">Manchester</option>
@@ -574,7 +584,8 @@ use Livewire\WithFileUploads;
 
         <div class="flex items-center justify-end">
             <button type="submit"
-                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign Up')}}</button>
+                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign
+                Up')}}</button>
         </div>
     </form>
 

@@ -46,7 +46,7 @@ Route::get('/wholesale', function () {
     return view('wholesale');
 })->name('wholesale');
 
-Route::get('/addresses', AddressPage::class)->name('addresses');
+Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('auth');
 
 
 // Route::put('/address/{address}', [AddressPage::class, 'update'])->name('address.update');
@@ -84,7 +84,7 @@ Route::get('/redemptions', function () {
 
 Route::get('/account', function () {
     return view('account');
-})->name('account');
+})->name('account')->middleware('auth');
 
 // // Route::view('dashboard', 'dashboard')
 // //     ->middleware(['auth', 'verified'])
@@ -183,3 +183,9 @@ Route::get('search', SearchPage::class)->name('search.view');
 Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+
+Route::get('test', function(){
+
+        $user = auth()->user();
+        dd( $user->customers->first()->id);
+});
