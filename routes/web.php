@@ -11,6 +11,7 @@ use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\AddressPage;
+use Illuminate\Http\Request;
 
 require __DIR__.'/auth.php';
 
@@ -132,9 +133,9 @@ Route::get('/account', function () {
 //     ->middleware(['auth', 'verified'])
 //     ->name('customer.dashboard');
 
-// Route::get('/checkout', function () {
-//     return view('checkout');
-// });
+Route::get('/new-checkout', function () {
+    return view('checkout');
+});
 
 // Route::get('/redemptions', function () {
 //     return view('redemptions');
@@ -184,8 +185,39 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
+// Move to API
+Route::get('/address/search', function(Request $request){
+    $user = $request->user();
+    $customer = $user->customers->first();
+    $addresses = [];
+    if($customer){
+        $addresses = $customer->addresses->map(function($address){
+            $shorten_address = array(
+                $address->first_name,
+                $address->last_name,
+                $address->company_name,
+                $address->line_one,
+                $address->line_two,
+                $address->line_three,
+                $address->city,
+                $address->state,
+                $address->postcode,
+                $address->contact_email
+            );
+            $address['address'] = implode(', ', array_filter($shorten_address));
+            return $address;
+        });
+    }
+    return response()->json($addresses);
+})->middleware('auth')->name('api.address.search');
+
 Route::get('test', function(){
 
         $user = auth()->user();
-        dd( $user->customers->first()->id);
+        $customer = $user->customers->first();
+        $billing_address = $customer->addresses->where('billing_default', 1)->first();
+        echo $billing_address->country;
+        echo '<pre>';
+        print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
+        echo '</pre>';
 });

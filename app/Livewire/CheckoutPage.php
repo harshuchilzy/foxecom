@@ -20,19 +20,21 @@ class CheckoutPage extends Component
      */
     public ?Cart $cart;
 
-    public $test = [];
+    public $type = 'shipping';
+
+    public $selectedShippingAddress;
 
     /**
      * The shipping address instance.
      */
-    public ?CartAddress $shipping = null;
-    // public $shipping = [];
+    // public ?CartAddress $shipping = null;
+    public $shipping = [];
 
     /**
      * The billing address instance.
      */
-    public ?CartAddress $billing = null;
-    // public $billing = [];
+    // public ?CartAddress $billing = null;
+    public $billing = [];
 
     /**
      * The current checkout step.
@@ -120,10 +122,20 @@ class CheckoutPage extends Component
         // Do we have a shipping address?
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
+        if(auth()->check()){
+            $customer = auth()->user()->customers->first();
+        }
+
+        if($this->shipping && $customer){
+            $this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
+        }
+
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         $this->determineCheckoutStep();
     }
+
+    
 
     public function hydrate(): void
     {
@@ -194,6 +206,13 @@ class CheckoutPage extends Component
         }
 
         return null;
+    }
+
+    function updatedSelectedShippingAddress() : void {
+        if(auth()->check()){
+            $customer = auth()->user()->customers->first();
+            $this->shipping = $customer->addresses->find($this->selectedShippingAddress)?->toArray();
+        }
     }
 
     /**
@@ -311,7 +330,6 @@ class CheckoutPage extends Component
 
     public function render(): View
     {
-        return view('livewire.checkout-page')
-            ->layout('layouts.checkout');
+        return view('livewire.checkout-page');
     }
 }

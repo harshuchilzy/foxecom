@@ -16,6 +16,8 @@ class Cart extends Component
 
     public bool $linesVisible = false;
 
+    public int $cart_count = 0;
+
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
     ];
@@ -30,6 +32,10 @@ class Cart extends Component
     public function mount(): void
     {
         $this->mapLines();
+
+        $cart = \Lunar\Facades\CartSession::current();
+
+        $this->cart_count = $cart->lines->count();
     }
 
     /**

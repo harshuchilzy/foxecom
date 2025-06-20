@@ -143,7 +143,7 @@ class AddressPage extends Component
 
         $customer = $user->customers->first();
 
-        Address::create([
+        $address = Address::create([
             'customer_id' => $customer->id,
             'title' => '',
             'first_name' => $this->shipping_first_name,

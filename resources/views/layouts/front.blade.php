@@ -12,10 +12,7 @@
         name="description"
         content="Foxecom Meta"
     >
-    <link
-        href="{{ asset('css/app.css') }}"
-        rel="stylesheet"
-    >
+
 
     <link
         rel="shortcut icon"

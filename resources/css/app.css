@@ -11,6 +11,9 @@
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
+@import '../../vendor/wireui/wireui/ts/global.css';
+@source '../../vendor/wireui/wireui';
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {

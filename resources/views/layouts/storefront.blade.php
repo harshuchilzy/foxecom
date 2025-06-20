@@ -12,15 +12,13 @@
         name="description"
         content="Foxecom Meta"
     >
-    <link
-        href="{{ asset('css/app.css') }}"
-        rel="stylesheet"
-    >
+
 
     <link
         rel="icon"
         href="{{ asset('images/blacklogo.png') }}"
     >
+    <wireui:scripts />
 
     @include('partials.head')
 </head>
@@ -34,7 +32,7 @@
     </main>
 
     <x-footer />
-
+    @wireUiScripts
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
