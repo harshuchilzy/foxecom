@@ -54,7 +54,7 @@ class Home extends Component
     public function render(): View
     {
         // return view('livewire.home');
-        $redemptions = Redemption::with(['products.brand'])->get();
+        $redemptions = Redemption::with(['product.brand'])->get();
 
         return view('livewire.home', [
             'redemptions' => $redemptions,
