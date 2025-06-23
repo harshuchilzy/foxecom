@@ -21,7 +21,7 @@
                         </button>
                     @endif
                 </div>
-                <div class="!border !border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
+                <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
                     <div class="w-full">
                         @if ($billingAddress?->company_name)
                             <p class="font-inter font-normal text-[18px] text-black">{{ $billingAddress->company_name ?? '' }}</p>
@@ -267,7 +267,7 @@
                                             <div>
                                                 <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
                                                 <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
-                                            </div> 
+                                            </div>
                                             <div>
                                                 <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
                                                 <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
