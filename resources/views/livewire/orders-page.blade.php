@@ -5,21 +5,17 @@
 
     <div class="py-5 flex items-center gap-6 w-full">
         <p class="text-black text-[14px]">
-            {{-- @php
-            print_r($orders);
-            @endphp --}}
             <span class="font-bold"></span>
             <span class="font-normal">{{sprintf('%02d', $orderCount)}} placed in</span>
         </p>
         <div class="w-[60%] md:w-[25%] lg:w-[15%]">
             <form class="max-w-md mx-auto w-full">
             <label for="underline_select" class="sr-only">Underline select</label>
-            <select id="underline_select" class="block py-2.5 px-2 w-full text-sm text-black rounded-[6px] border bg-[#D9D9D9] border-[#D9D9D9] appearance-nonefocus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                <option selected>Past three months</option>
-                <option value="US">Past two months</option>
-                <option value="CA">Past month</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
+            <select id="underline_select" wire:model.live="timeFilter" class="block py-2.5 px-2 w-full text-sm text-black rounded-[6px] border bg-[#D9D9D9] border-[#D9D9D9] appearance-nonefocus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                <option value="all">All</option>
+                <option value="past-three-months">Past three months</option>
+                <option value="past-two-months">Past two months</option>
+                <option value="past-month">Past month</option>
             </select>
             </form>
         </div>
@@ -30,6 +26,10 @@
             @foreach ($orders as $order)
                 <x-product-cards.order-card :order="$order"/>
             @endforeach
+
+            <div class="mt-4">
+                {{ $orders->links() }}
+            </div>
         </div>
 
         <div class="w-full md:w-[25%]">

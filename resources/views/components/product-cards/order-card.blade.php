@@ -29,58 +29,66 @@
                 <h3 class="font-inter font-semibold text-[16px]">{{ucfirst(str_replace('-', ' ', $order->status))}}</h3>
                 <p class="font-inter font-normal text-[12px] text-black">{{$order->note}}</p>
             </div>
-            <div class="flex justify-start py-4 flex-col md:flex-row gap-3 md:gap-1">
-                {{-- @foreach($order->lines as $line) --}}
+            @foreach($order->lines as $line)
+            {{-- {{dd($line)}} --}}
                     @php
-                        // foreach($order->lines as $line) {
-                        //     print_r($line->);
-                        // }
+                        $product = $this->getOrderItems($line->purchasable_id);
                     @endphp
-                    {{-- {{dd($line)}} --}}
-                    <img class="w-[50%] md:w-[20%] object-cover" src="{{ asset('images/elfbar1.png') }}" alt=""/>
+                <div class="flex justify-start py-4 flex-col md:flex-row gap-3 md:gap-1">
+                    <img class="w-[50%] md:w-[20%] object-cover" src="{{ $product->thumbnail->getUrl() }}" alt=""/>
                     <div>
-                        {{-- <p class="text-[15px] font-roboto font-semibold text-black">{{ $line->purchasable->variant->product->translateAttribute('name') }}</p> --}}
+                        <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate><p class="text-[15px] font-roboto font-semibold text-black">{{ $product->translateAttribute('name') }}</p></a>
                         <div class="relative overflow-x-auto py-2">
                             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-1 py-2">
-                                            Flavours ordered :
-                                        </th>
-                                        <th scope="col" class="px-3 py-2 text-normal">
-                                            Quantity (Outers):
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white">
-                                        <th scope="row" class="px-1 py-2 font-normal text-black whitespace-nowrap">
-                                            Lemon Lime
-                                        </th>
-                                        <td class="px-1 py-2 text-black font-normal font-inter">
-                                            4
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white">
-                                        <th scope="row" class="px-1 py-2 font-normal text-black whitespace-nowrap">
-                                            Grape
-                                        </th>
-                                        <td class="px-1 py-2 text-black">
-                                            3
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                @if($line->purchasable_type == 'product_variant')
+                                    <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-1 py-2">
+                                                Flavours ordered :
+                                            </th>
+                                            <th scope="col" class="px-3 py-2 text-normal">
+                                                Quantity (Outers):
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white">
+                                            <th scope="row" class="px-1 py-2 font-normal text-black whitespace-nowrap">
+                                                {{$line->option}}
+                                            </th>
+                                            <td class="px-1 py-2 text-black font-normal font-inter">
+                                                {{$line->unit_quantity}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                @else
+
+                                    <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-1 py-2">
+                                                Quantity (Outers):
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white">
+                                            <th scope="row" class="px-1 py-2 font-normal text-black whitespace-nowrap">
+                                                {{$line->unit_quantity}}
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                @endif
                             </table>
                         </div>
 
                         <div class="flex justify-start items-center gap-3">
-                            <button class="bg-[#FFD200] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">Buy it again</button>
-                            <button class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">View your item</button>
+                            <a href="" class="bg-[#FFD200] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">Buy it again</a>
+                            <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">View your item</a>
                         </div>
                     </div>
-                  
-                {{-- @endforeach --}}
-            </div>
+                </div>
+            @endforeach
         </div>
 
         <div class="w-full lg:w-1/4 flex flex-col gap-2">

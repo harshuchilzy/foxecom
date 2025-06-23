@@ -4,9 +4,11 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Lunar\Models\Order;
+use Lunar\Models\Product;
+use Lunar\Models\OrderLine;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Auth;
 use Lunar\Models\ProductVariant;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersPage extends Component
 {
@@ -15,9 +17,15 @@ class OrdersPage extends Component
     public $perPage = 10;
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
+    public $timeFilter = 'all';
 
     public $orderCount;
     public $totalRevenue;
+
+    public function updatedTimeFilter()
+    {
+        $this->resetPage(); 
+    }
 
     public function sortBy($field)
     {
@@ -30,24 +38,45 @@ class OrdersPage extends Component
         $this->sortField = $field;
     }
 
+    public function getOrderItems($product_id)
+    {
+        return Product::with([
+            'variants.prices', 
+            'thumbnail', 
+            'defaultUrl',
+        ])
+        ->where('id', $product_id)
+        ->first();
+    }
     public function render()
     {
-        // Get the authenticated user's customer ID
         $customerId = Auth::user()->id;
         
-        $orders = Order::with(['lines', 'customer'])
-                    ->where('user_id', $customerId) // Use user_id instead of user_id
-                    ->orderBy($this->sortField, $this->sortDirection)
-                    ->paginate($this->perPage);
+        $query = Order::with(['lines', 'customer'])
+            ->where('user_id', $customerId);
+        
+        switch ($this->timeFilter) {
+            case 'past-three-months':
+                $query->where('created_at', '>=', now()->subMonths(3));
+                break;
+            case 'past-two-months':
+                $query->where('created_at', '>=', now()->subMonths(2));
+                break;
+            case 'past-month':
+                $query->where('created_at', '>=', now()->subMonth());
+                break;
+        }
+        
+        $orders = $query->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->perPage);
 
-        $this->orderCount = Order::where('user_id', $customerId)->count();
-        $this->totalRevenue = Order::where('user_id', $customerId)
-                          ->where('status', '!=', 'cancelled')
-                          ->sum('total');
+        $this->orderCount = $query->count();
+        $this->totalRevenue = $query->clone()
+            ->where('status', '!=', 'cancelled')
+            ->sum('total');
 
-        // dd($orders);
         return view('livewire.orders-page', [
-            'orders' => $orders
+            'orders' => $orders,
         ]);
     }
 }
