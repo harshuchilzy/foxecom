@@ -8,6 +8,8 @@ use Lunar\Admin\Support\Facades\LunarPanel;
 use Lunar\Shipping\ShippingPlugin;
 use Lunar\Base\ShippingModifiers;
 
+use App\Filament\Resources\RedemptionResource;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -15,9 +17,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        LunarPanel::panel(fn($panel) => $panel->path('dashboard')->plugins([
-            new ShippingPlugin,
-        ]))->register();
+        // LunarPanel::panel(fn($panel) => $panel->path('dashboard')->plugins([
+        //     new ShippingPlugin,
+        // ]))->register();
+
+        LunarPanel::panel(function ($panel) {
+            return $panel
+                ->path('dashboard')
+                ->plugins([
+                    new ShippingPlugin,
+                ])
+                ->resources([
+                    RedemptionResource::class,
+                ]);
+        })->register();
     }
 
     /**

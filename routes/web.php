@@ -12,6 +12,7 @@ use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\AddressPage;
 use Illuminate\Http\Request;
+use App\Livewire\OfferPage;
 
 require __DIR__.'/auth.php';
 
@@ -241,3 +242,6 @@ Route::get('test', function(){
         print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
         echo '</pre>';
 });
+
+
+Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');
