@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Lunar\Models\Collection;
 use Lunar\Models\Url;
+use App\Models\Redemption;
 
 class Home extends Component
 {
@@ -52,6 +53,11 @@ class Home extends Component
 
     public function render(): View
     {
-        return view('livewire.home');
+        // return view('livewire.home');
+        $redemptions = Redemption::with(['products.brand'])->get();
+
+        return view('livewire.home', [
+            'redemptions' => $redemptions,
+        ]);
     }
 }
