@@ -201,7 +201,7 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
-Route::get('/orders', OrdersPage::class)->name('redemptions');
+Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
 
 // Move to API
 Route::get('/address/search', function(Request $request){
