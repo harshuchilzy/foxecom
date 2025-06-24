@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
+use Lunar\Facades\ShippingManifest;
 use Illuminate\Support\Facades\Log;
 
 class CartPage extends Component
@@ -87,7 +88,9 @@ class CartPage extends Component
      */
     public function mapLines(): void
     {
+        
         $this->lines = $this->cartLines->map(function ($line) {
+            Log::info($line->purchasable);
             return [
                 'id' => $line->id,
                 'identifier' => $line->purchasable->getIdentifier(),
@@ -111,6 +114,26 @@ class CartPage extends Component
         $this->cart_count = $cart?->lines->count() ?? 0;
 
         $this->linesVisible = true;
+    }
+
+    /**
+     * Return the shipping option.
+     */
+    public function getShippingOptionProperty()
+    {
+        $shippingAddress = $this->cart->shippingAddress;
+
+        if (! $shippingAddress) {
+            return;
+        }
+
+        if ($option = $shippingAddress->shipping_option) {
+            return ShippingManifest::getOptions($this->cart)->first(function ($opt) use ($option) {
+                return $opt->getIdentifier() == $option;
+            });
+        }
+
+        return null;
     }
     
     public function render()

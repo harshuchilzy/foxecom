@@ -127,7 +127,7 @@
                     </a>
 
                     <a class="inline-block text-sm font-medium text-gray-600 underline hover:text-gray-500"
-                        href="{{ url('/') }}">
+                        href="{{ route('products.index') }}">
                         Continue Shopping
                     </a>
                 </div>

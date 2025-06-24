@@ -2,7 +2,7 @@
     <div class="w-full lg:w-2/3 flex flex-col gap-3">
         <h2 class="text-[#000000] font-bold text-[28px]">Bag</h2>
         @if ($this->cart)
-            {{dd($lines)}}
+            {{-- {{dd($this->cart)}} --}}
             @if ($lines)
                 <div>
                     @foreach ($lines as $index => $line)
@@ -66,54 +66,77 @@
 
         <div>
             <div x-data="{ expanded: false }" class="w-full">
-            <div class="flex justify-between items-center">
-                <h2 class="text-[16px] font-normal text-[#111111]">Do you have a Promo Code?</h2>
+                <div class="flex justify-between items-center">
+                    <h2 class="text-[16px] font-normal text-[#111111]">Do you have a Promo Code?</h2>
 
-                <button @click="expanded = !expanded" class="text-black focus:outline-none">
-                    <template x-if="expanded">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.708l-3.71 4.06a.75.75 0 11-1.1-1.02l4.25-4.65a.75.75 0 011.1 0l4.25 4.65c.28.3.27.77-.02 1.06z" clip-rule="evenodd" />
-                        </svg>
-                    </template>
-                    <template x-if="!expanded">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.292l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0L5.25 8.27a.75.75 0 01-.02-1.06z" clip-rule="evenodd" />
-                        </svg>
-                    </template>
-                </button>
+                    <button @click="expanded = !expanded" class="text-black focus:outline-none">
+                        <template x-if="expanded">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.708l-3.71 4.06a.75.75 0 11-1.1-1.02l4.25-4.65a.75.75 0 011.1 0l4.25 4.65c.28.3.27.77-.02 1.06z" clip-rule="evenodd" />
+                            </svg>
+                        </template>
+                        <template x-if="!expanded">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.292l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0L5.25 8.27a.75.75 0 01-.02-1.06z" clip-rule="evenodd" />
+                            </svg>
+                        </template>
+                    </button>
+                </div>
+
+                <div x-show="expanded"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 transform -translate-y-2"
+                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                    class="flex flex-row gap-4 items-center">
+                    <p class="text-gray-700 w-full">Coupon Code:</p>
+                    <input type="text" placeholder="Type here..." class="mt-2 w-full border rounded px-3 py-2 focus:outline-none focus:ring" />
+                </div>
+
+                <div class="py-3 flex justify-between items-center">
+                    <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
+                    <p class="text-[14px] font-normal text-[#111111]">{{$this->cart->subTotal->formatted()}}</p>
+                </div>
+
+                @if ($this->shippingOption)
+                    <div class="py-3 flex justify-between items-center">
+                        <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}</h3>
+                        <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>
+                    </div>
+                @else
+                    <div class="py-3 flex justify-between items-center">
+                        <h3 class="text-[16px] font-normal text-[#111111]">Estimated Delivery & Handling</h3>
+                        <p class="text-[14px] font-normal text-[#111111]">FREE</p>
+                    </div>
+                @endif
+
+                @foreach ($this->cart->taxBreakdown->amounts as $tax)
+                    <div class="py-3 flex justify-between items-center">
+                        <h3 class="text-[16px] font-normal text-[#111111]">
+                            {{ $tax->description }}
+                        </h3>
+
+                        <p class="text-[14px] font-normal text-[#111111]">
+                            {{ $tax->price->formatted() }}
+                        </p>
+                    </div>
+                @endforeach
+
+                <hr>
+
+                <div class="py-3 flex justify-between items-center">
+                    <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
+                    <p class="text-[14px] font-normal text-[#111111]">{{$this->cart->total->formatted()}}</p>
+                </div>
+
+                <hr>
+
+                <div class="flex flex-col gap-3 mt-5">
+                    <a href="{{ route('checkout.view') }}" class="bg-[#0066FF] w-full h-[50px] rounded-[30px] text-center text-white text-[16px] flex justify-center items-center">Checkout</a>
+                    <button class="bg-[#F5F5F5] w-full h-[50px] rounded-[30px] text-center text-white text-[16px] flex justify-center items-center">
+                        <img src="{{ asset('images/paypal.png') }}" alt="">
+                    </button>
+                </div>
             </div>
-
-            <div x-show="expanded" x-transition class="flex flex-row gap-4 items-center">
-                <p class="text-gray-700 w-full">Coupon Code:</p>
-                <input type="text" placeholder="Type here..." class="mt-2 w-full border rounded px-3 py-2 focus:outline-none focus:ring" />
-            </div>
-
-            <div class="py-3 flex justify-between items-center">
-                <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
-                <p class="text-[14px] font-normal text-[#111111]">-</p>
-            </div>
-
-            <div class="py-3 flex justify-between items-center">
-                <h3 class="text-[16px] font-normal text-[#111111]">Estimated Delivery & Handling</h3>
-                <p class="text-[14px] font-normal text-[#111111]">FREE</p>
-            </div>
-
-            <hr>
-
-            <div class="py-3 flex justify-between items-center">
-                <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
-                <p class="text-[14px] font-normal text-[#111111]">-</p>
-            </div>
-
-            <hr>
-
-            <div class="flex flex-col gap-3 mt-5">
-                <button class="bg-[#0066FF] w-full h-[50px] rounded-[30px] text-center text-white text-[16px] flex justify-center items-center">Checkout</button>
-                <button class="bg-[#F5F5F5] w-full h-[50px] rounded-[30px] text-center text-white text-[16px] flex justify-center items-center">
-                    <img src="{{ asset('images/paypal.png') }}" alt="">
-                </button>
-            </div>
-        </div>
         </div>
     </div>
 </div>
