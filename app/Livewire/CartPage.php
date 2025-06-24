@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Components;
+namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\View\View;
@@ -8,7 +8,7 @@ use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-class Cart extends Component
+class CartPage extends Component
 {
     /**
      * The editable cart lines.
@@ -66,14 +66,16 @@ class Cart extends Component
             collect($this->lines)
         );
         $this->mapLines();
+
         $this->dispatch('cartUpdated');
+        $this->dispatch('add-to-cart');
     }
 
     public function removeLine($id): void
     {
         CartSession::remove($id);
         $this->mapLines();
-
+        
         $this->dispatch('add-to-cart');
     }
 
@@ -110,9 +112,9 @@ class Cart extends Component
 
         $this->linesVisible = true;
     }
-
-    public function render(): View
+    
+    public function render()
     {
-        return view('livewire.components.cart');
+        return view('livewire.cart-page');
     }
 }

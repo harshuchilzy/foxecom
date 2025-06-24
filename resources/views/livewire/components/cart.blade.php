@@ -1,6 +1,6 @@
 <div class="sm:relative">
-    <div x-data="{ linesVisible: $wire.entangle('linesVisible') }">
-        <button class="grid w-16 h-16 transition border-l border-gray-100 lg:border-l-transparent hover:opacity-75"
+    <div x-data="{ linesVisible: $wire.entangle('linesVisible'), count: $wire.entangle('cart_count').live  }">
+        <button class="grid w-16 h-16 transition border-l border-gray-100 lg:border-l-transparent hover:opacity-75 cursor-pointer"
             x-on:click="linesVisible = !linesVisible">
             <span class="sr-only">Cart</span>
 
@@ -10,7 +10,7 @@
                         d="M52.7 10.2683C52.5473 10.1087 52.3448 9.97836 52.1094 9.88837C51.8741 9.79839 51.6128 9.75135 51.3476 9.75123H16.0201L13.3459 2.96201C12.2972 0.288603 9.8053 0 8.78325 0H1.65299C0.739077 0 0 0.54473 0 1.21691C0 1.88909 0.739909 2.43379 1.65294 2.43379H8.78236C9.00791 2.43379 9.69622 2.43379 10.1657 3.62803L19.365 28.5183C19.5648 29.0435 20.2148 29.4062 20.9563 29.4062H43.4266C44.1241 29.4062 44.7466 29.0845 44.9822 28.601L52.9023 11.3798C53.0846 11.0067 53.0088 10.5912 52.7 10.2683ZM42.2633 26.973H22.211L16.9492 12.1857H48.9975L42.2633 26.973ZM38.985 31.8725C36.6862 31.8725 34.8235 33.2439 34.8235 34.9363C34.8235 36.6287 36.6862 38 38.985 38C41.2838 38 43.1465 36.6287 43.1465 34.9363C43.1465 33.2439 41.2838 31.8725 38.985 31.8725ZM24.0037 31.8725C21.7049 31.8725 19.8422 33.2439 19.8422 34.9363C19.8422 36.6287 21.7049 38 24.0037 38C26.3025 38 28.1652 36.6287 28.1652 34.9363C28.1652 33.2439 26.3025 31.8725 24.0037 31.8725Z"
                         fill="white" />
                 </svg>
-                <span class="absolute -top-5 right-0">{{$cart_count}}</span>
+                <span class="absolute -top-5 right-0" x-text="count"></span>
             </span>
         </button>
 
@@ -112,10 +112,14 @@
             @if ($this->cart)
                 <div class="mt-4 space-y-4 text-center">
                     <button
-                        class="block w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
+                        class="block cursor-pointer w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
                         type="button" wire:click="updateLines">
                         Update Cart
                     </button>
+
+                    <a class="block cursor-pointer w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600" type="button" href="{{ route('cart') }}">
+                        View Cart
+                    </a>
 
                     <a class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-[100px] hover:bg-blue-500"
                         href="{{ route('checkout.view') }}" wire:navigate>

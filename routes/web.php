@@ -7,6 +7,7 @@ use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
 use Illuminate\Http\Request;
 use App\Livewire\AddressPage;
+use App\Livewire\CartPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
@@ -203,6 +204,8 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
 Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
+
+Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
 
 // Move to API
 Route::get('/address/search', function(Request $request){
