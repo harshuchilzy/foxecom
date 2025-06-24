@@ -3,15 +3,16 @@
 use App\Livewire\Home;
 use Livewire\Volt\Volt;
 use Lunar\Models\Product;
+use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
+use Illuminate\Http\Request;
+use App\Livewire\AddressPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\AddressPage;
-use Illuminate\Http\Request;
 use App\Livewire\OfferPage;
 
 require __DIR__.'/auth.php';
@@ -97,11 +98,6 @@ Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('aut
 // Route::get('/checkout', function () {
 //     return view('checkout');
 // });
-
-Route::get('/redemptions', function () {
-    return view('redemptions');
-})->name('redemptions');
-
 
 
 Route::get('/account', function () {
@@ -205,6 +201,8 @@ Route::get('search', SearchPage::class)->name('search.view');
 Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+
+Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
 
 // Move to API
 Route::get('/address/search', function(Request $request){
