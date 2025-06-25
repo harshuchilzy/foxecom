@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Livewire\Components;
+namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
+use Lunar\Facades\ShippingManifest;
 use Illuminate\Support\Facades\Log;
 
-class Cart extends Component
+class CartPage extends Component
 {
     /**
      * The editable cart lines.
@@ -66,14 +67,16 @@ class Cart extends Component
             collect($this->lines)
         );
         $this->mapLines();
+
         $this->dispatch('cartUpdated');
+        $this->dispatch('add-to-cart');
     }
 
     public function removeLine($id): void
     {
         CartSession::remove($id);
         $this->mapLines();
-
+        
         $this->dispatch('add-to-cart');
     }
 
@@ -85,7 +88,9 @@ class Cart extends Component
      */
     public function mapLines(): void
     {
+        
         $this->lines = $this->cartLines->map(function ($line) {
+            Log::info($line->purchasable);
             return [
                 'id' => $line->id,
                 'identifier' => $line->purchasable->getIdentifier(),
@@ -111,8 +116,28 @@ class Cart extends Component
         $this->linesVisible = true;
     }
 
-    public function render(): View
+    /**
+     * Return the shipping option.
+     */
+    public function getShippingOptionProperty()
     {
-        return view('livewire.components.cart');
+        $shippingAddress = $this->cart->shippingAddress;
+
+        if (! $shippingAddress) {
+            return;
+        }
+
+        if ($option = $shippingAddress->shipping_option) {
+            return ShippingManifest::getOptions($this->cart)->first(function ($opt) use ($option) {
+                return $opt->getIdentifier() == $option;
+            });
+        }
+
+        return null;
+    }
+    
+    public function render()
+    {
+        return view('livewire.cart-page');
     }
 }

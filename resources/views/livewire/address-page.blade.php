@@ -21,7 +21,7 @@
                         </button>
                     @endif
                 </div>
-                <div class="!border !border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
+                <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
                     <div class="w-full">
                         @if ($billingAddress?->company_name)
                             <p class="font-inter font-normal text-[18px] text-black">{{ $billingAddress->company_name ?? '' }}</p>
@@ -188,10 +188,8 @@
                                     {{ $address->city }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-blue-600 hover:underline"
-                                    data-modal-target="shipping-address-add"
-                                    data-modal-toggle="shipping-address-add"
-                                    type="button">Edit</a>
+                                    <button wire:click="editShippingAddress({{$address->id}})" class="font-medium text-blue-600 hover:underline"
+                                    type="button">Edit</button>
                                 </td>
                             </tr>
                         @empty
@@ -267,7 +265,7 @@
                                             <div>
                                                 <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
                                                 <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
-                                            </div> 
+                                            </div>
                                             <div>
                                                 <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
                                                 <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
@@ -298,5 +296,37 @@
                 </div>
             </div>
         </div>
+        @script
+        <script>
+            $wire.on('address-modal-open', () => {
+                console.log('address-modal-open')
+                $targetEl = document.getElementById('billing-address-edit');
+                const options = {
+                    placement: 'center-center',
+                    backdrop: 'dynamic',
+                    backdropClasses:
+                        'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+                    closable: true,
+                    onHide: () => {
+                        console.log('modal is hidden');
+                    },
+                    onShow: () => {
+                        console.log('modal is shown');
+                    },
+                    onToggle: () => {
+                        console.log('modal has been toggled');
+                    },
+                };
+
+                // instance options object
+                const instanceOptions = {
+                    id: 'billing-address-edit',
+                    override: false
+                };
+                const modal = new Modal($targetEl, options, instanceOptions);
+                modal.show();
+            });
+        </script>
+        @endscript
     </div>
 {{-- </x-layouts.app.layout> --}}

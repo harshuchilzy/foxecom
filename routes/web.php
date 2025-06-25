@@ -3,22 +3,44 @@
 use App\Livewire\Home;
 use Livewire\Volt\Volt;
 use Lunar\Models\Product;
+use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
+use Illuminate\Http\Request;
+use App\Livewire\AddressPage;
+use App\Livewire\CartPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\AddressPage;
-use Illuminate\Http\Request;
-use Lunar\Base\LunarUser;
+use App\Livewire\OfferPage;
 
 require __DIR__.'/auth.php';
 
 Route::get('blog', function () {
     return view('pages.blog');
 })->name('blog');
+
+Route::get('about', function () {
+    return view('pages.about');
+})->name('about');
+
+Route::get('terms-and-conditions', function () {
+    return view('pages.terms-and-conditions');
+})->name('terms-conditions');
+
+Route::get('privacy-policy', function () {
+    return view('pages.privacy-policy');
+})->name('privacy-policy');
+
+Route::get('refund-policy', function () {
+    return view('pages.refund-policy');
+})->name('refund-policy');
+
+Route::get('delivery-policy', function () {
+    return view('pages.delivery-policy');
+})->name('delivery-policy');
 
 Route::get('contact', function () {
     return view('pages.contact');
@@ -77,11 +99,6 @@ Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('aut
 // Route::get('/checkout', function () {
 //     return view('checkout');
 // });
-
-Route::get('/redemptions', function () {
-    return view('redemptions');
-})->name('redemptions');
-
 
 
 Route::get('/account', function () {
@@ -186,6 +203,10 @@ Route::get('checkout', CheckoutPage::class)->name('checkout.view');
 
 Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
 
+Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
+
+Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
+
 // Move to API
 Route::get('/address/search', function(Request $request){
     $user = $request->user();
@@ -223,10 +244,5 @@ Route::get('test', function(){
         echo '</pre>';
 });
 
-Route::get('rp', function(){
-    User::create([
-        'first_name' => 'Dayz',
-        'last_name' => 'Staff',
-        'password' => 'elakiri123'
-    ]);
-});
+
+Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');

@@ -8,6 +8,21 @@ use Lunar\Models\Collection;
 
 class Navigation extends Component
 {
+    public $billingAddress;
+
+    public function mount(){
+
+        if(auth()->check()){
+            $user = auth()->user();
+            $customer = $user->customers->first();
+
+            $this->billingAddress = \Lunar\Models\Address::where('customer_id', $customer->id)
+                ->whereNotNull('line_two')
+                ->where('line_two', '!=', '')
+                ->latest()
+                ->first();
+        }
+    }
     /**
      * The search term for the search input.
      *

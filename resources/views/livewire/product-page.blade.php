@@ -294,41 +294,80 @@
                 </pre> --}}
                 <form class="mt-4">
                     <div class="space-y-4">
-                        @foreach ($this->productOptions as $option)
+                        @if (count($this->productOptions))
+                            @foreach ($this->productOptions as $option)
+                                <fieldset>
+                                    <legend class="text-xs font-medium text-gray-700">
+                                        {{ $option['option']->translate('name') }}
+                                    </legend>
+                                    <div class="mt-4">
+                                        <label for="quantity"
+                                            class="sr-only">
+                                            Quantity
+                                        </label>
+
+                                        <label for="quantity" class="sr-only">Choose quantity:</label>
+                                        <div class="relative flex items-center" x-data="{ quantity : $wire.entangle('quantity') }">
+                                            <button type="button" id="decrement-button" x-on:click="quantity > 1 ? quantity-- : 1" data-input-counter-decrement="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tl-[100px] rounded-bl-[100px] h-12 cursor-pointer font-inter">
+                                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                                </svg>
+                                            </button>
+                                            <input class="bg-gray-50 border-t border-b border-r-0 border-l-0 border-[#282828] text-gray-900 text-center text-sm block px-[24px] w-[30%] h-12 cursor-pointer font-inter"
+                                                type="number"
+                                                id="quantity"
+                                                min="1"
+                                                value="1"
+                                                wire:model.live="quantity" />
+                                            <button type="button" id="increment-button" x-on:click="quantity++" data-input-counter-increment="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tr-[100px] rounded-br-[100px] h-12 cursor-pointer font-inter">
+                                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%] mt-4"
+                                        x-data="{
+                                            selectedOption: @entangle('selectedOptionValues').live,
+                                            selectedValues: [],
+                                        }"
+                                        x-init="selectedValues = Object.values(selectedOption);
+                                        $watch('selectedOption', value =>
+                                            selectedValues = Object.values(selectedOption)
+                                        )">
+
+                                        <select
+                                            id="option-select-{{ $option['option']->id }}"
+                                            class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
+                                            wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
+                                        >
+                                            <option value="">-- Select {{ $option['option']->translate('name') }} --</option>
+
+                                            @foreach ($option['values'] as $value)
+                                                <option value="{{ $value->id }}"
+                                                    @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
+                                                        selected
+                                                    @endif
+                                                >
+                                                    {{ $value->translate('name') }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <div class="w-full">
+                                            <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            @endforeach
+                        @else
                             <fieldset>
                                 <legend class="text-xs font-medium text-gray-700">
-                                    {{ $option['option']->translate('name') }}
+                                    {{-- {{ $option['option']->translate('name') }} --}}
                                 </legend>
-                                <div class="mt-4">
-                                    <label for="quantity"
-                                        class="sr-only">
-                                        Quantity
-                                    </label>
-
-
-
-                                    <label for="quantity" class="sr-only">Choose quantity:</label>
-                                    <div class="relative flex items-center" x-data="{ quantity : $wire.entangle('quantity') }">
-                                        <button type="button" id="decrement-button" x-on:click="quantity > 1 ? quantity-- : 1" data-input-counter-decrement="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tl-[100px] rounded-bl-[100px] h-12 cursor-pointer font-inter">
-                                            <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                                            </svg>
-                                        </button>
-                                        <input class="bg-gray-50 border-t border-b border-r-0 border-l-0 border-[#282828] text-gray-900 text-center text-sm block px-[24px] w-[30%] h-12 cursor-pointer font-inter"
-                                            type="number"
-                                            id="quantity"
-                                            min="1"
-                                            value="1"
-                                            wire:model.live="quantity" />
-                                        <button type="button" id="increment-button" x-on:click="quantity++" data-input-counter-increment="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tr-[100px] rounded-br-[100px] h-12 cursor-pointer font-inter">
-                                            <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%] mt-4"
+                                
+                                <div class="flex flex-col md:flex-row md:items-start gap-4 mb-4 md:max-w-[90%] mt-4 items-center"
                                     x-data="{
                                         selectedOption: @entangle('selectedOptionValues').live,
                                         selectedValues: [],
@@ -338,30 +377,33 @@
                                         selectedValues = Object.values(selectedOption)
                                     )">
 
-                                    <select
-                                        id="option-select-{{ $option['option']->id }}"
-                                        class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
-                                        wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
-                                    >
-                                        <option value="">-- Select {{ $option['option']->translate('name') }} --</option>
+                                    <div class="w-1/2">
+                                        <div class="relative flex items-center" x-data="{ quantity : $wire.entangle('quantity') }">
+                                            <button type="button" id="decrement-button" x-on:click="quantity > 1 ? quantity-- : 1" data-input-counter-decrement="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tl-[100px] rounded-bl-[100px] h-12 cursor-pointer font-inter">
+                                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                                </svg>
+                                            </button>
+                                            <input class="bg-gray-50 border-t border-b border-r-0 border-l-0 border-[#282828] text-gray-900 text-center text-sm block px-[24px] w-full h-12 cursor-pointer font-inter"
+                                                type="number"
+                                                id="quantity"
+                                                min="1"
+                                                value="1"
+                                                wire:model.live="quantity" />
+                                            <button type="button" id="increment-button" x-on:click="quantity++" data-input-counter-increment="quantity" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-tr-[100px] rounded-br-[100px] h-12 cursor-pointer font-inter">
+                                                <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
 
-                                        @foreach ($option['values'] as $value)
-                                            <option value="{{ $value->id }}"
-                                                @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
-                                                    selected
-                                                @endif
-                                            >
-                                                {{ $value->translate('name') }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-
-                                    <div class="w-full">
-                                        <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id">
+                                    <div class="w-1/2">
+                                        <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" >
                                     </div>
                                 </div>
-                            </fieldset>
-                        @endforeach
+                            </fieldset>    
+                        @endif
                     </div>
 
 
@@ -468,7 +510,7 @@
                 <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">Retailers Also Claimed : </h2>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-           
+
                 @if(count($this->crossSellAssociations) > 0)
                     @foreach ($this->crossSellAssociations as $association)
                         <x-product-cards.retailer-card :relatedProduct="$association->target"/>

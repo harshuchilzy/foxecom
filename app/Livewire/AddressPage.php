@@ -31,11 +31,13 @@ class AddressPage extends Component
     public $shipping_countries;
 
     public $shippingAddresses;
+    public $editingShippingAddressId;
 
     public function mount()
     {
         $user = auth()->user();
         $customer = $user->customers->first();
+        // dd($user);
         $this->first_name = $customer->first_name;
         $this->last_name = $customer->last_name;
         $this->countries = Country::orderBy('name')->get();
@@ -60,8 +62,6 @@ class AddressPage extends Component
 
         //for shipping addresses (Assuming if this user has only 1 CUSTOMER)
         $this->shippingAddresses = Address::where('customer_id', $user->customers->first()->id)
-            ->where('title', 'shipping')
-            ->latest()
             ->get();
     }
 
@@ -115,9 +115,11 @@ class AddressPage extends Component
         }
 
         session()->flash('success', 'Billing address saved successfully!');
+        $this->mount();
     }
 
-    public function saveShippingAddress(){
+    public function saveShippingAddress()
+    {
         $user = auth()->user();
 
         $this->validate([
@@ -134,7 +136,7 @@ class AddressPage extends Component
             'shipping_countries' => 'required|string|size:2',
         ]);
 
-        $countryModel = Country::where('iso2', $this->country)->first();
+        $countryModel = Country::where('iso2', $this->shipping_countries)->first();
 
         if (!$countryModel) {
             session()->flash('error', 'Invalid country selected.');
@@ -143,24 +145,66 @@ class AddressPage extends Component
 
         $customer = $user->customers->first();
 
-        $address = Address::create([
-            'customer_id' => $customer->id,
-            'title' => '',
-            'first_name' => $this->shipping_first_name,
-            'last_name' => $this->shipping_last_name,
-            'company_name' => $this->shipping_company,
-            'line_one' => $this->shipping_streetno,
-            'line_two' => $this->shipping_address,
-            'city' => $this->shipping_city,
-            'state' => $this->shipping_state,
-            'postcode' => $this->shipping_postcode,
-            'country_id' => $countryModel->id,
-            'contact_email' => $this->shipping_email,
-            'contact_phone' => $this->shipping_phone,
-            'billing_default' => true,
-        ]);
+        if ($this->editingShippingAddressId) {
+            $address = Address::find($this->editingShippingAddressId);
+            if ($address) {
+                $address->update([
+                    'company_name' => $this->shipping_company,
+                    'first_name' => $this->shipping_first_name,
+                    'last_name' => $this->shipping_last_name,
+                    'contact_phone' => $this->shipping_phone,
+                    'contact_email' => $this->shipping_email,
+                    'line_one' => $this->shipping_streetno,
+                    'line_two' => $this->shipping_address,
+                    'city' => $this->shipping_city,
+                    'state' => $this->shipping_state,
+                    'postcode' => $this->shipping_postcode,
+                    'country_id' => $countryModel->id,
+                ]);
+            }
+        } else {
+            Address::create([
+                'customer_id' => $customer->id,
+                'title' => '',
+                'first_name' => $this->shipping_first_name,
+                'last_name' => $this->shipping_last_name,
+                'company_name' => $this->shipping_company,
+                'line_one' => $this->shipping_streetno,
+                'line_two' => $this->shipping_address,
+                'city' => $this->shipping_city,
+                'state' => $this->shipping_state,
+                'postcode' => $this->shipping_postcode,
+                'country_id' => $countryModel->id,
+                'contact_email' => $this->shipping_email,
+                'contact_phone' => $this->shipping_phone,
+            ]);
+        }
+
+        $this->editingShippingAddressId = null;
 
         session()->flash('success', 'Shipping address saved successfully!');
+        $this->mount();
+    }
+
+    public function editShippingAddress($addressId)
+    {
+        $address = Address::find($addressId);
+        if (!$address) return;
+
+        $this->editingShippingAddressId = $address->id;
+        $this->shipping_company = $address->company_name;
+        $this->shipping_first_name = $address->first_name;
+        $this->shipping_last_name = $address->last_name;
+        $this->shipping_phone = $address->contact_phone;
+        $this->shipping_email = $address->contact_email;
+        $this->shipping_streetno = $address->line_one;
+        $this->shipping_address = $address->line_two;
+        $this->shipping_city = $address->city;
+        $this->shipping_postcode = $address->postcode;
+        $this->shipping_state = $address->state;
+        $this->shipping_countries = $address->country->iso2 ?? '';
+
+        $this->dispatch('address-modal-open');
     }
 
     public function render()

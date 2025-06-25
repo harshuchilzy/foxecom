@@ -1,8 +1,17 @@
 <x-layouts.app.layout>
 
     <div class="max-w-[1440px] mx-auto px-5 py-12 flex flex-col gap-8 justify-center items-center">
-        <div class="flex justify-start w-full">
+        <div class="flex justify-between w-full">
             <h2 class="text-[#000000] font-bold text-[28px]">Your Account</h2>
+            @if (auth()->check())
+            <form method="POST" action="/logout">
+                @csrf
+                <button type="submit" class="bg-[#11316d] hover:bg-[#1275EE] cursor-pointer text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-200 ease-in-out">
+                Logout
+                </button>
+            </form>
+            @endif
+            
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
