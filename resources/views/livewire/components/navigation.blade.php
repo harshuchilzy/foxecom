@@ -82,12 +82,14 @@
 
                     @php
                         $user = auth()->user();
-                        $shipping = $user?->customer?->addresses()->where('shipping_default', true)->first();
+                        $lineTwoValue = $this->billingAddress->line_two ?? null;
                     @endphp
 
                     <div class="flex flex-col">
+
                         <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Deliver to {{ $user->first_name ?? 'Guest' }}</span>
-                        <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">{{ $shipping ? $shipping->line_one . ' ' . $shipping->postcode : 'No address set' }}</span>
+                        {{-- <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">{{ $shipping ? $shipping->line_one . ' ' . $shipping->postcode : 'No address set' }}</span> --}}
+                        <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">{{ $lineTwoValue }}</span>
                     </div>
                 @endif
             </div>
