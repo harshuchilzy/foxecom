@@ -13,14 +13,20 @@ class Navigation extends Component
     public function mount(){
 
         $user = auth()->user();
-        $customer = $user->customers->first();
 
-        $this->billingAddress = \Lunar\Models\Address::where('customer_id', $customer->id)
-            ->whereNotNull('line_two')
-            ->where('line_two', '!=', '')
-            ->latest()
-            ->first();
+        if ( !empty($user) ) {
+            $customer = $user->customers->first();
+        }
+        
+        if (!empty($customer)) {
 
+            $this->billingAddress = \Lunar\Models\Address::where('customer_id', $customer->id)
+                ->whereNotNull('line_two')
+                ->where('line_two', '!=', '')
+                ->latest()
+                ->first();
+
+        }    
 
     }
     /**

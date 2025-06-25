@@ -7,7 +7,7 @@
         <div class="py-5 flex items-center gap-6 w-full">
             <p class="text-black text-[14px]">
                 <span class="font-bold"></span>
-                <span class="font-normal">{{sprintf('%02d', $orderCount)}} placed in</span>
+                <span class="font-normal"><strong>{{sprintf('%02d', $orderCount)}} {{$orderCount == 1 ? 'order' : 'orders'}}</strong> placed in</span>
             </p>
             <div class="w-[60%] md:w-[25%] lg:w-[15%]">
                 <form class="max-w-md mx-auto w-full">
@@ -39,55 +39,28 @@
         </div>
 
         <div class="w-full md:w-[25%]">
+            {{-- {{dd($this->getRandomOrderItems())}} --}}
             <div class="border border-[#000000] rounded-[6px] p-5">
                 <h2 class="font-inter font-semibold text-[16px] text-black">Buy it again</h2>
-                <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
-                    <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ asset('images/tiktokmagic.png') }}" alt="">
-                    <div class="flex flex-col gap-1 pr-5">
-                        <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p>
-                        <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
 
-                        <p class="text-black text-[14px] font-inter">
-                            <span class="font-normal">Buy from </span>
-                            <span class="font-bold">£8.59</span>
-                        </p>
-                        <p class="text-black text-[14px] font-normal font-inter">Purchased Jan 2025</p>
+                @foreach ($this->getRandomOrderItems() as $orderItem)
+                    <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
+                        <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ $orderItem->thumbnail->getUrl() }}" alt="">
+                        <div class="flex flex-col gap-1 pr-5">
+                            <a href="{{ route('product.view', $orderItem->defaultUrl->slug) }}"><p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p></a>
+                            <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
 
-                        <button class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px]">Buy Again</button>
+                            <p class="text-black text-[14px] font-inter">
+                                <span class="font-normal">Buy from </span>
+                                <span class="font-bold">£8.59</span>
+                            </p>
+                            <p class="text-black text-[14px] font-normal font-inter">Purchased Jan 2025</p>
+
+                            <button class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px]">Buy Again</button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
-                    <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ asset('images/tiktokmagic.png') }}" alt="">
-                    <div class="flex flex-col gap-1 pr-5">
-                        <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p>
-                        <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
-
-                        <p class="text-black text-[14px] font-inter">
-                            <span class="font-normal">Buy from </span>
-                            <span class="font-bold">£8.59</span>
-                        </p>
-                        <p class="text-black text-[14px] font-normal font-inter">Purchased Jan 2025</p>
-
-                        <button class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px]">Buy Again</button>
-                    </div>
-                </div>
-
-                <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
-                    <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ asset('images/tiktokmagic.png') }}" alt="">
-                    <div class="flex flex-col gap-1 pr-5">
-                        <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p>
-                        <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
-
-                        <p class="text-black text-[14px] font-inter">
-                            <span class="font-normal">Buy from </span>
-                            <span class="font-bold">£8.59</span>
-                        </p>
-                        <p class="text-black text-[14px] font-normal font-inter">Purchased Jan 2025</p>
-
-                        <button class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px]">Buy Again</button>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </div>

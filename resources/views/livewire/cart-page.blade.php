@@ -2,7 +2,6 @@
     <div class="w-full lg:w-2/3 flex flex-col gap-3">
         <h2 class="text-[#000000] font-bold text-[28px]">Bag</h2>
         @if ($this->cart)
-            {{-- {{dd($this->cart)}} --}}
             @if ($lines)
                 <div>
                     @foreach ($lines as $index => $line)
@@ -57,8 +56,16 @@
                     
                 </div>
             @else
-                <div>Cart is empty!</div>
+                <div class="mt-4">Your bag is empty!</div>
+                <a href="{{ route('products.index')}}" class="bg-[#11316d] hover:bg-[#1275EE] cursor-pointer text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-200 ease-in-out mt-2 max-w-fit">
+                Shop now
+                </a>
             @endif
+        @else
+            <div class="mt-4">Your bag is empty!</div>
+            <a href="{{ route('products.index')}}" class="bg-[#11316d] hover:bg-[#1275EE] cursor-pointer text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-200 ease-in-out mt-2 max-w-fit">
+            Shop now
+            </a>
         @endif
     </div>
     <div class="w-full lg:w-1/3 flex flex-col gap-3">
@@ -94,7 +101,7 @@
 
                 <div class="py-3 flex justify-between items-center">
                     <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
-                    <p class="text-[14px] font-normal text-[#111111]">{{$this->cart->subTotal->formatted()}}</p>
+                    <p class="text-[14px] font-normal text-[#111111]">{{$this->cart?->subTotal->formatted()}}</p>
                 </div>
 
                 @if ($this->shippingOption)
@@ -109,23 +116,25 @@
                     </div>
                 @endif
 
-                @foreach ($this->cart->taxBreakdown->amounts as $tax)
-                    <div class="py-3 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">
-                            {{ $tax->description }}
-                        </h3>
+                @if($this->cart?->taxBreakdown)
+                    @foreach ($this->cart?->taxBreakdown->amounts as $tax)
+                        <div class="py-3 flex justify-between items-center">
+                            <h3 class="text-[16px] font-normal text-[#111111]">
+                                {{ $tax->description }}
+                            </h3>
 
-                        <p class="text-[14px] font-normal text-[#111111]">
-                            {{ $tax->price->formatted() }}
-                        </p>
-                    </div>
-                @endforeach
+                            <p class="text-[14px] font-normal text-[#111111]">
+                                {{ $tax->price->formatted() }}
+                            </p>
+                        </div>
+                    @endforeach
+                @endif
 
                 <hr>
 
                 <div class="py-3 flex justify-between items-center">
                     <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
-                    <p class="text-[14px] font-normal text-[#111111]">{{$this->cart->total->formatted()}}</p>
+                    <p class="text-[14px] font-normal text-[#111111]">{{$this->cart?->total->formatted()}}</p>
                 </div>
 
                 <hr>

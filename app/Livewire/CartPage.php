@@ -4,10 +4,11 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\View\View;
+use Lunar\Models\Product;
 use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
-use Lunar\Facades\ShippingManifest;
 use Illuminate\Support\Facades\Log;
+use Lunar\Facades\ShippingManifest;
 
 class CartPage extends Component
 {
@@ -121,7 +122,7 @@ class CartPage extends Component
      */
     public function getShippingOptionProperty()
     {
-        $shippingAddress = $this->cart->shippingAddress;
+        $shippingAddress = $this->cart?->shippingAddress;
 
         if (! $shippingAddress) {
             return;
@@ -134,6 +135,17 @@ class CartPage extends Component
         }
 
         return null;
+    }
+
+    public function getCartItem($product_id)
+    {
+        return Product::with([
+            'variants.prices', 
+            'thumbnail', 
+            'defaultUrl',
+        ])
+        ->where('id', $product_id)
+        ->first();
     }
     
     public function render()
