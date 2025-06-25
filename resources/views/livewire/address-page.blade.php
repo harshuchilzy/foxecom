@@ -298,33 +298,28 @@
         </div>
         @script
         <script>
-            $wire.on('address-modal-open', () => {
-                console.log('address-modal-open')
-                $targetEl = document.getElementById('billing-address-edit');
-                const options = {
-                    placement: 'center-center',
-                    backdrop: 'dynamic',
-                    backdropClasses:
-                        'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-                    closable: true,
-                    onHide: () => {
-                        console.log('modal is hidden');
-                    },
-                    onShow: () => {
-                        console.log('modal is shown');
-                    },
-                    onToggle: () => {
-                        console.log('modal has been toggled');
-                    },
-                };
+            $wire.on('address-modal-open', (data) => {
+                setTimeout(() => {
+                    const options = {
+                        backdrop: 'dynamic',
+                        backdropClasses:
+                            'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40 backdrop',
+                        closable: true,
+                        onHide: () => {
+                            console.log('modal is hidden');
+                            document.getElementsByClassName('backdrop').style.display = 'none';
+                        },
+                        onShow: () => {
+                            console.log('modal is shown');
+                        },
+                        onToggle: () => {
+                            console.log('modal has been toggled');
+                        }
+                    };
+                    $modal = new Modal(document.getElementById('shipping-address-add'), options).show();
 
-                // instance options object
-                const instanceOptions = {
-                    id: 'billing-address-edit',
-                    override: false
-                };
-                const modal = new Modal($targetEl, options, instanceOptions);
-                modal.show();
+                }, 300);
+                
             });
         </script>
         @endscript
