@@ -9,6 +9,7 @@ use Lunar\Models\OrderLine;
 use Livewire\WithPagination;
 use Lunar\Models\ProductVariant;
 use Illuminate\Support\Facades\Auth;
+use Nette\Utils\Random;
 
 class OrdersPage extends Component
 {
@@ -48,6 +49,63 @@ class OrdersPage extends Component
         ->where('id', $product_id)
         ->first();
     }
+
+    public function getRandomOrderItems()
+    {
+        $customerId = Auth::id();
+
+        if (!empty($customerId)) {
+
+            $orders = Order::with(['lines'])
+                ->where('user_id', $customerId)
+                ->get();
+
+            $product_ids = [];
+
+            if(!empty($orders)) {
+                foreach ($orders as $order) {
+                    if(!empty($order)) {
+                        foreach ($order->lines as $line) {
+                            if ($line->purchasable_id) {
+                                $product_ids[] = $line->purchasable_id;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Remove duplicates just in case
+            $product_ids = array_unique($product_ids);
+        }
+        
+        if (!empty($product_ids)) {
+
+            return Product::with([
+                'variants.prices', 
+                'thumbnail', 
+                'defaultUrl',
+            ])
+            ->whereIn('id', $product_ids)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
+        } else {
+
+            return Product::with([
+                'variants.prices',
+                'thumbnail',
+                'defaultUrl',
+            ])
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+            
+        }
+        
+    }
+
+
     public function render()
     {
         $customerId = Auth::user()->id;
