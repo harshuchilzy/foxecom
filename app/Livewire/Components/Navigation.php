@@ -27,7 +27,6 @@ class Navigation extends Component
                 ->first();
 
         }    
-
     }
     /**
      * The search term for the search input.

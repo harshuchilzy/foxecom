@@ -126,12 +126,19 @@ class CheckoutPage extends Component
             $customer = auth()->user()->customers->first();
         }
 
-        if($this->shipping && $customer){
+        if(empty($this->shipping) && $customer){
             $this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
+            $this->shipping = new CartAddress($this->shipping);
         }
 
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
-
+        if(($this->billing) && $customer){
+            $this->billing = $customer->addresses->where('billing_default', 1)->first()?->toArray();
+            $this->billing = array(
+                'first_email' => 'Test'
+            );
+            $this->billing = new CartAddress($this->billing);
+        }
         $this->determineCheckoutStep();
     }
 
@@ -226,9 +233,9 @@ class CheckoutPage extends Component
             $this->getAddressValidation($type)
         );
 
-        Log::info($validatedData);
+        // Log::info($validatedData);
 
-        $address = $this->{$type};
+        $address = new CartAddress($this->{$type});
 
         if ($type == 'billing') {
             $this->cart->setBillingAddress($address);
@@ -293,7 +300,7 @@ class CheckoutPage extends Component
      */
     public function getCountriesProperty(): Collection
     {
-        return Country::whereIn('iso3', ['GBR', 'USA'])->get();
+        return Country::whereIn('iso3', ['GBR', 'ARE'])->get();
     }
 
     /**

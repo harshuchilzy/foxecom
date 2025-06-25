@@ -188,10 +188,8 @@
                                     {{ $address->city }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-blue-600 hover:underline"
-                                    data-modal-target="shipping-address-add"
-                                    data-modal-toggle="shipping-address-add"
-                                    type="button">Edit</a>
+                                    <button wire:click="editShippingAddress({{$address->id}})" class="font-medium text-blue-600 hover:underline"
+                                    type="button">Edit</button>
                                 </td>
                             </tr>
                         @empty
@@ -298,5 +296,37 @@
                 </div>
             </div>
         </div>
+        @script
+        <script>
+            $wire.on('address-modal-open', () => {
+                console.log('address-modal-open')
+                $targetEl = document.getElementById('billing-address-edit');
+                const options = {
+                    placement: 'center-center',
+                    backdrop: 'dynamic',
+                    backdropClasses:
+                        'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+                    closable: true,
+                    onHide: () => {
+                        console.log('modal is hidden');
+                    },
+                    onShow: () => {
+                        console.log('modal is shown');
+                    },
+                    onToggle: () => {
+                        console.log('modal has been toggled');
+                    },
+                };
+
+                // instance options object
+                const instanceOptions = {
+                    id: 'billing-address-edit',
+                    override: false
+                };
+                const modal = new Modal($targetEl, options, instanceOptions);
+                modal.show();
+            });
+        </script>
+        @endscript
     </div>
 {{-- </x-layouts.app.layout> --}}
