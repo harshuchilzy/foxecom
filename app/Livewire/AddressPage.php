@@ -36,6 +36,7 @@ class AddressPage extends Component
     {
         $user = auth()->user();
         $customer = $user->customers->first();
+        // dd($user);
         $this->first_name = $customer->first_name;
         $this->last_name = $customer->last_name;
         $this->countries = Country::orderBy('name')->get();
