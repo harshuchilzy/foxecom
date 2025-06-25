@@ -1,7 +1,7 @@
-<form wire:submit="saveAddress('{{ $type }}')" class="bg-white border border-gray-100 rounded-xl">
-    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-100">
+<form wire:submit="saveAddress('{{ $type }}')" class="bg-white">
+    <div class="flex items-center justify-between mt-6">
         <h3 class="text-lg font-medium">
-            {{ ucfirst($type) }} Details
+            {{$type == 'shipping' ? 'Delivery Address' : ucfirst($type) . ' Address'}}
         </h3>
 
         @if ($type == 'shipping' && $step == $currentStep)
@@ -14,17 +14,10 @@
             </span>
         </label>
         @endif
-
-        @if ($currentStep > $step)
-        <button class="px-5 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100 hover:text-gray-700"
-            type="button" wire:click.prevent="$set('currentStep', {{ $step }})">
-            Edit
-        </button>
-        @endif
     </div>
 
     @if ($currentStep >= $step)
-    <div class="p-6">
+    <div class="py-6">
         @if ($step == $currentStep)
         <div class="grid grid-cols-6 gap-4">
 
@@ -173,8 +166,8 @@
         @endif
 
         @if ($step == $currentStep)
-        <div class="mt-6 text-right">
-            <button class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+        <div class="mt-6 text-left">
+            <button class="px-5 py-3 w-[30%] text-white bg-[#0066FF] h-14 text-[16px] rounded-full hover:bg-blue-500 font-normal text-center"
                 type="submit" wire:key="submit_btn" wire:loading.attr="disabled" wire:target="saveAddress">
                 <span wire:loading.remove wire:target="saveAddress">
                     Save Address
@@ -192,5 +185,12 @@
         @endif
     </div>
 
+    @endif
+
+    @if ($currentStep > $step)
+        <button class="text-sm font-medium text-gray-600 rounded-lg hover:text-gray-700"
+            type="button" wire:click.prevent="$set('currentStep', {{ $step }})">
+            {{__('Enter address manually')}}
+        </button>
     @endif
 </form>

@@ -12,6 +12,7 @@ use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\AddressPage;
 use Illuminate\Http\Request;
+use Lunar\Base\LunarUser;
 
 require __DIR__.'/auth.php';
 
@@ -220,4 +221,12 @@ Route::get('test', function(){
         echo '<pre>';
         print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
         echo '</pre>';
+});
+
+Route::get('rp', function(){
+    User::create([
+        'first_name' => 'Dayz',
+        'last_name' => 'Staff',
+        'password' => 'elakiri123'
+    ]);
 });
