@@ -62,6 +62,7 @@ class AddressPage extends Component
 
         //for shipping addresses (Assuming if this user has only 1 CUSTOMER)
         $this->shippingAddresses = Address::where('customer_id', $user->customers->first()->id)
+            ->where('shipping_default', true)
             ->get();
     }
 
@@ -160,6 +161,7 @@ class AddressPage extends Component
                     'state' => $this->shipping_state,
                     'postcode' => $this->shipping_postcode,
                     'country_id' => $countryModel->id,
+                    'shipping_default' => true,
                 ]);
             }
         } else {
@@ -177,6 +179,7 @@ class AddressPage extends Component
                 'country_id' => $countryModel->id,
                 'contact_email' => $this->shipping_email,
                 'contact_phone' => $this->shipping_phone,
+                'shipping_default' => true,
             ]);
         }
 
