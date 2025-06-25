@@ -204,7 +204,7 @@ class AddressPage extends Component
         $this->shipping_state = $address->state;
         $this->shipping_countries = $address->country->iso2 ?? '';
 
-        $this->dispatch('address-modal-open');
+        $this->dispatch('address-modal-open', id: $addressId);
     }
 
     public function render()
