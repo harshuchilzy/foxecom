@@ -174,10 +174,70 @@
                                             </div>
 
                                             <div x-show="showAddressEdit">
-                                                @include('partials.checkout.address', [
+                                                {{-- @include('partials.checkout.address', [
                                                     'type' => 'shipping',
                                                     'step' => $steps['shipping_address'],
-                                                ])
+                                                ]) --}}
+                                                <div>
+                                                    <input type="hidden" name="shipping_default">
+                                                    
+                                                    <div class="py-4 px-0 space-y-4">
+                                                        <div class="mb-6">
+                                                            <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
+                                                            <input type="text" id="shipping_company" wire:model="shipping_company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" required />
+                                                        </div>
+                                                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                            <div>
+                                                                <label for="shipping_first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
+                                                                <input type="text" id="shipping_first_name" wire:model="shipping_first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_last_name" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
+                                                                <input type="text" id="shipping_last_name" wire:model="shipping_last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_phone" class="block mb-2 text-sm font-medium text-gray-900 ">Phone number</label>
+                                                                <input type="tel" id="shipping_phone" wire:model="shipping_phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
+                                                                <input type="email" id="shipping_email" wire:model="shipping_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
+                                                                <input type="text" id="shipping_streetno" wire:model="shipping_streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_address" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
+                                                                <input type="text" id="shipping_address" wire:model="shipping_address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
+                                                                <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
+                                                                <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
+                                                                <input type="text" id="shipping_state" wire:model="shipping_state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
+                                                            </div>
+                                                            <div>
+                                                                <label for="shipping_countries" class="block mb-2 text-sm font-medium text-gray-900 ">Country</label>
+                                                                <select id="shipping_countries" wire:model="shipping_countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                                                    <option selected>Choose a country</option>
+                                                                    {{-- @foreach ($countries as $c)
+                                                                        <option value="{{ $c->iso2 }}">{{ $c->name }}</option>
+                                                                    @endforeach --}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                        
+                                                    <button type="button" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"  wire:click="saveShippingAddress(null)" primary >Save Address</button>
+                                                    <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="showAddressEdit = false">Cancel</button>
+                                                </div>
                                             </div>
                                         </form>
 
@@ -185,11 +245,14 @@
                                 @endif
                             </div>
 
-                            {{-- <div class="pt-5">
-                                <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
+                            <div class="pt-5">
+                                {{-- <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
                                 <p class="font-semibold text-[16px] text-[#70707C]">Free</p>
-                                <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p>
-                            </div> --}}
+                                <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
+                                 @include('partials.checkout.shipping_option', ['step' => $steps['shipping_option']])
+                            </div>
+                           
+
                             <a class="mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center">Save & Continue</a>
 
                         </div>
@@ -212,7 +275,7 @@
 
                 <div id="accordion-flush-body-2" class="{{ $currentStep != 2 ? 'hidden' : '' }}"
                     aria-labelledby="accordion-flush-heading-2">
-                    <div class="py-5 border-b border-gray-200">
+                    {{-- <div class="py-5 border-b border-gray-200">
                         <div class="pt-3">
                             <h3 class="font-semibold text-[16px] text-[#111111]">Billing Country/Region</h3>
                             <p class="font-semibold text-[16px] text-[#70707C]">United Kingdom</p>
@@ -280,7 +343,10 @@
                                 class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Continue
                                 to Order Review</button>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    @include('partials.checkout.payment', ['step' => $steps['payment']])
+
                 </div>
 
                 {{-- Order Review Section --}}
@@ -390,7 +456,7 @@
 
 
 
-<div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
+{{-- <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
             <div
                 class="px-6 py-8 space-y-4 bg-white border border-gray-100 lg:sticky lg:top-8 rounded-xl lg:order-last">
@@ -489,5 +555,9 @@
             </div>
         </div>
     </div> 
-    </div>
+    </div> --}}
+
+
+
+
 </div>

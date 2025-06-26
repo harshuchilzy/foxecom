@@ -1,12 +1,12 @@
-<div class="bg-white border border-gray-100 rounded-xl">
-    <div class="flex items-center h-16 px-6 border-b border-gray-100">
+<div class="">
+    {{-- <div class="flex items-center h-16 px-6 border-b border-gray-100">
         <h3 class="text-lg font-medium">
             Payment
         </h3>
-    </div>
+    </div> --}}
 
     @if ($currentStep >= $step)
-        <div class="p-6 space-y-4">
+        <div class="py-6 space-y-4">
             <div class="flex gap-4">
                 <button @class([
                     'px-5 py-2 text-sm border font-medium rounded-lg',

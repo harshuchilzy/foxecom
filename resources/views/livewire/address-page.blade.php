@@ -182,7 +182,7 @@
                 </table>
 
                 <!-- Shipping Address add modal -->
-                <x-wui-modal-card name="addShippingAddress" wire:model="addShippingAddress" title="Billing Address" description="">
+                <x-wui-modal-card name="addShippingAddress" wire:model="addShippingAddress" title="Shipping Address" description="">
                     <input type="hidden" name="shipping_default">
                     
                     <div class="p-4 md:p-5 space-y-4">
