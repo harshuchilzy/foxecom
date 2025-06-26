@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use Lunar\Models\Address;
 use Lunar\Models\Country;
+use WireUi\Traits\WireUiActions;
+use Illuminate\Support\Facades\Log;
 
 class AddressPage extends Component
 {
@@ -32,6 +34,8 @@ class AddressPage extends Component
 
     public $shippingAddresses;
     public $editingShippingAddressId;
+
+    use WireUiActions;
 
     public function mount()
     {
@@ -68,6 +72,7 @@ class AddressPage extends Component
 
     public function saveBillingAddress()
     {
+        Log::info("fsdfsfsdsdfgsd");
         $user = auth()->user();
 
         $this->validate([
@@ -109,13 +114,30 @@ class AddressPage extends Component
             'billing_default' => true,
         ];
 
+        // $addressData = [
+        //     'customer_id' => $customer->id,
+        //     'title' => '',
+        //     'first_name' => $validatedData['first_name'], 
+        //     'last_name' => $validatedData['last_name'],   
+        //     'company_name' => $validatedData['company'],
+        //     'line_one' => $validatedData['streetno'],
+        //     'line_two' => $validatedData['address_line_two'],
+        //     'city' => $validatedData['city'],
+        //     'state' => $validatedData['state'],
+        //     'postcode' => $validatedData['postcode'],
+        //     'country_id' => $country->id,
+        //     'contact_email' => $validatedData['email'],
+        //     'contact_phone' => $validatedData['phone'],
+        //     'billing_default' => true,
+        // ];
+
         if ($this->billingAddressId) {
             Address::where('id', $this->billingAddressId)->update($addressData);
         } else {
             Address::create($addressData);
         }
 
-        session()->flash('success', 'Billing address saved successfully!');
+        //session()->flash('success', 'Billing address saved successfully!');
         $this->mount();
     }
 
@@ -208,6 +230,22 @@ class AddressPage extends Component
         $this->shipping_countries = $address->country->iso2 ?? '';
 
         $this->dispatch('address-modal-open', id: $addressId);
+    }
+
+
+    public function billingAddressEditDialog(): void
+    {
+        $this->dialog()->id('billingAddressEdit')->show([
+            'icon' => '',
+            'accept' => [
+                'label' => 'Save address',
+                'method' => $this->saveBillingAddress(),
+            ],
+            'reject' => [
+                'label' => 'Cancel',
+                'method' => 'cancel',
+            ]
+        ]);
     }
 
     public function render()
