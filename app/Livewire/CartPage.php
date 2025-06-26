@@ -19,7 +19,7 @@ class CartPage extends Component
 
     public bool $linesVisible = false;
 
-    public int $cart_count = 10;
+    public int $cart_count;
 
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
@@ -34,6 +34,7 @@ class CartPage extends Component
 
     public function mount(): void
     {
+
         $this->mapLines();
 
         $cart = \Lunar\Facades\CartSession::current();
@@ -91,7 +92,7 @@ class CartPage extends Component
     {
         
         $this->lines = $this->cartLines->map(function ($line) {
-            Log::info($line->purchasable);
+            // Log::info($line->purchasable);
             return [
                 'id' => $line->id,
                 'identifier' => $line->purchasable->getIdentifier(),
@@ -108,6 +109,7 @@ class CartPage extends Component
 
     public function handleAddToCart(): void
     {
+
         $this->mapLines();
 
         $cart = \Lunar\Facades\CartSession::current();

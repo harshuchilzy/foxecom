@@ -39,28 +39,28 @@
         </div>
 
         <div class="w-full md:w-[25%]">
-            {{-- {{dd($this->getRandomOrderItems())}} --}}
+            @php
+            $orderItems = $this->getRandomOrderItems()
+            @endphp
             <div class="border border-[#000000] rounded-[6px] p-5">
                 <h2 class="font-inter font-semibold text-[16px] text-black">Buy it again</h2>
-
-                @foreach ($this->getRandomOrderItems() as $orderItem)
+                @foreach ($orderItems as $orderItem)
                     <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
-                        <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ $orderItem->thumbnail->getUrl() }}" alt="">
+                        <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ $orderItem['product']->thumbnail->getUrl() }}" alt="">
                         <div class="flex flex-col gap-1 pr-5">
-                            <a href="{{ route('product.view', $orderItem->defaultUrl->slug) }}"><p class="font-inter text-[#1275EE] font-normal text-[15px]">Lost Mary BM6000</p></a>
-                            <p class="font-inter text-[#1275EE] font-normal text-[15px]">Lemon Lime</p>
+                            <a href="{{ route('product.view', $orderItem['product']->defaultUrl->slug) }}"><p class="font-inter text-[#1275EE] font-normal text-[15px]">{{ $orderItem['product']->translateAttribute('name') }}</p></a>
+                            <p class="font-inter text-[#1275EE] font-normal text-[15px]">{{$orderItem['line']->option}}</p>
 
                             <p class="text-black text-[14px] font-inter">
                                 <span class="font-normal">Buy from </span>
-                                <span class="font-bold">£8.59</span>
+                                <span class="font-bold">{{$orderItem['line']->unit_price->formatted}}</span>
                             </p>
-                            <p class="text-black text-[14px] font-normal font-inter">Purchased Jan 2025</p>
+                            <p class="text-black text-[14px] font-normal font-inter">{{ $orderItem['order_created_at'] ? 'Purchased ' . $orderItem['order_created_at']->format('M Y') : 'Not ordered yet'}}</p>
 
-                            <button class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px]">Buy Again</button>
+                            <a href="{{ route('product.view', $orderItem['product']->defaultUrl->slug) }}" class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px] text-center">Buy Again</a>
                         </div>
                     </div>
                 @endforeach
-                
             </div>
         </div>
     </div>

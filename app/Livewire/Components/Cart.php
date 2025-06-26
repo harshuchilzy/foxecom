@@ -17,7 +17,7 @@ class Cart extends Component
 
     public bool $linesVisible = false;
 
-    public int $cart_count = 10;
+    public int $cart_count;
 
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
@@ -37,6 +37,8 @@ class Cart extends Component
         $cart = \Lunar\Facades\CartSession::current();
 
         $this->cart_count = $cart?->lines->count() ?? 0;
+
+        //$this->cart_count = collect($this->cart->lines)->sum(fn($line) => $line->quantity ?? 0);
     }
 
     /**
@@ -108,6 +110,8 @@ class Cart extends Component
 
         $this->cart_count = $cart?->lines->count() ?? 0;
 
+        //$this->cart_count = collect($this->cart->lines)->sum(fn($line) => $line->quantity ?? 0);
+    
         $this->linesVisible = true;
     }
 

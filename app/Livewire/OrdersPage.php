@@ -54,56 +54,46 @@ class OrdersPage extends Component
     {
         $customerId = Auth::id();
 
-        if (!empty($customerId)) {
+        $productsWithDates = [];
 
-            $orders = Order::with(['lines'])
+        if (!empty($customerId)) {
+            $orders = Order::with(['lines']) 
                 ->where('user_id', $customerId)
                 ->get();
 
-            $product_ids = [];
-
-            if(!empty($orders)) {
-                foreach ($orders as $order) {
-                    if(!empty($order)) {
-                        foreach ($order->lines as $line) {
-                            if ($line->purchasable_id) {
-                                $product_ids[] = $line->purchasable_id;
-                            }
-                        }
+            foreach ($orders as $order) {
+                foreach ($order->lines as $line) {
+                    if ($line->type === 'physical' && $line->purchasable && $line->purchasable->product) {
+                        $productsWithDates[] = [
+                            'product' => $line->purchasable->product,
+                            'line' => $line,
+                            'order_created_at' => $order->created_at,
+                        ];
                     }
                 }
             }
-
-            // Remove duplicates just in case
-            $product_ids = array_unique($product_ids);
         }
-        
-        if (!empty($product_ids)) {
 
-            return Product::with([
-                'variants.prices', 
-                'thumbnail', 
-                'defaultUrl',
-            ])
-            ->whereIn('id', $product_ids)
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
+        $productsWithDates = collect($productsWithDates)
+            ->unique(fn($item) => $item['product']->id)
+            ->shuffle()
+            ->take(3)
+            ->values();
 
-        } else {
-
-            return Product::with([
-                'variants.prices',
-                'thumbnail',
-                'defaultUrl',
-            ])
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
-            
+        if ($productsWithDates->isEmpty()) {
+            return Product::with(['variants.prices', 'thumbnail', 'defaultUrl'])
+                ->inRandomOrder()
+                ->limit(3)
+                ->get()
+                ->map(fn($product) => [
+                    'product' => $product,
+                    'order_created_at' => null,
+                ]);
         }
-        
+
+        return $productsWithDates;
     }
+
 
 
     public function render()
