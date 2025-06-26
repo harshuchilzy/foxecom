@@ -157,54 +157,55 @@
                     <input type="hidden" name="billing_default" value="1">
                     <div class="mb-6">
                         <label for="company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
-                        <input type="text" id="company" name="company" wire:model="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" />
+                        <input type="text" id="company" wire:model="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" />
                     </div>
                     <div class="grid gap-6 mb-6 md:grid-cols-2">
                         <div>
                             <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
-                            <input type="text" id="first_name" name="first_name" value="{{ $first_name }}" disabled class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                            <input type="text" id="first_name" value="{{ $first_name }}" disabled class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                         </div>
                         <div>
                             <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
-                            <input type="text" id="last_name" name="last_name" value="{{ $last_name }}" disabled class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                            <input type="text" id="last_name" value="{{ $last_name }}" disabled class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
                         </div>
                         <div>
                             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 ">Phone number</label>
-                            <input type="tel" id="phone" name="phone" wire:model="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+                            <input type="tel" id="phone" wire:model="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
                         </div>
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
-                            <input type="email" id="email" name="email" wire:model="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
+                            <input type="email" id="email" wire:model="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
                         </div>
                         <div>
                             <label for="streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
-                            <input type="text" id="streetno" name="streetno" wire:model="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
+                            <input type="text" id="streetno" wire:model="streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
                         </div>
                         <div>
                             <label for="address-line-two" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                            <input type="text" id="address-line-two" name="address_line_two" wire:model="address_line_two" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
+                            <input type="text" id="address-line-two" wire:model="address_line_two" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
                         </div>
                         <div>
                             <label for="city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
-                            <input type="text" id="city" name="city" wire:model="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Manchester" required />
+                            <input type="text" id="city" wire:model="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Manchester" required />
                         </div>
                         <div>
                             <label for="postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
-                            <input type="text" id="postcode" name="postcode" wire:model="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
+                            <input type="text" id="postcode" wire:model="postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
                         </div>
                         <div>
                             <label for="state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
-                            <input type="text" id="state" name="state" wire:model="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
+                            <input type="text" id="state" wire:model="state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
                         </div>
                         <div>
                             <label for="country" class="block mb-2 text-sm font-medium text-gray-900">Country</label>
-                            <select id="country" name="country" wire:model="country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <select id="country" wire:model="country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option value="">Choose a country</option>
                                 @foreach ($countries as $c)
                                     <option value="{{ $c->iso2 }}">{{ $c->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        <button type="button" wire:click="saveBillingAddress">Save</button>
                     </div>
                 </x-wui-dialog>
                
