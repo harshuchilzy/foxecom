@@ -70,7 +70,6 @@ Route::get('/wholesale', function () {
     return view('wholesale');
 })->name('wholesale');
 
-Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('auth');
 
 
 // Route::put('/address/{address}', [AddressPage::class, 'update'])->name('address.update');
@@ -206,6 +205,8 @@ Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-succe
 Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
 
 Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
+
+Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('auth');
 
 // Move to API
 Route::get('/address/search', function(Request $request){

@@ -166,8 +166,8 @@
         @endif
 
         @if ($step == $currentStep)
-        <div class="mt-6 text-left">
-            <button class="px-5 py-3 w-[30%] text-white bg-[#0066FF] h-14 text-[16px] rounded-full hover:bg-blue-500 font-normal text-center"
+        <div class="mt-6 flex justify-between">
+            <button class="px-5 py-3 w-auto text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center"
                 type="submit" wire:key="submit_btn" wire:loading.attr="disabled" wire:target="saveAddress">
                 <span wire:loading.remove wire:target="saveAddress">
                     Save Address
@@ -181,6 +181,8 @@
                     </span>
                 </span>
             </button>
+
+            <a class="px-5 py-4 w-auto  text-black bg-[#ffffff] border-1 h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-gray-100 font-normal text-center" x-on:click="showAddressEdit = false">Back</a>
         </div>
         @endif
     </div>
@@ -188,7 +190,7 @@
     @endif
 
     @if ($currentStep > $step)
-        <button class="text-sm font-medium text-gray-600 rounded-lg hover:text-gray-700"
+        <button class="text-sm font-medium text-gray-600 rounded-lg hover:text-gray-700 cursor-pointer"
             type="button" wire:click.prevent="$set('currentStep', {{ $step }})">
             {{__('Enter address manually')}}
         </button>

@@ -42,7 +42,7 @@ class AddressPage extends Component
         $this->last_name = $customer->last_name;
         $this->countries = Country::orderBy('name')->get();
 
-        $this->billingAddress = \Lunar\Models\Address::where('customer_id', $customer->id)
+        $this->billingAddress = Address::where('customer_id', $customer->id)
         ->where('billing_default', true)
         ->latest()
         ->first();
@@ -110,9 +110,9 @@ class AddressPage extends Component
         ];
 
         if ($this->billingAddressId) {
-            \Lunar\Models\Address::where('id', $this->billingAddressId)->update($addressData);
+            Address::where('id', $this->billingAddressId)->update($addressData);
         } else {
-            \Lunar\Models\Address::create($addressData);
+            Address::create($addressData);
         }
 
         session()->flash('success', 'Billing address saved successfully!');
