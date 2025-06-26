@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Filament\Tables\Columns\Contracts\Editable;
 use Livewire\Component;
 use Lunar\Models\Address;
 use Lunar\Models\Country;
@@ -35,6 +36,10 @@ class AddressPage extends Component
     public $shippingAddresses;
     public $editingShippingAddressId;
 
+    public $addShippingAddress = false;
+
+    public $billingAddressEdit =false;
+
     use WireUiActions;
 
     public function mount()
@@ -66,7 +71,6 @@ class AddressPage extends Component
 
         //for shipping addresses (Assuming if this user has only 1 CUSTOMER)
         $this->shippingAddresses = Address::where('customer_id', $user->customers->first()->id)
-            ->where('shipping_default', true)
             ->get();
     }
 
@@ -114,24 +118,8 @@ class AddressPage extends Component
             'billing_default' => true,
         ];
 
-        // $addressData = [
-        //     'customer_id' => $customer->id,
-        //     'title' => '',
-        //     'first_name' => $validatedData['first_name'], 
-        //     'last_name' => $validatedData['last_name'],   
-        //     'company_name' => $validatedData['company'],
-        //     'line_one' => $validatedData['streetno'],
-        //     'line_two' => $validatedData['address_line_two'],
-        //     'city' => $validatedData['city'],
-        //     'state' => $validatedData['state'],
-        //     'postcode' => $validatedData['postcode'],
-        //     'country_id' => $country->id,
-        //     'contact_email' => $validatedData['email'],
-        //     'contact_phone' => $validatedData['phone'],
-        //     'billing_default' => true,
-        // ];
-
         if ($this->billingAddressId) {
+            Log::info("address id found");
             Address::where('id', $this->billingAddressId)->update($addressData);
         } else {
             Address::create($addressData);
@@ -139,6 +127,9 @@ class AddressPage extends Component
 
         //session()->flash('success', 'Billing address saved successfully!');
         $this->mount();
+
+        $this->billingAddressEdit = false;
+
     }
 
     public function saveShippingAddress()
@@ -207,8 +198,10 @@ class AddressPage extends Component
 
         $this->editingShippingAddressId = null;
 
-        session()->flash('success', 'Shipping address saved successfully!');
+        //session()->flash('success', 'Shipping address saved successfully!');
         $this->mount();
+
+        $this->addShippingAddress = false;
     }
 
     public function editShippingAddress($addressId)
@@ -229,24 +222,34 @@ class AddressPage extends Component
         $this->shipping_state = $address->state;
         $this->shipping_countries = $address->country->iso2 ?? '';
 
-        $this->dispatch('address-modal-open', id: $addressId);
+        // $this->dispatch('addShippingAddress', id: $addressId);
+
+        $this->addShippingAddress = true;
     }
 
 
-    public function billingAddressEditDialog(): void
+    public function dropShippingAddress($addressId)
     {
-        $this->dialog()->id('billingAddressEdit')->show([
-            'icon' => '',
-            'accept' => [
-                'label' => 'Save address',
-                'method' => $this->saveBillingAddress(),
-            ],
-            'reject' => [
-                'label' => 'Cancel',
-                'method' => 'cancel',
-            ]
-        ]);
+        // $user = auth()->user();
+        // $customer = $user->customers->first();
+        // $customer_id = $customer->id;
+
+        $address = Address::find($addressId);
+
+        // if (!$address) {
+        //     session()->flash('error', 'Address not found.');
+        //     return;
+        // }
+
+        // if ($address->customer_id !== $customer_id) {
+        //     abort(403, 'Unauthorized action.');
+        // }
+
+        $address->delete();
+        $this->mount();
+        // session()->flash('success', 'Shipping address deleted successfully.');
     }
+
 
     public function render()
     {
