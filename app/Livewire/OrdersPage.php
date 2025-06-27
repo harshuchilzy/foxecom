@@ -87,6 +87,7 @@ class OrdersPage extends Component
                 ->get()
                 ->map(fn($product) => [
                     'product' => $product,
+                    'line' => '',
                     'order_created_at' => null,
                 ]);
         }

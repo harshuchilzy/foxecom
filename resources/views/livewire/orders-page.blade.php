@@ -49,11 +49,11 @@
                         <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ $orderItem['product']->thumbnail->getUrl() }}" alt="">
                         <div class="flex flex-col gap-1 pr-5">
                             <a href="{{ route('product.view', $orderItem['product']->defaultUrl->slug) }}"><p class="font-inter text-[#1275EE] font-normal text-[15px]">{{ $orderItem['product']->translateAttribute('name') }}</p></a>
-                            <p class="font-inter text-[#1275EE] font-normal text-[15px]">{{$orderItem['line']->option}}</p>
+                            <p class="font-inter text-[#1275EE] font-normal text-[15px]">{{$orderItem['line'] ? $orderItem['line']->option : ''}}</p>
 
                             <p class="text-black text-[14px] font-inter">
                                 <span class="font-normal">Buy from </span>
-                                <span class="font-bold">{{$orderItem['line']->unit_price->formatted}}</span>
+                                <span class="font-bold">{{$orderItem['line'] ? $orderItem['line']->unit_price->formatted : ''}}</span>
                             </p>
                             <p class="text-black text-[14px] font-normal font-inter">{{ $orderItem['order_created_at'] ? 'Purchased ' . $orderItem['order_created_at']->format('M Y') : 'Not ordered yet'}}</p>
 
