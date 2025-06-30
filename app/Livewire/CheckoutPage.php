@@ -2,19 +2,23 @@
 
 namespace App\Livewire;
 
+use Lunar\Models\Cart;
+use Livewire\Component;
+use Illuminate\View\View;
+use Lunar\Models\Address;
+use Lunar\Models\Country;
+use Lunar\Facades\Payments;
+use Lunar\Models\CartAddress;
+use Lunar\Facades\CartSession;
+use WireUi\Traits\WireUiActions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\View\View;
-use Livewire\Component;
-use Lunar\Facades\CartSession;
-use Lunar\Facades\Payments;
 use Lunar\Facades\ShippingManifest;
-use Lunar\Models\Cart;
-use Lunar\Models\CartAddress;
-use Lunar\Models\Country;
 
 class CheckoutPage extends Component
 {
+    use WireUiActions;
+    
     /**
      * The Cart instance.
      */
@@ -50,6 +54,14 @@ class CheckoutPage extends Component
      * The chosen shipping option.
      */
     public $chosenShipping = null;
+
+    /**
+     * The shipping address fields.
+     */
+    public $countries;
+    public $shipping_company, $shipping_first_name, $shipping_last_name, $shipping_phone, $shipping_email;
+    public $shipping_streetno, $shipping_address, $shipping_city, $shipping_postcode, $shipping_state, $shipping_countries;
+    public $shippingAddressFields = false;
 
     /**
      * The checkout steps.
@@ -100,6 +112,9 @@ class CheckoutPage extends Component
 
     public function mount(): void
     {
+        //Render the countries
+        $this->countries = Country::orderBy('name')->get();
+
         if (! $this->cart = CartSession::current()) {
             $this->redirect('/');
 
@@ -333,6 +348,55 @@ class CheckoutPage extends Component
             "{$type}.contact_email" => 'required|email',
             "{$type}.contact_phone" => 'nullable',
         ];
+    }
+
+    /**
+     * Save the shipping address.
+     * This method is called when the user clicks the "Save Address" button.
+     */
+    public function saveShippingAddress(): void
+    {
+        $user = auth()->user();
+
+        $this->validate([
+            'shipping_company' => 'nullable|string|max:255',
+            'shipping_first_name' => 'required|string|max:255',
+            'shipping_last_name' => 'required|string|max:255',
+            'shipping_phone' => 'required|string|max:20',
+            'shipping_email' => 'required|email',
+            'shipping_streetno' => 'required|string|max:255',
+            'shipping_address' => 'nullable|string|max:255',
+            'shipping_city' => 'required|string|max:255',
+            'shipping_postcode' => 'required|string|max:20',
+            'shipping_state' => 'nullable|string|max:255',
+            'shipping_countries' => 'required|string|size:2',
+        ]); 
+        $countryModel = Country::where('iso2', $this->shipping_countries)->first();
+        if (!$countryModel) {
+            session()->flash('error', 'Invalid country selected.');
+            return;
+        }
+        $customer = $user->customers->first();
+
+        if($customer) {
+            Address::create([
+                'customer_id' => $customer->id,
+                'title' => '',
+                'first_name' => $this->shipping_first_name,
+                'last_name' => $this->shipping_last_name,
+                'company_name' => $this->shipping_company,
+                'line_one' => $this->shipping_streetno,
+                'line_two' => $this->shipping_address,
+                'city' => $this->shipping_city,
+                'state' => $this->shipping_state,
+                'postcode' => $this->shipping_postcode,
+                'country_id' => $countryModel->id,
+                'contact_email' => $this->shipping_email,
+                'contact_phone' => $this->shipping_phone,
+                'shipping_default' => true,
+            ]);
+        }
+
     }
 
     public function render(): View
