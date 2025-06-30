@@ -28,7 +28,7 @@
                 <span class="absolute top-1/2 left-1 transform -translate-y-1/2">
                     <svg width="35" height="35" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 29C25.4183 29 29 25.4183 29 21C29 16.5817 25.4183 13 21 13C16.5817 13 13 16.5817 13 21C13 25.4183 16.5817 29 21 29Z" stroke="#ABB7C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31.0002 31.0002L26.7002 26.7002" stroke="#ABB7C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                <input type="text" wire:model.lazy="term" wire:keydown.enter="$refresh" class="w-full h-[50px] pl-10 text-[16px] border border-[#FFFFFF66] rounded-[32px] focus:outline-none focus:border-[#6E6E73]" placeholder="Search for products..." />
+                <input type="text" wire:model.live="term" wire:keydown.enter="$refresh" class="w-full h-[50px] pl-10 text-[16px] border border-[#FFFFFF66] rounded-[32px] focus:outline-none focus:border-[#6E6E73]" placeholder="Search for products..." />
                 <span class="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer" @click="show = !show">
                     <svg width="35" height="35" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M31 14H24" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 14H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 22H22" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 22H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 30H26" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 30H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 12V16" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 20V24" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 28V32" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
@@ -81,14 +81,12 @@
                 <div>
                     <form class="max-w-sm mx-auto relative">
                         <label for="brand_select" class="sr-only">Brand select</label>
-                        <select id="brand_select" class="block py-2 w-full text-sm text-[#000000] font-semibold text-[18px] px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
-                            <option selected>Brands</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
+                        <select id="brand_select" wire:model.live="selectedBrand" class="block py-2 w-full text-sm text-[#000000] font-semibold text-[18px] px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
+                            <option value="">All Brands</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                            @endforeach
                         </select>
-                        </span>
                     </form>
                 </div>
             </div>

@@ -7,6 +7,7 @@ use Livewire\Component;
 use Lunar\Models\Product;
 use Lunar\Models\Collection;
 use Lunar\Models\Collection as CollectionModel;
+use Lunar\Models\Brand;
 
 class ProductsPage extends Component
 {
@@ -17,11 +18,15 @@ class ProductsPage extends Component
      */
     public $term = null;
 
+    public $brands;
+    public $selectedBrand = '';
+
     /**
      * {@inheritDoc}
      */
     protected $queryString = [
         'term',
+        'selectedBrand',
     ];
 
     public $collections;
@@ -33,6 +38,8 @@ class ProductsPage extends Component
             'products.variants.basePrices',
             'products.defaultUrl',
         ])->get();
+
+        $this->brands = Brand::all();
     }
 
     /**
@@ -45,9 +52,13 @@ class ProductsPage extends Component
 
     public function getProductsProperty()
     {
-        logger()->info('Search term:', ['term' => $this->term]);
+        $query = Product::with(['variants.basePrices', 'defaultUrl']);
 
-        $products = Product::with(['variants.basePrices', 'defaultUrl'])->get();
+        if ($this->selectedBrand) {
+            $query->where('brand_id', $this->selectedBrand);
+        }
+
+        $products = $query->get();
 
         if ($this->term) {
             $products = $products->filter(function ($product) {
@@ -63,11 +74,6 @@ class ProductsPage extends Component
         }
 
         return $products;
-
-        // return Product::with([
-        //     'variants.basePrices',
-        //     'defaultUrl'
-        // ])->get();
     }
 
     // public function updatedTerm($value)
