@@ -131,7 +131,7 @@
                                         <x-wui-select wire:model.live="selectedShippingAddress" label="" placeholder="Start typing address" :async-data="route('api.address.search')" option-label="address" option-value="id"/>
                                     </div
                                     {{-- Delivery Address --}}
-                                    @if (!isset($shipping['postcode']) && !empty($shipping['postcode']))
+                                    @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
                                         <div class="py-5">
                                             <h3 class="font-semibold text-[18px] text-[#111111]">
                                                 {{ __('Delivery Address') }}</h3>
@@ -179,11 +179,11 @@
 
                                 <div x-show="showAddressEdit">
                                     {{-- Shipping Address Form --}}
-                                    {{-- @include('partials.checkout.address', [
+                                    @include('partials.checkout.address', [
                                         'type' => 'shipping',
                                         'step' => $steps['shipping_address'],
-                                    ]) --}}
-                                    <div>
+                                    ])
+                                    {{-- <div>
                                         <input type="hidden" name="shipping_default">
                                         
                                         <div class="py-4 px-0 space-y-4">
@@ -248,7 +248,7 @@
                                         }" primary >Save Address</button>
 
                                         <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="showAddressEdit = false">Cancel</button>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                             </div>
@@ -268,10 +268,14 @@
                 </div>
 
                 <h2 id="accordion-flush-heading-2">
-                    <button type="button"
+                    {{-- <button type="button"
                         class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
                         data-accordion-target="#accordion-flush-body-2" x-on:click="currentStep = 2"
-                        aria-expanded="false" aria-controls="accordion-flush-body-2">
+                        aria-expanded="false" aria-controls="accordion-flush-body-2"> --}}
+                    <button type="button"
+                    class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
+                    data-accordion-target="#accordion-flush-body-2" x-on:click="currentStep = 2"
+                    aria-expanded="false" aria-controls="accordion-flush-body-2">
                         <span class="font-semibold text-[24px] text-[#111111]">Payment</span>
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -281,8 +285,9 @@
                     </button>
                 </h2>
 
-                <div id="accordion-flush-body-2" class="{{ $currentStep != 2 ? 'hidden' : '' }}"
-                    aria-labelledby="accordion-flush-heading-2">
+                <div >
+                {{-- <div id="accordion-flush-body-2" class="{{ $currentStep != 2 ? 'hidden' : '' }}"
+                    aria-labelledby="accordion-flush-heading-2"> --}}
                     {{-- <div class="py-5 border-b border-gray-200">
                         <div class="pt-3">
                             <h3 class="font-semibold text-[16px] text-[#111111]">Billing Country/Region</h3>

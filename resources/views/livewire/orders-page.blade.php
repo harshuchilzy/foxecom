@@ -59,7 +59,7 @@
                                     // } else {
                                     //     $productPrice = $orderItem['product']->price->formatted;
                                     // }
-                                    dd($orderItem['product']->prices->compare_price);
+                                    //dd($orderItem['product']->prices->compare_price);
                                 @endphp
                                 <span class="font-bold">{{$orderItem['line'] ? $orderItem['line']->unit_price->formatted : ''}}</span>
                             </p>
