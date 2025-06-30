@@ -11,6 +11,12 @@ use Lunar\Models\Brand;
 
 class ProductsPage extends Component
 {
+    /**
+     * Sorting option for products.
+     *
+     * @var string
+     */
+    public $sortOption = '';
      /**
      * The search term for the search input.
      *
@@ -27,6 +33,7 @@ class ProductsPage extends Component
     protected $queryString = [
         'term',
         'selectedBrand',
+        'sortOption',
     ];
 
     public $collections;
@@ -58,6 +65,10 @@ class ProductsPage extends Component
             $query->where('brand_id', $this->selectedBrand);
         }
 
+        if ($this->sortOption === 'latest') {
+            $query->latest();
+        }
+
         $products = $query->get();
 
         if ($this->term) {
@@ -70,6 +81,16 @@ class ProductsPage extends Component
                 }
 
                 return false;
+            });
+        }
+
+        if ($this->sortOption === 'price-asc') {
+            $products = $products->sortBy(function ($product) {
+                return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
+            });
+        } elseif ($this->sortOption === 'price-desc') {
+            $products = $products->sortByDesc(function ($product) {
+                return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
             });
         }
 
