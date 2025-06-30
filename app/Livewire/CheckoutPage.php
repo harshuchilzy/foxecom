@@ -33,6 +33,21 @@ class CheckoutPage extends Component
      */
     // public ?CartAddress $shipping = null;
     public $shipping = [];
+    // public $shipping = [
+    //     'first_name' => null,
+    //     'last_name' => null,
+    //     'company_name' => null,
+    //     'contact_phone' => null,
+    //     'contact_email' => null,
+    //     'line_one' => null,
+    //     'line_two' => null,
+    //     'line_three' => null,
+    //     'city' => null,
+    //     'state' => null,
+    //     'postcode' => null,
+    //     'country_id' => null,
+    //     'delivery_instructions' => null,
+    // ];
 
     /**
      * The billing address instance.
@@ -147,16 +162,19 @@ class CheckoutPage extends Component
         }
 
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
+
         if(($this->billing) && $customer){
+            //Log::info($customer->addresses->where('billing_default', 1)->first()?->toArray());
             $this->billing = $customer->addresses->where('billing_default', 1)->first()?->toArray();
-            $this->billing = array(
-                'first_email' => 'Test'
-            );
+            // $this->billing = array(
+            //     'first_email' => 'Test'
+            // );
             $this->billing = new CartAddress($this->billing);
         }
         //$this->determineCheckoutStep();
 
-        Log::info($this->shipping);
+        // Log::info($this->shipping);
+        Log::info($this->billing);
     }
 
     
@@ -250,7 +268,7 @@ class CheckoutPage extends Component
         //     $this->shipping = $this->cart->shippingAddress;
         // }
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
-        
+
         Log::info($this->{$type});
         Log::info("Address type being saved: " . $type);
 
