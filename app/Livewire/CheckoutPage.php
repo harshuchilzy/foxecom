@@ -73,10 +73,10 @@ class CheckoutPage extends Component
     /**
      * The shipping address fields.
      */
-    public $countries;
-    public $shipping_company, $shipping_first_name, $shipping_last_name, $shipping_phone, $shipping_email;
-    public $shipping_streetno, $shipping_address, $shipping_city, $shipping_postcode, $shipping_state, $shipping_countries;
-    public $shippingAddressFields = false;
+    // public $countries;
+    // public $shipping_company, $shipping_first_name, $shipping_last_name, $shipping_phone, $shipping_email;
+    // public $shipping_streetno, $shipping_address, $shipping_city, $shipping_postcode, $shipping_state, $shipping_countries;
+    // public $shippingAddressFields = false;
 
     /**
      * The checkout steps.
@@ -128,7 +128,7 @@ class CheckoutPage extends Component
     public function mount(): void
     {
         //Render the countries
-        $this->countries = Country::orderBy('name')->get();
+        //$this->countries = Country::orderBy('name')->get();
 
         if (! $this->cart = CartSession::current()) {
             $this->redirect('/');
@@ -156,8 +156,14 @@ class CheckoutPage extends Component
             $customer = auth()->user()->customers->first();
         }
 
-        if(empty($this->shipping) && $customer){
-            $this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
+        if(($this->shipping) && $customer){
+            //$this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
+            //$this->shipping = new CartAddress($this->shipping);
+
+            $this->shipping = $customer->addresses->where('billing_default', 1)->first()?->toArray();
+            
+            //$this->shipping['country_id'] = 235;
+            $this->cart->setShippingAddress($this->shipping);
             $this->shipping = new CartAddress($this->shipping);
         }
 
@@ -169,12 +175,15 @@ class CheckoutPage extends Component
             // $this->billing = array(
             //     'first_email' => 'Test'
             // );
+            //$this->billing['country_id'] = 235;
+            $this->cart->setBillingAddress($this->billing);
             $this->billing = new CartAddress($this->billing);
+            
         }
         //$this->determineCheckoutStep();
 
         // Log::info($this->shipping);
-        Log::info($this->billing);
+        //Log::info($this->shipping);
     }
 
     
@@ -270,13 +279,13 @@ class CheckoutPage extends Component
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
         Log::info($this->{$type});
-        Log::info("Address type being saved: " . $type);
+        //Log::info("Address type being saved: " . $type);
 
         $validatedData = $this->validate(
             $this->getAddressValidation($type)
         );
 
-        Log::info($validatedData);
+        //Log::info($validatedData);
 
         $address = new CartAddress($this->{$type});
 
@@ -324,10 +333,24 @@ class CheckoutPage extends Component
 
     public function checkout()
     {
+        // Log::info("Checkout initiated with payment type: " . $this->billing);
+        // $payment = Payments::cart($this->cart)->withData([
+        //     'payment_intent_client_secret' => $this->payment_intent_client_secret,
+        //     'payment_intent' => $this->payment_intent,
+        // ])->authorize();
+        //Log::info("Billing data before checkout:", $this->billing);
+    
+    try {
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
+        
+    } catch (\Exception $e) {
+        Log::error("Checkout failed: " . $e->getMessage());
+        throw $e;
+    }
+
 
         if ($payment->success) {
             redirect()->route('checkout-success.view');
@@ -434,3 +457,6 @@ class CheckoutPage extends Component
         return view('livewire.checkout-page');
     }
 }
+
+
+

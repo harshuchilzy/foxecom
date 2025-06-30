@@ -159,7 +159,7 @@
                     {{ $this->{$type}->state }}<br>
                     @endif
                     {{ $this->{$type}->postcode }}<br>
-                    {{ $this->{$type}->country?->native }}
+                    {{ $this->{$type}->country }}
                 </dd>
             </div>
         </dl>

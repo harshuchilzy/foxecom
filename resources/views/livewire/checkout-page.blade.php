@@ -156,8 +156,10 @@
                                                 {{ $shipping['contact_phone'] }}</p>
                                             <p class="font-semibold text-[16px] text-[#70707C]">
                                                 {{ $shipping['delivery_instructions'] }}</p>
+                        
                                         </div>
                                     @else
+                        
                                         <div class="py-2" delivery>
                                                 {{-- <div class="w-full">
                                                     <input type="text"
