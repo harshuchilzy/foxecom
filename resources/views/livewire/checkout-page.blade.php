@@ -78,26 +78,23 @@
                             'step' => $steps['shipping_address'],
                         ]) --}}
 
-                        <div class="" delivery x-data="{ showAddressEdit: false }">
+                        <div class="" delivery x-data="{ showAddressEdit: false, showDeliveryOptions: false }">
                             <div class="flex flex-col gap-3">
-                                <div class="w-full relative" x-show="!showAddressEdit">
-                                    <x-wui-select wire:model.live="selectedShippingAddress" label="Search an address" placeholder="Select shipping address" :async-data="route('api.address.search')" option-label="address" option-value="id" />
-
-                                    <ul class="flex text-sm font-medium text-center w-full pt-3" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
-                                        <li class="me-2 w-full" role="presentation">
-                                            <button class="border border-[#000000] bg-white rounded-[6px] flex items-center justify-center gap-4 w-full py-5" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false">
-
+                                <div class="w-full relative" x-show="!showAddressEdit" >
+                                    <ul class="flex text-sm font-medium text-center w-full pb-5" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                                        <li class="me-2 w-1/2" role="presentation">
+                                            <button class="border cursor-pointer rounded-[6px] flex items-center justify-center gap-4 w-full py-4" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false" @click="showDeliveryOptions = !showDeliveryOptions" :class="showDeliveryOptions ? 'border border-black bg-gray-100' : 'border border-[#000000] bg-white'">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                     <path d="M2 6H13.069C14.618 6 15.392 6 16.049 6.346C16.705 6.692 17.143 7.331 18.019 8.608C18.632 9.504 19.277 10.154 20.183 10.733C21.095 11.315 21.529 11.6 21.769 12.057C22 12.494 22 13.012 22 14.049C22 15.416 22 16.099 21.587 16.533L21.533 16.587C21.1 17 20.416 17 19.05 17M5 17C4.68 17 4.385 17 4.23 16.967C4.074 16.933 3.928 16.867 3.635 16.736L2 16C2 12.806 2.479 10.962 3.106 9.45C3.516 8.458 3.722 7.962 3.636 7.52C3.553 7.08 2.5 6 2.5 6M9 17H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                     <path d="M17 19C18.1046 19 19 18.1046 19 17C19 15.8954 18.1046 15 17 15C15.8954 15 15 15.8954 15 17C15 18.1046 15.8954 19 17 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                     <path d="M7 19C8.10457 19 9 18.1046 9 17C9 15.8954 8.10457 15 7 15C5.89543 15 5 15.8954 5 17C5 18.1046 5.89543 19 7 19Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
-                                                <span class="text-[#111111] font-normal text-[16px]">Delivery</span>
+                                                <span class="font-normal text-[16px] text-[#111111]">Delivery</span>
 
                                             </button>
                                         </li>
-                                        <li class="me-2 w-full" role="presentation">
+                                        {{-- <li class="me-2 w-full" role="presentation">
                                             <button
                                                 class="border border-[#000000] bg-white rounded-[6px] flex items-center justify-center gap-4 w-full py-5"
                                                 id="dashboard-styled-tab"
@@ -124,128 +121,139 @@
                                                 </svg>
                                                 <span class="text-[#111111] font-normal text-[16px]">Billing</span>
                                             </button>
-                                        </li>
+                                        </li> --}}
                                     </ul>
+
                                 </div>
 
+                                <div x-show="!showDeliveryOptions" class="w-full">
+                                    <div x-show="!showAddressEdit">
+                                        <x-wui-select wire:model.live="selectedShippingAddress" label="" placeholder="Start typing address" :async-data="route('api.address.search')" option-label="address" option-value="id"/>
+                                    </div
+                                    {{-- Delivery Address --}}
+                                    @if (!isset($shipping['postcode']) && !empty($shipping['postcode']))
+                                        <div class="py-5">
+                                            <h3 class="font-semibold text-[18px] text-[#111111]">
+                                                {{ __('Delivery Address') }}</h3>
 
-                                {{-- Delivery Address --}}
-                                @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
-                                    <div class="py-5">
-                                        <h3 class="font-semibold text-[18px] text-[#111111]">
-                                            {{ __('Delivery Address') }}</h3>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['first_name'] . ' ' . $shipping['last_name'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['company_name'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['line_one'] }} {{ $shipping['line_two'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['line_three'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">{{ $shipping['city'] }}
+                                            </p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['state'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['postcode'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['contact_email'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['contact_phone'] }}</p>
+                                            <p class="font-semibold text-[16px] text-[#70707C]">
+                                                {{ $shipping['delivery_instructions'] }}</p>
+                                        </div>
+                                    @else
+                                        <div class="py-2" delivery>
+                                                {{-- <div class="w-full">
+                                                    <input type="text"
+                                                        wire:model.live="{{ $type }}.contact_email"
+                                                        class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
+                                                        placeholder="Email" />
+                                                </div> --}}
 
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['first_name'] . ' ' . $shipping['last_name'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['company_name'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['line_one'] }} {{ $shipping['line_two'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['line_three'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">{{ $shipping['city'] }}
-                                        </p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['state'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['postcode'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['contact_email'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['contact_phone'] }}</p>
-                                        <p class="font-semibold text-[16px] text-[#70707C]">
-                                            {{ $shipping['delivery_instructions'] }}</p>
-                                    </div>
-                                @else
-                                    <div class="py-2" delivery>
-                                        <form wire:submit="save" class="flex flex-col gap-3">
-                                            {{-- <div class="w-full">
-                                                <input type="text"
-                                                    wire:model.live="{{ $type }}.contact_email"
-                                                    class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
-                                                    placeholder="Email" />
-                                            </div> --}}
+                                                <div x-show="!showAddressEdit">
+                                                    <button type="button" x-on:click="showAddressEdit = true"
+                                                        class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter
+                                                        address
+                                                        manually</button>
+                                                </div>
 
-                                            <div x-show="!showAddressEdit">
-                                                <button type="button" x-on:click="showAddressEdit = true"
-                                                    class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter
-                                                    address
-                                                    manually</button>
-                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
 
-                                            <div x-show="showAddressEdit">
-                                                {{-- @include('partials.checkout.address', [
-                                                    'type' => 'shipping',
-                                                    'step' => $steps['shipping_address'],
-                                                ]) --}}
-                                                <div>
-                                                    <input type="hidden" name="shipping_default">
-                                                    
-                                                    <div class="py-4 px-0 space-y-4">
-                                                        <div class="mb-6">
-                                                            <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
-                                                            <input type="text" id="shipping_company" wire:model="shipping_company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" required />
-                                                        </div>
-                                                        <div class="grid gap-6 mb-6 md:grid-cols-2">
-                                                            <div>
-                                                                <label for="shipping_first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
-                                                                <input type="text" id="shipping_first_name" wire:model="shipping_first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_last_name" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
-                                                                <input type="text" id="shipping_last_name" wire:model="shipping_last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_phone" class="block mb-2 text-sm font-medium text-gray-900 ">Phone number</label>
-                                                                <input type="tel" id="shipping_phone" wire:model="shipping_phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
-                                                                <input type="email" id="shipping_email" wire:model="shipping_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
-                                                                <input type="text" id="shipping_streetno" wire:model="shipping_streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_address" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                                                                <input type="text" id="shipping_address" wire:model="shipping_address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
-                                                                <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
-                                                                <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
-                                                                <input type="text" id="shipping_state" wire:model="shipping_state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
-                                                            </div>
-                                                            <div>
-                                                                <label for="shipping_countries" class="block mb-2 text-sm font-medium text-gray-900 ">Country</label>
-                                                                <select id="shipping_countries" wire:model="shipping_countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                                                    <option selected>Choose a country</option>
-                                                                    {{-- @foreach ($countries as $c)
-                                                                        <option value="{{ $c->iso2 }}">{{ $c->name }}</option>
-                                                                    @endforeach --}}
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                <div x-show="showAddressEdit">
+                                    {{-- Shipping Address Form --}}
+                                    {{-- @include('partials.checkout.address', [
+                                        'type' => 'shipping',
+                                        'step' => $steps['shipping_address'],
+                                    ]) --}}
+                                    <div>
+                                        <input type="hidden" name="shipping_default">
                                         
-                                                    <button type="button" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"  wire:click="saveShippingAddress(null)" primary >Save Address</button>
-                                                    <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="showAddressEdit = false">Cancel</button>
+                                        <div class="py-4 px-0 space-y-4">
+                                            <div class="mb-6">
+                                                <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
+                                                <input type="text" id="shipping_company" wire:model="shipping_company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" required />
+                                            </div>
+                                            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                                                <div>
+                                                    <label for="shipping_first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
+                                                    <input type="text" id="shipping_first_name" wire:model="shipping_first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_last_name" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
+                                                    <input type="text" id="shipping_last_name" wire:model="shipping_last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_phone" class="block mb-2 text-sm font-medium text-gray-900 ">Phone number</label>
+                                                    <input type="tel" id="shipping_phone" wire:model="shipping_phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
+                                                    <input type="email" id="shipping_email" wire:model="shipping_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
+                                                    <input type="text" id="shipping_streetno" wire:model="shipping_streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_address" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
+                                                    <input type="text" id="shipping_address" wire:model="shipping_address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
+                                                    <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
+                                                    <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
+                                                    <input type="text" id="shipping_state" wire:model="shipping_state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
+                                                </div>
+                                                <div>
+                                                    <label for="shipping_countries" class="block mb-2 text-sm font-medium text-gray-900 ">Country</label>
+                                                    <select id="shipping_countries" wire:model="shipping_countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                                        <option selected>Choose a country</option>
+                                                        @foreach ($countries as $c)
+                                                            <option value="{{ $c->iso2 }}">{{ $c->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
+                            
+                                        <button type="button" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"   
+                                        x-on:click="() => {
+                                            $wire.saveShippingAddress().then(() => {
+                                                showAddressEdit = false;
+                                            });
+                                        }" primary >Save Address</button>
 
+                                        <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="showAddressEdit = false">Cancel</button>
                                     </div>
-                                @endif
+                                </div>
+
                             </div>
 
-                            <div class="pt-5">
+                            <div class="pt-5" x-show="showDeliveryOptions">
                                 {{-- <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
                                 <p class="font-semibold text-[16px] text-[#70707C]">Free</p>
                                 <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
@@ -253,7 +261,7 @@
                             </div>
                            
 
-                            <a class="mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center">Save & Continue</a>
+                            <a class="mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center" x-show="!showAddressEdit">Save & Continue</a>
 
                         </div>
                     </div>

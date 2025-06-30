@@ -230,6 +230,7 @@ class AddressPage extends Component
 
     public function dropShippingAddress($addressId)
     {
+        Log::info("Deleting shipping address with ID: $addressId");
         // $user = auth()->user();
         // $customer = $user->customers->first();
         // $customer_id = $customer->id;

@@ -53,6 +53,14 @@
 
                             <p class="text-black text-[14px] font-inter">
                                 <span class="font-normal">Buy from </span>
+                                @php
+                                    // if ($orderItem['product']->prices['compare_price'] > 0) {
+                                    //     $productPrice = $orderItem['product']->compare_price->formatted;
+                                    // } else {
+                                    //     $productPrice = $orderItem['product']->price->formatted;
+                                    // }
+                                    dd($orderItem['product']->prices->compare_price);
+                                @endphp
                                 <span class="font-bold">{{$orderItem['line'] ? $orderItem['line']->unit_price->formatted : ''}}</span>
                             </p>
                             <p class="text-black text-[14px] font-normal font-inter">{{ $orderItem['order_created_at'] ? 'Purchased ' . $orderItem['order_created_at']->format('M Y') : 'Not ordered yet'}}</p>
