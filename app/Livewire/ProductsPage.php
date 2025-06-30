@@ -27,6 +27,8 @@ class ProductsPage extends Component
     public $brands;
     public $selectedBrand = '';
 
+    public $selectedPriceRange = '';
+
     /**
      * {@inheritDoc}
      */
@@ -34,6 +36,7 @@ class ProductsPage extends Component
         'term',
         'selectedBrand',
         'sortOption',
+        'selectedPriceRange',
     ];
 
     public $collections;
@@ -84,6 +87,16 @@ class ProductsPage extends Component
             });
         }
 
+        if ($this->selectedPriceRange) {
+            [$min, $max] = explode('-', $this->selectedPriceRange);
+            $min = (int) $min;
+            $max = $max === '' ? null : (int) $max;
+            $products = $products->filter(function ($product) use ($min, $max) {
+                $price = $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+                return $price >= $min && ($max === null || $price <= $max);
+            });
+        }
+
         if ($this->sortOption === 'price-asc') {
             $products = $products->sortBy(function ($product) {
                 return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
@@ -95,6 +108,38 @@ class ProductsPage extends Component
         }
 
         return $products;
+    }
+    public function getPriceRangesProperty()
+    {
+        $minPrice = Product::with('variants.basePrices')
+            ->get()
+            ->map(function ($product) {
+                return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+            })->min();
+
+        $maxPrice = Product::with('variants.basePrices')
+            ->get()
+            ->map(function ($product) {
+                return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+            })->max();
+
+        $ranges = [];
+        $step = 1000;
+        for ($price = floor($minPrice / $step) * $step; $price < $maxPrice; $price += $step) {
+            $ranges[] = [
+                'min' => $price,
+                'max' => $price + $step - 1,
+                'label' => number_format($price) . ' - ' . number_format($price + $step - 1)
+            ];
+        }
+
+        $ranges[] = [
+            'min' => $price,
+            'max' => null,
+            'label' => number_format($price) . '+'
+        ];
+
+        return $ranges;
     }
 
     // public function updatedTerm($value)

@@ -68,14 +68,20 @@
                 <div>
                     <form class="max-w-sm mx-auto relative">
                         <label for="price_select" class="sr-only">Price select</label>
-                        <select id="price_select" class="block py-2 w-full text-sm text-[#000000] font-semibold text-[18px] px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
-                            <option selected>Price</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
+                        {{-- <select id="price_select" wire:model.live="selectedPriceRange" class="">
+                            <option value="">All Prices</option>
+                            @foreach ($priceRanges as $range)
+                                <option value="{{ $range['min'] }}-{{ $range['max'] }}">{{ $range['label'] }}</option>
+                            @endforeach
+                        </select> --}}
+                        <select wire:model.live="selectedPriceRange" class="block py-2 w-full text-sm text-[#000000] font-semibold text-[18px] px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
+                            <option value="">Select Price Range</option>
+                            @foreach ($this->priceRanges as $range)
+                                <option value="{{ $range['min'] }}-{{ $range['max'] }}">
+                                    {{ $range['label'] }}
+                                </option>
+                            @endforeach
                         </select>
-                        </span>
                     </form>
                 </div>
                 <div>
