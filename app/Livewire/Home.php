@@ -56,8 +56,11 @@ class Home extends Component
         // return view('livewire.home');
         $redemptions = Redemption::with(['products.brand'])->get();
 
+        $latestRedemptions = $redemptions->take(3);
+
         return view('livewire.home', [
             'redemptions' => $redemptions,
+            'latestRedemptions' => $latestRedemptions,
         ]);
     }
 }

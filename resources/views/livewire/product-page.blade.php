@@ -366,7 +366,7 @@
                                 <legend class="text-xs font-medium text-gray-700">
                                     {{-- {{ $option['option']->translate('name') }} --}}
                                 </legend>
-                                
+
                                 <div class="flex flex-col md:flex-row md:items-start gap-4 mb-4 md:max-w-[90%] mt-4 items-center"
                                     x-data="{
                                         selectedOption: @entangle('selectedOptionValues').live,
@@ -402,7 +402,7 @@
                                         <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" >
                                     </div>
                                 </div>
-                            </fieldset>    
+                            </fieldset>
                         @endif
                     </div>
 
@@ -439,7 +439,7 @@
                                 <svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.375 10.0317L13.1167 13.3576L18.815 10.0534" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.1162 19.2508V13.3467" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.7736 6.81434L8.30696 8.74267C7.52696 9.176 6.87695 10.2702 6.87695 11.1693V14.8418C6.87695 15.741 7.51613 16.8352 8.30696 17.2685L11.7736 19.1968C12.5103 19.6085 13.7236 19.6085 14.4711 19.1968L17.9378 17.2685C18.7178 16.8352 19.3678 15.741 19.3678 14.8418V11.1585C19.3678 10.2593 18.7286 9.16517 17.9378 8.73183L14.4711 6.8035C13.7236 6.39183 12.5103 6.39184 11.7736 6.81434Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M23.9505 16.25C23.9505 20.4425 20.5597 23.8333 16.3672 23.8333L17.5047 21.9375" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.28418 9.74984C2.28418 5.55734 5.67501 2.1665 9.86751 2.1665L8.73003 4.06234" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </span>
 
-                            <span class="text-[16px] font-normal text-black font-inter">Delivers in: 1-2 Working Days <a href="" class="underline"> Shipping & Return</a></span>
+                            <span class="text-[16px] font-normal text-black font-inter">Delivers in: 1-2 Working Days <a href="{{ route('delivery-policy') }}" class="underline"> Shipping & Return</a></span>
                         </div>
                     </div>
                 </div>
