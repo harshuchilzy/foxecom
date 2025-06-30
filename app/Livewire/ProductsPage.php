@@ -50,7 +50,7 @@ class ProductsPage extends Component
             'defaultUrl'
         ])->get();
     }
-    
+
     public function render()
     {
         return view('livewire.products-page');

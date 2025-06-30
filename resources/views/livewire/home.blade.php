@@ -33,7 +33,7 @@
                     </h2>
 
                     <section class="py-8">
-                        <div class="swiper mySwiper w-full mx-auto">
+                        {{-- <div class="swiper mySwiper w-full mx-auto">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide rounded-xl">
                                     <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
@@ -91,6 +91,23 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> --}}
+                        <div class="swiper mySwiper w-full mx-auto">
+                            <div class="swiper-wrapper">
+                                @foreach ($redemptions as $redemption)
+                                    @if ($redemption->offer_image)
+                                        <div class="swiper-slide rounded-xl">
+                                            <a href="{{ route('redemption.show', ['id' => $redemption->id]) }}">
+                                                <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                                    <img src="{{ asset('storage/' . $redemption->offer_image) }}"
+                                                        class="w-full h-full rounded-xl object-cover transition-transform duration-300 hover:scale-105"
+                                                        alt="{{ $redemption->title }}">
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                     </section>
 
@@ -110,50 +127,45 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="rounded-[20px] p-4 lg:p-8 bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)] shadow-[0px_4px_4px_0px_#00000040] w-full">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-semibold text-2xl mt-2">Elf Bar AF5000</h3>
-                            <p class="text-[#1D1D1F] text-[18px] font-semibold mt-2 lg:hidden">82%</p>
-                        </div>
-                        <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
-                        <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
-                            <div class="bg-[linear-gradient(360deg,_#95D7EF_0%,_#2E6EA2_100%)] w-[82%] h-[8px] rounded-[20px]"></div>
-                        </div>
-                        <p class="text-[#1D1D1F] text-[12px] font-semibold mt-2 hidden lg:flex">82% claimed</p>
-                        <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
-                            <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ asset('images/elfbar1.png') }}" alt="">
-                        </div>
-                    </div>
+                    @foreach ($latestRedemptions as $latestRedemption)
+                        @php
+                            $title = $latestRedemption->title;
+                            $image = $latestRedemption->product_image ? asset('storage/' . $latestRedemption->product_image) : asset('images/fallback.png');
+                            $claimed = rand(60, 98); // Replace with $latestRedemption->claimed_percentage if you have this in DB
 
-                    <div class="rounded-[20px] p-4 lg:p-8 bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] shadow-[0px_4px_4px_0px_#00000040]">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-semibold text-2xl mt-2">Titan 10K Puffs</h3>
-                            <p class="text-[#1D1D1F] text-[18px] font-semibold mt-2 lg:hidden">60%</p>
-                        </div>
-                        <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
-                        <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
-                            <div class="bg-[linear-gradient(360deg,_#DEDBDC_0%,_#494D5E_100%)] w-[60%] h-[8px] rounded-[20px]"></div>
-                        </div>
-                        <p class="text-[#1D1D1F] text-[12px] font-semibold mt-2 hidden lg:flex">60% claimed</p>
-                        <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
-                            <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ asset('images/titan10k.png') }}" alt="">
-                        </div>
-                    </div>
+                            if ($claimed >= 90) {
+                                $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
+                                $cardBg = 'bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)]';
+                                $textClass = 'text-white';
+                            } elseif ($claimed >= 70) {
+                                $barColor = 'bg-[linear-gradient(360deg,_#95D7EF_0%,_#2E6EA2_100%)]';
+                                $cardBg = 'bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)]';
+                                $textClass = 'text-[#1D1D1F]';
+                            } else {
+                                $barColor = 'bg-[linear-gradient(360deg,_#DEDBDC_0%,_#494D5E_100%)]';
+                                $cardBg = 'bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)]';
+                                $textClass = 'text-[#1D1D1F]';
+                            }
+                        @endphp
 
-                    <div class="rounded-[20px] p-4 lg:p-8 bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)] shadow-[0px_4px_4px_0px_#00000040]">
-                        <div class="flex items-center justify-between">
-                            <h3 class="font-semibold text-2xl text-white mt-2">Elf Bar AF5000</h3>
-                            <p class="text-[#1D1D1F] text-[18px] font-semibold mt-2 lg:hidden">96%</p>
+                        <div class="rounded-[20px] p-4 lg:p-8 {{ $cardBg }} shadow-[0px_4px_4px_0px_#00000040] w-full">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-semibold text-2xl mt-2 {{ $textClass }}">{{ $title }}</h3>
+                                <p class="text-[18px] font-semibold mt-2 lg:hidden {{ $textClass }}">{{ $claimed }}%</p>
+                            </div>
+                            <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
+
+                            <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
+                                <div class="{{ $barColor }} w-[{{ $claimed }}%] h-[8px] rounded-[20px]"></div>
+                            </div>
+
+                            <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}% claimed</p>
+
+                            <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
+                                <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $image }}" alt="{{ $title }}">
+                            </div>
                         </div>
-                        <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
-                        <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
-                            <div class="bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)] w-[96%] h-[8px] rounded-[20px]"></div>
-                        </div>
-                        <p class="text-[12px] font-semibold text-white mt-2">96% claimed</p>
-                        <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
-                            <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ asset('images/lostmarybm6.png') }}" alt="">
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 

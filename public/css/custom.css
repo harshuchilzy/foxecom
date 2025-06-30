@@ -50,3 +50,10 @@
     overflow: hidden;
     line-height: 0;
 }
+
+
+input.nobutton::-webkit-outer-spin-button,
+input.nobutton::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
