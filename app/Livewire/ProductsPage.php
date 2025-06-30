@@ -45,11 +45,35 @@ class ProductsPage extends Component
 
     public function getProductsProperty()
     {
-        return Product::with([
-            'variants.basePrices',
-            'defaultUrl'
-        ])->get();
+        logger()->info('Search term:', ['term' => $this->term]);
+
+        $products = Product::with(['variants.basePrices', 'defaultUrl'])->get();
+
+        if ($this->term) {
+            $products = $products->filter(function ($product) {
+                $translatedName = $product->attribute_data['name'] ?? null;
+
+                if (method_exists($translatedName, 'getValue')) {
+                    $name = $translatedName->getValue('en'); // or use app locale
+                    return stripos($name, $this->term) !== false;
+                }
+
+                return false;
+            });
+        }
+
+        return $products;
+
+        // return Product::with([
+        //     'variants.basePrices',
+        //     'defaultUrl'
+        // ])->get();
     }
+
+    // public function updatedTerm($value)
+    // {
+    //     logger()->info("Search term updated:", ['term' => $value]);
+    // }
 
     public function render()
     {
