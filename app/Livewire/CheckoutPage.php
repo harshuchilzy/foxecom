@@ -154,7 +154,9 @@ class CheckoutPage extends Component
             );
             $this->billing = new CartAddress($this->billing);
         }
-        $this->determineCheckoutStep();
+        //$this->determineCheckoutStep();
+
+        Log::info($this->shipping);
     }
 
     
@@ -242,13 +244,21 @@ class CheckoutPage extends Component
      */
     public function saveAddress(string $type): void
     {
+        // $address = new CartAddress();
+        // if ($type == 'shipping') {
+        //     $this->cart->setShippingAddress($address);
+        //     $this->shipping = $this->cart->shippingAddress;
+        // }
+        $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
+        
         Log::info($this->{$type});
+        Log::info("Address type being saved: " . $type);
 
         $validatedData = $this->validate(
             $this->getAddressValidation($type)
         );
 
-        // Log::info($validatedData);
+        Log::info($validatedData);
 
         $address = new CartAddress($this->{$type});
 
@@ -277,7 +287,7 @@ class CheckoutPage extends Component
             }
         }
 
-        $this->determineCheckoutStep();
+        //$this->determineCheckoutStep();
     }
 
     /**
@@ -291,7 +301,7 @@ class CheckoutPage extends Component
 
         $this->refreshCart();
 
-        $this->determineCheckoutStep();
+        //$this->determineCheckoutStep();
     }
 
     public function checkout()
@@ -333,6 +343,8 @@ class CheckoutPage extends Component
      */
     protected function getAddressValidation(string $type): array
     {
+        Log::info("Address type on validation: " . $type);
+        Log::info($this->shipping);
         return [
             "{$type}.first_name" => 'required',
             "{$type}.last_name" => 'required',

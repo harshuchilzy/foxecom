@@ -5,7 +5,7 @@
         </h3>
     </div> --}}
 
-    @if ($currentStep >= $step)
+    {{-- @if ($currentStep >= $step) --}}
         <div class="py-6 space-y-4">
             <div class="flex gap-4">
                 <button @class([
@@ -69,5 +69,5 @@
                 </form>
             @endif
         </div>
-    @endif
+    {{-- @endif --}}
 </div>
