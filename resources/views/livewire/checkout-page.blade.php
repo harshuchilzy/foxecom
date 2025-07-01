@@ -159,30 +159,10 @@
                                                 {{ $shipping['delivery_instructions'] }}</p>
 
                                         </div>
-<<<<<<< HEAD
                                     @endif    
                                     <div delivery class="{{ $currentStep != 1 ? 'hidden' : 'py-2' }}">
                                         <div x-show="!showAddressEdit">
                                             <button type="button" x-on:click="showAddressEdit = true" class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter address manually</button>
-=======
-                                    @else
-
-                                        <div class="py-2" delivery>
-                                                {{-- <div class="w-full">
-                                                    <input type="text"
-                                                        wire:model.live="{{ $type }}.contact_email"
-                                                        class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
-                                                        placeholder="Email" />
-                                                </div> --}}
-
-                                                <div x-show="!showAddressEdit">
-                                                    <button type="button" x-on:click="showAddressEdit = true"
-                                                        class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter
-                                                        address
-                                                        manually</button>
-                                                </div>
-
->>>>>>> bfa8f19be33282269237b12bd5746b2f1a6d70e6
                                         </div>
                                     </div>
                                 </div>
@@ -192,8 +172,6 @@
                                     @include('partials.checkout.address', [
                                         'type' => 'delivery'
                                     ])
-<<<<<<< HEAD
-=======
                                     {{-- <div>
                                         <input type="hidden" name="shipping_default">
 
@@ -260,7 +238,6 @@
 
                                         <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="showAddressEdit = false">Cancel</button>
                                     </div> --}}
->>>>>>> bfa8f19be33282269237b12bd5746b2f1a6d70e6
                                 </div>
 
                             </div>
