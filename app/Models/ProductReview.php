@@ -9,18 +9,23 @@ class ProductReview extends Model
     protected $fillable = [
         'product_id',
         'customer_id',
+        'content',
         'rating',
-        'review',
         'approved',
     ];
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(\Lunar\Models\Product::class);
     }
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(\Lunar\Models\Customer::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ReviewImage::class);
     }
 }

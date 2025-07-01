@@ -9,10 +9,14 @@ use Livewire\Component;
 use Lunar\Models\Product;
 use Lunar\Models\ProductVariant;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Livewire\WithFileUploads;
+use App\Models\ProductReview;
+use App\Models\ReviewImage;
 
 class ProductPage extends Component
 {
     use FetchesUrls;
+    use WithFileUploads;
 
     /**
      * The selected option values.
@@ -20,6 +24,22 @@ class ProductPage extends Component
     public array $selectedOptionValues = [];
 
     public $quantity = 1;
+
+    public array $reviewForm = [
+        'name' => '',
+        'email' => '',
+        'rating' => null,
+        'review' => '',
+        'images' => [],
+    ];
+
+    protected $rules = [
+        'reviewForm.name' => 'required|string|max:255',
+        'reviewForm.email' => 'required|email',
+        'reviewForm.rating' => 'required|integer|min:1|max:5',
+        'reviewForm.review' => 'required|string|max:1000',
+        'reviewForm.images.*' => 'nullable|image|max:2048',
+    ];
 
 
     public function mount($slug): void
@@ -136,6 +156,35 @@ class ProductPage extends Component
         return $this->product->associations->filter(function ($association) {
             return $association->type === 'cross-sell';
         })->take(8);
+    }
+
+    public function getReviewCountProperty(): int
+    {
+        return \App\Models\ProductReview::where('product_id', $this->product->id)
+            ->where('approved', true)
+            ->count();
+    }
+
+    public function submitReview()
+    {
+        $this->validate();
+
+        $review = ProductReview::create([
+            'product_id' => $this->product->id,
+            'content' => $this->reviewForm['review'],
+            'rating' => $this->reviewForm['rating'],
+            'approved' => null,
+            'customer_id' => auth()->user()?->customer?->id,
+        ]);
+
+        foreach ($this->reviewForm['images'] as $image) {
+            $path = $image->store('review-images', 'public');
+            $review->images()->create(['path' => $path]);
+        }
+
+        $this->reset('reviewForm');
+
+        session()->flash('success', 'Review submitted and awaiting approval.');
     }
 
     public function render(): View
