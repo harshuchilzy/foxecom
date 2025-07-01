@@ -90,7 +90,7 @@
             </x-input.group>
         </div>
         @elseif($currentStep > $step)
-        <dl class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-2">
+        {{-- <dl class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-2">
             <div>
                 <div class="space-y-4">
                     <div>
@@ -162,7 +162,7 @@
                     {{ $this->{$type}->country }}
                 </dd>
             </div>
-        </dl>
+        </dl> --}}
         @endif
 
         @if ($step == $currentStep)

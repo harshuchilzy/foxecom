@@ -176,6 +176,7 @@ class CheckoutPage extends Component
             //     'first_email' => 'Test'
             // );
             //$this->billing['country_id'] = 235;
+            //Log::info($this->billing);
             $this->cart->setBillingAddress($this->billing);
             $this->billing = new CartAddress($this->billing);
             
@@ -263,6 +264,9 @@ class CheckoutPage extends Component
         if(auth()->check()){
             $customer = auth()->user()->customers->first();
             $this->shipping = $customer->addresses->find($this->selectedShippingAddress)?->toArray();
+            $this->cart->setShippingAddress($this->shipping);
+            Log::info('Shipping address updated.');
+            Log::info($this->shipping);
         }
     }
 
