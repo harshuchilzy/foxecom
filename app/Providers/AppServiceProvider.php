@@ -9,6 +9,7 @@ use Lunar\Shipping\ShippingPlugin;
 use Lunar\Base\ShippingModifiers;
 
 use App\Filament\Resources\RedemptionResource;
+use App\Filament\Resources\ProductReviewResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
                     new ShippingPlugin,
                 ])
                 ->resources([
+                    ProductReviewResource::class,
                     RedemptionResource::class,
                 ]);
         })->register();

@@ -7,6 +7,11 @@ use Lunar\Models\Product as LunarProduct;
 
 class Product extends LunarProduct
 {
+    public function getNameAttribute()
+    {
+        return $this->translateAttribute('name');
+    }
+    
     // protected $fillable = [
     //     'name',
     //     'slug',
