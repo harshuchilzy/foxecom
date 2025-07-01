@@ -3,7 +3,7 @@
         <h1 class="font-bold text-[30px] text-[#111111]">Checkout</h1>
     </div>
     <div class="max-w-[1280px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-12 justify-center items-start">
-        
+
         <div class="flex w-full lg:flex-row gap-20">
             <div class="lg:w-[60%]" id="accordion-flush" data-accordion="collapse"
                 data-active-classes="bg-white text-gray-900" data-inactive-classes="text-gray-500">
@@ -127,8 +127,8 @@
                                 </div>
 
                                 <div x-show="!showDeliveryOptions" class="w-full">
-                                    <div x-show="!showAddressEdit">
-                                        <x-wui-select wire:model.live="selectedShippingAddress" label="" placeholder="Start typing address" :async-data="route('api.address.search')" option-label="address" option-value="id"/>
+                                    <div x-show="!showAddressEdit" class="shipping-address-select-wrapper">
+                                        <x-wui-select class="border-0" wire:model.live="selectedShippingAddress" label="" placeholder="Start typing address" :async-data="route('api.address.search')" option-label="address" option-value="id"/>
                                     </div
                                     {{-- Delivery Address --}}
                                     @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
@@ -156,10 +156,10 @@
                                                 {{ $shipping['contact_phone'] }}</p>
                                             <p class="font-semibold text-[16px] text-[#70707C]">
                                                 {{ $shipping['delivery_instructions'] }}</p>
-                        
+
                                         </div>
                                     @else
-                        
+
                                         <div class="py-2" delivery>
                                                 {{-- <div class="w-full">
                                                     <input type="text"
@@ -187,7 +187,7 @@
                                     ])
                                     {{-- <div>
                                         <input type="hidden" name="shipping_default">
-                                        
+
                                         <div class="py-4 px-0 space-y-4">
                                             <div class="mb-6">
                                                 <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
@@ -241,8 +241,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                            
-                                        <button type="button" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"   
+
+                                        <button type="button" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"
                                         x-on:click="() => {
                                             $wire.saveShippingAddress().then(() => {
                                                 showAddressEdit = false;
@@ -261,7 +261,7 @@
                                 <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
                                  @include('partials.checkout.shipping_option', ['step' => $steps['shipping_option']])
                             </div>
-                           
+
 
                             <a class="mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center" x-show="!showAddressEdit">Save & Continue</a>
 
@@ -427,12 +427,12 @@
                             @php
                                 $product = $line->purchasable->product;
                                 $product_prices = $line->purchasable->prices->first();
-                                
+
                                 if ( $product_prices->compare_price?->decimal > 0 ) {
                                     $product_price = $product_prices->compare_price->formatted;
                                 } else {
                                     $product_price = $product_prices->price?->formatted();
-                                } 
+                                }
                             @endphp
                             <div class="flex gap-5 items-center justify-start">
                                 <div class="">
@@ -448,13 +448,13 @@
                                 </div>
                             </div>
                         @endforeach
-                        
+
                     </div>
                 </div>
             </div>
 
         </div>
-       
+
     </div>
 
 
@@ -569,7 +569,7 @@
                 ])
             </div>
         </div>
-    </div> 
+    </div>
     </div> --}}
 
 
