@@ -5,7 +5,7 @@
         </h3>
     </div> --}}
 
-    {{-- @if ($currentStep >= $step) --}}
+    @if ($currentStep >= $step)
         <div class="py-6 space-y-4">
             <div class="flex gap-4">
                 <button @class([
@@ -35,17 +35,17 @@
             @endif
 
             @if ($paymentType == 'cash-in-hand')
-                <form wire:submit="checkout">
+                <form wire:submit="confirmPayment">
                     <div class="p-4 text-sm text-center text-blue-700 rounded-lg bg-blue-50">
                         Payment is offline, no card details needed.
                     </div>
 
-                    <button class="px-5 py-3 mt-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    <button class="mt-6 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center"
                             type="submit"
                             wire:key="payment_submit_btn">
                         <span wire:loading.remove.delay
                               wire:target="checkout">
-                            Submit Order
+                            Continue to Order Review
                         </span>
                         <span wire:loading.delay
                               wire:target="checkout">
@@ -69,5 +69,7 @@
                 </form>
             @endif
         </div>
-    {{-- @endif --}}
+        
+    @endif
+    
 </div>

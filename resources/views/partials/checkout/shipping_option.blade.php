@@ -1,8 +1,8 @@
 <form wire:submit="saveShippingOption"
-      class="bg-white border border-gray-100 rounded-xl">
-    <div class="flex items-center justify-between h-16 px-6 border-b border-gray-100">
-        <h3 class="font-medium">
-            Shipping Options
+      class="bg-white rounded-xl">
+    <div class="flex items-center justify-between ">
+        <h3 class="font-semibold text-[18px] text-[#111111] mb-2">
+            Delivery
         </h3>
 
         {{-- @if ($currentStep > $step) --}}
@@ -15,9 +15,9 @@
     </div>
 
     @if ($currentStep >= $step)
-        <div class="p-6">
+        <div class="">
             @if ($currentStep == $step)
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="grid grid-cols-1 gap-4">
                     @foreach ($this->shippingOptions as $option)
                         <div>
                             <input class="hidden peer"
@@ -47,20 +47,20 @@
                     </p>
                 @endif
             @elseif($currentStep > $step && $this->shippingOption)
-                <dl class="flex flex-wrap max-w-xs text-sm">
-                    <dt class="w-1/2 font-medium">
+                <div class="flex flex-wrap max-w-xs text-sm">
+                    <div class="w-1/2 font-medium">
                         {{ $this->shippingOption->getDescription() }}
-                    </dt>
+                    </div>
 
-                    <dd class="w-1/2 text-right">
+                    <div class="w-1/2 text-right">
                         {{ $this->shippingOption->getPrice()->formatted() }}
-                    </dd>
-                </dl>
+                    </div>
+                </div>
             @endif
 
             @if ($step == $currentStep)
                 <div class="mt-6 text-right">
-                    <button class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500"
+                    <button class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-500"
                             type="submit"
                             wire:key="shipping_submit_btn">
                         <span wire:loading.remove.delay
@@ -87,6 +87,7 @@
                         </span>
                     </button>
                 </div>
+                <hr class="border-b border-gray-200 border-t-0 my-4">
             @endif
         </div>
     @endif

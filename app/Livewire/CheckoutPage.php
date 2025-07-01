@@ -95,6 +95,10 @@ class CheckoutPage extends Component
         'confirmation' => 3,
     ];
 
+    public $deliveryOptionVerified = false;
+    public $paymentVerified = false;
+
+    public $showAddressEdit = false;
     /**
      * The payment type we want to use.
      */
@@ -188,7 +192,7 @@ class CheckoutPage extends Component
             $this->billing = new CartAddress($this->billing);
             
         }
-        //$this->determineCheckoutStep();
+        $this->determineCheckoutStep();
 
         // Log::info($this->shipping);
         //Log::info($this->shipping);
@@ -215,28 +219,30 @@ class CheckoutPage extends Component
     public function determineCheckoutStep(): void
     {
         $shippingAddress = $this->cart->shippingAddress;
-        $billingAddress = $this->cart->billingAddress;
-
+        //$billingAddress = $this->cart->billingAddress;
+        $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
+        // Log::info("Determining checkout step...");
+        // Log::info($shippingAddress);
         if ($shippingAddress) {
-            if ($shippingAddress->id) {
-                $this->currentStep = $this->steps['shipping_address'] + 1;
-            }
+            // if ($shippingAddress->id) {
+            //     $this->currentStep = $this->steps['shipping_address'] + 1;
+            // }
 
             // Do we have a selected option?
-            if ($this->shippingOption) {
+            if ($this->shippingOption && $shippingAddress->id) {
                 $this->chosenShipping = $this->shippingOption->getIdentifier();
                 $this->currentStep = $this->steps['shipping_option'] + 1;
+                $this->deliveryOptionVerified = true;
             } else {
                 $this->currentStep = $this->steps['shipping_option'];
                 $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
-
                 return;
             }
         }
 
-        if ($billingAddress) {
-            $this->currentStep = $this->steps['billing_address'] + 1;
-        }
+        // if ($billingAddress) {
+        //     $this->currentStep = $this->steps['billing_address'] + 1;
+        // }
     }
 
     /**
@@ -324,7 +330,8 @@ class CheckoutPage extends Component
 
         Log::info("Shipping address set as: ");
         Log::info($this->shipping);
-        //$this->determineCheckoutStep();
+        $this->determineCheckoutStep();
+        $this->showAddressEdit = false;
     }
 
     /**
@@ -338,29 +345,16 @@ class CheckoutPage extends Component
 
         $this->refreshCart();
 
-        //$this->determineCheckoutStep();
+        $this->determineCheckoutStep();
     }
 
     public function checkout()
     {
         // Log::info("Checkout initiated with payment type: " . $this->billing);
-        // $payment = Payments::cart($this->cart)->withData([
-        //     'payment_intent_client_secret' => $this->payment_intent_client_secret,
-        //     'payment_intent' => $this->payment_intent,
-        // ])->authorize();
-        //Log::info("Billing data before checkout:", $this->billing);
-    
-    try {
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
-        
-    } catch (\Exception $e) {
-        Log::error("Checkout failed: " . $e->getMessage());
-        throw $e;
-    }
-
 
         if ($payment->success) {
             redirect()->route('checkout-success.view');
@@ -460,6 +454,11 @@ class CheckoutPage extends Component
             ]);
         }
 
+    }
+
+    public function confirmPayment(): void
+    {
+        $this->currentStep = $this->steps['payment'] + 1;
     }
 
     public function render(): View
