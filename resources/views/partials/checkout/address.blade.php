@@ -16,31 +16,29 @@
         @endif --}}
     </div>
 
-    @if ($currentStep >= $step)
     <div class="py-6">
-        @if ($step == $currentStep)
         <div class="grid grid-cols-6 gap-4">
 
             <x-input.group class="col-span-3" label="First name" :errors="$errors->get($type . '.first_name')" required>
-                <x-input.text wire:model.live="{{ $type }}.first_name" required />
+                <x-input.text wire:model="{{ $type }}.first_name" required />
             </x-input.group>
 
             <x-input.group class="col-span-3" label="Last name" :errors="$errors->get($type . '.last_name')" required>
-                <x-input.text wire:model.live="{{ $type }}.last_name" required />
+                <x-input.text wire:model="{{ $type }}.last_name" required />
             </x-input.group>
 
             <x-input.group class="col-span-6" label="Company name" :errors="$errors->get($type . '.company_name')">
-                <x-input.text wire:model.live="{{ $type }}.company_name" />
+                <x-input.text wire:model="{{ $type }}.company_name" />
             </x-input.group>
 
             <x-input.group class="col-span-6 sm:col-span-3" label="Contact phone"
                 :errors="$errors->get($type . '.contact_phone')">
-                <x-input.text wire:model.live="{{ $type }}.contact_phone" />
+                <x-input.text wire:model="{{ $type }}.contact_phone" />
             </x-input.group>
 
             <x-input.group class="col-span-6 sm:col-span-3" label="Contact email"
                 :errors="$errors->get($type . '.contact_email')" required>
-                <x-input.text wire:model.live="{{ $type }}.contact_email" type="email" required />
+                <x-input.text wire:model="{{ $type }}.contact_email" type="email" required />
             </x-input.group>
 
             <div class="col-span-6">
@@ -49,37 +47,37 @@
 
             <x-input.group class="col-span-3 sm:col-span-2" label="Address line 1"
                 :errors="$errors->get($type . '.line_one')" required>
-                <x-input.text wire:model.live="{{ $type }}.line_one" required />
+                <x-input.text wire:model="{{ $type }}.line_one" required />
             </x-input.group>
 
             <x-input.group class="col-span-3 sm:col-span-2" label="Address line 2"
                 :errors="$errors->get($type . '.line_two')">
-                <x-input.text wire:model.live="{{ $type }}.line_two" />
+                <x-input.text wire:model="{{ $type }}.line_two" />
             </x-input.group>
 
             <x-input.group class="col-span-3 sm:col-span-2" label="Address line 3"
                 :errors="$errors->get($type . '.line_three')">
-                <x-input.text wire:model.live="{{ $type }}.line_three" />
+                <x-input.text wire:model="{{ $type }}.line_three" />
             </x-input.group>
 
             <x-input.group class="col-span-3 sm:col-span-2" label="City" :errors="$errors->get($type . '.city')"
                 required>
-                <x-input.text wire:model.live="{{ $type }}.city" required />
+                <x-input.text wire:model="{{ $type }}.city" required />
             </x-input.group>
 
             <x-input.group class="col-span-3 sm:col-span-2" label="State / Province"
                 :errors="$errors->get($type . '.state')">
-                <x-input.text wire:model.live="{{ $type }}.state" />
+                <x-input.text wire:model="{{ $type }}.state" />
             </x-input.group>
 
             <x-input.group class="col-span-3 sm:col-span-2" label="Postcode" :errors="$errors->get($type . '.postcode')"
                 required>
-                <x-input.text wire:model.live="{{ $type }}.postcode" required />
+                <x-input.text wire:model="{{ $type }}.postcode" required />
             </x-input.group>
 
             <x-input.group class="col-span-6" label="Country" :errors="$errors->get($type . '.country_id')" required>
                 <select class="w-full p-3 border border-gray-200 rounded-lg sm:text-sm"
-                    wire:model.live="{{ $type }}.country_id">
+                    wire:model="{{ $type }}.country_id">
                     <option value>Select a country</option>
                     @foreach ($this->countries as $country)
                     <option value="{{ $country->id }}" wire:key="country_{{ $country->id }}">
@@ -89,83 +87,7 @@
                 </select>
             </x-input.group>
         </div>
-        @elseif($currentStep > $step)
-        {{-- <dl class="grid grid-cols-1 gap-8 text-sm sm:grid-cols-2">
-            <div>
-                <div class="space-y-4">
-                    <div>
-                        <dt class="font-medium">
-                            Name
-                        </dt>
 
-                        <dd class="mt-0.5">
-                            {{ $this->{$type}->first_name }} {{ $this->{$type}->last_name }}
-                        </dd>
-                    </div>
-
-                    @if ($this->{$type}->company_name)
-                    <div>
-                        <dt class="font-medium">
-                            Company
-                        </dt>
-
-                        <dd class="mt-0.5">
-                            {{ $this->{$type}->company_name }}
-                        </dd>
-                    </div>
-                    @endif
-
-                    @if ($this->{$type}->contact_phone)
-                    <div>
-                        <dt class="font-medium">
-                            Phone Number
-                        </dt>
-
-                        <dd class="mt-0.5">
-                            {{ $this->{$type}->contact_phone }}
-                        </dd>
-                    </div>
-                    @endif
-
-                    <div>
-                        <dt class="font-medium">
-                            Email
-                        </dt>
-
-                        <dd class="mt-0.5">
-                            {{ $this->{$type}->contact_email }}
-                        </dd>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <dt class="font-medium">
-                    Address
-                </dt>
-
-                <dd class="mt-0.5">
-                    {{ $this->{$type}->line_one }}<br>
-                    @if ($this->{$type}->line_two)
-                    {{ $this->{$type}->line_two }}<br>
-                    @endif
-                    @if ($this->{$type}->line_three)
-                    {{ $this->{$type}->line_three }}<br>
-                    @endif
-                    @if ($this->{$type}->city)
-                    {{ $this->{$type}->city }}<br>
-                    @endif
-                    @if ($this->{$type}->state)
-                    {{ $this->{$type}->state }}<br>
-                    @endif
-                    {{ $this->{$type}->postcode }}<br>
-                    {{ $this->{$type}->country }}
-                </dd>
-            </div>
-        </dl> --}}
-        @endif
-
-        @if ($step == $currentStep)
         <div class="mt-6 flex justify-between">
             <button class="px-5 py-3 w-auto text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center"
                 type="submit" wire:key="submit_btn" wire:loading.attr="disabled" wire:target="saveAddress">
@@ -184,15 +106,7 @@
 
             <a class="px-5 py-4 w-auto  text-black bg-[#ffffff] border-1 h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-gray-100 font-normal text-center" x-on:click="showAddressEdit = false">Back</a>
         </div>
-        @endif
+  
     </div>
-
-    @endif
-
-    @if ($currentStep > $step)
-        <button class="text-sm font-medium text-gray-600 rounded-lg hover:text-gray-700 cursor-pointer"
-            type="button" wire:click.prevent="$set('currentStep', {{ $step }})">
-            {{__('Enter address manually')}}
-        </button>
-    @endif
+    
 </form>

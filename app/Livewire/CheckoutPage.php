@@ -31,8 +31,9 @@ class CheckoutPage extends Component
     /**
      * The shipping address instance.
      */
-    // public ?CartAddress $shipping = null;
+    //public ?CartAddress $shipping = null;
     public $shipping = [];
+    public $delivery = [];
     // public $shipping = [
     //     'first_name' => null,
     //     'last_name' => null,
@@ -81,11 +82,17 @@ class CheckoutPage extends Component
     /**
      * The checkout steps.
      */
+    // public array $steps = [
+    //     'shipping_address' => 1,
+    //     'shipping_option' => 2,
+    //     'billing_address' => 3,
+    //     'payment' => 4,
+    // ];
+
     public array $steps = [
-        'shipping_address' => 1,
-        'shipping_option' => 2,
-        'billing_address' => 3,
-        'payment' => 4,
+        'shipping_option' => 1,
+        'payment' => 2,
+        'confirmation' => 3,
     ];
 
     /**
@@ -275,49 +282,48 @@ class CheckoutPage extends Component
      */
     public function saveAddress(string $type): void
     {
-        // $address = new CartAddress();
-        // if ($type == 'shipping') {
-        //     $this->cart->setShippingAddress($address);
-        //     $this->shipping = $this->cart->shippingAddress;
-        // }
-        $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
-
-        Log::info($this->{$type});
-        //Log::info("Address type being saved: " . $type);
+        
+        Log::info("Saving address of type: " . $type);
+        Log::info($this->delivery);
 
         $validatedData = $this->validate(
             $this->getAddressValidation($type)
         );
 
+        //Log::info("Validated data for address type: " . $type);
         //Log::info($validatedData);
 
-        $address = new CartAddress($this->{$type});
+        // $address = new CartAddress($this->{$type});
+        $address = $this->{$type};
 
-        if ($type == 'billing') {
-            $this->cart->setBillingAddress($address);
-            $this->billing = $this->cart->billingAddress;
-        }
+        // if ($type == 'billing') {
+        //     $this->cart->setBillingAddress($address);
+        //     $this->billing = $this->cart->billingAddress;
+        // }
 
-        if ($type == 'shipping') {
+        if ($type == 'delivery') {
+            $this->shipping = new CartAddress();
             $this->cart->setShippingAddress($address);
             $this->shipping = $this->cart->shippingAddress;
 
-            if ($this->shippingIsBilling) {
-                // Do we already have a billing address?
-                if ($billing = $this->cart->billingAddress) {
-                    $billing->fill($validatedData['shipping']);
-                    $this->cart->setBillingAddress($billing);
-                } else {
-                    $address = $address->only(
-                        $address->getFillable()
-                    );
-                    $this->cart->setBillingAddress($address);
-                }
+            // if ($this->shippingIsBilling) {
+            //     // Do we already have a billing address?
+            //     if ($billing = $this->cart->billingAddress) {
+            //         $billing->fill($validatedData['shipping']);
+            //         $this->cart->setBillingAddress($billing);
+            //     } else {
+            //         $address = $address->only(
+            //             $address->getFillable()
+            //         );
+            //         $this->cart->setBillingAddress($address);
+            //     }
 
-                $this->billing = $this->cart->billingAddress;
-            }
+            //     $this->billing = $this->cart->billingAddress;
+            // }
         }
 
+        Log::info("Shipping address set as: ");
+        Log::info($this->shipping);
         //$this->determineCheckoutStep();
     }
 
@@ -388,8 +394,8 @@ class CheckoutPage extends Component
      */
     protected function getAddressValidation(string $type): array
     {
-        Log::info("Address type on validation: " . $type);
-        Log::info($this->shipping);
+        //Log::info("Address type on validation: " . $type);
+        //Log::info($this->shipping);
         return [
             "{$type}.first_name" => 'required',
             "{$type}.last_name" => 'required',
