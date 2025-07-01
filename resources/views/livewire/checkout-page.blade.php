@@ -5,6 +5,7 @@
     <div class="max-w-[1280px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-12 justify-center items-start">
         
         <div class="flex w-full lg:flex-row gap-20">
+            <span class="gggg">{{$currentStep}}</span>
             <div class="lg:w-[60%]" id="accordion-flush" data-accordion="collapse"
                 data-active-classes="bg-white text-gray-900" data-inactive-classes="text-gray-500">
                 {{-- Delivery Options Section --}}
@@ -21,7 +22,7 @@
                         </svg>
                     </button>
                 </h2>
-                <div id="accordion-flush-body-1" class="{{ $currentStep != 1 ? 'hidden' : '' }}"
+                <div id="accordion-flush-body-1" 
                     aria-labelledby="accordion-delivery-options">
                     <div class="py-5 border-b border-gray-200">
                         {{-- <div class="lg:w-[50%] xl:w-[50%] grid grid-cols-2 gap-3">
@@ -78,12 +79,12 @@
                             'step' => $steps['shipping_address'],
                         ]) --}}
 
-                        <div class="" delivery x-data="{ showAddressEdit: false, showDeliveryOptions: false }">
+                        <div class="" delivery x-data="{ showAddressEdit: false }">
                             <div class="flex flex-col gap-3">
-                                <div class="w-full relative" x-show="!showAddressEdit" >
+                                <div x-show="!showAddressEdit" class="{{ $currentStep != 1 ? 'hidden w-full relative' : 'w-full relative' }}">
                                     <ul class="flex text-sm font-medium text-center w-full pb-5" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
                                         <li class="me-2 w-1/2" role="presentation">
-                                            <button class="border cursor-pointer rounded-[6px] flex items-center justify-center gap-4 w-full py-4" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false" @click="showDeliveryOptions = !showDeliveryOptions" :class="showDeliveryOptions ? 'border border-black bg-gray-100' : 'border border-[#000000] bg-white'">
+                                            <button class="border cursor-pointer rounded-[6px] flex items-center justify-center gap-4 w-full py-4" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false" >
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                                     <path d="M2 6H13.069C14.618 6 15.392 6 16.049 6.346C16.705 6.692 17.143 7.331 18.019 8.608C18.632 9.504 19.277 10.154 20.183 10.733C21.095 11.315 21.529 11.6 21.769 12.057C22 12.494 22 13.012 22 14.049C22 15.416 22 16.099 21.587 16.533L21.533 16.587C21.1 17 20.416 17 19.05 17M5 17C4.68 17 4.385 17 4.23 16.967C4.074 16.933 3.928 16.867 3.635 16.736L2 16C2 12.806 2.479 10.962 3.106 9.45C3.516 8.458 3.722 7.962 3.636 7.52C3.553 7.08 2.5 6 2.5 6M9 17H15" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -126,13 +127,13 @@
 
                                 </div>
 
-                                <div x-show="!showDeliveryOptions" class="w-full">
-                                    <div x-show="!showAddressEdit">
+                                <div class="w-full">
+                                    <div x-show="!showAddressEdit" class="{{ $currentStep != 1 ? 'hidden' : '' }}">
                                         <x-wui-select wire:model.live="selectedShippingAddress" label="" placeholder="Start typing address" :async-data="route('api.address.search')" option-label="address" option-value="id"/>
-                                    </div
+                                    </div>
                                     {{-- Delivery Address --}}
                                     @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
-                                        <div class="py-5">
+                                        <div class="py-5" x-show="!showAddressEdit">
                                             <h3 class="font-semibold text-[18px] text-[#111111]">
                                                 {{ __('Delivery Address') }}</h3>
 
@@ -158,104 +159,24 @@
                                                 {{ $shipping['delivery_instructions'] }}</p>
                         
                                         </div>
-                                    @else
-                        
-                                        <div class="py-2" delivery>
-                                                {{-- <div class="w-full">
-                                                    <input type="text"
-                                                        wire:model.live="{{ $type }}.contact_email"
-                                                        class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
-                                                        placeholder="Email" />
-                                                </div> --}}
-
-                                                <div x-show="!showAddressEdit">
-                                                    <button type="button" x-on:click="showAddressEdit = true"
-                                                        class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter
-                                                        address
-                                                        manually</button>
-                                                </div>
-
+                                    @endif    
+                                    <div delivery class="{{ $currentStep != 1 ? 'hidden' : 'py-2' }}">
+                                        <div x-show="!showAddressEdit">
+                                            <button type="button" x-on:click="showAddressEdit = true" class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter address manually</button>
                                         </div>
-                                    @endif
+                                    </div>
                                 </div>
 
                                 <div x-show="showAddressEdit">
                                     {{-- Shipping Address Form --}}
                                     @include('partials.checkout.address', [
-                                        'type' => 'shipping',
-                                        'step' => $steps['shipping_address'],
+                                        'type' => 'delivery'
                                     ])
-                                    {{-- <div>
-                                        <input type="hidden" name="shipping_default">
-                                        
-                                        <div class="py-4 px-0 space-y-4">
-                                            <div class="mb-6">
-                                                <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
-                                                <input type="text" id="shipping_company" wire:model="shipping_company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Foxergo" required />
-                                            </div>
-                                            <div class="grid gap-6 mb-6 md:grid-cols-2">
-                                                <div>
-                                                    <label for="shipping_first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First name</label>
-                                                    <input type="text" id="shipping_first_name" wire:model="shipping_first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_last_name" class="block mb-2 text-sm font-medium text-gray-900 ">Last name</label>
-                                                    <input type="text" id="shipping_last_name" wire:model="shipping_last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_phone" class="block mb-2 text-sm font-medium text-gray-900 ">Phone number</label>
-                                                    <input type="tel" id="shipping_phone" wire:model="shipping_phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_email" class="block mb-2 text-sm font-medium text-gray-900 ">Email address</label>
-                                                    <input type="email" id="shipping_email" wire:model="shipping_email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="john.doe@foxergo.com" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_streetno" class="block mb-2 text-sm font-medium text-gray-900 ">Street Number or House Number</label>
-                                                    <input type="text" id="shipping_streetno" wire:model="shipping_streetno" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="221B" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_address" class="block mb-2 text-sm font-medium text-gray-900 ">Address</label>
-                                                    <input type="text" id="shipping_address" wire:model="shipping_address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Baker Street" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_city" class="block mb-2 text-sm font-medium text-gray-900 ">City</label>
-                                                    <input type="text" id="shipping_city" wire:model="shipping_city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="London" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_postcode" class="block mb-2 text-sm font-medium text-gray-900 ">Postcode</label>
-                                                    <input type="text" id="shipping_postcode" wire:model="shipping_postcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="SW1A 1AA" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_state" class="block mb-2 text-sm font-medium text-gray-900 ">State</label>
-                                                    <input type="text" id="shipping_state" wire:model="shipping_state" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="West Midlands" required />
-                                                </div>
-                                                <div>
-                                                    <label for="shipping_countries" class="block mb-2 text-sm font-medium text-gray-900 ">Country</label>
-                                                    <select id="shipping_countries" wire:model="shipping_countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                                                        <option selected>Choose a country</option>
-                                                        @foreach ($countries as $c)
-                                                            <option value="{{ $c->iso2 }}">{{ $c->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                            
-                                        <button type="button" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"   
-                                        x-on:click="() => {
-                                            $wire.saveShippingAddress().then(() => {
-                                                showAddressEdit = false;
-                                            });
-                                        }" primary >Save Address</button>
-
-                                        <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="showAddressEdit = false">Cancel</button>
-                                    </div> --}}
                                 </div>
 
                             </div>
 
-                            <div class="pt-5" x-show="showDeliveryOptions">
+                            <div class="pt-5" x-show="!showAddressEdit">
                                 {{-- <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
                                 <p class="font-semibold text-[16px] text-[#70707C]">Free</p>
                                 <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
@@ -270,14 +191,11 @@
                 </div>
 
                 <h2 id="accordion-flush-heading-2">
-                    {{-- <button type="button"
+                    <button type="button"
                         class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
                         data-accordion-target="#accordion-flush-body-2" x-on:click="currentStep = 2"
-                        aria-expanded="false" aria-controls="accordion-flush-body-2"> --}}
-                    <button type="button"
-                    class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
-                    data-accordion-target="#accordion-flush-body-2" x-on:click="currentStep = 2"
-                    aria-expanded="false" aria-controls="accordion-flush-body-2">
+                        aria-expanded="false" aria-controls="accordion-flush-body-2">
+                    
                         <span class="font-semibold text-[24px] text-[#111111]">Payment</span>
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -287,78 +205,78 @@
                     </button>
                 </h2>
 
-                <div >
-                {{-- <div id="accordion-flush-body-2" class="{{ $currentStep != 2 ? 'hidden' : '' }}"
-                    aria-labelledby="accordion-flush-heading-2"> --}}
-                    {{-- <div class="py-5 border-b border-gray-200">
-                        <div class="pt-3">
-                            <h3 class="font-semibold text-[16px] text-[#111111]">Billing Country/Region</h3>
-                            <p class="font-semibold text-[16px] text-[#70707C]">United Kingdom</p>
-                        </div>
-                        <div class="pt-3">
-                            <h3 class="font-semibold text-[16px] text-[#111111]">Select payment method</h3>
-                            <div class="flex items-center gap-4 py-2">
-                                <input checked id="default-radio-2" type="radio" value=""
-                                    name="default-radio" class="w-4 h-4 text-black bg-gray-100 border-gray-300">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-                                    </svg>
-                                    <label for="default-radio-2"
-                                        class="ms-2 text-sm font-medium text-black">Credit
-                                        or Debit Card</label>
+                <div>
+                    {{-- <div id="accordion-flush-body-2" class="{{ $currentStep != 2 ? 'hidden' : '' }}"
+                        aria-labelledby="accordion-flush-heading-2"> --}}
+                        {{-- <div class="py-5 border-b border-gray-200">
+                            <div class="pt-3">
+                                <h3 class="font-semibold text-[16px] text-[#111111]">Billing Country/Region</h3>
+                                <p class="font-semibold text-[16px] text-[#70707C]">United Kingdom</p>
+                            </div>
+                            <div class="pt-3">
+                                <h3 class="font-semibold text-[16px] text-[#111111]">Select payment method</h3>
+                                <div class="flex items-center gap-4 py-2">
+                                    <input checked id="default-radio-2" type="radio" value=""
+                                        name="default-radio" class="w-4 h-4 text-black bg-gray-100 border-gray-300">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                                        </svg>
+                                        <label for="default-radio-2"
+                                            class="ms-2 text-sm font-medium text-black">Credit
+                                            or Debit Card</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="my-3 border rounded-[7px] border-[#000000] p-5">
-                            <form action="" class="flex gap-3">
-                                <div class="w-full">
-                                    <input type="text"
-                                        class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
-                                        placeholder="Card Number" />
-                                </div>
-                                <div class="w-full flex items-center justify-between gap-4">
-                                    <input type="text"
-                                        class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
-                                        placeholder="MM/YY" />
-                                    <input type="text"
-                                        class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
-                                        placeholder="CVC" />
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="flex items-center">
-                            <input checked id="checked-checkbox" type="checkbox" value=""
-                                class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded-sm">
-                            <label for="checked-checkbox" class="ms-2 text-sm font-medium text-gray-900">Billing
-                                Address same as delivery</label>
-                        </div>
-
-                        <div class="pt-5">
-                            <h3 class="font-semibold text-[16px] text-[#111111]">Payment Method</h3>
-                            <div class="flex items-center justify-start gap-3">
-                                <img class="w-[20px]" src="{{ asset('images/mastercard.png') }}" alt="">
-                                <p>3963 Exp 04/2026</p>
+                            <div class="my-3 border rounded-[7px] border-[#000000] p-5">
+                                <form action="" class="flex gap-3">
+                                    <div class="w-full">
+                                        <input type="text"
+                                            class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
+                                            placeholder="Card Number" />
+                                    </div>
+                                    <div class="w-full flex items-center justify-between gap-4">
+                                        <input type="text"
+                                            class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
+                                            placeholder="MM/YY" />
+                                        <input type="text"
+                                            class="border border-[#000000] bg-white rounded-[6px] w-full py-2 md:py-4"
+                                            placeholder="CVC" />
+                                    </div>
+                                </form>
                             </div>
-                        </div>
 
-                        <div class="pt-5">
-                            <h3 class="font-semibold text-[16px] text-[#111111]">Delivery Address</h3>
-                            <p class="font-semibold text-[16px] text-[#70707C]">Joseph Conniff-Jenkins</p>
-                            <p class="font-semibold text-[16px] text-[#70707C]">Church Street Hafod</p>
-                            <p class="font-semibold text-[16px] text-[#70707C]">Porthcawl, CF36 5NP, GB</p>
-                        </div>
+                            <div class="flex items-center">
+                                <input checked id="checked-checkbox" type="checkbox" value=""
+                                    class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded-sm">
+                                <label for="checked-checkbox" class="ms-2 text-sm font-medium text-gray-900">Billing
+                                    Address same as delivery</label>
+                            </div>
 
-                        <div class="lg:w-[40%] xl:w-[30%] mt-5">
-                            <button
-                                class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Continue
-                                to Order Review</button>
-                        </div>
-                    </div> --}}
+                            <div class="pt-5">
+                                <h3 class="font-semibold text-[16px] text-[#111111]">Payment Method</h3>
+                                <div class="flex items-center justify-start gap-3">
+                                    <img class="w-[20px]" src="{{ asset('images/mastercard.png') }}" alt="">
+                                    <p>3963 Exp 04/2026</p>
+                                </div>
+                            </div>
+
+                            <div class="pt-5">
+                                <h3 class="font-semibold text-[16px] text-[#111111]">Delivery Address</h3>
+                                <p class="font-semibold text-[16px] text-[#70707C]">Joseph Conniff-Jenkins</p>
+                                <p class="font-semibold text-[16px] text-[#70707C]">Church Street Hafod</p>
+                                <p class="font-semibold text-[16px] text-[#70707C]">Porthcawl, CF36 5NP, GB</p>
+                            </div>
+
+                            <div class="lg:w-[40%] xl:w-[30%] mt-5">
+                                <button
+                                    class="w-full bg-[#0066FF] rounded-[30px] h-[60px] text-white text-[16px] font-normal text-center">Continue
+                                    to Order Review</button>
+                            </div>
+                        </div> --}}
 
                     @include('partials.checkout.payment', ['step' => $steps['payment']])
 
@@ -397,6 +315,7 @@
                     </div>
                 </div>
             </div>
+
 
             {{-- In Your Bag Section --}}
             <div class="w-full lg:w-[40%] flex flex-col gap-3">
