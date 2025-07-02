@@ -30,7 +30,7 @@
                             <div class="flex flex-col gap-3">
                                 <div x-show="!showAddressEdit" class="{{ $currentStep != 1 ? 'hidden w-full relative' : 'w-full relative' }}">
                                     <ul class="flex text-sm font-medium text-center w-full pb-5" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
-                                        <li class="me-2 w-1/2" role="presentation">
+                                        <li class="me-2 w-1/2 border-black" role="presentation">
                                             <button class="border cursor-pointer rounded-[6px] flex items-center justify-center gap-4 w-full py-4" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false" >
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M12 6L12.954 9.86C13.0344 10.1854 13.2215 10.4744 13.4854 10.6811C13.7493 10.8877 14.0748 11 14.41 11H20" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -47,7 +47,7 @@
 
                                 </div>
 
-                                <div class="w-full">
+                                <div class="w-full shipping-address-select-wrapper">
                                     <div x-show="!showAddressEdit" class="{{ $currentStep != 1 ? 'hidden' : '' }}">
                                         <x-wui-select wire:model.live="selectedShippingAddress" label="" placeholder="Start typing address" :async-data="route('api.address.search')" option-label="address" option-value="id"/>
                                     </div>
