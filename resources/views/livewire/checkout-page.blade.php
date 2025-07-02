@@ -5,7 +5,7 @@
     <div class="max-w-[1280px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-12 justify-center items-start">
 
         <div class="flex w-full lg:flex-row gap-20">
-            <span class="gggg">{{$currentStep}}</span>
+            {{-- <span class="gggg">{{$currentStep}}</span> --}}
             <div class="lg:w-[60%]" id="accordion-flush" data-accordion="collapse"
                 data-active-classes="bg-white text-gray-900" data-inactive-classes="text-gray-500">
                 {{-- Delivery Options Section --}}
@@ -22,7 +22,7 @@
                         </svg>
                     </button>
                 </h2>
-                <div id="accordion-flush-body-1" 
+                <div id="accordion-flush-body-1"
                     aria-labelledby="accordion-delivery-options">
                     <div class="py-5 border-b border-gray-200">
                         {{-- <div class="lg:w-[50%] xl:w-[50%] grid grid-cols-2 gap-3">
@@ -159,7 +159,7 @@
                                                 {{ $shipping['delivery_instructions'] }}</p>
 
                                         </div>
-                                    @endif    
+                                    @endif
                                     <div delivery class="{{ $currentStep != 1 ? 'hidden' : 'py-2' }}">
                                         <div x-show="!showAddressEdit">
                                             <button type="button" x-on:click="showAddressEdit = true" class="text-[#111111] font-normal text-[13px] underline cursor-pointer">Enter address manually</button>
@@ -261,7 +261,7 @@
                         class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
                         data-accordion-target="#accordion-flush-body-2" x-on:click="currentStep = 2"
                         aria-expanded="false" aria-controls="accordion-flush-body-2">
-                    
+
                         <span class="font-semibold text-[24px] text-[#111111]">Payment</span>
                         <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

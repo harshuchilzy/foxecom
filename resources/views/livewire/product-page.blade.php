@@ -423,7 +423,9 @@
                     </div> --}}
 
                     <div class="md:max-w-[90%]">
-                        <button class="bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full border border-[#282828] cursor-pointer font-inter">Claim Offer Now</button>
+                        <form wire:submit.prevent="claimOffer">
+                            <button class="bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full border border-[#282828] cursor-pointer font-inter">Claim Offer Now</button>
+                        </form>
                     </div>
 
                     <div class="flex flex-col gap-3 mt-8">

@@ -25,6 +25,8 @@ class ProductPage extends Component
 
     public $quantity = 1;
 
+    public ?string $redemptionId = null;
+
     public array $reviewForm = [
         'name' => '',
         'email' => '',
@@ -44,6 +46,8 @@ class ProductPage extends Component
 
     public function mount($slug): void
     {
+        $this->redemptionId = request()->get('redemption');
+
         $this->url = $this->fetchUrl(
             $slug,
             (new Product)->getMorphClass(),
@@ -185,6 +189,24 @@ class ProductPage extends Component
         $this->reset('reviewForm');
 
         session()->flash('success', 'Review submitted and awaiting approval.');
+    }
+
+    public function claimOffer(): \Livewire\Features\SupportRedirects\Redirector
+    {
+        if ($this->redemptionId) {
+            session(['active_redemption_id' => $this->redemptionId]);
+        }
+
+        $productId = $this->product->id;
+        $variantId = $this->variant->id;
+        $quantity = $this->quantity;
+
+        return redirect()->route('checkout.view', [
+            'redemption' => $this->redemptionId,
+            'product' => $productId,
+            'variant' => $variantId,
+            'quantity' => $quantity,
+        ]);
     }
 
     public function render(): View

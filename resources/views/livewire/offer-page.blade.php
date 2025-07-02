@@ -3,14 +3,24 @@
     <div class="flex gap-5 items-center justify-between px-10 py-20 bg-no-repeat absolute top-[35%] right-0 offer-txt-bg">
         <div>
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $redemption->title }}</h2>
-            <p class="font-bold text-white text-[24px]">Redeem offer</p>
+            @php
+                $discountType = $redemption->rules['discount_type'] ?? 'percentage';
+                $couponAmount = $redemption->rules['coupon_amount'] ?? 0;
+                $displayText = match ($discountType) {
+                    'percentage' => "{$couponAmount}% off",
+                    'fixed_cart' => "Save $ {$couponAmount} on cart",
+                    'fixed_product' => "${$couponAmount} off each item",
+                    default => "Redeem offer"
+                };
+            @endphp
+            <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
             {{-- <button class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4">Claim here</button> --}}
             @php
                 $product = $redemption->products->first();
                 $slug = $product?->defaultUrl?->slug;
             @endphp
             @if ($slug)
-                <a href="{{ route('product.view', ['slug' => $slug]) }}"
+                <a href="{{ route('product.view', ['slug' => $slug]) }}?redemption={{ $redemption->id }}"
                 class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
                     Claim here
                 </a>
