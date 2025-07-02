@@ -89,9 +89,9 @@
         </div>
 
         <div class="mt-6 flex justify-between">
-            <button class="px-5 py-3 w-auto text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center"
+            <button class="block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center"
                 type="submit" wire:key="submit_btn" wire:loading.attr="disabled" wire:target="saveAddress">
-                <span wire:loading.remove wire:target="saveAddress">
+                <span wire:loading.remove wire:target="saveAddress" >
                     Save Address
                 </span>
 
@@ -104,7 +104,7 @@
                 </span>
             </button>
 
-            <a class="px-5 py-4 w-auto  text-black bg-[#ffffff] border-1 h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-gray-100 font-normal text-center" x-on:click="showAddressEdit = false">Back</a>
+            <a class="block px-8 py-4  text-black bg-white h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-gray-200 font-normal text-center border border-gray-700" x-on:click="showAddressEdit = false">Back</a>
         </div>
   
     </div>
