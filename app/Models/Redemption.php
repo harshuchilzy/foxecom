@@ -8,7 +8,12 @@ use Illuminate\Support\Str;
 
 class Redemption extends Model
 {
-    protected $fillable = ['title', 'content', 'offer_image', 'product_image', 'discount', 'slug'];
+    protected $fillable = ['title', 'content', 'offer_image', 'product_image', 'discount', 'slug', 'rules'];
+
+    protected $casts = [
+        'rules' => 'array',
+    ];
+
 
     protected static function booted()
     {
@@ -24,4 +29,16 @@ class Redemption extends Model
         return $this->belongsToMany(\Lunar\Models\Product::class, 'product_redemption');
     }
 
+    public function getRule(string $key, $default = null)
+    {
+        return data_get($this->rules, $key, $default);
+    }
+
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            \Lunar\Models\Collection::class,
+            'collection_redemption'
+        );
+    }
 }
