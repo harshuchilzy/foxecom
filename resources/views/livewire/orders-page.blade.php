@@ -46,7 +46,7 @@
                 <h2 class="font-inter font-semibold text-[16px] text-black">Buy it again</h2>
                 @foreach ($orderItems as $orderItem)
                     <div class="flex gap-3 items-start py-3 flex-col lg:flex-row">
-                        <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ $orderItem['product']->thumbnail->getUrl() }}" alt="">
+                        <img class="mx-auto w-[35%] lg:w-[25%]" src="{{ $orderItem['product']->thumbnail?->getUrl() }}" alt="">
                         <div class="flex flex-col gap-1 pr-5">
                             <a href="{{ route('product.view', $orderItem['product']->defaultUrl->slug) }}"><p class="font-inter text-[#1275EE] font-normal text-[15px]">{{ $orderItem['product']->translateAttribute('name') }}</p></a>
                             <p class="font-inter text-[#1275EE] font-normal text-[15px]">{{$orderItem['line'] ? $orderItem['line']->option : ''}}</p>

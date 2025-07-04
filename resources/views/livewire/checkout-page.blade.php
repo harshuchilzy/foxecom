@@ -278,7 +278,7 @@
                             <div class="flex gap-5 items-center justify-start">
                                 <div class="">
                                     <img class="w-[60px] h-[60px] object-contain"
-                                        src="{{ $product->thumbnail->getUrl() }}" alt="">
+                                        src="{{ $product->thumbnail?->getUrl() }}" alt="">
                                 </div>
                                 <div>
                                     {{-- <pre>

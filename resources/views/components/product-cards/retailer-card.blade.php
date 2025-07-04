@@ -28,9 +28,9 @@
 
     <div class="p-3 hover:cursor-pointer bg-[#F5F5F5] ">
         <a href="{{ route('product.view', $relatedProduct->defaultUrl->slug) }}" wire:navigate>
-            <img 
-                class="w-full h-[180px] object-contain transition-transform group-hover:scale-105" 
-                src="{{ $relatedProduct->thumbnail->getUrl() }}" 
+            <img
+                class="w-full h-[180px] object-contain transition-transform group-hover:scale-105"
+                src="{{ $relatedProduct->thumbnail?->getUrl() }}"
                 alt="{{ $relatedProduct->translateAttribute('name') }}"
                 loading="lazy"
             >

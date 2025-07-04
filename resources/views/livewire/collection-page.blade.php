@@ -14,8 +14,8 @@
 </section> --}}
 
 <div>
-    <div class="relative w-full h-[320px] bg-no-repeat bg-cover bg-center" style="background-image: url('{{ $this->collection->thumbnail->getUrl() ?? asset('/images/wholesale-hero.jpg') }}')">
-        
+    <div class="relative w-full h-[320px] bg-no-repeat bg-cover bg-center" style="background-image: url('{{ $this->collection->thumbnail?->getUrl() ?? asset('/images/wholesale-hero.jpg') }}')">
+
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/50"></div>
 

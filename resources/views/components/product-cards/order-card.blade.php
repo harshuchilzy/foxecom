@@ -37,7 +37,7 @@
                         $product = $line->purchasable->product;
                     @endphp
                     <div class="flex justify-start py-4 flex-col md:flex-row gap-3 md:gap-1">
-                        <img class="w-[50%] md:w-[20%] object-cover" src="{{ $product->thumbnail->getUrl() }}" alt=""/>
+                        <img class="w-[50%] md:w-[20%] object-cover" src="{{ $product->thumbnail?->getUrl() }}" alt=""/>
                         <div>
                             <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate><p class="text-[15px] font-roboto font-semibold text-black">{{ $product->translateAttribute('name') }}</p></a>
                             <div class="relative overflow-x-auto py-2">
