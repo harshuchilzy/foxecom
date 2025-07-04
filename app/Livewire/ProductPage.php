@@ -191,7 +191,7 @@ class ProductPage extends Component
         session()->flash('success', 'Review submitted and awaiting approval.');
     }
 
-    public function claimOffer(): \Livewire\Features\SupportRedirects\Redirector
+    public function claimOffer(): \Illuminate\Http\RedirectResponse
     {
         if ($this->redemptionId) {
             session(['active_redemption_id' => $this->redemptionId]);
