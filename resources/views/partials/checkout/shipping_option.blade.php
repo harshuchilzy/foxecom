@@ -25,7 +25,7 @@
                                    wire:model.live="chosenShipping"
                                    name="shippingOption"
                                    value="{{ $option->getIdentifier() }}"
-                                   id="{{ $option->getIdentifier() }}" />
+                                   id="{{ $option->getIdentifier() }}" x-on:click="$wire.saveShippingOption" />
 
                             <label class="flex items-center justify-between p-4 text-sm font-medium border border-gray-100 rounded-lg shadow-sm cursor-pointer peer-checked:border-blue-500 hover:bg-gray-50 peer-checked:ring-1 peer-checked:ring-blue-500"
                                    for="{{ $option->getIdentifier() }}">
@@ -58,7 +58,7 @@
                 </div>
             @endif
 
-            @if ($step == $currentStep)
+            {{-- @if ($step == $currentStep)
                 <div class="mt-6 text-right">
                     <button class="px-5 py-3 text-sm font-medium text-white bg-blue-600 rounded-full hover:bg-blue-500"
                             type="submit"
@@ -88,7 +88,7 @@
                     </button>
                 </div>
                 <hr class="border-b border-gray-200 border-t-0 my-4">
-            @endif
+            @endif --}}
         </div>
     @endif
 </form>
