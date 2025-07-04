@@ -31,6 +31,7 @@ use Livewire\WithFileUploads;
     public string $password = '';
     public string $password_confirmation = '';
     public $registration_certificate, $vat_certificate, $proof_of_id, $proof_of_address;
+    public string $customer_type = 'retailer'; // default selection
 
     public array $cities = array();
 
@@ -128,6 +129,12 @@ use Livewire\WithFileUploads;
 
         $customer->users()->attach($user); //Assign User to the Customer
 
+        $groupHandle = $this->customer_type === 'wholesaler' ? 'wholesale' : 'retail';
+        $customerGroup = \Lunar\Models\CustomerGroup::where('handle', $groupHandle)->first();
+        if ($customerGroup) {
+            $customer->customerGroups()->attach($customerGroup);
+        }
+
         Auth::login($user);
 
         $this->redirectIntended(route('home', absolute: false), navigate: true);
@@ -140,6 +147,20 @@ use Livewire\WithFileUploads;
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
+
+    <div class="border border-theme-zinc dark:border-neutral-700 p-3">
+        <label class="uppercase text-xs">Registration Type <span class="text-red-500 text-xs">*</span></label>
+        <div class="flex gap-4 mt-2">
+            <label class="flex items-center space-x-2">
+                <input type="radio" wire:model="customer_type" value="retailer" />
+                <span>Retailer</span>
+            </label>
+            <label class="flex items-center space-x-2">
+                <input type="radio" wire:model="customer_type" value="wholesaler" />
+                <span>Wholesaler</span>
+            </label>
+        </div>
+    </div>
 
     <form wire:submit="register" class="flex flex-col gap-6">
         <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
@@ -512,7 +533,8 @@ use Livewire\WithFileUploads;
             </div>
         </div>
 
-        <div class="my-4 grid md:grid-cols-2 gap-4">
+        <div x-data="{ customerType: @entangle('customer_type') }" class="my-4">
+            <div x-show="customerType === 'wholesaler'" class="grid md:grid-cols-2 gap-4 retailer-hidden-section">
             <!-- Company Registration Certificate -->
             <div class="border border-theme-zinc dark:border-neutral-700 p-3">
                 <label for="registration_certificate" class="uppercase text-xs">Company Registration Certificate</label>
@@ -580,6 +602,7 @@ use Livewire\WithFileUploads;
                 </div>
                 @enderror
             </div>
+            </div>
         </div>
 
         <div class="flex items-center justify-end">
@@ -590,9 +613,9 @@ use Livewire\WithFileUploads;
     </form>
 
     <div class="w-full text-zinc-600 dark:text-zinc-400 mb-4">
-        <p class="text-center overflow-hidden before:h-[1px] after:h-[1px] after:bg-black 
-           after:inline-block after:relative after:align-middle after:w-1/4 
-           before:bg-black before:inline-block before:relative before:align-middle 
+        <p class="text-center overflow-hidden before:h-[1px] after:h-[1px] after:bg-black
+           after:inline-block after:relative after:align-middle after:w-1/4
+           before:bg-black before:inline-block before:relative before:align-middle
            before:w-1/4 before:right-2 after:left-2 mb-3 py-4">{{ __('Already have an account?') }}</p>
         <a href="{{route('login')}}"
             class="bg-gray-300 hover:bg-gray-500 px-5 py-5 w-full font-semibold text-white block text-center"
