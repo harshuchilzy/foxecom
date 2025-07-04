@@ -34,21 +34,6 @@ class CheckoutPage extends Component
     //public ?CartAddress $shipping = null;
     public $shipping = [];
     public $delivery = [];
-    // public $shipping = [
-    //     'first_name' => null,
-    //     'last_name' => null,
-    //     'company_name' => null,
-    //     'contact_phone' => null,
-    //     'contact_email' => null,
-    //     'line_one' => null,
-    //     'line_two' => null,
-    //     'line_three' => null,
-    //     'city' => null,
-    //     'state' => null,
-    //     'postcode' => null,
-    //     'country_id' => null,
-    //     'delivery_instructions' => null,
-    // ];
 
     /**
      * The billing address instance.

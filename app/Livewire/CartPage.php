@@ -21,6 +21,8 @@ class CartPage extends Component
 
     public int $cart_count;
 
+    public string $couponCode;
+
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
     ];
@@ -148,6 +150,19 @@ class CartPage extends Component
         ])
         ->where('id', $product_id)
         ->first();
+    }
+
+    function updatedCouponCode($couponCode = null) : void {
+        $cart = \Lunar\Facades\CartSession::current();
+        $cart->coupon_code = $couponCode ?? $this->couponCode;
+        $cart->save();
+    }
+
+    function removeCoupons() : void {
+        $cart = \Lunar\Facades\CartSession::current();
+        $cart->coupon_code = '';
+        $cart->save();
+        
     }
     
     public function render()
