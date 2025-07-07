@@ -76,7 +76,6 @@ class AddressPage extends Component
 
     public function saveBillingAddress()
     {
-        Log::info("fsdfsfsdsdfgsd");
         $user = auth()->user();
 
         $this->validate([
