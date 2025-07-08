@@ -397,7 +397,9 @@
                 </div>
 
                 <div class="w-full my-12">
-                    <img class="w-full h-full rounded-[14px]" src="{{ asset('images/fourthsection.jpg') }}" alt="">
+                    <a href="{{route('products.index')}}">
+                        <img class="w-full h-full rounded-[14px]" src="{{ asset('images/TT-BANNER.jpg') }}" alt="">
+                    </a>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 lg:gap-6">
@@ -608,12 +610,16 @@
                     </div>
                 </div>
 
-                <a href="{{route('products.index')}}">
-                    <div class="flex justify-start items-center my-12 seventhsection flex-col h-[260px] md:h-[350px] lg:h-[450px] xl:h-[600px] pt-5 bg-cover bg-center bg-no-repeat rounded-[14px] bg-[#F6F6F8]"  style="background-image: url('{{ asset('images/seven-section-bg.png') }}');">
-                        <h2 class="bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] text-transparent text-center text-[32px] lg:text-[48px] xl:text-[64px] font-semibold">Looking for Wholesale?</h2>
-                        <p class="font-thin lg:text-[20px] xl:text-[26px] text-black">Click Here to Shop</p>
-                    </div>
-                </a>
+                <div class="w-full my-12">
+                    <a href="{{route('products.index')}}">
+                        {{-- <div class="flex justify-start items-center my-12 seventhsection flex-col h-[260px] md:h-[350px] lg:h-[450px] xl:h-[600px] pt-5 bg-cover bg-center bg-no-repeat rounded-[14px] bg-[#F6F6F8]"  style="background-image: url('{{ asset('images/seven-section-bg.png') }}');">
+                            <h2 class="bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] text-transparent text-center text-[32px] lg:text-[48px] xl:text-[64px] font-semibold">Looking for Wholesale?</h2>
+                            <p class="font-thin lg:text-[20px] xl:text-[26px] text-black">Click Here to Shop</p>
+                        </div> --}}
+                        <img class="w-full h-full rounded-[14px]" src="{{ asset('images/AF-BANNER.jpg') }}" alt="">
+                    </a>
+                </div>
+
 
                 <div class="grid grid-cols-2 gap-3 lg:gap-6">
                     <div class="relative w-full h-full bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">

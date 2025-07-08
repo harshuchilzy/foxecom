@@ -1,5 +1,5 @@
 @props(['order'])
-<div class="w-full border border-[#008ECC] rounded-[6px] bg-white">
+<div class="w-full border border-[#008ECC] rounded-[6px] bg-white mb-3">
     <div class="bg-[#D9D9D966] rounded-tl-[6px] rounded-tr-[6px] p-4 flex justify-between flex-col md:flex-row gap-3 md:gap-0">
         <div class="flex gap-3 w-full md:w-[70%] lg:w-[50%]">
             <div class="flex flex-col gap-1 w-[30%]">
