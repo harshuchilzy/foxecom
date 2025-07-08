@@ -35,6 +35,7 @@
                     @php
                         // $product = $this->getOrderItems($line->purchasable_id);
                         $product = $line->purchasable->product;
+                        //print_r($line->purchasable->id);
                     @endphp
                     <div class="flex justify-start py-4 flex-col md:flex-row gap-3 md:gap-1">
                         <img class="w-[50%] md:w-[20%] object-cover" src="{{ $product->thumbnail?->getUrl() }}" alt=""/>
@@ -65,7 +66,6 @@
                                         </tbody>
 
                                     @else
-
                                         <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
                                             <tr>
                                                 <th scope="col" class="px-1 py-2">
@@ -85,7 +85,12 @@
                             </div>
 
                             <div class="flex justify-start items-center gap-3">
-                                <a href="" class="bg-[#FFD200] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">Buy it again</a>
+                                <livewire:components.order-page-add-to-cart 
+                                    :purchasable="$line->purchasable"
+                                    wire:key="$product->id"
+                                    :quantity="$line->unit_quantity"
+                                    :type="'orderBtn'"
+                                />
                                 <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">View your item</a>
                             </div>
                         </div>

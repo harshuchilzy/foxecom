@@ -22,6 +22,7 @@ class OrdersPage extends Component
 
     public $orderCount;
     public $totalRevenue;
+    
 
     public function updatedTimeFilter()
     {
@@ -96,7 +97,6 @@ class OrdersPage extends Component
     }
 
 
-
     public function render()
     {
         $customerId = Auth::user()->id;
@@ -106,13 +106,22 @@ class OrdersPage extends Component
         
         switch ($this->timeFilter) {
             case 'past-three-months':
-                $query->where('created_at', '>=', now()->subMonths(3));
+                $query->whereBetween('created_at', [
+                    now()->subMonths(3)->startOfDay(), 
+                    now()->endOfDay()
+                ]);
                 break;
             case 'past-two-months':
-                $query->where('created_at', '>=', now()->subMonths(2));
+                $query->whereBetween('created_at', [
+                    now()->subMonths(2)->startOfDay(),
+                    now()->endOfDay()
+                ]);
                 break;
             case 'past-month':
-                $query->where('created_at', '>=', now()->subMonth());
+                $query->whereBetween('created_at', [
+                    now()->subMonth()->startOfMonth(),
+                    now()->subMonth()->endOfMonth()
+                ]);
                 break;
         }
         
