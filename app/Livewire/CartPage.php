@@ -23,6 +23,7 @@ class CartPage extends Component
 
     public string $couponCode;
 
+
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
     ];
@@ -105,6 +106,7 @@ class CartPage extends Component
                 'options' => $line->purchasable->getOptions()->implode(' / '),
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
+                'stock' => $line->purchasable->stock,
             ];
         })->toArray();
     }
@@ -169,6 +171,29 @@ class CartPage extends Component
         $cart->coupon_code = '';
         $cart->save();
 
+    }
+
+    public function getStockForProduct($productVariantId){
+
+        $line = $this->cart->lines->firstWhere('purchasable_id', $productVariantId);
+        
+        if ($line && $line->purchasable) {
+            return $line->purchasable->stock; 
+        }
+        
+        return 0; 
+    }
+
+    public function relatedProducts(){
+
+        return Product::with([
+                'variants.prices',
+                'thumbnail',
+                'brand',
+                'defaultUrl',
+            ])
+            ->limit(3)
+            ->get();
     }
 
     public function render()

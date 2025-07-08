@@ -71,6 +71,7 @@ class AddressPage extends Component
 
         //for shipping addresses (Assuming if this user has only 1 CUSTOMER)
         $this->shippingAddresses = Address::where('customer_id', $user->customers->first()->id)
+            ->where('billing_default', '!=', 1)
             ->get();
     }
 

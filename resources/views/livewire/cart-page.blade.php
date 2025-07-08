@@ -4,9 +4,10 @@
             <h2 class="text-[#000000] font-bold text-[28px]">Bag</h2>
             @if ($this->cart)
             @if ($lines)
+            
             <div>
                 @foreach ($lines as $index => $line)
-                <div class="flex flex-row gap-8 border-b border-[#D9D9D9] pb-5">
+                <div class="flex flex-row gap-8 border-b border-[#D9D9D9] py-3">
                     <div class="bg-[#D9D9D9] w-1/3 flex justify-center items-center">
                         @if ($line['thumbnail'])
                         <img class="w-[60%]" src="{{ $line['thumbnail'] }}" alt="">
@@ -17,11 +18,17 @@
                     <div class="w-2/3 flex flex-col gap-2 justify-between">
                         <div>
                             <h3 class="font-bold text-[16px] text-black">{{ $line['description'] }}</h3>
-                            <p class="font-normal text-[16px] text-black">{{ $line['identifier'] }} / {{
-                                $line['options'] }}</p>
+                            <p class="font-normal text-[16px] text-black">{{ $line['identifier'] }}{{ !empty($line['options']) ? ': ' . $line['options'] : '' }}</p>
                             <p class="font-normal text-[16px]">
                                 <span class="text-black">Availability:</span>
-                                <span class="text-[#249B3E]">In Stock</span>
+                                @if ($line['stock'] > 5)
+                                    <span class="text-[#249B3E]"><strong>In Stock </strong></span>
+                                @elseif ($line['stock'] > 0)
+                                    <span class="text-[#c24141]"><strong>{{$line['stock']}}</strong> in Stock</span>
+                                @else
+                                    <span class="text-[#c24141]">Out of Stock</span>
+                                @endif
+                                
                             </p>
                         </div>
 
@@ -121,17 +128,12 @@
                     </div>
 
                     @if ($this->shippingOption)
-                    <div class="py-3 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}
-                        </h3>
-                        <p class="text-[14px] font-normal text-[#111111]">{{
-                            $this->shippingOption->getPrice()->formatted() }}</p>
-                    </div>
-                    @else
-                    <div class="py-3 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">Estimated Delivery & Handling</h3>
-                        <p class="text-[14px] font-normal text-[#111111]">FREE</p>
-                    </div>
+                        <div class="py-3 flex justify-between items-center">
+                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}
+                            </h3>
+                            <p class="text-[14px] font-normal text-[#111111]">{{
+                                $this->shippingOption->getPrice()->formatted() }}</p>
+                        </div>
                     @endif
 
                     @if ($this->cart?->discountTotal && $this->cart?->discountTotal->value > 0)
@@ -183,33 +185,28 @@
     <div>
         <h2 class="font-bold text-[28px] text-black mb-5">You Might Also Like</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div>
-                <div class="bg-[#F6F6F6]">
-                    <img src="{{ asset('images/a87364c32f2e8ab940fc2972ecaaa2ab07e6fa92.png') }}" alt="">
-                </div>
-                <div class="py-3 flex flex-col gap-1 px-1">
-                    <h2 class="text-black font-bold text-lg">TickTock</h2>
-                    <p class="text-black font-normal text-base">25K Ultra</p>
-                </div>
-            </div>
-            <div>
-                <div class="bg-[#F6F6F6]">
-                    <img src="{{ asset('images/a87364c32f2e8ab940fc2972ecaaa2ab07e6fa92.png') }}" alt="">
-                </div>
-                <div class="py-3 flex flex-col gap-1 px-1">
-                    <h2 class="text-black font-bold text-lg">TickTock</h2>
-                    <p class="text-black font-normal text-base">25K Ultra</p>
-                </div>
-            </div>
-            <div>
-                <div class="bg-[#F6F6F6]">
-                    <img src="{{ asset('images/a87364c32f2e8ab940fc2972ecaaa2ab07e6fa92.png') }}" alt="">
-                </div>
-                <div class="py-3 flex flex-col gap-1 px-1">
-                    <h2 class="text-black font-bold text-lg">TickTock</h2>
-                    <p class="text-black font-normal text-base">25K Ultra</p>
-                </div>
-            </div>
+            @if (count($this->relatedProducts()) > 0)
+                @foreach ($this->relatedProducts() as $relatedProduct)
+                    <div>
+                        <div class="bg-[#F6F6F6]">
+                            @if($relatedProduct->thumbnail)
+                                <img src="{{ $relatedProduct->thumbnail->getUrl() }}" alt="">
+                            @else
+                                <img src="{{ asset('images/a87364c32f2e8ab940fc2972ecaaa2ab07e6fa92.png') }}" alt="">
+                            @endif
+                        </div>
+                        <div class="py-3 flex flex-col gap-1 px-1">
+                            <h2 class="text-black font-bold text-lg">{{$relatedProduct->brand->translate('name')}}</h2>
+                            <p class="text-black font-normal text-base">{{ $relatedProduct->translate('name') }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div>
+                    Items not found.
+                </div>   
+            @endif
+            
         </div>
     </div>
 </div>
