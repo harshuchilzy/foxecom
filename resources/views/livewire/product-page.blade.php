@@ -296,10 +296,10 @@
                     <div class="space-y-4">
                         @if (count($this->productOptions))
                             @foreach ($this->productOptions as $option)
-                                <fieldset>
-                                    <legend class="text-xs font-medium text-gray-700">
+                                <fieldset class="mb-1">
+                                    {{-- <legend class="text-xs font-medium text-gray-700">
                                         {{ $option['option']->translate('name') }}
-                                    </legend>
+                                    </legend> --}}
                                     <div class="mt-4">
                                         <label for="quantity"
                                             class="sr-only">
@@ -310,8 +310,8 @@
 
                                     </div>
 
-                                    <div class="md:max-w-[90%] mb-4">
-                                        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 mt-4"
+                                    <div class="md:max-w-[90%]">
+                                        <div class="flex flex-col items-center md:items-start gap-1 mb-2 mt-2"
                                             x-data="{
                                                 selectedOption: @entangle('selectedOptionValues').live,
                                                 selectedValues: [],
@@ -320,6 +320,15 @@
                                             $watch('selectedOption', value =>
                                                 selectedValues = Object.values(selectedOption)
                                             )">
+
+                                            <legend class="text-xs font-medium text-gray-700">
+                                                {{ $option['option']->translate('name') }} 
+                                                <span>: 
+                                                    {{optional(
+                                                        collect($option['values'])->firstWhere('id', $selectedOptionValues[$option['option']->id] ?? null)
+                                                    )?->translate('name')}}
+                                                </span>
+                                            </legend>
 
                                             <select
                                                 id="option-select-{{ $option['option']->id }}"
@@ -339,12 +348,12 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="w-full">
-                                            <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
-                                        </div>
                                     </div>
                                 </fieldset>
                             @endforeach
+                            <div class="w-full md:max-w-[90%] mb-4">
+                                <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
+                            </div>
                         @else
                             <fieldset>
                                 <legend class="text-xs font-medium text-gray-700">
