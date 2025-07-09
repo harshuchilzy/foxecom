@@ -2,14 +2,17 @@
 
 namespace App\Providers;
 
+use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
+use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
+use App\Filament\Resources\ProductReviewResource;
+use App\Filament\Resources\RedemptionResource;
 use App\Modifiers\ShippingModifier;
 use Illuminate\Support\ServiceProvider;
+use Lunar\Admin\Filament\Resources\DiscountResource;
+use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use Lunar\Admin\Support\Facades\LunarPanel;
-use Lunar\Shipping\ShippingPlugin;
 use Lunar\Base\ShippingModifiers;
-
-use App\Filament\Resources\RedemptionResource;
-use App\Filament\Resources\ProductReviewResource;
+use Lunar\Shipping\ShippingPlugin;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +43,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(ShippingModifiers $shippingModifiers): void
     {
+        LunarPanel::extensions([
+            ListDiscounts::class => MyListDiscountPageExtension::class,
+            DiscountResource::class => MyDiscountResourceExtension::class
+        ]);
+
         $shippingModifiers->add(
             ShippingModifier::class
         );
@@ -47,7 +55,7 @@ class AppServiceProvider extends ServiceProvider
         \Lunar\Facades\ModelManifest::replace(
             \Lunar\Models\Contracts\Product::class,
             \App\Models\Product::class,
-            // \App\Models\CustomProduct::class,
+        // \App\Models\CustomProduct::class,
         );
     }
 }
