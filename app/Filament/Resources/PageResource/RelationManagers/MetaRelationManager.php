@@ -24,6 +24,7 @@ class MetaRelationManager extends RelationManager
                     ->options([
                         'text' => 'Text',
                         'textarea' => 'Text Area',
+                        'link' => 'Link',
                         'number' => 'Number',
                         'boolean' => 'Boolean',
                         'json' => 'JSON',
