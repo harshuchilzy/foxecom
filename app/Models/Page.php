@@ -24,4 +24,14 @@ class Page extends Model
     {
         return $this->hasMany(PageMediaCollection::class);
     }
+
+    public function getMetaKeyValueArray(): array
+    {
+        return $this->meta->pluck('value', 'key')->toArray();
+    }
+
+    public function getMediaCollectionArray(): array
+    {
+        return $this->gallery->pluck('value', 'key')->toArray();
+    }
 }

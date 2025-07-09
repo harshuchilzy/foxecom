@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use Illuminate\View\View;
-use Livewire\Component;
-use Lunar\Models\Collection;
+use App\Models\Page;
 use Lunar\Models\Url;
+use Livewire\Component;
+use Illuminate\View\View;
 use App\Models\Redemption;
+use Lunar\Models\Collection;
 
 class Home extends Component
 {
@@ -56,11 +57,17 @@ class Home extends Component
         // return view('livewire.home');
         $redemptions = Redemption::with(['products.brand'])->get();
 
+        $page = Page::with(['meta', 'gallery'])->where('slug', 'home')->first();
+        $metaFields = $page?->getMetaKeyValueArray() ?? [];
+        $mediaCollection = $page?->getMediaCollectionArray() ?? [];
+
         $latestRedemptions = $redemptions->take(3);
 
         return view('livewire.home', [
             'redemptions' => $redemptions,
             'latestRedemptions' => $latestRedemptions,
+            'metaFields' => $metaFields,
+            'mediaCollection' => $mediaCollection
         ]);
     }
 }

@@ -1,35 +1,51 @@
 <div>
+    {{-- {{dd($mediaCollection)}} --}}
     <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
         <main class="flex w-full flex-col">
             <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
-                <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-                    <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
-                </video>
+                @if(empty($metaFields['hero-video-link']))
+                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+                        <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
+                    </video>
+                @else
+                    <iframe
+                        class="absolute top-0 left-0 w-full h-full object-cover"
+                        src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}"
+                        frameborder="0"
+                        allow="autoplay; fullscreen"
+                        allowfullscreen
+                    ></iframe>
+                @endif
                 <div class="w-full h-full flex items-end justify-end relative">
-                    <button class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block">Redeem Free Offer</button>
+                    <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
                 </div>
             </div>
 
+            @php
+                $brandName = $metaFields['hero-sale-brand-name'] ?? 'Al Fakir';
+                $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
+            @endphp
+
             <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
                 <p class="text-white xl:flex items-center gap-2 hidden">
-                    <span class="font-semibold lg:text-sm xl:text-lg">Al Fakir</span>
-                    <span class="font-strong lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                    <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
                 </p>
                 <p class="text-white flex items-center gap-2">
-                    <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">Al Fakir</span>
-                    <span class="font-strong text-[10px] lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                    <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
                 </p>
                 <p class="text-white flex items-center gap-2">
-                    <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">Al Fakir</span>
-                    <span class="font-strong text-[10px] lg:text-sm xl:text-lg">BUY 4 OUTERS AND GET 1 FREE</span>
+                    <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                    <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
                 </p>
             </div>
 
             <div class="flex flex-col bg-[#D9D9D97D]">
                 <div class="py-8 lg:py-12">
                     <h2 class="text-center text-[20px] lg:text-[28px]">
-                        <span class="font-bold text-black">Promotion Spotlight.</span>
-                        <span class="font-semibold text-[#6E6E73] italic">Our monthly offer selection for you.</span>
+                        <span class="font-bold text-black">{{$metaFields['promotion-section-bold-title'] ?? 'Promotion Spotlight.'}}</span>
+                        <span class="font-semibold text-[#6E6E73] italic">{{$metaFields['promotion-section-title'] ?? 'Our monthly offer selection for you.'}}</span>
                     </h2>
 
                     <section class="py-8">
@@ -112,8 +128,8 @@
                     </section>
 
                     <div class="flex items-center justify-center mt-2 flex-col gap-3 px-5 lg:px-0">
-                        <h3 class="text-[22px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">Claim Your Free Outer Here</h3>
-                        <p class="text-[16px] font-normal text-black">Limited-time promotion for verified retailers. Claim it fast  </p>
+                        <h3 class="text-[22px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">{{$metaFields['promotion-subtitle'] ?? 'Claim Your Free Outer Here'}}</h3>
+                        <p class="text-[16px] font-normal text-black">{{$metaFields['promotion-text-line'] ?? 'Limited-time promotion for verified retailers. Claim it fast'}}  </p>
                     </div>
                 </div>
             </div>
@@ -121,8 +137,8 @@
             <div class="bg-white px-4 lg:px-8 xl:px-16 py-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px]">
-                        <span class="font-bold text-black">The latest promotions.</span>
-                        <span class="font-semibold text-[#6E6E73] italic">Take a look what’s new.</span>
+                        <span class="font-bold text-black">{{$metaFields['latest-promotion-bold-title'] ?? 'The latest promotions.'}}</span>
+                        <span class="font-semibold text-[#6E6E73] italic">{{$metaFields['latest-promotion-title'] ?? 'Take a look what’s new.'}}</span>
                     </h2>
                 </div>
 
@@ -172,8 +188,8 @@
             <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:py-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px]">
-                        <span class="font-bold text-black">All Offers.</span>
-                        <span class="font-semibold text-[#6E6E73] italic">Click to reveal.</span>
+                        <span class="font-bold text-black">{{$metaFields['offers-bold-title'] ?? 'All Offers.'}}</span>
+                        <span class="font-semibold text-[#6E6E73] italic">{{$metaFields['offers-title'] ?? 'Click to reveal.'}}</span>
                     </h2>
                 </div>
 
