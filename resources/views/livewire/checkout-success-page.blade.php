@@ -20,7 +20,7 @@
                 Your order reference number is
 
                 <strong>
-                    {{ $order->reference }}
+                    {{-- {{ $order->reference }} --}}
                 </strong>
             </p>
 

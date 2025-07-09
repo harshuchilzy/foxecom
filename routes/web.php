@@ -247,3 +247,5 @@ Route::get('test', function(){
 
 
 Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');
+
+

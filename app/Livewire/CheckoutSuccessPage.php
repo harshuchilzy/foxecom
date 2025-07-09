@@ -16,13 +16,13 @@ class CheckoutSuccessPage extends Component
 
     public function mount(): void
     {
-        $this->cart = CartSession::current();
-        if (! $this->cart || ! $this->cart->completedOrder) {
-            $this->redirect('/');
+        // $this->cart = CartSession::current();
+        // if (! $this->cart || ! $this->cart->completedOrder) {
+        //     $this->redirect('/');
 
-            return;
-        }
-        $this->order = $this->cart->completedOrder;
+        //     return;
+        // }
+        // $this->order = $this->cart->completedOrder;
 
         CartSession::forget();
     }

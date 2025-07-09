@@ -3,15 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Page extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'author_id', 'content', 'template', 'status',
+        'title', 'slug', 'content', 'status',
     ];
 
-    public function author()
+     protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
+    public function meta(): HasMany
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->hasMany(PageMeta::class);
+    }
+
+    public function gallery(): HasMany
+    {
+        return $this->hasMany(PageMediaCollection::class);
     }
 }
