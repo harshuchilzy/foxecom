@@ -1,5 +1,4 @@
 <div>
-    {{-- {{dd($mediaCollection)}} --}}
     <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
         <main class="flex w-full flex-col">
             <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
@@ -7,14 +6,17 @@
                     <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
                         <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
                     </video>
-                @else
-                    <iframe
+                @else 
+                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+                        <source src="{{ asset('storage/' . $mediaCollection['hero-section-video']) }}" type="video/mp4">
+                    </video>
+                    {{-- <iframe
                         class="absolute top-0 left-0 w-full h-full object-cover"
                         src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}"
                         frameborder="0"
                         allow="autoplay; fullscreen"
                         allowfullscreen
-                    ></iframe>
+                    ></iframe> --}}
                 @endif
                 <div class="w-full h-full flex items-end justify-end relative">
                     <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>

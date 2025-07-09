@@ -22,7 +22,6 @@ class GalleryRelationManager extends RelationManager
                     
                 Forms\Components\FileUpload::make('value')
                     ->label('Image')
-                    ->image()
                     ->directory('page-meta-images'),
             ]);
     }
