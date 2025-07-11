@@ -30,7 +30,7 @@
         <a href="{{ route('product.view', $relatedProduct->defaultUrl->slug) }}" wire:navigate>
             <img
                 class="w-full h-[180px] object-contain transition-transform group-hover:scale-105"
-                src="{{ $relatedProduct->thumbnail?->getUrl() }}"
+                src="{{ $relatedProduct->thumbnail?->getUrl('small') }}"
                 alt="{{ $relatedProduct->translateAttribute('name') }}"
                 loading="lazy"
             >
