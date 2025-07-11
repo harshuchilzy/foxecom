@@ -12,6 +12,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Livewire\WithFileUploads;
 use App\Models\ProductReview;
 use App\Models\ReviewImage;
+use Lunar\Models\Discount;
+use Lunar\Facades\CartSession;
 
 class ProductPage extends Component
 {
@@ -25,7 +27,7 @@ class ProductPage extends Component
 
     public $quantity = 1;
 
-    public ?string $redemptionId = null;
+    public ?string $discountId = null;
 
     public array $reviewForm = [
         'name' => '',
@@ -46,7 +48,7 @@ class ProductPage extends Component
 
     public function mount($slug): void
     {
-        $this->redemptionId = request()->get('redemption');
+        $this->discountId = request()->get('discount');
 
         $this->url = $this->fetchUrl(
             $slug,
@@ -191,22 +193,30 @@ class ProductPage extends Component
         session()->flash('success', 'Review submitted and awaiting approval.');
     }
 
-    public function claimOffer(): \Illuminate\Http\RedirectResponse
+   public function claimOffer()
     {
-        if ($this->redemptionId) {
-            session(['active_redemption_id' => $this->redemptionId]);
+        if (!$this->discountId) {
+            abort(400, 'No discount provided.');
         }
 
-        $productId = $this->product->id;
-        $variantId = $this->variant->id;
-        $quantity = $this->quantity;
+        $discount = Discount::find($this->discountId);
 
-        return redirect()->route('checkout.view', [
-            'redemption' => $this->redemptionId,
-            'product' => $productId,
-            'variant' => $variantId,
-            'quantity' => $quantity,
+        if (!$discount) {
+            abort(404, 'Discount not found.');
+        }
+
+        session(['active_discount_id' => $this->discountId]);
+
+        // Set quantity from min_qty in discount data
+        $this->quantity = isset($discount->data['min_qty']) ? (int) $discount->data['min_qty'] : 1;
+
+        // Add to cart using Lunar's CartManager
+        CartSession::manager()->add($this->variant, $this->quantity, [
+            'applied_discount_id' => $this->discountId,
         ]);
+
+        // ✅ This is now safe for Livewire and Laravel
+        return redirect()->route('checkout.view');
     }
 
     public function render(): View
