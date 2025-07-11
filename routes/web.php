@@ -16,7 +16,7 @@ use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\OfferPage;
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('blog', function () {
     return view('pages.blog');
@@ -69,7 +69,6 @@ Route::get('/offer', function () {
 Route::get('/wholesale', function () {
     return view('wholesale');
 })->name('wholesale');
-
 
 
 // Route::put('/address/{address}', [AddressPage::class, 'update'])->name('address.update');
@@ -141,7 +140,6 @@ Route::get('/account', function () {
 // });
 
 
-
 // Route::get('/cart', function () {
 //     return view('cart');
 // });
@@ -173,7 +171,6 @@ Route::get('/new-checkout', function () {
 //     Volt::route('settings/password', 'settings.password')->name('settings.password');
 //     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 // });
-
 
 
 // Lunar routes frontend - single product page
@@ -209,12 +206,12 @@ Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
 Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('auth');
 
 // Move to API
-Route::get('/address/search', function(Request $request){
+Route::get('/address/search', function (Request $request) {
     $user = $request->user();
     $customer = $user->customers->first();
     $addresses = [];
-    if($customer){
-        $addresses = $customer->addresses->map(function($address){
+    if ($customer) {
+        $addresses = $customer->addresses->map(function ($address) {
             $shorten_address = array(
                 $address->first_name,
                 $address->last_name,
@@ -234,18 +231,22 @@ Route::get('/address/search', function(Request $request){
     return response()->json($addresses);
 })->middleware('auth')->name('api.address.search');
 
-Route::get('test', function(){
+Route::get('test', function () {
 
-        $user = auth()->user();
-        $customer = $user->customers->first();
-        $billing_address = $customer->addresses->where('billing_default', 1)->first();
-        echo $billing_address->country;
-        echo '<pre>';
-        print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
-        echo '</pre>';
+    $user = auth()->user();
+    $customer = $user->customers->first();
+    $billing_address = $customer->addresses->where('billing_default', 1)->first();
+    echo $billing_address->country;
+    echo '<pre>';
+    print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
+    echo '</pre>';
 });
 
 
-Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');
+// Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');
 
 
+Route::get('/offers/{id}', OfferPage::class)->name('discount.show');
+
+
+Route::redirect('admin', '/dashboard');

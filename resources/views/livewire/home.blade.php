@@ -112,14 +112,19 @@
                         </div> --}}
                         <div class="swiper mySwiper w-full mx-auto">
                             <div class="swiper-wrapper">
-                                @foreach ($redemptions as $redemption)
-                                    @if ($redemption->offer_image)
+                                @foreach ($discounts as $discount)
+                                    @php
+                                        $data = $discount->data;
+                                        $bannerImage = $data['banner_image'] ?? null;
+                                    @endphp
+
+                                    @if ($bannerImage)
                                         <div class="swiper-slide rounded-xl">
-                                            <a href="{{ route('redemption.show', ['id' => $redemption->id]) }}">
+                                            <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                                 <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
-                                                    <img src="{{ asset('storage/' . $redemption->offer_image) }}"
+                                                    <img src="{{ asset('storage/' . $bannerImage) }}"
                                                         class="w-full h-full rounded-xl object-cover transition-transform duration-300 hover:scale-105"
-                                                        alt="{{ $redemption->title }}">
+                                                        alt="{{ $discount->name }}">
                                                 </div>
                                             </a>
                                         </div>
@@ -145,7 +150,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    @foreach ($latestRedemptions as $latestRedemption)
+                    {{-- @foreach ($latestRedemptions as $latestRedemption)
                         @php
                             $title = $latestRedemption->title;
                             $image = $latestRedemption->product_image ? asset('storage/' . $latestRedemption->product_image) : asset('images/fallback.png');
@@ -183,7 +188,7 @@
                                 <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $image }}" alt="{{ $title }}">
                             </div>
                         </div>
-                    @endforeach
+                    @endforeach --}}
                 </div>
             </div>
 
@@ -196,18 +201,20 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 lg:gap-6">
-                    @foreach ($redemptions as $redemption)
+                    @foreach ($discounts as $discount)
                     <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
                         <div class="mb-4 flex lg:hidden justify-between items-start">
                             {{-- <img class="w-[70%] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo"> --}}
                             @php
-                                $product = $redemption->products->first();
-                                $brandImage = $product?->brand?->thumbnail?->getUrl();
+                                $data = $discount->data;
+                                $bannerImage = $data['banner_image'] ?? null;
+                                $promoImage = $data['promo_image'] ?? null;
+                                $imageToShow = $bannerImage ?? $promoImage;
                             @endphp
 
-                            @if ($brandImage)
+                            {{-- @if ($brandImage)
                                 <img class="w-[70%] mb-2" src="{{ $brandImage }}" alt="{{ $product->brand->name }} Logo">
-                            @endif
+                            @endif --}}
                             <div class="p-2 rounded-full flex items-center justify-center lg:hidden" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.8) 100%);">
                                 <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.22998 5.46289C3.0584 5.46289 3.72997 6.13447 3.72998 6.96289V8.12109H4.97803C5.80645 8.12109 6.47803 8.79267 6.47803 9.62109C6.47777 10.4493 5.80629 11.1211 4.97803 11.1211H3.22998C1.84967 11.1208 0.730241 10.0014 0.72998 8.62109V6.96289C0.729987 6.13464 1.4018 5.46317 2.22998 5.46289ZM6.42627 3.41797C7.64967 3.41797 8.64111 4.41039 8.64111 5.63379C8.64087 6.85699 7.64952 7.84863 6.42627 7.84863H6.27686C5.0536 7.84863 4.06225 6.85699 4.06201 5.63379C4.06201 4.41039 5.05346 3.41797 6.27686 3.41797H6.42627ZM9.47412 0.145508C10.8546 0.145663 11.9739 1.2651 11.9741 2.64551V4.30371C11.9741 5.13204 11.3024 5.80356 10.4741 5.80371C9.6457 5.80371 8.97413 5.13213 8.97412 4.30371V3.14551H7.72607C6.89765 3.14551 6.22607 2.47393 6.22607 1.64551C6.22631 0.817285 6.8978 0.145508 7.72607 0.145508H9.47412Z" fill="url(#paint0_linear_479_1744)"/><defs><linearGradient id="paint0_linear_479_1744" x1="6.10051" y1="0.145508" x2="6.10051" y2="10.6451" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
                             </div>
@@ -216,24 +223,28 @@
                         <div class="mb-4 hidden lg:block">
                             <div class="mb-4">
                                 <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
-                                <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $redemption->title }}</h2>
+                                <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
                             </div>
 
-                            <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block">
-                                {!! $redemption->content !!}
-                            </p>
+                            @if ($discount->description)
+                                <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block">
+                                    {!! $discount->description !!}
+                                </p>
+                            @endif
                         </div>
 
 
-                        <a type="button" href="{{ route('redemption.show', ['id' => $redemption->id]) }}" class="group lg:flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200 hidden z-9">
+                        <a type="button" href="" class="group lg:flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200 hidden z-9">
                             <span class="text-themeblue">
                                 Reveal Offer
                             </span>
                             <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
                         </a>
 
-                        @if ($redemption->product_image)
-                            <img src="{{ asset('storage/' . $redemption->product_image) }}" alt="{{ $redemption->title }}" class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[200px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150" />
+                        @if ($promoImage)
+                            <img src="{{ asset('storage/' . $promoImage) }}"
+                                alt="{{ $discount->name }}"
+                                class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[200px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150" />
                         @endif
                         <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full lg:flex items-center justify-center hidden">
                             <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_918)"/><defs><linearGradient id="paint0_linear_754_918" x1="15.3352" y1="0.86084" x2="15.3352" y2="28.9993" gradientUnits="userSpaceOnUse"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0.7"/></linearGradient></defs></svg>
