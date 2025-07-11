@@ -55,18 +55,15 @@ class Home extends Component
 
     public function render(): View
     {
-        // return view('livewire.home');
-        $redemptions = Redemption::with(['products.brand'])->get();
-
         $page = Page::with(['meta', 'gallery'])->where('slug', 'home')->first();
         $metaFields = $page?->getMetaKeyValueArray() ?? [];
         $mediaCollection = $page?->getMediaCollectionArray() ?? [];
 
-        $latestRedemptions = $redemptions->take(3);
         $discounts = Discount::active()->get();
+        $latestDiscounts = $discounts->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
+
         return view('livewire.home', [
-            'redemptions' => $redemptions,
-            'latestRedemptions' => $latestRedemptions,
+            'latestDiscounts' => $latestDiscounts,
             'metaFields' => $metaFields,
             'mediaCollection' => $mediaCollection,
             'discounts' => $discounts,
