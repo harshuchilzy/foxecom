@@ -448,21 +448,7 @@ use Livewire\WithFileUploads;
                     <!-- City -->
                     <label for="city" class="uppercase text-xs">Select City <span
                             class="text-red-500 text-xs">*</span></label>
-                    <select x-model="city" wire:model="city" id="city"
-                        class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
-                        <option value="">-- Select City --</option>
-                        @foreach ($cities as $city)
-                        <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
-                        @endforeach
-                        {{-- <option value="london">London</option>
-                        <option value="manchester">Manchester</option>
-                        <option value="birmingham">Birmingham</option> --}}
-                        {{-- <option value="">-- Select City --</option>
-                        <template x-for="option in cities[country] ?? []" :key="option.value">
-                            <option :value="option.value" x-text="option.label"></option>
-                        </template> --}}
-                        <!-- Add more as needed -->
-                    </select>
+                    <livewire:city-select />
                     @error('city')
                     <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
                         <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">

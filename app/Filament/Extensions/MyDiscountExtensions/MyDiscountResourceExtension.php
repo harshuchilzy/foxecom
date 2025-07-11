@@ -2,13 +2,16 @@
 
 namespace App\Filament\Extensions\MyDiscountExtensions;
 
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
+use Closure;
 use Filament\Forms\Form;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\DeleteAction;
 use Lunar\Admin\Support\Extending\ResourceExtension;
 
 class MyDiscountResourceExtension extends ResourceExtension
@@ -24,7 +27,21 @@ class MyDiscountResourceExtension extends ResourceExtension
                 FileUpload::make('data.promo_image')
                     ->label('Promotional Image')
                     ->image()
+                    ->required(),
+                Select::make('data.banner_type')
+                    ->label('Banner Type')
+                    ->options([
+                        'normal' => 'Normal',
+                        'full_width' => 'Full Width',
+                        'video' => 'Video',
+                    ])
                     ->required()
+                    ->reactive(),
+                TextInput::make('data.video_url')
+                    ->label('Video URL')
+                    ->placeholder('https://example.com/video.mp4')
+                    ->visible(fn ($get) => $get('data.banner_type') === 'video'),
+                    
             ])->columns(2);
     }
 
