@@ -462,14 +462,21 @@ use Livewire\WithFileUploads;
                             search: '',
                             selected: @entangle('city'),
                             options: [],
+                            country: @entangle('country'),
+                            init() {
+                                this.fetchOptions();
+
+                                // Watch country and refetch cities when it changes
+                                this.$watch('country', value => {
+                                    this.search = '';
+                                    this.selected = '';
+                                    this.fetchOptions();
+                                });
+                            },
                             fetchOptions() {
-                                fetch(`{{ route('api.cities.search') }}?country={{ $country }}&search=${encodeURIComponent(this.search)}`)
+                                fetch(`{{ route('api.cities.search') }}?country=${this.country}&search=${encodeURIComponent(this.search)}`)
                                     .then(res => res.json())
                                     .then(data => this.options = data);
-                            },
-                            filteredOptions() {
-                                this.fetchOptions();
-                                return this.options;
                             },
                             selectOption(option) {
                                 this.selected = option.value;
@@ -480,7 +487,7 @@ use Livewire\WithFileUploads;
                                 return option ? option.label : '';
                             }
                         }"
-                        x-init="fetchOptions()"
+                        x-init="init()"
                         class="relative w-full"
                     >
                         <button
