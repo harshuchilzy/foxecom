@@ -129,6 +129,22 @@ use Livewire\WithFileUploads;
 
         $customer->users()->attach($user); //Assign User to the Customer
 
+        $address = Lunar\Models\Address::create([
+            'customer_id' => $customer->id,
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'company_name' => $validated['company_name'],
+            'line_one' => $validated['address_line_1'],
+            'line_two' => $validated['address_line_2'],
+            'city' => $validated['city'],
+            'postcode' => $validated['postcode'],
+            'country_id' => $validated['country'] == 'uk' ? '235' : '234',
+            'delivery_instructions' => 'null',
+            'contact_email' => $validated['email'],
+            'contact_phone' => $validated['phone'],
+            'billing_default' => true,
+        ]);
+
         $groupHandle = $this->customer_type === 'wholesaler' ? 'wholesale' : 'retail';
         $customerGroup = \Lunar\Models\CustomerGroup::where('handle', $groupHandle)->first();
         if ($customerGroup) {

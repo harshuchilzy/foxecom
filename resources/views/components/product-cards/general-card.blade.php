@@ -24,9 +24,6 @@
                 loading="lazy"
             >
         </a>
-        {{-- @php
-                dd($product)
-            @endphp --}}
     </div>
 
     <div class="bg-white rounded-b-[16px] p-3 space-y-2">
