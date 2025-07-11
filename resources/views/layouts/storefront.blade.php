@@ -14,6 +14,7 @@
         href="{{ asset('images/blacklogo.png') }}"
     >
     <wireui:scripts />
+    <script src="//unpkg.com/alpinejs" defer></script>
 
     @include('partials.head')
 </head>

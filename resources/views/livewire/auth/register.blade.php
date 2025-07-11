@@ -33,51 +33,51 @@ use Livewire\WithFileUploads;
     public $registration_certificate, $vat_certificate, $proof_of_id, $proof_of_address;
     public string $customer_type = 'retailer'; // default selection
 
-    public array $cities = array();
+    // public array $cities = array();
 
-    function mount() : void {
-        $this->loadUKCities(); // Load UK cities by default
-    }
+    // function mount() : void {
+    //     $this->loadUKCities();
+    // }
 
-    public function updated($property) : void {
-        Log::info("Property updated: {$property}");
-        if($property === 'country') {
-            $this->reset('city');
-            $this->cities = [];
-            if ($this->country === 'uk') {
-                $this->loadUKCities();
-            } elseif ($this->country === 'uae') {
-                $this->loadUAECities();
-            }
-        }
-    }
+    // public function updated($property) : void {
+    //     Log::info("Property updated: {$property}");
+    //     if($property === 'country') {
+    //         $this->reset('city');
+    //         $this->cities = [];
+    //         if ($this->country === 'uk') {
+    //             $this->loadUKCities();
+    //         } elseif ($this->country === 'uae') {
+    //             $this->loadUAECities();
+    //         }
+    //     }
+    // }
 
-    function loadUKCities() : void {
-        $this->cities = [
-            ['value' => 'london', 'label' => 'London'],
-            ['value' => 'manchester', 'label' => 'Manchester'],
-            ['value' => 'birmingham', 'label' => 'Birmingham'],
-            ['value' => 'liverpool', 'label' => 'Liverpool'],
-            ['value' => 'leeds', 'label' => 'Leeds'],
-            ['value' => 'glasgow', 'label' => 'Glasgow'],
-            ['value' => 'edinburgh', 'label' => 'Edinburgh'],
-            ['value' => 'bristol', 'label' => 'Bristol'],
-            ['value' => 'sheffield', 'label' => 'Sheffield'],
-            ['value' => 'nottingham', 'label' => 'Nottingham']
-        ];
-    }
+    // function loadUKCities() : void {
+    //     $this->cities = [
+    //         ['value' => 'london', 'label' => 'London'],
+    //         ['value' => 'manchester', 'label' => 'Manchester'],
+    //         ['value' => 'birmingham', 'label' => 'Birmingham'],
+    //         ['value' => 'liverpool', 'label' => 'Liverpool'],
+    //         ['value' => 'leeds', 'label' => 'Leeds'],
+    //         ['value' => 'glasgow', 'label' => 'Glasgow'],
+    //         ['value' => 'edinburgh', 'label' => 'Edinburgh'],
+    //         ['value' => 'bristol', 'label' => 'Bristol'],
+    //         ['value' => 'sheffield', 'label' => 'Sheffield'],
+    //         ['value' => 'nottingham', 'label' => 'Nottingham']
+    //     ];
+    // }
 
-    function loadUAECities() : void {
-        $this->cities = [
-            ['value' => 'dubai', 'label' => 'Dubai'],
-            ['value' => 'abu_dhabi', 'label' => 'Abu Dhabi'],
-            ['value' => 'sharjah', 'label' => 'Sharjah'],
-            ['value' => 'ajman', 'label' => 'Ajman'],
-            ['value' => 'fujairah', 'label' => 'Fujairah'],
-            ['value' => 'ras_al_khaimah', 'label' => 'Ras Al Khaimah'],
-            ['value' => 'umm_al_quwain', 'label' => 'Umm Al Quwain']
-        ];
-    }
+    // function loadUAECities() : void {
+    //     $this->cities = [
+    //         ['value' => 'dubai', 'label' => 'Dubai'],
+    //         ['value' => 'abu_dhabi', 'label' => 'Abu Dhabi'],
+    //         ['value' => 'sharjah', 'label' => 'Sharjah'],
+    //         ['value' => 'ajman', 'label' => 'Ajman'],
+    //         ['value' => 'fujairah', 'label' => 'Fujairah'],
+    //         ['value' => 'ras_al_khaimah', 'label' => 'Ras Al Khaimah'],
+    //         ['value' => 'umm_al_quwain', 'label' => 'Umm Al Quwain']
+    //     ];
+    // }
 
     /**
      * Handle an incoming registration request.
@@ -452,7 +452,8 @@ use Livewire\WithFileUploads;
             <!-- Country (fixed to UK) -->
             <div class="border border-theme-zinc dark:border-neutral-700 p-3 mb-3">
                 <label class="uppercase text-xs">Country</label>
-                <select wire:model.blur="country" id="country"
+                {{-- <select wire:model.blur="country" id="country" --}}
+                <select wire:model="country" id="country"
                     class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
                     <option value="uk">United Kingdom</option>
                     <option value="uae">United Arab Emirates</option>
@@ -460,11 +461,89 @@ use Livewire\WithFileUploads;
             </div>
 
             <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc dark:border-neutral-700">
-                <div class="p-3">
+                <div class="p-3 city-select">
                     <!-- City -->
                     <label for="city" class="uppercase text-xs">Select City <span
                             class="text-red-500 text-xs">*</span></label>
-                    <livewire:city-select />
+                    {{-- <select x-model="city" wire:model="city" id="city"
+                        class="bg-white dark:bg-neutral-800 rounded-0 block w-full py-2 text-zinc-900 dark:text-white focus:outline-none">
+                        <option value="">-- Select City --</option>
+                        @foreach ($cities as $city)
+                        <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
+                        @endforeach
+                    </select> --}}
+                    <div
+                        x-data="{
+                            open: false,
+                            search: '',
+                            selected: @entangle('city'),
+                            options: [],
+                            country: @entangle('country'),
+                            init() {
+                                this.fetchOptions();
+
+                                // Watch country and refetch cities when it changes
+                                this.$watch('country', value => {
+                                    this.search = '';
+                                    this.selected = '';
+                                    this.fetchOptions();
+                                });
+                            },
+                            fetchOptions() {
+                                fetch(`{{ route('api.cities.search') }}?country=${this.country}&search=${encodeURIComponent(this.search)}`)
+                                    .then(res => res.json())
+                                    .then(data => this.options = data);
+                            },
+                            selectOption(option) {
+                                this.selected = option.value;
+                                this.open = false;
+                            },
+                            selectedLabel() {
+                                const option = this.options.find(o => o.value === this.selected);
+                                return option ? option.label : '';
+                            }
+                        }"
+                        x-init="init()"
+                        class="relative w-full"
+                    >
+                        <button
+                            type="button"
+                            @click="open = !open"
+                            class="w-full px-4 py-2 text-sm text-left bg-white border border-[#6B7280] rounded-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <span x-text="selectedLabel() || 'Select a city...'"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline float-right" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <div
+                            x-show="open"
+                            @click.away="open = false"
+                            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
+                        >
+                            <input
+                                type="text"
+                                x-model="search"
+                                @input="fetchOptions()"
+                                placeholder="Search city..."
+                                class="w-full px-4 py-2 border-b border-gray-300 text-sm focus:outline-none"
+                            />
+
+                            <template x-for="option in options" :key="option.value">
+                                <div
+                                    @click="selectOption(option)"
+                                    class="px-4 py-2 cursor-pointer hover:bg-blue-100"
+                                    x-text="option.label"
+                                ></div>
+                            </template>
+
+                            <div x-show="!options.length" class="px-4 py-2 text-gray-500 text-sm">
+                                No results found.
+                            </div>
+                        </div>
+                    </div>
+
                     @error('city')
                     <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
                         <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">

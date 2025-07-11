@@ -248,3 +248,37 @@ Route::get('/offers/{id}', OfferPage::class)->name('discount.show');
 
 
 Route::redirect('admin', '/dashboard');
+
+Route::get('/api/cities/search', function () {
+    $country = request('country');
+    $search = strtolower(request('search', ''));
+
+    $cities = match ($country) {
+        'uk' => [
+            ['value' => 'london', 'label' => 'London'],
+            ['value' => 'manchester', 'label' => 'Manchester'],
+            ['value' => 'birmingham', 'label' => 'Birmingham'],
+            ['value' => 'liverpool', 'label' => 'Liverpool'],
+            ['value' => 'leeds', 'label' => 'Leeds'],
+            ['value' => 'glasgow', 'label' => 'Glasgow'],
+            ['value' => 'edinburgh', 'label' => 'Edinburgh'],
+            ['value' => 'bristol', 'label' => 'Bristol'],
+            ['value' => 'sheffield', 'label' => 'Sheffield'],
+            ['value' => 'nottingham', 'label' => 'Nottingham'],
+        ],
+        'uae' => [
+            ['value' => 'dubai', 'label' => 'Dubai'],
+            ['value' => 'abu_dhabi', 'label' => 'Abu Dhabi'],
+            ['value' => 'sharjah', 'label' => 'Sharjah'],
+            ['value' => 'ajman', 'label' => 'Ajman'],
+            ['value' => 'fujairah', 'label' => 'Fujairah'],
+            ['value' => 'ras_al_khaimah', 'label' => 'Ras Al Khaimah'],
+            ['value' => 'umm_al_quwain', 'label' => 'Umm Al Quwain'],
+        ],
+        default => [],
+    };
+    return collect($cities)
+        ->filter(fn ($city) => str_contains(strtolower($city['label']), $search))
+        ->values()
+        ->toArray();
+})->name('api.cities.search');
