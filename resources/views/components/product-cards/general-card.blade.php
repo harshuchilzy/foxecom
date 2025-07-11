@@ -19,11 +19,14 @@
         <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
             <img
                 class="w-full h-[180px] object-contain transition-transform group-hover:scale-105"
-                src="{{ $product->thumbnail?->getUrl() }}"
+                src="{{ $product->thumbnail?->getUrl('small') }}"
                 alt="{{ $product->translateAttribute('name') }}"
                 loading="lazy"
             >
         </a>
+        {{-- @php
+                dd($product)
+            @endphp --}}
     </div>
 
     <div class="bg-white rounded-b-[16px] p-3 space-y-2">

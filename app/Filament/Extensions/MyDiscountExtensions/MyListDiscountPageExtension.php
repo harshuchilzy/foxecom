@@ -2,12 +2,14 @@
 
 namespace App\Filament\Extensions\MyDiscountExtensions;
 
-use Filament\Actions\CreateAction;
-use Filament\Forms\Components\Component;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
-use Lunar\Admin\Filament\Resources\DiscountResource;
 use Lunar\Admin\Filament\Widgets;
+use Filament\Actions\CreateAction;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Lunar\Admin\Filament\Resources\DiscountResource;
 use Lunar\Admin\Support\Extending\ListPageExtension;
 
 class MyListDiscountPageExtension extends ListPageExtension
@@ -25,6 +27,19 @@ class MyListDiscountPageExtension extends ListPageExtension
                 ->directory('discounts/promos')
                 ->image()
                 ->required(),
+            Select::make('data.banner_type')
+                ->label('Banner Type')
+                ->options([
+                    'normal' => 'Normal',
+                    'full_width' => 'Full Width',
+                    'video' => 'Video',
+                ])
+                ->required()
+                ->reactive(),
+            TextInput::make('data.video_url')
+                ->label('Video URL')
+                ->placeholder('https://example.com/video.mp4')
+                ->visible(fn ($get) => $get('data.banner_type') === 'video'),
         ])->columns(2);
     }
 

@@ -11,10 +11,12 @@ use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
 use App\Filament\Resources\RedemptionResource;
 use App\Modifiers\ShippingModifier;
+use App\PaymentTypes\NGeniusPayment;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Filament\Resources\DiscountResource;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use Lunar\Base\ShippingModifiers;
+use Lunar\Facades\Payments;
 use Lunar\Shipping\ShippingPlugin;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,15 +38,8 @@ class AppServiceProvider extends ServiceProvider
                 ])
                 ->resources([
                     ProductReviewResource::class,
-                    //RedemptionResource::class,
-                ]);
-        })->register();
-
-        LunarPanel::panel(function ($panel) {
-            return $panel
-                ->path('dashboard')
-                ->resources([
                     PageResource::class,
+                    //RedemptionResource::class,
                 ]);
         })->register();
     }
@@ -56,8 +51,12 @@ class AppServiceProvider extends ServiceProvider
     {
         LunarPanel::extensions([
             ListDiscounts::class => MyListDiscountPageExtension::class,
-            DiscountResource::class => MyDiscountResourceExtension::class
+            DiscountResource::class => MyDiscountResourceExtension::class,
         ]);
+
+        Payments::extend('ngenius', function ($app) {
+            return $app->make(NGeniusPayment::class);
+        });
 
         $shippingModifiers->add(
             ShippingModifier::class
@@ -66,7 +65,7 @@ class AppServiceProvider extends ServiceProvider
         \Lunar\Facades\ModelManifest::replace(
             \Lunar\Models\Contracts\Product::class,
             \App\Models\Product::class,
-        // \App\Models\CustomProduct::class,
+            // \App\Models\CustomProduct::class,
         );
     }
 }
