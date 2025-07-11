@@ -35,13 +35,38 @@ class CartPage extends Component
         ];
     }
 
+    // public function mount(): void
+    // {
+
+    //     $this->mapLines();
+
+    //     $cart = \Lunar\Facades\CartSession::current();
+
+    //     $this->cart_count = $cart?->lines->count() ?? 0;
+    // }
+
     public function mount(): void
     {
+        // Apply discount if query param exists
+        if (request()->has('discount')) {
+            $discountId = request()->get('discount');
+
+            $discount = \Lunar\Models\Discount::find($discountId);
+
+            if ($discount && $discount->coupon) {
+                $cart = \Lunar\Facades\CartSession::current();
+                $cart->coupon_code = $discount->coupon;
+                $cart->calculate();
+                $cart->save();
+
+                session()->put('coupon_code', $discount->coupon);
+                session()->put('active_discount_id', $discount->id);
+            }
+        }
 
         $this->mapLines();
 
         $cart = \Lunar\Facades\CartSession::current();
-
         $this->cart_count = $cart?->lines->count() ?? 0;
     }
 
@@ -162,7 +187,7 @@ class CartPage extends Component
 
         $this->mapLines();
 
-        
+
         $cart->save();
     }
 
@@ -176,12 +201,12 @@ class CartPage extends Component
     public function getStockForProduct($productVariantId){
 
         $line = $this->cart->lines->firstWhere('purchasable_id', $productVariantId);
-        
+
         if ($line && $line->purchasable) {
-            return $line->purchasable->stock; 
+            return $line->purchasable->stock;
         }
-        
-        return 0; 
+
+        return 0;
     }
 
     public function relatedProducts(){
