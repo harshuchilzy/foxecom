@@ -8,6 +8,7 @@ use Livewire\Component;
 use Illuminate\View\View;
 use App\Models\Redemption;
 use Lunar\Models\Collection;
+use Lunar\Models\Discount;
 
 class Home extends Component
 {
@@ -62,12 +63,13 @@ class Home extends Component
         $mediaCollection = $page?->getMediaCollectionArray() ?? [];
 
         $latestRedemptions = $redemptions->take(3);
-
+        $discounts = Discount::active()->get();
         return view('livewire.home', [
             'redemptions' => $redemptions,
             'latestRedemptions' => $latestRedemptions,
             'metaFields' => $metaFields,
-            'mediaCollection' => $mediaCollection
+            'mediaCollection' => $mediaCollection,
+            'discounts' => $discounts,
         ]);
     }
 }

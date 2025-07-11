@@ -18,7 +18,7 @@ use Lunar\Facades\ShippingManifest;
 class CheckoutPage extends Component
 {
     use WireUiActions;
-    
+
     /**
      * The Cart instance.
      */
@@ -148,16 +148,17 @@ class CheckoutPage extends Component
         // Do we have a shipping address?
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
-        if(auth()->check()){
-            $customer = auth()->user()->customers->first();
-        }
+        // if(auth()->check()){
+        //     $customer = auth()->user()->customers->first();
+        // }
+        $customer = auth()->check() ? auth()->user()->customers->first() : null;
 
         if(($this->shipping) && $customer){
             //$this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
             //$this->shipping = new CartAddress($this->shipping);
 
             $this->shipping = $customer->addresses->where('billing_default', 1)->first()?->toArray();
-            
+
             //$this->shipping['country_id'] = 235;
             $this->cart->setShippingAddress($this->shipping);
             $this->shipping = new CartAddress($this->shipping);
@@ -175,7 +176,7 @@ class CheckoutPage extends Component
             //Log::info($this->billing);
             $this->cart->setBillingAddress($this->billing);
             $this->billing = new CartAddress($this->billing);
-            
+
         }
         $this->determineCheckoutStep();
 
@@ -183,7 +184,7 @@ class CheckoutPage extends Component
         //Log::info($this->shipping);
     }
 
-    
+
 
     public function hydrate(): void
     {
@@ -273,7 +274,7 @@ class CheckoutPage extends Component
      */
     public function saveAddress(string $type): void
     {
-        
+
         Log::info("Saving address of type: " . $type);
         Log::info($this->delivery);
 
@@ -412,7 +413,7 @@ class CheckoutPage extends Component
             'shipping_postcode' => 'required|string|max:20',
             'shipping_state' => 'nullable|string|max:255',
             'shipping_countries' => 'required|string|size:2',
-        ]); 
+        ]);
         $countryModel = Country::where('iso2', $this->shipping_countries)->first();
         if (!$countryModel) {
             session()->flash('error', 'Invalid country selected.');
