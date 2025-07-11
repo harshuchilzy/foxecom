@@ -1,47 +1,89 @@
 <div>
     <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
         <main class="flex w-full flex-col">
-            <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
-                @if(empty($metaFields['hero-video-link']))
-                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-                        <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
-                    </video>
-                @else 
-                    <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-                        <source src="{{ asset('storage/' . $mediaCollection['hero-section-video']) }}" type="video/mp4">
-                    </video>
-                    {{-- <iframe
-                        class="absolute top-0 left-0 w-full h-full object-cover"
-                        src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}"
-                        frameborder="0"
-                        allow="autoplay; fullscreen"
-                        allowfullscreen
-                    ></iframe> --}}
-                @endif
-                <div class="w-full h-full flex items-end justify-end relative">
-                    <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
+            @if(empty($metaFields['hero-video-link']))
+                <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
+                    @if(empty($metaFields['hero-video-link']))
+                        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+                            <source src="{{ asset('images/herovid.mp4') }}" type="video/mp4">
+                        </video>
+                    @else 
+                        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+                            <source src="{{ asset('storage/' . $mediaCollection['hero-section-video']) }}" type="video/mp4">
+                        </video>
+                    @endif
+                    <div class="w-full h-full flex items-end justify-end relative z-10">
+                        <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
+                    </div>
                 </div>
-            </div>
+            @else    
+                <div class="hero-section-gif w-full relative">
+                    <div class="foxecom-youtube-container w-full overflow-hidden aspect-[16/9] pointer-events-none">
+                        <iframe class="" src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}?autoplay=1&mute=1&loop=1&color=white&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&playlist={{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <style>
+                        .foxecom-youtube-container {
+                            overflow: hidden;
+                            width: 100%;
+                            aspect-ratio: 16/9;
+                            pointer-events: none;
+                            
+                            iframe {
+                                width: 300%;
+                                height: 100%;
+                                margin-left: -100%;
+                            }
+                        }
+                    </style>
+                    <div class="absolute bottom-[120px] right-[20px]  z-10">
+                        <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
+                    </div>
 
-            @php
-                $brandName = $metaFields['hero-sale-brand-name'] ?? 'Al Fakir';
-                $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
-            @endphp
+                    @php
+                        $brandName = $metaFields['hero-sale-brand-name'] ?? 'Al Fakir';
+                        $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
+                    @endphp
 
-            <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
-                <p class="text-white xl:flex items-center gap-2 hidden">
-                    <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                    <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                </p>
-                <p class="text-white flex items-center gap-2">
-                    <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                    <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                </p>
-                <p class="text-white flex items-center gap-2">
-                    <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                    <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                </p>
-            </div>
+                    <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5 absolute bottom-0 w-full">
+                        <p class="text-white xl:flex items-center gap-2 hidden">
+                            <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                            <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
+                        </p>
+                        <p class="text-white flex items-center gap-2">
+                            <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                            <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
+                        </p>
+                        <p class="text-white flex items-center gap-2">
+                            <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                            <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
+                        </p>
+                    </div>
+
+                </div>
+            @endif
+
+            @if(empty($metaFields['hero-video-link']))
+
+                @php
+                    $brandName = $metaFields['hero-sale-brand-name'] ?? 'Al Fakir';
+                    $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
+                @endphp
+
+                <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
+                    <p class="text-white xl:flex items-center gap-2 hidden">
+                        <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                        <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
+                    </p>
+                    <p class="text-white flex items-center gap-2">
+                        <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                        <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
+                    </p>
+                    <p class="text-white flex items-center gap-2">
+                        <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
+                        <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
+                    </p>
+                </div>
+            @endif
 
             <div class="flex flex-col bg-[#D9D9D97D]">
                 <div class="py-8 lg:py-12">
