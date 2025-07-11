@@ -159,7 +159,11 @@ class CheckoutPage extends Component
 
             $this->shipping = $customer->addresses->where('billing_default', 1)->first()?->toArray();
 
-            //$this->shipping['country_id'] = 235;
+            if (empty($this->shipping)) {
+                $this->redirect('/addresses');
+                return; 
+            }
+
             $this->cart->setShippingAddress($this->shipping);
             $this->shipping = new CartAddress($this->shipping);
         }
