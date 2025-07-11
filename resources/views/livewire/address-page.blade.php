@@ -5,7 +5,7 @@
         <div class="text-green-600 font-medium">{{ session('success') }}</div>
     @endif --}}
 
-    
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
 
         {{-- Billing address section --}}
@@ -49,7 +49,7 @@
                         @endif
 
                     </div>
-                @else 
+                @else
                     <div class="w-full">
                         <p class="font-inter font-normal text-[15px] text-black">Billing address is not found.</p>
                     </div>
@@ -114,7 +114,7 @@
                         </x-slot>
                     </div>
                 </x-wui-modal-card>
-               
+
             </div>
         </div>
 
@@ -190,7 +190,7 @@
                 <!-- Shipping Address add modal -->
                 <x-wui-modal-card name="addShippingAddress" wire:model="addShippingAddress" title="Shipping Address" description="">
                     <input type="hidden" name="shipping_default">
-                    
+
                     <div class="p-4 md:p-5 space-y-4">
                         <div class="mb-6">
                             <label for="shipping_company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
@@ -244,7 +244,7 @@
                             </div>
                         </div>
                     </div>
-           
+
                     <x-slot name="footer" class="flex justify-between gap-x-4">
                         <button type="submit" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"  wire:click="saveShippingAddress(null)" primary >Save Address</button>
                         <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="close">Cancel</button>
@@ -263,7 +263,7 @@
                 const options = {
                     backdrop: 'dynamic',
                     backdropClasses:
-                        'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40 backdrop',
+                        'bg-gray-900/50 fixed inset-0 z-40 backdrop',
                     closable: true,
                     onHide: () => {
                         console.log('modal is hidden');

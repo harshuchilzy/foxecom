@@ -29,7 +29,7 @@
                         <div class="" delivery>
                             <div class="flex flex-col gap-3">
                                 <div x-show="!showAddressEdit" class="{{ $currentStep != 1 ? 'hidden w-full relative' : 'w-full relative' }}">
-                                    <ul class="flex text-sm font-medium text-center w-full pb-5" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500" data-tabs-inactive-classes="dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300" role="tablist">
+                                    <ul class="flex text-sm font-medium text-center w-full pb-5" id="delivery-option-tab" data-tabs-toggle="#delivery-option-tab-content" data-tabs-active-classes="text-purple-600 hover:text-purple-600 border-purple-600" data-tabs-inactive-classes="text-gray-500 hover:text-gray-600 border-gray-100 hover:border-gray-300" role="tablist">
                                         <li class="me-2 w-1/2 border-black" role="presentation">
                                             <button class="border cursor-pointer rounded-[6px] flex items-center justify-center gap-4 w-full py-4" id="style-shipping-address-tab" data-tabs-target="#style-shipping-address" type="button" role="tab" aria-controls="profile" aria-selected="false" >
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

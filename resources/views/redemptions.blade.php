@@ -57,8 +57,8 @@
                                 <div>
                                     <p class="text-[15px] font-roboto font-semibold text-black">ELF BAR AF5000 Disposable Vape </p>
                                     <div class="relative overflow-x-auto py-2">
-                                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                            <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                                            <thead class="text-xs text-gray-900 uppercase">
                                                 <tr>
                                                     <th scope="col" class="px-1 py-2">
                                                         Flavours ordered :

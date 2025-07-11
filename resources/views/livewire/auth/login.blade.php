@@ -86,14 +86,14 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
     <form wire:submit="login" class="flex flex-col gap-6">
         <!-- Email Address -->
-        <div class="border border-theme-zinc dark:border-neutral-700 p-3">
+        <div class="border border-theme-zinc p-3">
             <!-- Email -->
             <label for="email" class="uppercase text-xs">Email <span class="text-red-500 text-xs">*</span></label>
             <input type="email" wire:model="email" id="email"
-                class="bg-white dark:bg-neutral-800  rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
+                class="bg-white  rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                 autofocus autocomplete="email" placeholder="{{ __('user@foxecom.com') }}" />
             @error('email')
-            <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+            <div class="mt-3 text-sm font-medium text-red-500">
                 <svg class="shrink-0 [:where(&amp;)]:size-5 inline" data-flux-icon="" xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                     <path fill-rule="evenodd"
@@ -107,17 +107,17 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <!-- Password -->
         <div class="relative">
-            <div class="border border-theme-zinc dark:border-neutral-700 p-3">
+            <div class="border border-theme-zinc p-3">
                 <!-- Password -->
                 <label for="password" class="uppercase text-xs">Password <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="password" wire:model="password" id="password"
-                    class="bg-white dark:bg-neutral-800  rounded-0 block w-full py-2 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-neutral-500 focus:outline-none"
+                    class="bg-white  rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                     autofocus autocomplete="password" placeholder="{{ __('********') }}" />
                 <small class="text-xs text-gray-500">Password must be at least 8 characters long, contain at least one
                     uppercase letter and one number.</small>
                 @error('password')
-                <div class="mt-3 text-sm font-medium text-red-500 dark:text-red-400">
+                <div class="mt-3 text-sm font-medium text-red-500">
                     <svg class="shrink-0 [:where(&amp;)]:size-5 inline" data-flux-icon=""
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                         data-slot="icon">
@@ -159,10 +159,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
     </form>
 
     @if (Route::has('register'))
-    <div class="w-full text-zinc-600 dark:text-zinc-400 mb-4">
-        <p class="text-center overflow-hidden before:h-[1px] after:h-[1px] after:bg-black 
-           after:inline-block after:relative after:align-middle after:w-1/4 
-           before:bg-black before:inline-block before:relative before:align-middle 
+    <div class="w-full text-zinc-600 mb-4">
+        <p class="text-center overflow-hidden before:h-[1px] after:h-[1px] after:bg-black
+           after:inline-block after:relative after:align-middle after:w-1/4
+           before:bg-black before:inline-block before:relative before:align-middle
            before:w-1/4 before:right-2 after:left-2 mb-3 py-4">{{ __('New to FOXERGO?') }}</p>
         <a href="{{route('register')}}"
             class="bg-gray-300 hover:bg-gray-500 px-5 py-5 w-full font-semibold text-white block text-center"

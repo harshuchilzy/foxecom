@@ -42,9 +42,9 @@
                         <div>
                             <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate><p class="text-[15px] font-roboto font-semibold text-black">{{ $product->translateAttribute('name') }}</p></a>
                             <div class="relative overflow-x-auto py-2">
-                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                                     @if($line->purchasable_type == 'product_variant')
-                                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                                        <thead class="text-xs text-gray-900 uppercase">
                                             <tr>
                                                 <th scope="col" class="px-1 py-2">
                                                     Flavours ordered :
@@ -66,7 +66,7 @@
                                         </tbody>
 
                                     @else
-                                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                                        <thead class="text-xs text-gray-900 uppercase">
                                             <tr>
                                                 <th scope="col" class="px-1 py-2">
                                                     Quantity (Outers):
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="flex justify-start items-center gap-3">
-                                <livewire:components.order-page-add-to-cart 
+                                <livewire:components.order-page-add-to-cart
                                     :purchasable="$line->purchasable"
                                     wire:key="$product->id"
                                     :quantity="$line->unit_quantity"
