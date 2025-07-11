@@ -80,7 +80,7 @@ class CartPage extends Component
     {
         CartSession::remove($id);
         $this->mapLines();
-        
+
         $this->dispatch('add-to-cart');
     }
 
@@ -92,7 +92,7 @@ class CartPage extends Component
      */
     public function mapLines(): void
     {
-        
+
         $this->lines = $this->cartLines->map(function ($line) {
             // Log::info($line->purchasable);
             return [
@@ -105,6 +105,7 @@ class CartPage extends Component
                 'options' => $line->purchasable->getOptions()->implode(' / '),
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
+                'meta' => (array)$line->meta,
             ];
         })->toArray();
     }
@@ -144,8 +145,8 @@ class CartPage extends Component
     public function getCartItem($product_id)
     {
         return Product::with([
-            'variants.prices', 
-            'thumbnail', 
+            'variants.prices',
+            'thumbnail',
             'defaultUrl',
         ])
         ->where('id', $product_id)
@@ -162,9 +163,9 @@ class CartPage extends Component
         $cart = \Lunar\Facades\CartSession::current();
         $cart->coupon_code = '';
         $cart->save();
-        
+
     }
-    
+
     public function render()
     {
         return view('livewire.cart-page');

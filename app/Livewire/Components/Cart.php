@@ -37,9 +37,9 @@ class Cart extends Component
         $cart = \Lunar\Facades\CartSession::current();
 
         //$this->cart_count = $cart?->lines->count() ?? 0;
-        if($cart){
-            $this->cart_count = collect($this->cart->lines)->sum(fn($line) => $line->quantity ?? 0);
-        }else{
+        if ($cart) {
+            $this->cart_count = collect($this->cart->lines)->sum(fn ($line) => $line->quantity ?? 0);
+        } else {
             $this->cart_count = 0;
         }
     }
@@ -70,10 +70,9 @@ class Cart extends Component
         CartSession::updateLines(
             collect($this->lines)
         );
-        $this->mapLines();
-        $this->dispatch('cartUpdated');
 
-        $this->cart_count = collect($this->cart->lines)->sum(fn($line) => $line->quantity ?? 0);
+        $this->dispatch('cartUpdated');
+        $this->dispatch('add-to-cart');
     }
 
     public function removeLine($id): void
@@ -103,6 +102,7 @@ class Cart extends Component
                 'options' => $line->purchasable->getOptions()->implode(' / '),
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
+                'meta' => (array)$line->meta,
             ];
         })->toArray();
     }
@@ -111,11 +111,7 @@ class Cart extends Component
     {
         $this->mapLines();
 
-        $cart = \Lunar\Facades\CartSession::current();
-
-        //$this->cart_count = $cart?->lines->count() ?? 0;
-
-        $this->cart_count = collect($this->cart->lines)->sum(fn($line) => $line->quantity ?? 0);
+        $this->cart_count = collect($this->cart->lines)->sum(fn ($line) => $line->quantity ?? 0);
 
         $this->linesVisible = true;
     }
