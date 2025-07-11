@@ -148,9 +148,10 @@ class CheckoutPage extends Component
         // Do we have a shipping address?
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
-        if(auth()->check()){
-            $customer = auth()->user()->customers->first();
-        }
+        // if(auth()->check()){
+        //     $customer = auth()->user()->customers->first();
+        // }
+        $customer = auth()->check() ? auth()->user()->customers->first() : null;
 
         if(($this->shipping) && $customer){
             //$this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();

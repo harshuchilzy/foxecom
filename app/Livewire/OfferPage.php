@@ -3,17 +3,17 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Redemption;
+use Lunar\Models\Discount;
 class OfferPage extends Component
 {
-    public Redemption $redemption;
+    public Discount $discount;
     public int $id;
 
-    public function mount(): void
+    public function mount( int $id ): void
     {
-        // $this->redemption = \App\Models\Redemption::with('products')->findOrFail($this->id);
-        $this->redemption = \App\Models\Redemption::with('products.defaultUrl')->findOrFail($this->id);
+        $this->discount = Discount::findOrFail($id);
     }
+
 
     public function render()
     {
