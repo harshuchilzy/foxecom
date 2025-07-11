@@ -88,7 +88,7 @@ use Livewire\WithFileUploads;
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'string', 'confirmed', 'min:8', 'alpha_num:ascii' , Rules\Password::defaults()],
+            'password' => ['required', 'string', 'confirmed', 'min:8', Rules\Password::defaults()],
             'country_code' => ['required', 'string', 'max:5'],
             'phone' => ['required', 'string', 'max:15'],// 'regex:/^\d+$/'],
             'company_name' => ['required', 'string', 'max:255'],
