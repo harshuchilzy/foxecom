@@ -238,7 +238,7 @@
                 <div class="flex justify-center md:justify-between items-center mt-3 mb-1 flex-wrap">
                     <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter text-center md:text-left">{{$this->product->translateAttribute('name')}}</h1>
                     <button class="hidden md:block">
-                        {{-- <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="group-hover:fill-[#E53935]" d="M6.42634 16.1588L16.3672 26.0996L26.308 16.1588C28.8036 13.6633 28.8036 9.61719 26.308 7.12165C23.8125 4.62612 19.7664 4.62612 17.2709 7.12165L16.3672 8.02537L15.4635 7.12165C12.9679 4.62612 8.92188 4.62612 6.42634 7.12165C3.9308 9.61719 3.9308 13.6633 6.42634 16.1588Z" stroke="black" stroke-width="1.3125" stroke-linejoin="round"/></svg> --}}
+                        <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="group-hover:fill-[#E53935]" d="M6.42634 16.1588L16.3672 26.0996L26.308 16.1588C28.8036 13.6633 28.8036 9.61719 26.308 7.12165C23.8125 4.62612 19.7664 4.62612 17.2709 7.12165L16.3672 8.02537L15.4635 7.12165C12.9679 4.62612 8.92188 4.62612 6.42634 7.12165C3.9308 9.61719 3.9308 13.6633 6.42634 16.1588Z" stroke="black" stroke-width="1.3125" stroke-linejoin="round"/></svg>
                     </button>
                 </div>
 
@@ -322,8 +322,8 @@
                                             )">
 
                                             <legend class="text-xs font-medium text-gray-700">
-                                                {{ $option['option']->translate('name') }} 
-                                                <span>: 
+                                                {{ $option['option']->translate('name') }}
+                                                <span>:
                                                     {{optional(
                                                         collect($option['values'])->firstWhere('id', $selectedOptionValues[$option['option']->id] ?? null)
                                                     )?->translate('name')}}
@@ -379,7 +379,85 @@
                     </div>
 
                 </form>
-                
+                @if (!$discountId)
+                    <form class="mt-4">
+                        <div class="space-y-4">
+                            @if (count($this->productOptions))
+                                @foreach ($this->productOptions as $option)
+                                    <fieldset>
+                                        <legend class="text-xs font-medium text-gray-700">
+                                            {{ $option['option']->translate('name') }}
+                                        </legend>
+                                        <div class="mt-4">
+                                            <label for="quantity"
+                                                class="sr-only">
+                                                Quantity
+                                            </label>
+
+                                            <label for="quantity" class="sr-only">Choose quantity:</label>
+
+                                        </div>
+
+                                        <div class="md:max-w-[90%] mb-4">
+                                            <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 mt-4"
+                                                x-data="{
+                                                    selectedOption: @entangle('selectedOptionValues').live,
+                                                    selectedValues: [],
+                                                }"
+                                                x-init="selectedValues = Object.values(selectedOption);
+                                                $watch('selectedOption', value =>
+                                                    selectedValues = Object.values(selectedOption)
+                                                )">
+
+                                                <select
+                                                    id="option-select-{{ $option['option']->id }}"
+                                                    class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
+                                                    wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
+                                                >
+                                                    <option value="">-- Select {{ $option['option']->translate('name') }} --</option>
+
+                                                    @foreach ($option['values'] as $value)
+                                                        <option value="{{ $value->id }}"
+                                                            @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
+                                                                selected
+                                                            @endif
+                                                        >
+                                                            {{ $value->translate('name') }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="w-full">
+                                                <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                @endforeach
+                            @else
+                                <fieldset>
+                                    <legend class="text-xs font-medium text-gray-700">
+                                        {{-- {{ $option['option']->translate('name') }} --}}
+                                    </legend>
+
+                                    <div class="flex flex-col md:flex-row md:items-start gap-4 mb-4 md:max-w-[90%] mt-4 items-center"
+                                        x-data="{
+                                            selectedOption: @entangle('selectedOptionValues').live,
+                                            selectedValues: [],
+                                        }"
+                                        x-init="selectedValues = Object.values(selectedOption);
+                                        $watch('selectedOption', value =>
+                                            selectedValues = Object.values(selectedOption)
+                                        )">
+
+                                        <div class="w-full">
+                                            <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$quantity">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            @endif
+                        </div>
+                    </form>
+                @endif
 
                 <div class="">
                     {{-- <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%]">
@@ -503,9 +581,9 @@
         </div>
     @endif
 
-    <div class="max-w-[1440px] mx-auto px-4 py-12 border-t mt-10 flex flex-col justify-center items-center w-full">
+    <div class="max-w-[1440px] mx-auto px-4 py-12 border-t mt-10">
         <h2 class="text-2xl font-bold text-black mb-4">Write a Review</h2>
-        <form wire:submit.prevent="submitReview" class="space-y-4 max-w-3xl w-full">
+        <form wire:submit.prevent="submitReview" class="space-y-4 max-w-xl">
             <div>
                 <label for="reviewer_name" class="block font-medium text-sm text-gray-700">Name</label>
                 <input type="text" id="reviewer_name" wire:model.lazy="reviewForm.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">

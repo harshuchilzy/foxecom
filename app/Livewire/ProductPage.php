@@ -193,7 +193,7 @@ class ProductPage extends Component
         session()->flash('success', 'Review submitted and awaiting approval.');
     }
 
-   public function claimOffer()
+    public function claimOffer()
     {
         if (!$this->discountId) {
             abort(400, 'No discount provided.');
@@ -205,6 +205,13 @@ class ProductPage extends Component
             abort(404, 'Discount not found.');
         }
 
+        $cart = \Lunar\Facades\CartSession::current();
+        $cart->coupon_code = $discount->coupon;
+
+        $cart->calculate();
+
+        $cart->save();
+
         session(['active_discount_id' => $this->discountId]);
 
         // Set quantity from min_qty in discount data
@@ -215,7 +222,6 @@ class ProductPage extends Component
             'applied_discount_id' => $this->discountId,
         ]);
 
-        // ✅ This is now safe for Livewire and Laravel
         return redirect()->route('checkout.view');
     }
 

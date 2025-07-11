@@ -2,7 +2,8 @@
     use Lunar\Models\ProductVariant;
 
     $bannerImage = $discount->data['banner_image'] ?? null;
-    $discountType = $discount->data['discount_type'] ?? 'percentage';
+    // $discountType = $discount->data['discount_type'] ?? 'percentage';
+    $discountType = class_basename($discount->type); // e.g., "AmountOff"
     $couponAmount = $discount->data['coupon_amount'] ?? 0;
     $displayText = match ($discountType) {
         'percentage' => "{$couponAmount}% off",
@@ -19,7 +20,8 @@
     $product = null;
 
     if ($variantId) {
-        $variant = ProductVariant::with('product')->find($variantId);
+        // $variant = ProductVariant::with('product')->find($variantId);
+        $variant = ProductVariant::with('product.defaultUrl')->find($variantId);
         $product = $variant?->product;
     }
 
@@ -29,15 +31,25 @@
         <div>
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
             <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
+
             {{-- If you plan to link to a product manually: --}}
             {{-- Optional: Create a `product_slug` field in discount->data --}}
             @php
-                $productUrl = $product?->defaultUrl?->slug ?? null;
+                $productUrl = $product?->defaultUrl?->slug ?? $product?->slug ?? null;
+            @endphp
+
+            @php
+                $couponCode = $discount->coupon; // assuming you want to support cart-wide discounts
             @endphp
 
             @if ($productUrl)
                 <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
                 class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
+                    Claim here
+                </a>
+            @elseif ($discountType === 'AmountOff' && $couponCode)
+                <a href="{{ route('cart', ['discount' => $discount->id]) }}"
+                    class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
                     Claim here
                 </a>
             @endif
