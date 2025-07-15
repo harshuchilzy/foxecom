@@ -32,14 +32,12 @@
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
             <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
 
-            {{-- If you plan to link to a product manually: --}}
-            {{-- Optional: Create a `product_slug` field in discount->data --}}
             @php
                 $productUrl = $product?->defaultUrl?->slug ?? $product?->slug ?? null;
             @endphp
 
             @php
-                $couponCode = $discount->coupon; // assuming you want to support cart-wide discounts
+                $couponCode = $discount->coupon;
             @endphp
 
             @if ($productUrl)
