@@ -214,15 +214,14 @@ class ProductPage extends Component
 
         session(['active_discount_id' => $this->discountId]);
 
-        // Set quantity from min_qty in discount data
         $this->quantity = isset($discount->data['min_qty']) ? (int) $discount->data['min_qty'] : 1;
 
-        // Add to cart using Lunar's CartManager
         CartSession::manager()->add($this->variant, $this->quantity, [
             'applied_discount_id' => $this->discountId,
         ]);
 
-        return redirect()->route('checkout.view');
+        // return redirect()->route('checkout.view');
+        return redirect()->route('product.view', ['slug' => $this->url->slug]);
     }
 
     public function render(): View

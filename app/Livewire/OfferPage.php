@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Lunar\Models\Discount;
+use Lunar\Models\Product;
+use Illuminate\Support\Facades\DB;
 class OfferPage extends Component
 {
     public Discount $discount;
@@ -11,7 +13,21 @@ class OfferPage extends Component
 
     public function mount( int $id ): void
     {
+        // $this->discount = Discount::findOrFail($id);
         $this->discount = Discount::findOrFail($id);
+
+        $productId = DB::table('lunar_discountables')
+            ->where('discount_id', $id)
+            ->where('discountable_type', 'product')
+            ->value('discountable_id');
+
+        $product = null;
+
+        if ($productId) {
+            $product = Product::with('defaultUrl')->find($productId);
+        }
+
+        $this->discount->linked_product = $product;
     }
 
 
