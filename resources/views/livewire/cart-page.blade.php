@@ -208,7 +208,7 @@
                             @endif
                         </div>
                         <div class="py-3 flex flex-col gap-1 px-1">
-                            <h2 class="text-black font-bold text-lg">{{$relatedProduct->brand->translate('name')}}</h2>
+                            <h2 class="text-black font-bold text-lg">{{$relatedProduct->brand?->translate('name')}}</h2>
                             <p class="text-black font-normal text-base">{{ $relatedProduct->translate('name') }}</p>
                         </div>
                     </div>
@@ -216,9 +216,9 @@
             @else
                 <div>
                     Items not found.
-                </div>   
+                </div>
             @endif
-            
+
         </div>
     </div>
 </div>
