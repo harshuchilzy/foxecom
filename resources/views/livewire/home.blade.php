@@ -199,7 +199,7 @@
                             }
 
                             // Get linked product slug for "Claim" button
-                            $product = $discount->purchasables->first()?->product;
+                            $product = $discount->purchasables ? $discount->purchasables->first()?->product : null;
                             $productUrl = $product?->defaultUrl?->slug;
                         @endphp
 

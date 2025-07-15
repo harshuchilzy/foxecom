@@ -4956,16 +4956,16 @@
         },
         {
             "name": "leandrocfe/filament-apex-charts",
-            "version": "3.2.0",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leandrocfe/filament-apex-charts.git",
-                "reference": "c4298f0565d9d148ddf3fadfe9860ebf0e7faa24"
+                "reference": "5f81554cdf356b8024544079f062abb2e19b5e5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leandrocfe/filament-apex-charts/zipball/c4298f0565d9d148ddf3fadfe9860ebf0e7faa24",
-                "reference": "c4298f0565d9d148ddf3fadfe9860ebf0e7faa24",
+                "url": "https://api.github.com/repos/leandrocfe/filament-apex-charts/zipball/5f81554cdf356b8024544079f062abb2e19b5e5f",
+                "reference": "5f81554cdf356b8024544079f062abb2e19b5e5f",
                 "shasum": ""
             },
             "require": {
@@ -5025,9 +5025,9 @@
             ],
             "support": {
                 "issues": "https://github.com/leandrocfe/filament-apex-charts/issues",
-                "source": "https://github.com/leandrocfe/filament-apex-charts/tree/3.2.0"
+                "source": "https://github.com/leandrocfe/filament-apex-charts/tree/3.2.1"
             },
-            "time": "2025-03-11T05:10:25+00:00"
+            "time": "2025-07-12T08:13:11+00:00"
         },
         {
             "name": "livewire/flux",
@@ -5293,16 +5293,16 @@
         },
         {
             "name": "lunarphp/core",
-            "version": "1.0.0-beta23",
+            "version": "1.0.0-beta24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunarphp/core.git",
-                "reference": "521e6bffe2f97f598eedeb2b24506d34929721ee"
+                "reference": "d194bdf2aa3cef092bb1acd83fc2e33cc377377e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunarphp/core/zipball/521e6bffe2f97f598eedeb2b24506d34929721ee",
-                "reference": "521e6bffe2f97f598eedeb2b24506d34929721ee",
+                "url": "https://api.github.com/repos/lunarphp/core/zipball/d194bdf2aa3cef092bb1acd83fc2e33cc377377e",
+                "reference": "d194bdf2aa3cef092bb1acd83fc2e33cc377377e",
                 "shasum": ""
             },
             "require": {
@@ -5362,7 +5362,7 @@
                 "store"
             ],
             "support": {
-                "source": "https://github.com/lunarphp/core/tree/1.0.0-beta23"
+                "source": "https://github.com/lunarphp/core/tree/1.0.0-beta24"
             },
             "funding": [
                 {
@@ -5370,27 +5370,27 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-08T11:21:56+00:00"
+            "time": "2025-07-14T13:38:57+00:00"
         },
         {
             "name": "lunarphp/lunar",
-            "version": "1.0.0-beta23",
+            "version": "1.0.0-beta24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunarphp/admin.git",
-                "reference": "e5fb7eae10e5840a518babcd7c373aa0beab2308"
+                "reference": "b86f85d890055ad2fcea96b3792eda913e35d1a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunarphp/admin/zipball/e5fb7eae10e5840a518babcd7c373aa0beab2308",
-                "reference": "e5fb7eae10e5840a518babcd7c373aa0beab2308",
+                "url": "https://api.github.com/repos/lunarphp/admin/zipball/b86f85d890055ad2fcea96b3792eda913e35d1a3",
+                "reference": "b86f85d890055ad2fcea96b3792eda913e35d1a3",
                 "shasum": ""
             },
             "require": {
                 "awcodes/filament-badgeable-column": "^2.3.2",
                 "awcodes/shout": "^2.0.4",
                 "barryvdh/laravel-dompdf": "^3.0",
-                "filament/filament": "^3.3.4",
+                "filament/filament": "^3.3.31",
                 "filament/spatie-laravel-media-library-plugin": "^3.3.4",
                 "leandrocfe/filament-apex-charts": "^3.2.0",
                 "lunarphp/core": "self.version",
@@ -5422,7 +5422,7 @@
             ],
             "description": "Admin panel for LunarPHP",
             "support": {
-                "source": "https://github.com/lunarphp/admin/tree/1.0.0-beta23"
+                "source": "https://github.com/lunarphp/admin/tree/1.0.0-beta24"
             },
             "funding": [
                 {
@@ -5430,11 +5430,11 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-08T11:21:56+00:00"
+            "time": "2025-07-14T13:38:52+00:00"
         },
         {
             "name": "lunarphp/stripe",
-            "version": "1.0.0-beta23",
+            "version": "1.0.0-beta24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunarphp/stripe.git",
@@ -5490,7 +5490,7 @@
                 "stripe"
             ],
             "support": {
-                "source": "https://github.com/lunarphp/stripe/tree/1.0.0-beta23"
+                "source": "https://github.com/lunarphp/stripe/tree/1.0.0-beta24"
             },
             "funding": [
                 {
@@ -5502,7 +5502,7 @@
         },
         {
             "name": "lunarphp/table-rate-shipping",
-            "version": "1.0.0-beta23",
+            "version": "1.0.0-beta24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunarphp/table-rate-shipping.git",
@@ -5558,7 +5558,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lunarphp/table-rate-shipping/issues",
-                "source": "https://github.com/lunarphp/table-rate-shipping/tree/1.0.0-beta23"
+                "source": "https://github.com/lunarphp/table-rate-shipping/tree/1.0.0-beta24"
             },
             "funding": [
                 {
@@ -6626,16 +6626,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68"
+                "reference": "b9e61a61e39e02dd90944e9115241c7f7e76bfd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
-                "reference": "9b30d6fd026b2c132b3985ce6b23bec09ab3aa68",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/b9e61a61e39e02dd90944e9115241c7f7e76bfd8",
+                "reference": "b9e61a61e39e02dd90944e9115241c7f7e76bfd8",
                 "shasum": ""
             },
             "require": {
@@ -6667,9 +6667,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.1.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.2.0"
             },
-            "time": "2025-02-19T13:28:12+00:00"
+            "time": "2025-07-13T07:04:09+00:00"
         },
         {
             "name": "pragmarx/google2fa",
@@ -7613,16 +7613,16 @@
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "v8.8.0",
+            "version": "v8.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MyIntervals/PHP-CSS-Parser.git",
-                "reference": "3de493bdddfd1f051249af725c7e0d2c38fed740"
+                "reference": "d8e916507b88e389e26d4ab03c904a082aa66bb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/3de493bdddfd1f051249af725c7e0d2c38fed740",
-                "reference": "3de493bdddfd1f051249af725c7e0d2c38fed740",
+                "url": "https://api.github.com/repos/MyIntervals/PHP-CSS-Parser/zipball/d8e916507b88e389e26d4ab03c904a082aa66bb9",
+                "reference": "d8e916507b88e389e26d4ab03c904a082aa66bb9",
                 "shasum": ""
             },
             "require": {
@@ -7630,7 +7630,8 @@
                 "php": "^5.6.20 || ^7.0.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "5.7.27 || 6.5.14 || 7.5.20 || 8.5.41"
+                "phpunit/phpunit": "5.7.27 || 6.5.14 || 7.5.20 || 8.5.41",
+                "rawr/cross-data-providers": "^2.0.0"
             },
             "suggest": {
                 "ext-mbstring": "for parsing UTF-8 CSS"
@@ -7672,9 +7673,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MyIntervals/PHP-CSS-Parser/issues",
-                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.8.0"
+                "source": "https://github.com/MyIntervals/PHP-CSS-Parser/tree/v8.9.0"
             },
-            "time": "2025-03-23T17:59:05+00:00"
+            "time": "2025-07-11T13:20:48+00:00"
         },
         {
             "name": "spatie/blink",
@@ -8262,16 +8263,16 @@
         },
         {
             "name": "spatie/laravel-package-tools",
-            "version": "1.92.4",
+            "version": "1.92.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-package-tools.git",
-                "reference": "d20b1969f836d210459b78683d85c9cd5c5f508c"
+                "reference": "afa90e37741a953d33728e7106a1f24a13fdd808"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/d20b1969f836d210459b78683d85c9cd5c5f508c",
-                "reference": "d20b1969f836d210459b78683d85c9cd5c5f508c",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/afa90e37741a953d33728e7106a1f24a13fdd808",
+                "reference": "afa90e37741a953d33728e7106a1f24a13fdd808",
                 "shasum": ""
             },
             "require": {
@@ -8311,7 +8312,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-package-tools/issues",
-                "source": "https://github.com/spatie/laravel-package-tools/tree/1.92.4"
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.92.6"
             },
             "funding": [
                 {
@@ -8319,7 +8320,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-11T15:27:14+00:00"
+            "time": "2025-07-14T08:02:47+00:00"
         },
         {
             "name": "spatie/laravel-passkeys",

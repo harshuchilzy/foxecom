@@ -116,6 +116,7 @@ class Cart extends Component
         $this->linesVisible = true;
     }
 
+
     public function render(): View
     {
         return view('livewire.components.cart');

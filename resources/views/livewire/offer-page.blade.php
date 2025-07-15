@@ -12,18 +12,7 @@
         default => "Redeem offer"
     };
 
-    // Get product variant from pivot table
-    $variantId = DB::table('lunar_discount_purchasables')
-        ->where('discount_id', $discount->id)
-        ->value('purchasable_id');
-
-    $product = null;
-
-    if ($variantId) {
-        // $variant = ProductVariant::with('product')->find($variantId);
-        $variant = ProductVariant::with('product.defaultUrl')->find($variantId);
-        $product = $variant?->product;
-    }
+    $product = optional($discount->purchasables?->first()?->purchasable?->product);
 
 @endphp
 <div class="w-full h-[100vh] relative" style="background-image: url('{{ asset('storage/' . $bannerImage) }}'); background-size: cover;">
