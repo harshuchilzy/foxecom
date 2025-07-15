@@ -132,6 +132,7 @@ class CartPage extends Component
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
                 'stock' => $line->purchasable->stock,
+                'meta' => (array)$line->meta,
             ];
         })->toArray();
     }

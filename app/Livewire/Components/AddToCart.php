@@ -32,11 +32,24 @@ class AddToCart extends Component
 
         if ($this->purchasable->stock < $this->quantity) {
             $this->addError('quantity', 'The quantity exceeds the available stock.');
-
             return;
         }
 
-        CartSession::manager()->add($this->purchasable, $this->quantity);
+        // Look up any existing PAID line for this variant
+        $existing = CartSession::lines()
+            ->get()
+            ->first(fn ($l) => ($l->purchasable_id === $this->purchasable->id) && empty($l->meta['free']));
+
+        if ($existing) {
+            // If it exists, update the quantity
+            CartSession::updateLines(collect([[
+                'id' => $existing->id,
+                'quantity' => $existing->quantity + $this->quantity
+            ]]));
+        } else {
+            CartSession::manager()->add($this->purchasable, $this->quantity);
+        }
+
         $this->dispatch('add-to-cart');
     }
 
