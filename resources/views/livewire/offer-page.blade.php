@@ -26,8 +26,8 @@
     }
 
 @endphp
-<div class="w-full h-[100vh] relative" style="background-image: url('{{ asset('storage/' . $bannerImage) }}'); background-size: cover;">
-    <div class="flex gap-5 items-center justify-between px-10 py-20 bg-no-repeat absolute top-[35%] right-0 offer-txt-bg">
+<div class="w-full h-[90vh] lg:h-[100vh] relative" style="background-image: url('{{ asset('storage/' . $bannerImage) }}'); background-size: cover; background-position: center;">
+    <div class="hidden lg:flex gap-5 items-center justify-between px-10 py-20 bg-no-repeat absolute top-[35%] right-0 offer-txt-bg">
         <div>
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
             <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
@@ -63,11 +63,90 @@
         </div>
     </div>
 
+    <div class="lg:hidden absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+        <h1 class="text-white text-sm tracking-wider mb-2 absolute top-[15px] left-[85px] font-semibold">Slide to Claim Offer</h1>
+        <input type="range" value="0" class="pullee mx-auto" placeholder="Slide to Claim Offer" />
+    </div>
+
     <style>
         .offer-txt-bg {
             background-image: url(/images/offer-text-bg.png);
             background-size: 100%;
             background-position: center;
         }
+        .pullee {
+            width: 18rem;
+            appearance: none;
+        }
+        .pullee:active::-webkit-slider-thumb {
+            transform: scale(1.1);
+            cursor: grabbing;
+        }
+        .pullee:focus {
+            outline: none;
+        }
+        .pullee::-webkit-slider-thumb {
+            appearance: none;
+            display: block;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 100%;
+            background: #3B82F6;
+            transform: scale(1);
+            transition: transform ease-out 100ms;
+            cursor: grab;
+        }
+        .pullee::-webkit-slider-runnable-track {
+            height: 2.5rem;
+            border-radius: 2.5rem;
+            background-color: #0a0019d1;
+            padding: .25rem;
+            box-sizing: content-box;
+        }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var inputRange = document.getElementsByClassName('pullee')[0],
+                maxValue = 150,
+                speed = 12,
+                currValue, rafID;
+
+            inputRange.min = 0;
+            inputRange.max = maxValue;
+
+            function unlockStartHandler() {
+                window.cancelAnimationFrame(rafID);
+                currValue = +this.value;
+            }
+
+            function unlockEndHandler() {
+                currValue = +this.value;
+                if (currValue >= maxValue) {
+                    successHandler();
+                } else {
+                    rafID = window.requestAnimationFrame(animateHandler);
+                }
+            }
+
+            function animateHandler() {
+                inputRange.value = currValue;
+                if (currValue > -1) {
+                    window.requestAnimationFrame(animateHandler);
+                }
+                currValue = currValue - speed;
+            }
+
+            function successHandler() {
+                window.location.href = "{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}";
+            }
+
+            inputRange.addEventListener('mousedown', unlockStartHandler, false);
+            inputRange.addEventListener('touchstart', unlockStartHandler, false);
+            inputRange.addEventListener('mouseup', unlockEndHandler, false);
+            inputRange.addEventListener('touchend', unlockEndHandler, false);
+        });
+    </script>
 </div>
+
+

@@ -257,7 +257,8 @@
                 <div class="md:hidden flex w-full">
                     <div id="short-description-accordion-flush" data-accordion="collapse" data-active-classes="bg-white text-gray-900 w-full" data-inactive-classes="text-gray-500 w-full">
                         <h2 id="short-description-accordion-flush-heading-1 w-full">
-                            <button type="button" class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3" data-accordion-target="#short-description-accordion" aria-expanded="true" aria-controls="short-description-accordion">
+                            <button type="button" class="flex mb-3 items-center justify-between !w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3" data-accordion-target="#short-description-accordion" aria-expanded="true" aria-controls="short-description-accordion">
+                            <span>Descripion</span>
                             <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                             </svg>
