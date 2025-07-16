@@ -1,6 +1,6 @@
 <div>
     <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-        <main class="flex w-full flex-col">
+        <main class="flex w-full flex-col bg-[#FFFFFF]">
             @if(empty($metaFields['hero-video-link']))
                 <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[50vh] lg:h-[90vh] w-full">
                     @if(empty($metaFields['hero-video-link']))
@@ -84,7 +84,7 @@
                 </div>
             @endif
 
-            <div class="flex flex-col bg-[#D9D9D97D]">
+            <div class="flex flex-col bg-[#FFF]">
                 <div class="py-8 lg:py-12">
                     <h2 class="text-center text-[20px] lg:text-[28px]">
                         <span class="font-bold text-black">{{$metaFields['promotion-section-bold-title'] ?? 'Promotion Spotlight.'}}</span>

@@ -1,9 +1,10 @@
 @php
     use Lunar\Models\ProductVariant;
+    use Lunar\Models\Product;
+    use Lunar\Models\Url;
 
     $bannerImage = $discount->data['banner_image'] ?? null;
-    // $discountType = $discount->data['discount_type'] ?? 'percentage';
-    $discountType = class_basename($discount->type); // e.g., "AmountOff"
+    $discountType = class_basename($discount->type);
     $couponAmount = $discount->data['coupon_amount'] ?? 0;
     $displayText = match ($discountType) {
         'percentage' => "{$couponAmount}% off",
@@ -12,18 +13,62 @@
         default => "Redeem offer"
     };
 
-    // Get product variant from pivot table
-    $variantId = DB::table('lunar_discountables')
+    // Old variant-based logic
+    /*
+    $variantId = DB::table('lunar_discount_purchasables')
         ->where('discount_id', $discount->id)
-        ->value('discountable_id');
+        ->value('purchasable_id');
 
     $product = null;
+    $productUrl = null;
 
     if ($variantId) {
-        // $variant = ProductVariant::with('product')->find($variantId);
         $variant = ProductVariant::with('product.defaultUrl')->find($variantId);
         $product = $variant?->product;
+
+        if ($product) {
+            $productUrl = optional($product->defaultUrl)->slug;
+
+            if (!$productUrl) {
+                $productUrl = Url::where('element_type', 'product')
+                    ->where('element_id', $product->id)
+                    ->where('default', true)
+                    ->value('slug');
+            }
+
+            if (!$productUrl) {
+                $productUrl = Url::where('element_type', 'product')
+                    ->where('element_id', $product->id)
+                    ->orderByDesc('default')
+                    ->value('slug');
+            }
+        }
     }
+    */
+
+    // New logic: use lunar_discountables and lunar_urls directly
+    $productId = DB::table('lunar_discount_purchasables')
+        ->where('discount_id', $discount->id)
+        ->where('purchasable_type', 'product')
+        ->value('purchasable_id');
+
+    $productUrl = null;
+
+    if ($productId) {
+        $productUrl = Url::where('element_type', 'product')
+            ->where('element_id', $productId)
+            ->where('default', true)
+            ->value('slug');
+
+        if (!$productUrl) {
+            $productUrl = Url::where('element_type', 'product')
+                ->where('element_id', $productId)
+                ->orderByDesc('default')
+                ->value('slug');
+        }
+    }
+
+    $couponCode = $discount->coupon;
 
 @endphp
 <div class="w-full h-[90vh] lg:h-[100vh] relative" style="background-image: url('{{ asset('storage/' . $bannerImage) }}'); background-size: cover; background-position: center;">
@@ -31,14 +76,6 @@
         <div>
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
             <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
-
-            @php
-                $productUrl = $product?->defaultUrl?->slug ?? $product?->slug ?? null;
-            @endphp
-
-            @php
-                $couponCode = $discount->coupon;
-            @endphp
 
             @if ($productUrl)
                 <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
@@ -102,7 +139,7 @@
             box-sizing: content-box;
         }
     </style>
-
+@if ($productUrl)
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var inputRange = document.getElementsByClassName('pullee')[0],
@@ -145,6 +182,5 @@
             inputRange.addEventListener('touchend', unlockEndHandler, false);
         });
     </script>
+@endif
 </div>
-
-

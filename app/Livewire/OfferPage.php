@@ -16,10 +16,10 @@ class OfferPage extends Component
         // $this->discount = Discount::findOrFail($id);
         $this->discount = Discount::findOrFail($id);
 
-        $productId = DB::table('lunar_discountables')
+        $productId = DB::table('lunar_discount_purchasables')
             ->where('discount_id', $id)
-            ->where('discountable_type', 'product')
-            ->value('discountable_id');
+            ->where('purchasable_type', 'product')
+            ->value('purchasable_id');
 
         $product = null;
 
