@@ -81,7 +81,6 @@ class CheckoutPage extends Component
     ];
 
     public $deliveryOptionVerified = false;
-    public $paymentVerified = false;
 
     public $showAddressEdit = false;
     /**
@@ -126,7 +125,7 @@ class CheckoutPage extends Component
         //Render the countries
         //$this->countries = Country::orderBy('name')->get();
 
-        if (! $this->cart = CartSession::current()) {
+        if (!$this->cart = CartSession::current()) {
             $this->redirect('/');
 
             return;
@@ -153,7 +152,7 @@ class CheckoutPage extends Component
         // }
         $customer = auth()->check() ? auth()->user()->customers->first() : null;
 
-        if(($this->shipping) && $customer){
+        if (($this->shipping) && $customer) {
             //$this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
             //$this->shipping = new CartAddress($this->shipping);
 
@@ -161,7 +160,7 @@ class CheckoutPage extends Component
 
             if (empty($this->shipping)) {
                 $this->redirect('/addresses');
-                return; 
+                return;
             }
 
             $this->cart->setShippingAddress($this->shipping);
@@ -170,7 +169,7 @@ class CheckoutPage extends Component
 
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
-        if(($this->billing) && $customer){
+        if (($this->billing) && $customer) {
             //Log::info($customer->addresses->where('billing_default', 1)->first()?->toArray());
             $this->billing = $customer->addresses->where('billing_default', 1)->first()?->toArray();
             // $this->billing = array(
@@ -187,7 +186,6 @@ class CheckoutPage extends Component
         // Log::info($this->shipping);
         //Log::info($this->shipping);
     }
-
 
 
     public function hydrate(): void
@@ -250,7 +248,7 @@ class CheckoutPage extends Component
     {
         $shippingAddress = $this->cart->shippingAddress;
 
-        if (! $shippingAddress) {
+        if (!$shippingAddress) {
             return;
         }
 
@@ -263,8 +261,9 @@ class CheckoutPage extends Component
         return null;
     }
 
-    function updatedSelectedShippingAddress() : void {
-        if(auth()->check()){
+    function updatedSelectedShippingAddress(): void
+    {
+        if (auth()->check()) {
             $customer = auth()->user()->customers->first();
             $this->shipping = $customer->addresses->find($this->selectedShippingAddress)?->toArray();
             $this->cart->setShippingAddress($this->shipping);
@@ -347,9 +346,7 @@ class CheckoutPage extends Component
         ])->authorize();
 
         if ($payment->success) {
-            redirect()->route('checkout-success.view');
-
-            return;
+            return redirect()->route('checkout-success.view');
         }
 
         return redirect()->route('checkout-success.view');
@@ -425,7 +422,7 @@ class CheckoutPage extends Component
         }
         $customer = $user->customers->first();
 
-        if($customer) {
+        if ($customer) {
             Address::create([
                 'customer_id' => $customer->id,
                 'title' => '',

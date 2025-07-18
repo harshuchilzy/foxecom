@@ -11,7 +11,7 @@ use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
 use App\Filament\Resources\RedemptionResource;
 use App\Modifiers\ShippingModifier;
-use App\PaymentTypes\NGeniusPayment;
+use App\Payments\NgeniusPayment;
 use Illuminate\Support\ServiceProvider;
 use Lunar\Admin\Filament\Resources\DiscountResource;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
@@ -26,10 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // LunarPanel::panel(fn($panel) => $panel->path('dashboard')->plugins([
-        //     new ShippingPlugin,
-        // ]))->register();
-
         LunarPanel::panel(function ($panel) {
             return $panel
                 ->path('dashboard')
@@ -55,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Payments::extend('ngenius', function ($app) {
-            return $app->make(NGeniusPayment::class);
+            return $app->make(NgeniusPayment::class);
         });
 
         $shippingModifiers->add(
@@ -65,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
         \Lunar\Facades\ModelManifest::replace(
             \Lunar\Models\Contracts\Product::class,
             \App\Models\Product::class,
-            // \App\Models\CustomProduct::class,
+        // \App\Models\CustomProduct::class,
         );
     }
 }
