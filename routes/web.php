@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Livewire\Home;
-use Livewire\Volt\Volt;
-use Lunar\Models\Product;
 use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
 use Illuminate\Http\Request;
@@ -282,3 +281,12 @@ Route::get('/api/cities/search', function () {
         ->values()
         ->toArray();
 })->name('api.cities.search');
+
+Route::middleware('auth')
+    ->prefix('checkout')
+    ->as('checkout.')
+    ->controller(CheckoutController::class)
+    ->group(function () {
+        Route::post('initiate', 'initiate')->name('initiate');
+        Route::post('complete', 'complete')->name('complete');
+    });
