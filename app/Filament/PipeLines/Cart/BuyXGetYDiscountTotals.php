@@ -35,6 +35,7 @@ class BuyXGetYDiscountTotals
                 return $parentPrice * $freeLine->quantity;
             });
 
+
         // If there’s any free-value to apply, override the cart’s discount and total
         if ($freeValue > 0) {
             $cart->discountTotal = new Price(
@@ -42,8 +43,14 @@ class BuyXGetYDiscountTotals
                 $cart->currency,
                 $cart->currency->factor
             );
+
+            // Recompute total so it includes shipping (and tax if any)
+            $sub = $cart->subTotal->value;
+            $ship = $cart->shippingTotal?->value ?? 0;
+            $tax = $cart->taxTotal?->value ?? 0;
+
             $cart->total = new Price(
-                $cart->subTotal->value - $freeValue,
+                $sub + $ship + $tax - $freeValue,
                 $cart->currency,
                 $cart->currency->factor
             );
