@@ -209,7 +209,6 @@ class ProductPage extends Component
 
         $cart = \Lunar\Facades\CartSession::current();
         if(!$cart){
-        }else{
             $cart = \Lunar\Models\Cart::create([
                 'currency_id' => Currency::getDefault(),
                 'channel_id' => Channel::getDefault(),
