@@ -14,6 +14,8 @@ use App\Models\ProductReview;
 use App\Models\ReviewImage;
 use Lunar\Models\Discount;
 use Lunar\Facades\CartSession;
+use Lunar\Models\Channel;
+use Lunar\Models\Currency;
 
 class ProductPage extends Component
 {
@@ -206,6 +208,13 @@ class ProductPage extends Component
         }
 
         $cart = \Lunar\Facades\CartSession::current();
+        if(!$cart){
+        }else{
+            $cart = \Lunar\Models\Cart::create([
+                'currency_id' => Currency::getDefault(),
+                'channel_id' => Channel::getDefault(),
+            ]);
+        }
         $cart->coupon_code = $discount->coupon;
 
         $cart->calculate();
