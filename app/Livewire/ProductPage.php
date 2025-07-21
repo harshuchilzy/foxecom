@@ -210,8 +210,8 @@ class ProductPage extends Component
         $cart = \Lunar\Facades\CartSession::current();
         if(!$cart){
             $cart = \Lunar\Models\Cart::create([
-                'currency_id' => Currency::getDefault(),
-                'channel_id' => Channel::getDefault(),
+                'currency_id' => Currency::getDefault()->id,
+                'channel_id' => Channel::getDefault()->id,
             ]);
         }
         $cart->coupon_code = $discount->coupon;
