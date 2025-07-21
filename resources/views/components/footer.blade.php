@@ -30,7 +30,7 @@
             <a href="tel:+447925606692" class="bg-[#1B1819] text-white py-[8px] px-[16px] rounded-lg cursor-pointer">Request a call</a>
             <div class="mt-4">
                 <a href="tel:+447925606692"><p class="font-semibold text-[14px] text-[#1B1819]">+44 7925 606692</p></a>
-                <a href="mailto:accounts@forergo.com"><p class="font-semibold text-[14px] text-[#1B1819]">accounts@forergo.com</p></a>
+                <a href="mailto:accounts@foxergo.com"><p class="font-semibold text-[14px] text-[#1B1819]">accounts@foxergo.com</p></a>
             </div>
         </div>
     </div>
