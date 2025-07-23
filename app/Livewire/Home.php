@@ -60,7 +60,7 @@ class Home extends Component
         $mediaCollection = $page?->getMediaCollectionArray() ?? [];
 
         $discounts = Discount::active()->get();
-        $latestDiscounts = $discounts->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
+        $latestDiscounts = $discounts; //->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
 
         return view('livewire.home', [
             'latestDiscounts' => $latestDiscounts,
