@@ -35,7 +35,7 @@
                             }
                         }
                     </style>
-                    <div class="absolute bottom-[120px] right-[20px]  z-10">
+                    <div class="absolute bottom-[156px] right-[120px]  z-10">
                         <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
                     </div>
 
@@ -88,7 +88,7 @@
                 <div class="py-8 lg:py-12">
                     <h2 class="text-center text-[20px] lg:text-[28px]">
                         <span class="font-bold text-black">{{$metaFields['promotion-section-bold-title'] ?? 'Promotion Spotlight.'}}</span>
-                        <span class="font-semibold text-[#6E6E73] italic">{{$metaFields['promotion-section-title'] ?? 'Our monthly offer selection for you.'}}</span>
+                        <span class="font-normal text-[#6E6E73] italic">{{$metaFields['promotion-section-title'] ?? 'Our monthly offer selection for you.'}}</span>
                     </h2>
 
                     <section class="py-8">
@@ -260,6 +260,10 @@
                                 $bannerImage = $data['banner_image'] ?? null;
                                 $promoImage = $data['promo_image'] ?? null;
                                 $imageToShow = $bannerImage ?? $promoImage;
+
+                                $marketingHeader = $data['marketing_header'] ?? null;
+                                $discountFeatures = $data['discount_features'] ?? null;
+                                $discountFeaturesArray = explode(',', $discountFeatures);
                             @endphp
 
                             <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
@@ -283,16 +287,34 @@
                                         <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
                                     </div>
 
-                                    @if ($discount->description)
+                                    {{-- @if ($discount->description)
                                         <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block">
                                             {!! $discount->description !!}
                                         </p>
+                                    @endif --}}
+                                    <p class="text-black font-bold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block font-inter opacity-70 leading-6 pt-5">{{ $marketingHeader }}</p>
+
+                                    @if($discountFeatures)
+                                        <ul class="pt-6 font-semibold font-inter opacity-70 list-disc list-inside ml-4">
+                                            @foreach($discountFeaturesArray as $discountFeature)
+                                                <li>{{ $discountFeature }}</li>
+                                            @endforeach
+                                        </ul>
                                     @endif
+                                    
                                 </div>
 
-                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}" class="group lg:flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200 hidden z-9">
-                                    <span class="text-themeblue">Reveal Offer</span>
-                                    <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">→</span>
+                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}" class="group lg:flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200 hidden z-9 lg:text-[22px]">
+                                    @if ($claimed > 0)
+                                        <span class="text-themeblue">{{ $claimed }}% claimed</span>
+                                    @else
+                                        <span class="text-themeblue">Reveal Offer</span>
+                                    @endif
+                                    <span class="text-lg group-hover:translate-x-1 transition-transform duration-200 text-themeblue">
+                                        <svg width="23" height="12" viewBox="0 0 23 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 6H21M21 6L16 1M21 6L16 11" stroke="#2A86F8" stroke-width="2"/>
+                                        </svg>
+                                    </span>
                                 </a>
 
                                 @if ($promoImage)

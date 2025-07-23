@@ -8,6 +8,7 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
@@ -28,6 +29,12 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->label('Promotional Image')
                     ->image()
                     ->required(),
+                TextInput::make('data.marketing_header')
+                    ->label('Marketing header'),
+                TagsInput::make('data.discount_features')
+                    ->label('Discount Features')
+                    ->placeholder('Add keywords (e.g., Bulk Buy, Mega Value)')
+                    ->separator(','),
                 Select::make('data.banner_type')
                     ->label('Banner Type')
                     ->options([
