@@ -47,6 +47,8 @@ class ProductPage extends Component
         'reviewForm.images.*' => 'nullable|image|max:2048',
     ];
 
+    public $showReviewPopup = false;
+
 
     public function mount($slug): void
     {
@@ -168,9 +170,21 @@ class ProductPage extends Component
 
     public function getReviewCountProperty(): int
     {
-        return \App\Models\ProductReview::where('product_id', $this->product->id)
+        return ProductReview::where('product_id', $this->product->id)
             ->where('approved', true)
             ->count();
+    }
+
+    public function getAverageRatingProperty(): ?float
+    {
+        return ProductReview::where('product_id', $this->product->id)
+            ->where('approved', true)
+            ->avg('rating'); 
+    }
+
+    public function getFormattedAverageProperty(): string
+    {
+        return number_format($this->averageRating, 1) ?: '0.0'; 
     }
 
     public function submitReview()
@@ -193,6 +207,8 @@ class ProductPage extends Component
         $this->reset('reviewForm');
 
         session()->flash('success', 'Review submitted and awaiting approval.');
+
+        $this->closeReviewPopup();
     }
 
     public function claimOffer()
@@ -230,6 +246,16 @@ class ProductPage extends Component
 
         // return redirect()->route('checkout.view');
         return redirect()->route('product.view', ['slug' => $this->url->slug]);
+    }
+
+    public function openReviewPopup()
+    {
+        $this->showReviewPopup = true;
+    }
+
+    public function closeReviewPopup()
+    {
+        $this->showReviewPopup = false;
     }
 
     public function render(): View

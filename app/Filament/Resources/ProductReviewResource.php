@@ -68,7 +68,8 @@ class ProductReviewResource extends Resource
                         // '' => 'Pending',
                         null => 'Pending',
                     ])
-                    ->nullable(),
+                    ->nullable()
+                    ->default(null),
 
                 FileUpload::make('images_data')
                     ->label('Review Images')
