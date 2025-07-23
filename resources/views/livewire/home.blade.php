@@ -96,7 +96,7 @@
                             <div class="swiper-wrapper">
                                 @foreach ($discounts as $discount)
                                     @php
-                                        if (isset($discount->data['banner_type']) && !in_array('spotlight', $discount->data['banner_type'])) {
+                                        if (isset($discount->data['display_type']) && !in_array('spotlight', $discount->data['display_type'])) {
                                             continue;
                                         }
                                         $data = $discount->data;
@@ -197,11 +197,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach ($latestDiscounts as $discount)
                         @php
-                        print_r($discount->data['banner_type']);
-                            // if (isset($discount->data['banner_type']) && in_array('latest-promotions', $discount->data['banner_type'])) {
-                            //     echo $discount->data['banner_type'];
-                            //     continue;
-                            // }
+                            if (isset($discount->data['display_type']) && !in_array('latest-promotions', $discount->data['display_type'])) {
+                                continue;
+                            }
 
                             // if($discount)
                             $title = $discount->name;
@@ -284,6 +282,11 @@
                     <div class="grid grid-cols-2 gap-3 lg:gap-6">
                         @foreach ($discountChunk as $discount)
                             @php
+
+                                if (isset($discount->data['display_type']) && !in_array('banner', $discount->data['display_type'])) {
+                                    continue;
+                                }
+
                                 $data = $discount->data;
                                 $bannerImage = $data['banner_image'] ?? null;
                                 $promoImage = $data['promo_image'] ?? null;
@@ -292,6 +295,7 @@
                                 $marketingHeader = $data['marketing_header'] ?? null;
                                 $discountFeatures = $data['discount_features'] ?? null;
                                 $discountFeaturesArray = explode(',', $discountFeatures);
+                                
                             @endphp
 
                             <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(180deg,_rgba(73,77,94,0.08)_0%,_#FFFFFF_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_10px_25px_0px_#00000073] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">

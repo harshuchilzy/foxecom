@@ -36,8 +36,8 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->placeholder('Add keywords (e.g., Bulk Buy, Mega Value)')
                     ->separator(','),
                 Select::make('data.display_type')
-                ->multiple()
-                    ->label('Banner Type')
+                    ->multiple()
+                    ->label('Active Positions')
                     ->options([
                         'spotlight' => 'Spotlight',
                         'latest-promotions' => 'Latest Promotions',
