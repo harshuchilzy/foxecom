@@ -79,7 +79,7 @@
                                     :type="'suggestBtn'"
                                 />
                             @else
-                                <a href="{{ route('product.view', $orderItem['product']->defaultUrl->slug) }}" class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px] text-center">Buy Again</a>
+                                <a href="{{ route('product.view', $orderItem['product']->defaultUrl->slug) }}" class="bg-[#1275EE] rounded-[12px] w-full py-1 text-white font-inter font-normal text-[12px] text-center">Buy now</a>
                             @endif
                         </div>
                     </div>

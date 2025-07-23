@@ -52,7 +52,7 @@
 
         @if($hasDiscount)
             <hr class="border-gray-200">
-            <p class="text-[#249B3E] font-semibold text-lg md:text-xl">
+            <p class="text-[#249B3E] font-semibold text-[16px] md:text-lg">
                 Save {{ $price->price->currency->code }} {{ number_format($saveAmount, 2) }}
             </p>
         @endif

@@ -247,10 +247,12 @@
                                     $product_price = $product_prices->price?->formatted();
                                 }
                             @endphp
-                            <div class="flex gap-5 items-center justify-start">
+                            <div class="flex gap-5 items-center justify-start mb-2">
                                 <div class="">
-                                    <img class="w-[60px] h-[60px] object-contain"
+                                    <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
+                                        <img class="w-[60px] h-[60px] object-contain"
                                          src="{{ $product->thumbnail?->getUrl() }}" alt="">
+                                    </a>
                                 </div>
                                 <div>
                                     {{-- <pre>
@@ -258,8 +260,8 @@
                                     </pre> --}}
                                     <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate><h2
                                             class="font-semibold text-[16px] text-black">{{ $product->translateAttribute('name') }} {{ $line->option ? ' - ' . $line->option : '' }}</h2>
-                                        <a>
-                                            <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>
+                                    </a>
+                                     <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>
                                 </div>
                             </div>
                         @endforeach

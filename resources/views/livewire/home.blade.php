@@ -241,12 +241,14 @@
 
                         <div class="rounded-[20px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
                             <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-2xl mt-2 {{ $textClass }}">{{ $title }}</h3>
+                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
+                                    <h3 class="font-semibold text-2xl mt-2 {{ $textClass }}">{{ $title }}</h3>
+                                </a>
                                 <p class="text-[18px] font-semibold mt-2 lg:hidden {{ $textClass }}">{{ $claimed }}%</p>
                             </div>
 
                             <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
-
+                        
                             <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
                                 <div class="{{ $barColor }} h-[8px] rounded-[20px]" style="width: {{ $claimed }}%"></div>
                             </div>
@@ -254,7 +256,9 @@
                             <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}% claimed</p>
 
                             <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
-                                <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $image }}" alt="{{ $title }}">
+                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
+                                    <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $image }}" alt="{{ $title }}">
+                                </a>
                             </div>
 
                             @if ($productUrl)
