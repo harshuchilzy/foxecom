@@ -240,7 +240,7 @@
                             <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
 
                             <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
-                                <div class="{{ $barColor }} w-[{{ $claimed }}%] h-[8px] rounded-[20px]"></div>
+                                <div class="{{ $barColor }} h-[8px] rounded-[20px]" style="width: {{ $claimed }}%"></div>
                             </div>
 
                             <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}% claimed</p>
