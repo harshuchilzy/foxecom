@@ -121,7 +121,7 @@
                                                         alt="{{ $discount->name }}">
                                                         <div class="swiper-slider-claim-progress hidden bg-white rounded-[20px] h-[16px] absolute bottom-6 w-[90%] left-1/2 -translate-x-1/2 border-3 border-white overflow-hidden">
                                                             <div 
-                                                            class="bg-gradient-to-r from-[#95D7EF] to-[#1681FF] h-[10px] rounded-[20px]"
+                                                            class="bg-gradient-to-r from-[#FFFFFF] to-[#1681FF] h-[10px] rounded-[20px]"
                                                             style="width: {{ $claimed }}%"
                                                             ></div>
                                                         </div>
@@ -262,7 +262,7 @@
                 </div>
             </div>
 
-            <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:py-12 max-w-[1440px] mx-auto w-full">
+            <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:pt-0 xl:pb-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
                         <span class="font-bold text-black opacity-90">{{$metaFields['offers-bold-title'] ?? 'All Offers.'}}</span>
