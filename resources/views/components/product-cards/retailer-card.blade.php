@@ -39,7 +39,7 @@
 
     <div class="bg-white rounded-b-[16px] p-3 space-y-2">
         <a href="{{ route('product.view', $relatedProduct->defaultUrl->slug) }}" wire:navigate>
-            <h2 class="text-[#222222] text-lg md:text-xl font-semibold line-clamp-2 min-h-[3rem] hover:cursor-pointer">
+            <h2 class="text-[#222222] text-lg md:text-xl font-semibold line-clamp-2 min-h-[4rem] hover:cursor-pointer">
                 {{ $relatedProduct->translateAttribute('name') }}
             </h2>
         </a>
@@ -51,11 +51,11 @@
                 </span>
             @endif
             @if($hasDiscount)
-                <span class="text-[#000000] text-[16px] md:text-[20px] font-normal ">
+                <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold ">
                     {{ $comparePrice->formatted }}
                 </span>
             @else
-                <span class="text-[#000000] text-[16px] md:text-[20px] font-normal ">
+                <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold ">
                     {{ $price->price->formatted }}
                 </span>
             @endif
