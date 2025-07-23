@@ -16,7 +16,7 @@
                     <x-product-cards.category-card :collection="$collection" />
                 @endforeach
                 <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />
+                    <img class="w-[90%] h-[220px] rounded-[8px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />
                     <p class="text-left mt-2 text-[28px] font-semibold">Dummy category</p>
                 </div>
             </div>
