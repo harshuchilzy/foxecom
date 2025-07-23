@@ -105,3 +105,7 @@ input::-webkit-inner-spin-button {
     border: 1px solid rgb(33,33,33);
     border-radius: 0;
 }
+
+.swiper-slide-next .swiper-slider-claim-progress {
+    display: block;
+}

@@ -84,8 +84,8 @@
                 </div>
             @endif
 
-            <div class="flex flex-col bg-[#FFF]">
-                <div class="py-8 lg:py-12">
+            <div class="flex flex-col bg-[#ECECEC]">
+                <div class="py-8 lg:pt-12 lg:pb-8">
                     <h2 class="text-center text-[20px] lg:text-[28px]">
                         <span class="font-bold text-black">{{$metaFields['promotion-section-bold-title'] ?? 'Promotion Spotlight.'}}</span>
                         <span class="font-normal text-[#6E6E73] italic">{{$metaFields['promotion-section-title'] ?? 'Our monthly offer selection for you.'}}</span>
@@ -98,6 +98,18 @@
                                     @php
                                         $data = $discount->data;
                                         $bannerImage = $data['banner_image'] ?? null;
+
+                                        $claimed = (($discount->uses > 0 ? $discount->uses : 1) / ($discount->max_uses > 0 ? $discount->max_uses : 1 )) * 100; // rand(60, 98); // Simulate claimed percentage
+
+                                        if(auth()->check()){
+                                            $user_usage = 0;
+                                            foreach ($discount->users as $user) {
+                                                if($user->id == auth()->user()->id) {
+                                                    $user_usage++;
+                                                }
+                                            }
+                                            $claimed = ($user_usage / ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)) * 100; // rand(60, 98); // Simulate claimed percentage
+                                        }
                                     @endphp
 
                                     @if ($bannerImage)
@@ -107,6 +119,12 @@
                                                     <img src="{{ asset('storage/' . $bannerImage) }}"
                                                         class="w-full h-full rounded-xl object-cover transition-transform duration-300 hover:scale-105"
                                                         alt="{{ $discount->name }}">
+                                                        <div class="swiper-slider-claim-progress hidden bg-white rounded-[20px] h-[16px] absolute bottom-6 w-[90%] left-1/2 -translate-x-1/2 border-3 border-white overflow-hidden">
+                                                            <div 
+                                                            class="bg-gradient-to-r from-[#95D7EF] to-[#1681FF] h-[10px] rounded-[20px]"
+                                                            style="width: {{ $claimed }}%"
+                                                            ></div>
+                                                        </div>
                                                 </div>
                                             </a>
                                         </div>
@@ -118,16 +136,16 @@
 
                     <div class="flex items-center justify-center mt-2 flex-col gap-3 px-5 lg:px-0">
                         <h3 class="text-[22px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">{{$metaFields['promotion-subtitle'] ?? 'Claim Your Free Outer Here'}}</h3>
-                        <p class="text-[16px] font-normal text-black">{{$metaFields['promotion-text-line'] ?? 'Limited-time promotion for verified retailers. Claim it fast'}}  </p>
+                        <p class="text-[16px] font-normal text-black font-inter">{{$metaFields['promotion-text-line'] ?? 'Limited-time promotion for verified retailers. Claim it fast'}}  </p>
                     </div>
                 </div>
             </div>
 
             <div class="bg-white px-4 lg:px-8 xl:px-16 py-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
-                    <h2 class="text-left text-[16px] lg:text-[28px]">
-                        <span class="font-bold text-black">{{$metaFields['latest-promotion-bold-title'] ?? 'The latest promotions.'}}</span>
-                        <span class="font-semibold text-[#6E6E73] italic">{{$metaFields['latest-promotion-title'] ?? 'Take a look what’s new.'}}</span>
+                    <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
+                        <span class="font-bold text-black opacity-90">{{$metaFields['latest-promotion-bold-title'] ?? 'The latest promotions.'}}</span>
+                        <span class="font-bold text-[#6E6E73]">{{$metaFields['latest-promotion-title'] ?? 'Take a look what’s new.'}}</span>
                     </h2>
                 </div>
 
@@ -195,16 +213,16 @@
                             }
 
                             if ($claimed >= 90) {
-                                $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
-                                $cardBg = 'bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)]';
-                                $textClass = 'text-white';
+                                $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
+                                $cardBg = 'bg-[linear-gradient(360deg,_#B0CC6F_0%,_#FFFFFF_100%)]';
+                                $textClass = 'text-[#1D1D1F]';
                             } elseif ($claimed >= 70) {
-                                $barColor = 'bg-[linear-gradient(360deg,_#95D7EF_0%,_#2E6EA2_100%)]';
-                                $cardBg = 'bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)]';
+                                $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
+                                $cardBg = 'bg-[linear-gradient(360deg,_#EFFF86_0%,_#F3F7F9_100%)]';
                                 $textClass = 'text-[#1D1D1F]';
                             } else {
-                                $barColor = 'bg-[linear-gradient(360deg,_#DEDBDC_0%,_#494D5E_100%)]';
-                                $cardBg = 'bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)]';
+                                $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
+                                $cardBg = 'bg-[linear-gradient(270deg,_#E5E5E5_0%,_#EEEEEE_100%)]';
                                 $textClass = 'text-[#1D1D1F]';
                             }
 
@@ -213,7 +231,7 @@
                             $productUrl = $product?->defaultUrl?->slug;
                         @endphp
 
-                        <div class="rounded-[20px] p-4 lg:p-8 {{ $cardBg }} shadow-[0px_4px_4px_0px_#00000040] w-full">
+                        <div class="rounded-[20px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
                             <div class="flex items-center justify-between">
                                 <h3 class="font-semibold text-2xl mt-2 {{ $textClass }}">{{ $title }}</h3>
                                 <p class="text-[18px] font-semibold mt-2 lg:hidden {{ $textClass }}">{{ $claimed }}%</p>
@@ -246,9 +264,9 @@
 
             <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:py-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
-                    <h2 class="text-left text-[16px] lg:text-[28px]">
-                        <span class="font-bold text-black">{{$metaFields['offers-bold-title'] ?? 'All Offers.'}}</span>
-                        <span class="font-semibold text-[#6E6E73] italic">{{$metaFields['offers-title'] ?? 'Click to reveal.'}}</span>
+                    <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
+                        <span class="font-bold text-black opacity-90">{{$metaFields['offers-bold-title'] ?? 'All Offers.'}}</span>
+                        <span class="font-bold text-[#6E6E73]">{{$metaFields['offers-title'] ?? 'Click to reveal.'}}</span>
                     </h2>
                 </div>
 
@@ -266,7 +284,7 @@
                                 $discountFeaturesArray = explode(',', $discountFeatures);
                             @endphp
 
-                            <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_4px_4px_#00000040] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+                            <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(180deg,_rgba(73,77,94,0.08)_0%,_#FFFFFF_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_10px_25px_0px_#00000073] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
                                 <div class="mb-4 flex lg:hidden justify-between items-start">
                                     <div class="p-2 rounded-full flex items-center justify-center lg:hidden" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.8) 100%);">
                                         <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -323,7 +341,7 @@
                                         class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[200px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150" />
                                 @endif
 
-                                <div class="absolute top-4 right-4 p-3 bg-gray-600 rounded-full lg:flex items-center justify-center hidden">
+                                <div class="absolute top-4 right-4 p-3 bg-[linear-gradient(180deg,_rgba(73,77,94,0.9)_0%,_rgba(0,0,0,0.8)_100%)] rounded-full lg:flex items-center justify-center hidden">
                                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_1551)"/>
                                     <defs>
