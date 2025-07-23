@@ -287,9 +287,9 @@
                         @foreach ($discountChunk as $discount)
                             @php
 
-                                if (isset($discount->data['display_type']) && !in_array('banner', $discount->data['display_type'])) {
-                                    continue;
-                                }
+                                // if (isset($discount->data['display_type']) && !in_array('banner', $discount->data['display_type'])) {
+                                //     continue;
+                                // }
 
                                 $data = $discount->data;
                                 $bannerImage = $data['banner_image'] ?? null;
