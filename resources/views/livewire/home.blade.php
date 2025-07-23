@@ -96,6 +96,9 @@
                             <div class="swiper-wrapper">
                                 @foreach ($discounts as $discount)
                                     @php
+                                        if (isset($discount->data['banner_type']) && !empty($discount->data['banner_type']) && !in_array('spotlight', $discount->data['banner_type'])) {
+                                            continue;
+                                        }
                                         $data = $discount->data;
                                         $bannerImage = $data['banner_image'] ?? null;
 
@@ -194,6 +197,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach ($latestDiscounts as $discount)
                         @php
+                            if (isset($discount->data['banner_type']) && !empty($discount->data['banner_type']) && !in_array('latest-promotions', $discount->data['banner_type'])) {
+                                continue;
+                            }
+
+                            // if($discount)
                             $title = $discount->name;
                             $data = $discount->data;
                             $image = isset($data['promo_image']) && $data['promo_image']

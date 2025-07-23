@@ -35,12 +35,13 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->label('Discount Features')
                     ->placeholder('Add keywords (e.g., Bulk Buy, Mega Value)')
                     ->separator(','),
-                Select::make('data.banner_type')
+                Select::make('data.display_type')
+                ->multiple()
                     ->label('Banner Type')
                     ->options([
-                        'normal' => 'Normal',
-                        'full_width' => 'Full Width',
-                        'video' => 'Video',
+                        'spotlight' => 'Spotlight',
+                        'latest-promotions' => 'Latest Promotions',
+                        'banner' => 'Banner',
                     ])
                     ->required()
                     ->reactive(),
