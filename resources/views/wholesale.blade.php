@@ -12,12 +12,12 @@
 
         <div class="swiper mySecondSwiper px-5">
             <div class="swiper-wrapper py-8 px-5">
-             
+
                 @foreach ($collections as $collection)
                     <x-product-cards.category-card :collection="$collection" />
                 @endforeach
                 <div class="swiper-slide">
-                    <img class="w-[90%] h-[220px] rounded-[4px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />
+                    <img class="w-[90%] h-[220px] rounded-[8px] object-cover" src="{{ asset('images/liquidcat.jpg') }}" alt="Liquids" />
                     <p class="text-left mt-2 text-[28px] font-semibold">Liquids</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <span class="absolute top-1/2 left-1 transform -translate-y-1/2">
                     <svg width="35" height="35" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 29C25.4183 29 29 25.4183 29 21C29 16.5817 25.4183 13 21 13C16.5817 13 13 16.5817 13 21C13 25.4183 16.5817 29 21 29Z" stroke="#ABB7C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31.0002 31.0002L26.7002 26.7002" stroke="#ABB7C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
-                <input type="text" class="w-full h-[50px] pl-10 text-[16px] border border-[#FFFFFF66] rounded-[32px] focus:outline-none focus:border-[#6E6E73]" placeholder="Search for products..." />
+                <input type="text" class="w-full h-[50px] pl-10 text-[16px] border border-[#FFFFFF66] rounded-[32px] focus:outline-none focus:border-[#6E6E73] search-box-shadow" placeholder="Search for products..." />
                 <span class="absolute top-1/2 right-2 transform -translate-y-1/2">
                     <svg width="35" height="35" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M31 14H24" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 14H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 22H22" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 22H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 30H26" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 30H13" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 12V16" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 20V24" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M26 28V32" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </span>
