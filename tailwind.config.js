@@ -27,4 +27,5 @@ export default {
         },
     },
     plugins: [require("flowbite/plugin-windicss")],
+    darkMode: "class",
 };

@@ -4,10 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Lunar\Base\Traits\LunarUser;
+use Lunar\Models\Customer;
 
 class User extends Authenticatable
 {
@@ -70,5 +73,12 @@ class User extends Authenticatable
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    function customers() : BelongsToMany {
+        return $this->belongsToMany(
+            Customer::class,
+            config('lunar.database.table_prefix') . 'customer_user'
+        );
     }
 }

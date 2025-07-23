@@ -182,7 +182,17 @@
                                 ? asset('storage/' . $data['promo_image'])
                                 : asset('images/fallback.png');
 
-                            $claimed = rand(60, 98); // Simulate claimed percentage
+                            $claimed = (($discount->uses > 0 ? $discount->uses : 1) / ($discount->max_uses > 0 ? $discount->max_uses : 1 )) * 100; // rand(60, 98); // Simulate claimed percentage
+
+                            if(auth()->check()){
+                                $user_usage = 0;
+                                foreach ($discount->users as $user) {
+                                    if($user->id == auth()->user()->id) {
+                                        $user_usage++;
+                                    }
+                                }
+                                $claimed = ($user_usage / ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)) * 100; // rand(60, 98); // Simulate claimed percentage
+                            }
 
                             if ($claimed >= 90) {
                                 $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
