@@ -14,6 +14,7 @@ use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\OfferPage;
+use App\Models\User;
 
 require __DIR__ . '/auth.php';
 
@@ -182,4 +183,9 @@ Route::middleware('auth')
     ->group(function () {
         Route::post('initiate', 'initiate')->name('initiate');
         Route::post('complete', 'complete')->name('complete');
+    });
+
+    Route::get('temp', function(){
+        // $user = User::find();
+        phpinfo();
     });

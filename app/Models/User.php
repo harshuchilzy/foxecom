@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Lunar\Base\LunarUser as BaseLunarUser;
 use Lunar\Base\Traits\LunarUser;
 use Lunar\Models\Customer;
 
-class User extends Authenticatable
+class User extends Authenticatable implements BaseLunarUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, LunarUser;
