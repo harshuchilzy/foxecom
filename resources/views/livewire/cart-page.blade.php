@@ -144,10 +144,10 @@
                             $this->shippingOption->getPrice()->formatted() }}</p>
                         </div>
                     @else
-                        <div class="py-3 flex justify-between items-center">
+                        {{-- <div class="py-3 flex justify-between items-center">
                             <h3 class="text-[16px] font-normal text-[#111111]">Estimated Delivery & Handling</h3>
                             <p class="text-[14px] font-normal text-[#111111]">FREE</p>
-                        </div>
+                        </div> --}}
                     @endif
 
                     @if ($this->cart?->discountTotal && $this->cart?->discountTotal->value > 0)
@@ -165,7 +165,7 @@
                         @foreach ($this->cart?->taxBreakdown->amounts as $tax)
                             <div class="py-3 flex justify-between items-center">
                                 <h3 class="text-[16px] font-normal text-[#111111]">
-                                    {{ $tax->description }}
+                                    {{ $tax->description }} : {{ $tax->percentage }}%
                                 </h3>
 
                                 <p class="text-[14px] font-normal text-[#111111]">
@@ -227,7 +227,7 @@
                     Items not found.
                 </div>
             @endif
-
         </div>
+        <div class="w-full text-right mt-6"><a class="text-themeblue text-[16px]  font-bold" href="{{ route('products.index') }}"><div class="flex items-center justify-end">Continue Shopping <svg width="16px" height="16px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#1275EE"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#1275EE" fill-rule="evenodd" d="M5.29289,3.70711 C4.90237,3.31658 4.90237,2.68342 5.29289,2.29289 C5.68342,1.90237 6.31658,1.90237 6.70711,2.29289 L11.7071,7.29289 C12.0976,7.68342 12.0976,8.31658 11.7071,8.70711 L6.70711,13.7071 C6.31658,14.0976 5.68342,14.0976 5.29289,13.7071 C4.90237,13.3166 4.90237,12.6834 5.29289,12.2929 L9.58579,8 L5.29289,3.70711 Z"></path> </g></svg></div></a></div>
     </div>
 </div>

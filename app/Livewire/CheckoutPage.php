@@ -211,7 +211,10 @@ class CheckoutPage extends Component
         $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
         // Log::info("Determining checkout step...");
         // Log::info($shippingAddress);
+        
+
         if ($shippingAddress) {
+         
             // if ($shippingAddress->id) {
             //     $this->currentStep = $this->steps['shipping_address'] + 1;
             // }
@@ -226,11 +229,23 @@ class CheckoutPage extends Component
                 $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
                 return;
             }
+            
         }
 
         // if ($billingAddress) {
         //     $this->currentStep = $this->steps['billing_address'] + 1;
         // }
+    }
+
+    public function saveAndContinueToNext()
+    {
+        //Log::info(print_r($this->shippingOptions, true));
+        if(!($this->chosenShipping)) {
+            $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+            $this->saveShippingOption();
+        }
+        //Log::info('shipping option: ' . $this->shippingOption);
+        $this->determineCheckoutStep();
     }
 
     /**
@@ -257,7 +272,7 @@ class CheckoutPage extends Component
                 return $opt->getIdentifier() == $option;
             });
         }
-
+   
         return null;
     }
 
@@ -328,13 +343,14 @@ class CheckoutPage extends Component
      */
     public function saveShippingOption(): void
     {
+        // Log::info('called save shipping function');
         $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $this->chosenShipping);
 
+        // Log::info(print_r($this->shippingOptions));
         CartSession::setShippingOption($option);
 
         $this->refreshCart();
 
-        $this->determineCheckoutStep();
     }
 
     public function checkout()
