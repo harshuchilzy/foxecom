@@ -59,8 +59,16 @@ class Home extends Component
         $metaFields = $page?->getMetaKeyValueArray() ?? [];
         $mediaCollection = $page?->getMediaCollectionArray() ?? [];
 
-        $discounts = Discount::active()->get();
-        $latestDiscounts = $discounts->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
+        //$discounts = Discount::active()->get();
+        $discounts = Discount::whereNotNull('starts_at')
+            ->where('starts_at', '<=', now())
+            ->where(function ($query) {
+                $query->whereNull('ends_at')
+                    ->orWhere('ends_at', '>', now());
+            })
+            ->get();
+            
+        $latestDiscounts = $discounts; //->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
 
         return view('livewire.home', [
             'latestDiscounts' => $latestDiscounts,

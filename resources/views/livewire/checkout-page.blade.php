@@ -138,7 +138,7 @@
                             </div>
 
 
-                            <a x-show="!showAddressEdit" @click="$wire.determineCheckoutStep()"
+                            <a x-show="!showAddressEdit" @click="$wire.saveAndContinueToNext()"
                                class="{{ $currentStep != 1 ? 'hidden' : 'mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center' }}">Save
                                 & Continue</a>
 
@@ -222,9 +222,23 @@
 
                     @if ($this->shippingOption)
                         <div class="py-2 flex justify-between items-center">
-                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}</h3>
+                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getName() }}</h3>
                             <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>
                         </div>
+                    @endif
+
+                    @if($cart?->taxBreakdown)
+                        @foreach ($this->cart?->taxBreakdown->amounts as $tax)
+                            <div class="py-3 flex justify-between items-center">
+                                <h3 class="text-[16px] font-normal text-[#111111]">
+                                    {{ $tax->description }} : {{ $tax->percentage }}%
+                                </h3>
+
+                                <p class="text-[14px] font-normal text-[#111111]">
+                                    {{ $tax->price->formatted() }}
+                                </p>
+                            </div>
+                        @endforeach
                     @endif
 
                     <div class="py-2 flex justify-between items-center">
@@ -233,7 +247,7 @@
                     </div>
 
                     <div class="pt-5">
-                        <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3>
+                        {{-- <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3> --}}
 
                         @foreach ( $cart?->lines as $line )
                             {{-- {{dd($line->purchasable->prices->first()->price)}} --}}
@@ -247,10 +261,12 @@
                                     $product_price = $product_prices->price?->formatted();
                                 }
                             @endphp
-                            <div class="flex gap-5 items-center justify-start">
+                            <div class="flex gap-5 items-center justify-start mb-2">
                                 <div class="">
-                                    <img class="w-[60px] h-[60px] object-contain"
+                                    <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
+                                        <img class="w-[60px] h-[60px] object-contain"
                                          src="{{ $product->thumbnail?->getUrl() }}" alt="">
+                                    </a>
                                 </div>
                                 <div>
                                     {{-- <pre>
@@ -258,8 +274,8 @@
                                     </pre> --}}
                                     <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate><h2
                                             class="font-semibold text-[16px] text-black">{{ $product->translateAttribute('name') }} {{ $line->option ? ' - ' . $line->option : '' }}</h2>
-                                        <a>
-                                            <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>
+                                    </a>
+                                     <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>
                                 </div>
                             </div>
                         @endforeach

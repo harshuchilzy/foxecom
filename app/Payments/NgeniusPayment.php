@@ -8,6 +8,7 @@ use Lunar\Base\DataTransferObjects\PaymentAuthorize;
 use Lunar\Events\PaymentAttemptEvent;
 use Lunar\Models\Transaction;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use Lunar\PaymentTypes\AbstractPayment;
 
 class NgeniusPayment extends AbstractPayment
@@ -63,7 +64,9 @@ class NgeniusPayment extends AbstractPayment
             ]
         );
 
-        return json_decode((string)$paymentRes->getBody(), true);
+        Log::info($paymentRes->getBody());
+
+        return json_decode((string) $paymentRes->getBody(), true);
     }
 
     public function authorize(): PaymentAuthorize

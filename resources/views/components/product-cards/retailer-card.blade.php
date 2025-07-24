@@ -19,7 +19,7 @@
     $discountPercentage = $hasDiscount ? round(($saveAmount / $price->price->decimal) * 100) : 0;
 @endphp
 
-<div class="bg-white border border-[#008ECC] rounded-[16px] relative group hover:shadow-lg transition-shadow overflow-hidden">
+<div class="bg-white border border-[#008ECC] rounded-[16px] relative group hover:shadow-lg transition-shadow overflow-hidden shadow-[0px_4px_45px_0px_#00000020]">
     @if($hasDiscount)
         <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px] z-10">
             <p class="font-semibold text-white text-[14px]">{{ $discountPercentage }}% OFF</p>
@@ -39,7 +39,7 @@
 
     <div class="bg-white rounded-b-[16px] p-3 space-y-2">
         <a href="{{ route('product.view', $relatedProduct->defaultUrl->slug) }}" wire:navigate>
-            <h2 class="text-[#222222] text-lg md:text-xl font-semibold line-clamp-2 min-h-[3rem] hover:cursor-pointer">
+            <h2 class="text-[#222222] text-lg md:text-xl font-semibold line-clamp-2 min-h-[4rem] hover:cursor-pointer">
                 {{ $relatedProduct->translateAttribute('name') }}
             </h2>
         </a>
@@ -51,11 +51,11 @@
                 </span>
             @endif
             @if($hasDiscount)
-                <span class="text-[#000000] text-[16px] md:text-[20px] font-normal ">
+                <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold ">
                     {{ $comparePrice->formatted }}
                 </span>
             @else
-                <span class="text-[#000000] text-[16px] md:text-[20px] font-normal ">
+                <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold ">
                     {{ $price->price->formatted }}
                 </span>
             @endif
@@ -63,7 +63,7 @@
 
         @if($hasDiscount)
             <hr class="border-gray-200">
-            <p class="text-[#249B3E] font-semibold text-lg md:text-xl">
+            <p class="text-[#249B3E] font-semibold text-[16px] md:text-lg">
                 Save {{ $price->price->currency->code }} {{ number_format($saveAmount, 2) }}
             </p>
         @endif

@@ -22,11 +22,11 @@ class MyDiscountResourceExtension extends ResourceExtension
         return Section::make('Images')
             ->schema([
                 FileUpload::make('data.banner_image')
-                    ->label('Banner Image')
+                    ->label('Spotlight Image')
                     ->image()
                     ->required(),
                 FileUpload::make('data.promo_image')
-                    ->label('Promotional Image')
+                    ->label('Offer Image')
                     ->image()
                     ->required(),
                 TextInput::make('data.marketing_header')
@@ -35,12 +35,13 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->label('Discount Features')
                     ->placeholder('Add keywords (e.g., Bulk Buy, Mega Value)')
                     ->separator(','),
-                Select::make('data.banner_type')
-                    ->label('Banner Type')
+                Select::make('data.display_type')
+                    ->multiple()
+                    ->label('Active Positions')
                     ->options([
-                        'normal' => 'Normal',
-                        'full_width' => 'Full Width',
-                        'video' => 'Video',
+                        'spotlight' => 'Spotlight',
+                        'latest-promotions' => 'Latest Promotions',
+                        'banner' => 'Banner',
                     ])
                     ->required()
                     ->reactive(),

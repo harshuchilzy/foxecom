@@ -1,11 +1,14 @@
 <div>
-    <div class="w-full h-[320px] wholesale-hero-img bg-no-repeat" style="background-image: url('{{asset('/images/wholesale-hero.jpg')}}')"></div>
+    {{-- <div class="w-full h-[320px] wholesale-hero-img bg-no-repeat" style="background-image: url('{{asset('/images/wholesale-hero.jpg')}}')"></div> --}}
+    <div>
+        <img src="{{asset('/images/wholesale-hero.jpg')}}"/>
+    </div>
 
     <div class="bg-[#D9D9D97D] py-8">
         <div class="">
             <h2 class="text-center text-[20px] lg:text-[28px]">
-                <span class="font-bold text-black">Wholesale Spotlight.</span>
-                <span class="font-semibold text-[#6E6E73] italic">Our best sellers</span>
+                <span class="font-bold text-black opacity-90">Wholesale Spotlight.</span>
+                <span class="font-bold text-[#6E6E73]">Our best sellers</span>
             </h2>
         </div>
 

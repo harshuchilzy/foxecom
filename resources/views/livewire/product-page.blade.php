@@ -247,9 +247,10 @@
                     <div class="flex items-center gap-2 flex-wrap">
                         <div>
                             <svg width="89" height="18" viewBox="0 0 89 18" fill="#3B82F6" xmlns="http://www.w3.org/2000/svg"><path d="M8.74884 2.95918C8.49029 2.51361 7.84683 2.51361 7.58828 2.95918L5.76744 6.09716C5.63972 6.31727 5.41896 6.46747 5.16734 6.50548L1.75496 7.02088C1.18183 7.10744 0.980788 7.83107 1.42714 8.20087L3.96921 10.307C4.20452 10.5019 4.31517 10.8094 4.25801 11.1096L3.59304 14.6017C3.48792 15.1537 4.06743 15.5826 4.56466 15.3208L7.77785 13.629C8.02241 13.5002 8.31471 13.5002 8.55928 13.629L11.7725 15.3208C12.2697 15.5826 12.8492 15.1537 12.7441 14.6017L12.0791 11.1096C12.022 10.8094 12.1326 10.5019 12.3679 10.307L14.91 8.20087C15.3563 7.83108 15.1553 7.10744 14.5822 7.02088L11.1698 6.50548C10.9182 6.46747 10.6974 6.31727 10.5697 6.09716L8.74884 2.95918Z" fill="#3B82F6"/><path d="M26.8504 2.95918C26.5919 2.51361 25.9484 2.51361 25.6898 2.95918L23.869 6.09716C23.7413 6.31727 23.5205 6.46747 23.2689 6.50548L19.8565 7.02088C19.2834 7.10744 19.0824 7.83107 19.5287 8.20087L22.0708 10.307C22.3061 10.5019 22.4167 10.8094 22.3596 11.1096L21.6946 14.6017C21.5895 15.1537 22.169 15.5826 22.6662 15.3208L25.8794 13.629C26.124 13.5002 26.4163 13.5002 26.6608 13.629L29.874 15.3208C30.3713 15.5826 30.9508 15.1537 30.8456 14.6017L30.1807 11.1096C30.1235 10.8094 30.2342 10.5019 30.4695 10.307L33.0115 8.20087C33.4579 7.83108 33.2569 7.10744 32.6837 7.02088L29.2713 6.50548C29.0197 6.46747 28.799 6.31727 28.6712 6.09716L26.8504 2.95918Z" fill="#3B82F6"/><path d="M44.952 2.95918C44.6934 2.51361 44.05 2.51361 43.7914 2.95918L41.9706 6.09716C41.8428 6.31727 41.6221 6.46747 41.3705 6.50548L37.9581 7.02088C37.385 7.10744 37.1839 7.83107 37.6303 8.20087L40.1723 10.307C40.4076 10.5019 40.5183 10.8094 40.4611 11.1096L39.7962 14.6017C39.691 15.1537 40.2706 15.5826 40.7678 15.3208L43.981 13.629C44.2255 13.5002 44.5178 13.5002 44.7624 13.629L47.9756 15.3208C48.4728 15.5826 49.0523 15.1537 48.9472 14.6017L48.2822 11.1096C48.2251 10.8094 48.3357 10.5019 48.571 10.307L51.1131 8.20087C51.5595 7.83108 51.3584 7.10744 50.7853 7.02088L47.3729 6.50548C47.1213 6.46747 46.9005 6.31727 46.7728 6.09716L44.952 2.95918Z" fill="#3B82F6"/><path d="M63.0535 2.95918C62.795 2.51361 62.1515 2.51361 61.893 2.95918L60.0721 6.09716C59.9444 6.31727 59.7237 6.46747 59.472 6.50548L56.0596 7.02088C55.4865 7.10744 55.2855 7.83107 55.7318 8.20087L58.2739 10.307C58.5092 10.5019 58.6199 10.8094 58.5627 11.1096L57.8977 14.6017C57.7926 15.1537 58.3721 15.5826 58.8693 15.3208L62.0825 13.629C62.3271 13.5002 62.6194 13.5002 62.864 13.629L66.0771 15.3208C66.5744 15.5826 67.1539 15.1537 67.0488 14.6017L66.3838 11.1096C66.3266 10.8094 66.4373 10.5019 66.6726 10.307L69.2147 8.20087C69.661 7.83108 69.46 7.10744 68.8868 7.02088L65.4745 6.50548C65.2228 6.46747 65.0021 6.31727 64.8744 6.09716L63.0535 2.95918Z" fill="#3B82F6"/><path d="M81.1551 2.95918C80.8965 2.51361 80.2531 2.51361 79.9945 2.95918L78.1737 6.09716C78.046 6.31727 77.8252 6.46747 77.5736 6.50548L74.1612 7.02088C73.5881 7.10744 73.387 7.83107 73.8334 8.20087L76.3755 10.307C76.6108 10.5019 76.7214 10.8094 76.6643 11.1096L75.9993 14.6017C75.8942 15.1537 76.4737 15.5826 76.9709 15.3208L80.1841 13.629C80.4287 13.5002 80.721 13.5002 80.9655 13.629L84.1787 15.3208C84.6759 15.5826 85.2555 15.1537 85.1503 14.6017L84.4854 11.1096C84.4282 10.8094 84.5388 10.5019 84.7742 10.307L87.3162 8.20087C87.7626 7.83108 87.5615 7.10744 86.9884 7.02088L83.576 6.50548C83.3244 6.46747 83.1037 6.31727 82.9759 6.09716L81.1551 2.95918Z" fill="black"/></svg>
+                            
                         </div>
                         <div>
-                            <p class="font-normal text-black text-[14px]">(32) reviews</p>
+                            <p class="font-normal text-black text-[14px] font-inter">({{ $this->reviewCount }} reviews)</p>
                         </div>
                     </div>
                 </div>
@@ -277,11 +278,40 @@
                         <x-product-price class="font-medium flex items-baseline flex-wrap gap-4" :variant="$this->variant" />
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <div>
-                            <svg width="89" height="18" viewBox="0 0 89 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.74884 2.95918C8.49029 2.51361 7.84683 2.51361 7.58828 2.95918L5.76744 6.09716C5.63972 6.31727 5.41896 6.46747 5.16734 6.50548L1.75496 7.02088C1.18183 7.10744 0.980788 7.83107 1.42714 8.20087L3.96921 10.307C4.20452 10.5019 4.31517 10.8094 4.25801 11.1096L3.59304 14.6017C3.48792 15.1537 4.06743 15.5826 4.56466 15.3208L7.77785 13.629C8.02241 13.5002 8.31471 13.5002 8.55928 13.629L11.7725 15.3208C12.2697 15.5826 12.8492 15.1537 12.7441 14.6017L12.0791 11.1096C12.022 10.8094 12.1326 10.5019 12.3679 10.307L14.91 8.20087C15.3563 7.83108 15.1553 7.10744 14.5822 7.02088L11.1698 6.50548C10.9182 6.46747 10.6974 6.31727 10.5697 6.09716L8.74884 2.95918Z" fill="black"/><path d="M26.8504 2.95918C26.5919 2.51361 25.9484 2.51361 25.6898 2.95918L23.869 6.09716C23.7413 6.31727 23.5205 6.46747 23.2689 6.50548L19.8565 7.02088C19.2834 7.10744 19.0824 7.83107 19.5287 8.20087L22.0708 10.307C22.3061 10.5019 22.4167 10.8094 22.3596 11.1096L21.6946 14.6017C21.5895 15.1537 22.169 15.5826 22.6662 15.3208L25.8794 13.629C26.124 13.5002 26.4163 13.5002 26.6608 13.629L29.874 15.3208C30.3713 15.5826 30.9508 15.1537 30.8456 14.6017L30.1807 11.1096C30.1235 10.8094 30.2342 10.5019 30.4695 10.307L33.0115 8.20087C33.4579 7.83108 33.2569 7.10744 32.6837 7.02088L29.2713 6.50548C29.0197 6.46747 28.799 6.31727 28.6712 6.09716L26.8504 2.95918Z" fill="black"/><path d="M44.952 2.95918C44.6934 2.51361 44.05 2.51361 43.7914 2.95918L41.9706 6.09716C41.8428 6.31727 41.6221 6.46747 41.3705 6.50548L37.9581 7.02088C37.385 7.10744 37.1839 7.83107 37.6303 8.20087L40.1723 10.307C40.4076 10.5019 40.5183 10.8094 40.4611 11.1096L39.7962 14.6017C39.691 15.1537 40.2706 15.5826 40.7678 15.3208L43.981 13.629C44.2255 13.5002 44.5178 13.5002 44.7624 13.629L47.9756 15.3208C48.4728 15.5826 49.0523 15.1537 48.9472 14.6017L48.2822 11.1096C48.2251 10.8094 48.3357 10.5019 48.571 10.307L51.1131 8.20087C51.5595 7.83108 51.3584 7.10744 50.7853 7.02088L47.3729 6.50548C47.1213 6.46747 46.9005 6.31727 46.7728 6.09716L44.952 2.95918Z" fill="black"/><path d="M63.0535 2.95918C62.795 2.51361 62.1515 2.51361 61.893 2.95918L60.0721 6.09716C59.9444 6.31727 59.7237 6.46747 59.472 6.50548L56.0596 7.02088C55.4865 7.10744 55.2855 7.83107 55.7318 8.20087L58.2739 10.307C58.5092 10.5019 58.6199 10.8094 58.5627 11.1096L57.8977 14.6017C57.7926 15.1537 58.3721 15.5826 58.8693 15.3208L62.0825 13.629C62.3271 13.5002 62.6194 13.5002 62.864 13.629L66.0771 15.3208C66.5744 15.5826 67.1539 15.1537 67.0488 14.6017L66.3838 11.1096C66.3266 10.8094 66.4373 10.5019 66.6726 10.307L69.2147 8.20087C69.661 7.83108 69.46 7.10744 68.8868 7.02088L65.4745 6.50548C65.2228 6.46747 65.0021 6.31727 64.8744 6.09716L63.0535 2.95918Z" fill="black"/><path d="M81.1551 2.95918C80.8965 2.51361 80.2531 2.51361 79.9945 2.95918L78.1737 6.09716C78.046 6.31727 77.8252 6.46747 77.5736 6.50548L74.1612 7.02088C73.5881 7.10744 73.387 7.83107 73.8334 8.20087L76.3755 10.307C76.6108 10.5019 76.7214 10.8094 76.6643 11.1096L75.9993 14.6017C75.8942 15.1537 76.4737 15.5826 76.9709 15.3208L80.1841 13.629C80.4287 13.5002 80.721 13.5002 80.9655 13.629L84.1787 15.3208C84.6759 15.5826 85.2555 15.1537 85.1503 14.6017L84.4854 11.1096C84.4282 10.8094 84.5388 10.5019 84.7742 10.307L87.3162 8.20087C87.7626 7.83108 87.5615 7.10744 86.9884 7.02088L83.576 6.50548C83.3244 6.46747 83.1037 6.31727 82.9759 6.09716L81.1551 2.95918Z" fill="black"/></svg>
+                        <div class="flex items-center">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @php
+                                    $full_stars = floor($this->formattedAverage);
+                                    $has_half = ($this->formattedAverage - $full_stars) > 0;
+                                    $star_fill = 0;
+
+                                    if ($i <= $full_stars) {
+                                        $star_fill = 100;
+                                    } elseif ($i === $full_stars + 1 && $has_half) {
+                                        $star_fill = ($this->formattedAverage - $full_stars) * 100;
+                                    }
+                                @endphp
+
+                                <div class="relative w-4 h-4">
+                                    <!-- Empty star (gray outline) -->
+                                    <svg class="absolute w-4 h-4 text-gray-300 fill-current" viewBox="0 0 20 20">
+                                        <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.564-.955L10 0l2.948 5.955 6.564.955-4.756 4.635 1.122 6.545z"/>
+                                    </svg>
+
+                                    <!-- Filled portion -->
+                                    @if ($star_fill > 0)
+                                        <div class="absolute overflow-hidden top-0 left-0 h-full" style="width: {{ $star_fill }}%">
+                                            <svg class="w-4 h-4 text-black fill-current" viewBox="0 0 20 20">
+                                                <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.564-.955L10 0l2.948 5.955 6.564.955-4.756 4.635 1.122 6.545z"/>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endfor
                         </div>
+
                         <div>
-                            <p class="font-normal text-black text-[14px]">{{ $this->reviewCount }} reviews</p>
+                            <p class="font-normal text-black text-[14px] font-inter">({{ $this->reviewCount }} reviews)</p>
                         </div>
                     </div>
                 </div>
@@ -503,49 +533,95 @@
         </div>
     @endif
 
-    <div class="max-w-[1440px] mx-auto px-4 py-12 border-t mt-10">
-        <h2 class="text-2xl font-bold text-black mb-4">Write a Review</h2>
-        <form wire:submit.prevent="submitReview" class="space-y-4 max-w-xl">
-            <div>
-                <label for="reviewer_name" class="block font-medium text-sm text-gray-700">Name</label>
-                <input type="text" id="reviewer_name" wire:model.lazy="reviewForm.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('reviewForm.name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label for="reviewer_email" class="block font-medium text-sm text-gray-700">Email</label>
-                <input type="email" id="reviewer_email" wire:model.lazy="reviewForm.email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('reviewForm.email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label for="rating" class="block font-medium text-sm text-gray-700">Rating (1-5)</label>
-                <input type="number" min="1" max="5" id="rating" wire:model.lazy="reviewForm.rating" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('reviewForm.rating') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label for="review" class="block font-medium text-sm text-gray-700">Review</label>
-                <textarea id="review" rows="4" wire:model.lazy="reviewForm.review" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
-                @error('reviewForm.review') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label for="review_images" class="block font-medium text-sm text-gray-700">Upload Images</label>
-                <input type="file" id="review_images" wire:model="reviewForm.images" multiple accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('reviewForm.images.*') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-
-                <div class="flex gap-2 mt-2">
-                    @if (!empty($reviewForm['images']))
-                        @foreach ($reviewForm['images'] as $image)
-                            <img src="{{ $image->temporaryUrl() }}" alt="Preview" class="w-20 h-20 object-cover rounded">
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-
-            <button type="submit" class="bg-black text-white px-6 py-2 rounded-md">Submit Review</button>
-        </form>
+    <div class="max-w-[1440px] mx-auto px-4 py-12">
+        <button @click="$wire.openReviewPopup()" class="bg-themeblue text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer font-inter font-bold">
+            Write a Review
+        </button>
     </div>
+
+    @if($showReviewPopup)
+        <div class="fixed inset-0  bg-opacity-10 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+                <h2 class="text-2xl font-bold text-black mb-4">Write a Review</h2>
+                <button @click="$wire.closeReviewPopup()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <form wire:submit.prevent="submitReview" class="space-y-4">
+                    <div>
+                        <label for="reviewer_name" class="block font-medium text-sm text-gray-700">Name</label>
+                        <input type="text" id="reviewer_name" wire:model="reviewForm.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        @error('reviewForm.name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="reviewer_email" class="block font-medium text-sm text-gray-700">Email</label>
+                        <input type="email" id="reviewer_email" wire:model="reviewForm.email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        @error('reviewForm.email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    {{-- <div>
+                        <label for="rating" class="block font-medium text-sm text-gray-700">Rating (1-5)</label>
+                        <input type="number" min="1" max="5" id="rating" wire:model="reviewForm.rating" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        @error('reviewForm.rating') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                    </div> --}}
+                    <div>
+                        <label class="block font-medium text-sm text-gray-700 mb-1">Rating</label>
+                        <div class="flex items-center space-x-1">
+                            @for($i = 1; $i <= 5; $i++)
+                                <button 
+                                    type="button"
+                                    wire:click="$set('reviewForm.rating', {{ $i }})"
+                                    class="focus:outline-none cursor-pointer"
+                                >
+                                    <svg 
+                                        xmlns="http://www.w3.org/2000/svg" 
+                                        class="h-8 w-8 {{ $i <= $reviewForm['rating'] ? 'text-yellow-400 fill-current' : 'text-gray-300 fill-current' }}" 
+                                        viewBox="0 0 20 20" 
+                                    >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                </button>
+                            @endfor
+                        </div>
+                        <input 
+                            type="hidden" 
+                            id="rating" 
+                            wire:model="reviewForm.rating" 
+                        >
+                        @error('reviewForm.rating') 
+                            <span class="text-red-600 text-sm">{{ $message }}</span> 
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="review" class="block font-medium text-sm text-gray-700">Review</label>
+                        <textarea id="review" rows="4" wire:model="reviewForm.review" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+                        @error('reviewForm.review') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label for="review_images" class="block font-medium text-sm text-gray-700">Upload Images</label>
+                        <input type="file" id="review_images" wire:model="reviewForm.images" multiple accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        @error('reviewForm.images.*') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+
+                        <div class="flex gap-2 mt-2">
+                            @if (!empty($reviewForm['images']))
+                                @foreach ($reviewForm['images'] as $image)
+                                    <img src="{{ $image->temporaryUrl() }}" alt="Preview" class="w-20 h-20 object-cover rounded">
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+
+                    <button type="submit" class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 mt-4 cursor-pointer" wire:loading.attr="disabled">
+                        <span wire:loading.remove>Submit Review</span>
+                        <span wire:loading>Processing...</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    @endif
 
 </section>
