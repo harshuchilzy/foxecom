@@ -14,8 +14,6 @@
 @import '../../vendor/wireui/wireui/ts/global.css';
 @source '../../vendor/wireui/wireui';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     --font-zen-kaku-gothic-antique: 'Zen Kaku Gothic Antique', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -47,13 +45,13 @@
     --square-border > input {border-radius: 0rem;}
 }
 
-@layer theme {
+/* @layer theme {
     .dark {
         --color-accent: var(--color-white);
         --color-accent-content: var(--color-white);
         --color-accent-foreground: var(--color-white);
     }
-}
+} */
 
 @layer base {
 
@@ -98,6 +96,7 @@ input::-webkit-inner-spin-button {
     height: 50px;
     font-size: 18px;
     color: #000 !important;
+    background-color: #FFFFFF;
 }
 
 .city-select select{

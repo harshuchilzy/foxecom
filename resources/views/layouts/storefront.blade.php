@@ -23,7 +23,7 @@
     {{-- @livewire('components.navigation') --}}
     @livewire('components.navigation')
 
-    <main class="!p-0">
+    <main class="!p-0 !bg-white">
         {{ $slot }}
     </main>
 
