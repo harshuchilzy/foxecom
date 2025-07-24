@@ -378,13 +378,21 @@
                     @if ($index == 0)
                         <div class="w-full my-12">
                             <a href="{{ route('products.index') }}">
-                                <img class="w-full h-full rounded-[14px]" src="{{ asset('images/TT-BANNER.jpg') }}" alt="">
+                                @if ( !empty($mediaCollection['all-offer-banner-1']) )
+                                    <img class="w-full h-full rounded-[14px]" src="{{ asset('storage/' . $mediaCollection['all-offer-banner-1']) }}" alt="">
+                                @else
+                                    <img class="w-full h-full rounded-[14px]" src="{{ asset('images/AF-BANNER.jpg') }}" alt="">
+                                @endif
                             </a>
                         </div>
                     @elseif ($index == 1)
                         <div class="w-full my-12">
                             <a href="{{ route('products.index') }}">
-                                <img class="w-full h-full rounded-[14px]" src="{{ asset('images/AF-BANNER.jpg') }}" alt="">
+                                @if ( !empty($mediaCollection['all-offer-banner-2']) )
+                                    <img class="w-full h-full rounded-[14px]" src="{{ asset('storage/' . $mediaCollection['all-offer-banner-2']) }}" alt="">
+                                @else
+                                    <img class="w-full h-full rounded-[14px]" src="{{ asset('images/TT-BANNER.jpg') }}" alt="">
+                                @endif
                             </a>
                         </div>
                     @endif
