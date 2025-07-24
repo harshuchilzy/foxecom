@@ -18,7 +18,7 @@
         rel="shortcut icon"
         href="{{ asset('images/blacklogo.png') }}"
     >
-    
+
     @include('partials.head')
 </head>
 

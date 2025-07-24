@@ -4,11 +4,11 @@
             {{ $price?->price->formatted() }}
         </p>
         <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">
-            {{ $price?->compare_price->formatted }}
+            {{ $price?->compare_price->formatted }}<span class="text-lg font-semibold "> + VAT</span>
         </p>
     @else
         <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">
-            {{ $price?->price->formatted() }}
+            {{ $price?->price->formatted() }}<span class="text-lg font-semibold "> + VAT</span>
         </p>
     @endif
 </span>

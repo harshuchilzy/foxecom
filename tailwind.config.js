@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: "false",
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/**/*.blade.php",
@@ -27,5 +28,5 @@ export default {
         },
     },
     plugins: [require("flowbite/plugin-windicss")],
-    darkMode: "class",
+
 };

@@ -19,7 +19,7 @@ class MetaRelationManager extends RelationManager
                 Forms\Components\TextInput::make('key')
                     ->required()
                     ->maxLength(255),
-                    
+
                 Forms\Components\Select::make('type')
                     ->options([
                         'text' => 'Text',
@@ -31,7 +31,7 @@ class MetaRelationManager extends RelationManager
                     ])
                     ->required()
                     ->default('text'),
-                    
+
                 Forms\Components\Textarea::make('value')
                     ->columnSpanFull(),
             ]);
@@ -43,9 +43,9 @@ class MetaRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('key')
                     ->searchable(),
-                    
+
                 Tables\Columns\TextColumn::make('type'),
-                    
+
                 Tables\Columns\TextColumn::make('value')
                     ->limit(50),
             ])

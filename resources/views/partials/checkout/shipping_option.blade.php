@@ -49,7 +49,7 @@
             @elseif($currentStep > $step && $this->shippingOption)
                 <div class="flex flex-wrap max-w-xs text-sm">
                     <div class="w-1/2 font-medium">
-                        {{ $this->shippingOption->getDescription() }}
+                        {{ $this->shippingOption->getName() }}
                     </div>
 
                     <div class="w-1/2 text-right">

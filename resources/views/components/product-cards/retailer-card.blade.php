@@ -44,27 +44,33 @@
             </h2>
         </a>
 
-        <div class="flex items-center gap-2">
-            @if($hasDiscount)
-                <span class="text-gray-400 text-sm line-through">
-                    {{ $price->price->formatted }}
-                </span>
-            @endif
-            @if($hasDiscount)
-                <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold ">
-                    {{ $comparePrice->formatted }}
-                </span>
-            @else
-                <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold ">
-                    {{ $price->price->formatted }}
-                </span>
-            @endif
-        </div>
+        @if (auth()->check())
+            <div class="flex items-center gap-2">
+                @if($hasDiscount)
+                    <span class="text-gray-400 text-sm line-through">
+                        {{ $price->price->formatted }}
+                    </span>
+                @endif
+                @if($hasDiscount)
+                    <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold">
+                        {{ $comparePrice->formatted }} + VAT
+                    </span>
+                @else
+                    <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold">
+                        {{ $price->price->formatted }} + VAT
+                    </span>
+                @endif
+            </div>
 
-        @if($hasDiscount)
-            <hr class="border-gray-200">
-            <p class="text-[#249B3E] font-semibold text-[16px] md:text-lg">
-                Save {{ $price->price->currency->code }} {{ number_format($saveAmount, 2) }}
+            @if($hasDiscount)
+                <hr class="border-gray-200">
+                <p class="text-[#249B3E] font-semibold text-[16px] md:text-lg">
+                    Save {{ $price->price->currency->code }} {{ number_format($saveAmount, 2) }}
+                </p>
+            @endif
+        @else
+            <p class="text-[#1275EE] font-semibold text-[16px] md:text-lg">
+                Register to see the price
             </p>
         @endif
     </div>
