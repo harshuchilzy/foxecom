@@ -239,12 +239,7 @@ class CheckoutPage extends Component
 
     public function saveAndContinueToNext()
     {
-        //Log::info(print_r($this->shippingOptions, true));
-        if(!($this->chosenShipping)) {
-            $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
-            $this->saveShippingOption();
-        }
-        //Log::info('shipping option: ' . $this->shippingOption);
+        $this->saveShippingOption();
         $this->determineCheckoutStep();
     }
 
@@ -343,14 +338,9 @@ class CheckoutPage extends Component
      */
     public function saveShippingOption(): void
     {
-        // Log::info('called save shipping function');
         $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $this->chosenShipping);
-
-        // Log::info(print_r($this->shippingOptions));
         CartSession::setShippingOption($option);
-
         $this->refreshCart();
-
     }
 
     public function checkout()
