@@ -96,6 +96,7 @@ input::-webkit-inner-spin-button {
     height: 50px;
     font-size: 18px;
     color: #000 !important;
+    background-color: #FFFFFF;
 }
 
 .city-select select{
