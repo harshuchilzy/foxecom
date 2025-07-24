@@ -80,17 +80,17 @@ Route::get('/new-checkout', function () {
 
 Route::get('/', Home::class)->name('home');
 
-Route::get('/collections/{slug}', CollectionPage::class)->name('collection.view');
+Route::get('/collections/{slug}', CollectionPage::class)->middleware('auth')->name('collection.view');
 
 Route::get('products', ProductsPage::class)->name('products.index');
 
-Route::get('/products/{slug}', ProductPage::class)->name('product.view');
+Route::get('/products/{slug}', ProductPage::class)->middleware('auth')->name('product.view');
 
 Route::get('search', SearchPage::class)->name('search.view');
 
-Route::get('checkout', CheckoutPage::class)->name('checkout.view');
+Route::get('checkout', CheckoutPage::class)->middleware('auth')->name('checkout.view');
 
-Route::get('checkout/success', CheckoutSuccessPage::class)->name('checkout-success.view');
+Route::get('checkout/success', CheckoutSuccessPage::class)->middleware('auth')->name('checkout-success.view');
 
 Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
 
@@ -124,20 +124,20 @@ Route::get('/address/search', function (Request $request) {
     return response()->json($addresses);
 })->middleware('auth')->name('api.address.search');
 
-Route::get('test', function () {
+// Route::get('test', function () {
 
-    $user = auth()->user();
-    $customer = $user->customers->first();
-    $billing_address = $customer->addresses->where('billing_default', 1)->first();
-    echo $billing_address->country;
-    echo '<pre>';
-    print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
-    echo '</pre>';
-});
+//     $user = auth()->user();
+//     $customer = $user->customers->first();
+//     $billing_address = $customer->addresses->where('billing_default', 1)->first();
+//     echo $billing_address->country;
+//     echo '<pre>';
+//     print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
+//     echo '</pre>';
+// });
 
 
 // Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');
-Route::get('/offers/{id}', OfferPage::class)->name('discount.show');
+Route::get('/offers/{id}', OfferPage::class)->middleware('auth')->name('discount.show');
 
 
 Route::redirect('admin', '/dashboard');

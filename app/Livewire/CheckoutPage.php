@@ -183,6 +183,8 @@ class CheckoutPage extends Component
         }
         $this->determineCheckoutStep();
 
+
+        Log::info($this->cart->discounts);
         // Log::info($this->shipping);
         //Log::info($this->shipping);
     }
@@ -227,7 +229,6 @@ class CheckoutPage extends Component
                 return;
             }
         }
-
         // if ($billingAddress) {
         //     $this->currentStep = $this->steps['billing_address'] + 1;
         // }
@@ -344,6 +345,10 @@ class CheckoutPage extends Component
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
+
+        CartSession::clear();
+
+        $this->cart->user->attach($this->cart->discounts);
 
         if ($payment->success) {
             return redirect()->route('checkout-success.view');

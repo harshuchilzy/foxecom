@@ -188,7 +188,6 @@ class CartPage extends Component
 
         $this->mapLines();
 
-
         $cart->save();
     }
 
@@ -196,7 +195,6 @@ class CartPage extends Component
         $cart = \Lunar\Facades\CartSession::current();
         $cart->coupon_code = '';
         $cart->save();
-
     }
 
     public function getStockForProduct($productVariantId){

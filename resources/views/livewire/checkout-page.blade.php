@@ -233,7 +233,7 @@
                     </div>
 
                     <div class="pt-5">
-                        <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3>
+                        {{-- <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3> --}}
 
                         @foreach ( $cart?->lines as $line )
                             {{-- {{dd($line->purchasable->prices->first()->price)}} --}}

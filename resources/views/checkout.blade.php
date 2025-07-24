@@ -171,7 +171,7 @@
                     </div>
 
                     <div class="pt-5">
-                        <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3>
+                        {{-- <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3> --}}
                         <div class="flex gap-5 items-center justify-start">
                             <div class="">
                                 <img class="w-[60px] h-[60px] object-contain" src="{{ asset('images/tiktokmagic.png') }}" alt="">
