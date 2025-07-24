@@ -73,20 +73,27 @@
 @endphp
 <div class="w-full h-[90vh] lg:h-[100vh] relative" style="background-image: url('{{ asset('storage/' . $bannerImage) }}'); background-size: cover; background-position: center;">
     <div class="hidden lg:flex gap-5 items-center justify-between px-10 py-20 bg-no-repeat absolute top-[35%] right-0 offer-txt-bg">
-        <div>
+        <div class="claim-offer-label">
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
             <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
 
-            @if ($productUrl)
-                <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
-                class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                    Claim here
-                </a>
-            @elseif ($discountType === 'AmountOff' && $couponCode)
-                <a href="{{ route('cart', ['discount' => $discount->id]) }}"
+            @if (auth()->check())
+                @if ($productUrl)
+                    <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
                     class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                    Claim here
-                </a>
+                        Claim here
+                    </a>
+                @elseif ($discountType === 'AmountOff' && $couponCode)
+                    <a href="{{ route('cart', ['discount' => $discount->id]) }}"
+                        class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
+                        Claim here
+                    </a>
+                @endif
+            @else
+                <a href="{{ route('register') }}"
+                class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
+                    Register now
+                </a>   
             @endif
         </div>
 
@@ -150,6 +157,8 @@
             inputRange.min = 0;
             inputRange.max = maxValue;
 
+            var authStatus = {{ auth()->check() ? 1 : 0 }};
+
             function unlockStartHandler() {
                 window.cancelAnimationFrame(rafID);
                 currValue = +this.value;
@@ -173,7 +182,11 @@
             }
 
             function successHandler() {
-                window.location.href = "{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}";
+                if(authStatus) {
+                    window.location.href = "{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}";
+                } else {
+                    window.location.href = "{{ route('register') }}";
+                }
             }
 
             inputRange.addEventListener('mousedown', unlockStartHandler, false);
