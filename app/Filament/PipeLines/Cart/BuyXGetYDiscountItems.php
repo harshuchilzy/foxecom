@@ -4,6 +4,7 @@ namespace App\Filament\PipeLines\Cart;
 
 use Closure;
 use Lunar\DiscountTypes\BuyXGetY;
+use Lunar\Facades\DB;
 use Lunar\Models\Cart;
 use Lunar\Models\CartLine;
 use Lunar\DataTypes\Price;
@@ -12,124 +13,133 @@ class BuyXGetYDiscountItems
 {
     public function handle(Cart $cart, Closure $next): Cart
     {
-        // Ensure currency and lines are loaded
         $cart->loadMissing(['currency', 'lines']);
+
         if (!$cart->currency) {
-            // Pass the cart on without further Buy‑X‑Get‑Y logic
             return $next($cart);
         }
 
-        // Get only the Buy‑X‑Get‑Y discount items on this cart
-        $buyXGetYItems = $cart
-            ->discountBreakdown
+        $buyXGetY = $cart->discountBreakdown
             ->where('discount.type', BuyXGetY::class);
 
-        // If there are no such discounts, delete any leftover free lines and move on
-        if ($buyXGetYItems->isEmpty()) {
-            // Find and remove every line marked as free
-            foreach ($cart->lines->where(fn ($line) => !empty($line->meta['free'])) as $freeLine) {
-                $freeLine->delete();
+        if ($buyXGetY->isEmpty()) {
+            foreach ($cart->lines->where(fn ($L) => ($L->meta['free'] ?? false)) as $fl) {
+                $fl->delete();
             }
-            // Pass the cart on without further Buy‑X‑Get‑Y logic
             return $next($cart);
         }
 
-        // Prepare two maps: one for items the customer pays for, one for items marked as free
-        $paidLines = collect(); // variant_id => CartLine for paid items
-        $freeLines = collect(); // variant_id => CartLine for free items
-
-        // Loop through every line in the cart and sort it into the correct map
+        $paidLines = collect();
+        $freeLines = collect();
         foreach ($cart->lines as $line) {
-            $variantId = $line->purchasable_id;
-            if (!empty($line->meta['free'])) {
-                // This line is a free gift from a previous discount step
-                $freeLines[$variantId] = $line;
+            $vid = $line->purchasable_id;
+            if (!empty($line->meta['free']) && isset($line->meta['discount_id'])) {
+                $freeLines[$vid] = $line;
             } else {
-                // This line is a normal, paid item
-                $paidLines[$variantId] = $line;
+                $paidLines[$vid] = $line;
             }
         }
 
-        // Prepare rule set: variant_id => [min, rew]
-        $rules = collect();
-        foreach ($buyXGetYItems as $breakdown) {
-            $data = $breakdown->discount->data;
-            $min = (int)data_get($data, 'min_qty', 1);
-            $rew = (int)data_get($data, 'reward_qty', 1);
+        $keepFreeLines = collect();
+
+        foreach ($buyXGetY as $breakdown) {
+            $discount = $breakdown->discount;
+            $data = $discount->data;
+            $minQty = (int)data_get($data, 'min_qty', 10);
+            $rewQty = (int)data_get($data, 'reward_qty', 2);
+            $maxUses = max(1, $discount->max_uses_per_user);
+            $userId = auth()->id();
+
+            $historic = DB::table('lunar_discount_user')
+                ->where('user_id', $userId)
+                ->where('discount_id', $discount->id)
+                ->count();
+
+            if ($historic >= $maxUses) {
+                foreach ($freeLines as $vid => $fl) {
+                    if (($fl->meta['discount_id'] ?? null) === $discount->id) {
+                        $fl->delete();
+                        $freeLines->forget($vid);
+                    }
+                }
+                continue;
+            }
+
+            $eligibleVariants = collect();
             foreach ($breakdown->lines as $breakdownLine) {
-                if (!$breakdownLine->line) continue;
-                $rules[$breakdownLine->line->purchasable_id] = compact('min', 'rew');
-            }
-        }
-
-        // Keep track of variant IDs that still need free items
-        $variantsWithFreeItems = collect();
-
-        // Process each item the customer is paying for
-        foreach ($paidLines as $variantId => $paidLine) {
-            //  If no discount rule applies, remove any free item and skip
-            if (!isset($rules[$variantId])) {
-                if ($freeLines->has($variantId)) {
-                    $freeLines[$variantId]->delete();
+                if ($breakdownLine->line) {
+                    $eligibleVariants->push($breakdownLine->line->purchasable_id);
                 }
-                continue;
             }
-            // Read our “buy X, get Y” numbers
-            [$minQty, $rewardQty] = [$rules[$variantId]['min'], $rules[$variantId]['rew']];
 
-            // How many full “X” groups did the customer buy?
-            $groups = intdiv($paidLine->quantity, $minQty);
-            $totalFree = $groups * $rewardQty;
-
-            // If no free items are owed, delete any existing free line
-            if ($totalFree <= 0) {
-                if ($freeLines->has($variantId)) {
-                    $freeLines[$variantId]->delete();
+            foreach ($eligibleVariants as $vid) {
+                if (!$paidLines->has($vid)) {
+                    continue;
                 }
-                continue;
-            }
 
-            // Otherwise, update or create the free line at zero price
-            if ($freeLines->has($variantId)) {
-                $free = $freeLines[$variantId];
-                $free->quantity = $totalFree;
-                $free->unitPrice = new Price(0, $cart->currency, $cart->currency->factor);
-                $free->save();
-            } else {
-                $free = CartLine::create([
-                    'cart_id' => $cart->id,
-                    'purchasable_type' => $paidLine->purchasable_type,
-                    'purchasable_id' => $variantId,
-                    'quantity' => $totalFree,
-                    'meta' => [
-                        'free' => true,
-                        'parent_line_id' => $paidLine->id,
-                    ],
-                ]);
-                $free->unitPrice = new Price(0, $cart->currency, $cart->currency->factor);
-                $free->save();
-                $freeLines[$variantId] = $free;
-            }
+                $paid = $paidLines[$vid];
+                $totalGroups = intdiv($paid->quantity, $minQty);
 
-            // Mark this variant as still needing a free line
-            $variantsWithFreeItems->push($variantId);
-        }
+                if ($totalGroups <= 0) {
+                    if ($freeLines->has($vid) && ($freeLines[$vid]->meta['discount_id'] ?? null) === $discount->id) {
+                        $freeLines[$vid]->delete();
+                        $freeLines->forget($vid);
+                    }
+                    continue;
+                }
 
-        // Delete free lines not in keepFree
-        foreach ($freeLines as $variantId => $free) {
-            if (!$variantsWithFreeItems->contains($variantId)) {
-                $free->delete();
-            }
-        }
+                $allowedGroups = min($totalGroups, $maxUses - $historic);
 
-        // Capture IDs of paid lines to detect deletions
-        $paidLineIds = $paidLines->pluck('id')->all();
+                if ($allowedGroups <= 0) {
+                    if ($freeLines->has($vid) && ($freeLines[$vid]->meta['discount_id'] ?? null) === $discount->id) {
+                        $keepFreeLines->push($vid);
+                    }
+                    continue;
+                }
 
-        // Additionally, delete child free lines when parent line removed
-        foreach ($freeLines as $free) {
-            $parentId = data_get($free->meta, 'parent_line_id');
-            if (!in_array($parentId, $paidLineIds)) {
-                $free->delete();
+                $freeQty = $allowedGroups * $rewQty;
+
+                if ($freeLines->has($vid) && ($freeLines[$vid]->meta['discount_id'] ?? null) === $discount->id) {
+                    $free = $freeLines[$vid];
+                    $free->quantity = $freeQty;
+
+                    $zeroPrice = new Price(0, $cart->currency, $cart->currency->factor);
+                    $free->unitPrice = $zeroPrice;
+                    $free->subTotal = $zeroPrice;
+                    $free->discountTotal = $zeroPrice;
+                    $free->total = $zeroPrice;
+
+                    $free->save();
+                    $keepFreeLines->push($vid);
+                } else {
+                    if ($freeLines->has($vid)) {
+                        $freeLines[$vid]->delete();
+                        $freeLines->forget($vid);
+                    }
+
+                    $zeroPrice = new Price(0, $cart->currency, $cart->currency->factor);
+
+                    $free = CartLine::create([
+                        'cart_id' => $cart->id,
+                        'purchasable_type' => $paid->purchasable_type,
+                        'purchasable_id' => $vid,
+                        'quantity' => $freeQty,
+                        'meta' => [
+                            'free' => true,
+                            'discount_id' => $discount->id,
+                            'parent_line_id' => $paid->id,
+                        ],
+                    ]);
+
+                    $free->unitPrice = $zeroPrice;
+                    $free->subTotal = $zeroPrice;
+                    $free->discountTotal = $zeroPrice;
+                    $free->total = $zeroPrice;
+
+                    $free->save();
+                    $freeLines[$vid] = $free;
+                    $keepFreeLines->push($vid);
+                }
             }
         }
 

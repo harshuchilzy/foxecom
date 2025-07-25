@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Page;
+use Lunar\DiscountTypes\BuyXGetY;
 use Lunar\Models\Url;
 use Livewire\Component;
 use Illuminate\View\View;
@@ -15,7 +16,7 @@ class Home extends Component
     /**
      * Return the sale collection.
      */
-    public function getSaleCollectionProperty(): Collection | null
+    public function getSaleCollectionProperty(): Collection|null
     {
         return Url::whereElementType((new Collection)->getMorphClass())->whereSlug('sale')->first()?->element ?? null;
     }
@@ -25,7 +26,7 @@ class Home extends Component
      */
     public function getSaleCollectionImagesProperty()
     {
-        if (! $this->getSaleCollectionProperty()) {
+        if (!$this->getSaleCollectionProperty()) {
             return null;
         }
 
@@ -60,7 +61,10 @@ class Home extends Component
         $mediaCollection = $page?->getMediaCollectionArray() ?? [];
 
         $discounts = Discount::active()->get();
-        $latestDiscounts = $discounts->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
+        $latestDiscounts = $discounts
+            ->where('type', BuyXGetY::class)
+            ->where('ends_at', '>', now())
+            ->take(3);
 
         return view('livewire.home', [
             'latestDiscounts' => $latestDiscounts,

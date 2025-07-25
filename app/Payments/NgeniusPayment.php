@@ -6,6 +6,9 @@ use Lunar\Base\DataTransferObjects\PaymentCapture;
 use Lunar\Base\DataTransferObjects\PaymentRefund;
 use Lunar\Base\DataTransferObjects\PaymentAuthorize;
 use Lunar\Events\PaymentAttemptEvent;
+use Lunar\Facades\DB;
+use Lunar\Models\Discount;
+use Lunar\Models\OrderLine;
 use Lunar\Models\Transaction;
 use GuzzleHttp\Client;
 use Lunar\PaymentTypes\AbstractPayment;
@@ -47,9 +50,10 @@ class NgeniusPayment extends AbstractPayment
 //        $totalPrice->currency->code;
 
         $paymentRes = $this->http->post(
-            "transactions/outlets/{$this->config['outlet_ref']}/payment/hosted-session/{$sessionId}",
+            "/transactions/outlets/{$this->config['outlet_ref']}/payment/hosted-session/{$sessionId}",
             [
                 'headers' => [
+                    'Accept' => 'application/vnd.ni-payment.v2+json',
                     'Content-Type' => 'application/vnd.ni-payment.v2+json',
                     'Authorization' => "Bearer {$accessToken}",
                 ],
@@ -57,8 +61,8 @@ class NgeniusPayment extends AbstractPayment
                     'action' => 'SALE',
                     'amount' => [
                         'currencyCode' => 'AED',
-                        'value' => $totalPrice->value,
-                    ]
+                        'value' => (int) round($totalPrice->value * 100),
+                    ],
                 ],
             ]
         );
@@ -109,6 +113,42 @@ class NgeniusPayment extends AbstractPayment
         $this->order->placed_at = now();
         $this->order->status = 'payment-received';
         $this->order->save();
+
+        if ($user = auth()->user()) {
+            $raw     = $this->order->discount_breakdown;
+            $entries = is_string($raw) ? json_decode($raw) : $raw;
+
+            foreach ($entries as $entry) {
+                $discountId = $entry->discount_id ?? null;
+                if (! $discountId) {
+                    continue;
+                }
+
+                $freeQty = OrderLine::where('order_id', $this->order->id)
+                    ->where('meta->free', true)
+                    ->where('meta->discount_id', $discountId)
+                    ->sum('quantity');
+
+                if ($freeQty <= 0) {
+                    continue;
+                }
+
+                $discount   = Discount::find($discountId);
+                $rewardQty  = data_get($discount->data, 'reward_qty', 1);
+
+                $timesUsed = (int) floor($freeQty / max(1, $rewardQty));
+
+                for ($i = 0; $i < $timesUsed; $i++) {
+                    DB::table('lunar_discount_user')->insert([
+                        'user_id'     => $user->id,
+                        'discount_id' => $discountId,
+                        'created_at'  => now(),
+                        'updated_at'  => now(),
+                    ]);
+                }
+            }
+        }
+
 
         return new PaymentCapture(
             success: true,

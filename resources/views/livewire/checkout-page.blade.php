@@ -212,61 +212,170 @@
 
 
             {{-- In Your Bag Section --}}
+            {{--            <div class="w-full lg:w-[40%] flex flex-col gap-3">--}}
+            {{--                <h2 class="text-[#000000] font-bold text-[24px]">In Your Bag</h2>--}}
+            {{--                <div class="w-full">--}}
+            {{--                    <div class="py-2 flex justify-between items-center">--}}
+            {{--                        <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>--}}
+            {{--                        <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->subTotal->formatted() }}</p>--}}
+            {{--                    </div>--}}
+
+            {{--                    @if ($this->shippingOption)--}}
+            {{--                        <div class="py-2 flex justify-between items-center">--}}
+            {{--                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}</h3>--}}
+            {{--                            <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>--}}
+            {{--                        </div>--}}
+            {{--                    @endif--}}
+
+            {{--                    <div class="py-2 flex justify-between items-center">--}}
+            {{--                        <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>--}}
+            {{--                        <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->total->formatted() }}</p>--}}
+            {{--                    </div>--}}
+
+            {{--                    <div class="pt-5">--}}
+            {{--                        <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3>--}}
+
+            {{--                        @foreach ( $cart?->lines as $line )--}}
+            {{--                            --}}{{-- {{dd($line->purchasable->prices->first()->price)}} --}}
+            {{--                            @php--}}
+            {{--                                $product = $line->purchasable->product;--}}
+            {{--                                $product_prices = $line->purchasable->prices->first();--}}
+
+            {{--                                if ( $product_prices->compare_price?->decimal > 0 ) {--}}
+            {{--                                    $product_price = $product_prices->compare_price->formatted;--}}
+            {{--                                } else {--}}
+            {{--                                    $product_price = $product_prices->price?->formatted();--}}
+            {{--                                }--}}
+            {{--                            @endphp--}}
+            {{--                            <div class="flex gap-5 items-center justify-start">--}}
+            {{--                                <div class="">--}}
+            {{--                                    <img class="w-[60px] h-[60px] object-contain"--}}
+            {{--                                         src="{{ $product->thumbnail?->getUrl() }}" alt="">--}}
+            {{--                                </div>--}}
+            {{--                                <div>--}}
+            {{--                                    --}}{{-- <pre>--}}
+            {{--                                    {{dd($line)}}--}}
+            {{--                                    </pre> --}}
+            {{--                                    <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>--}}
+            {{--                                        <h2--}}
+            {{--                                            class="font-semibold text-[16px] text-black">{{ $product->translateAttribute('name') }} {{ $line->option ? ' - ' . $line->option : '' }}--}}
+            {{--                                        </h2>--}}
+            {{--                                    </a>--}}
+
+            {{--                                    <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        @endforeach--}}
+
+            {{--                    </div>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
+
+
             <div class="w-full lg:w-[40%] flex flex-col gap-3">
+                @php
+                    // Total quantities
+                    $totalQty = $cart?->lines->sum('quantity') ?? 0;
+                    $freeQty  = $cart?->lines
+                        ->filter(fn($L) => $L->meta['free'] ?? false)
+                        ->sum('quantity') ?? 0;
+                    $paidQty  = $totalQty - $freeQty;
+                @endphp
+
                 <h2 class="text-[#000000] font-bold text-[24px]">In Your Bag</h2>
-                <div class="w-full">
+
+                {{--                Total Products--}}
+                <div class="py-2 flex justify-between items-center border-b">
+                    <h3 class="text-[16px] font-normal text-[#111111]">Total Products</h3>
+                    <p class="text-[14px] font-normal text-[#111111]">
+                        {{ $totalQty }} items
+                        <span class="text-[12px] text-gray-500">({{ $paidQty }} paid, {{ $freeQty }} free)</span>
+                    </p>
+                </div>
+
+                {{--                Subtotal--}}
+                <div class="py-2 flex justify-between items-center">
+                    <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
+                    <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->subTotal->formatted() }}</p>
+                </div>
+
+                {{--                Shipping--}}
+                @if ($this->shippingOption)
                     <div class="py-2 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
-                        <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->subTotal->formatted() }}</p>
+                        <h3 class="text-[16px] font-normal text-[#111111]">
+                            {{ $this->shippingOption->getDescription() }}
+                        </h3>
+                        <p class="text-[14px] font-normal text-[#111111]">
+                            {{ $this->shippingOption->getPrice()->formatted() }}
+                        </p>
                     </div>
+                @endif
 
-                    @if ($this->shippingOption)
-                        <div class="py-2 flex justify-between items-center">
-                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}</h3>
-                            <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>
-                        </div>
-                    @endif
-
+                {{--                Discount--}}
+                @if ($cart?->discountTotal && $cart->discountTotal->value > 0)
                     <div class="py-2 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
-                        <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->total->formatted() }}</p>
+                        <h3 class="text-[16px] font-normal text-[#111111]">Discount</h3>
+                        <p class="text-[14px] font-normal text-[#111111]">
+                            -{{ $cart->discountTotal->formatted() }}
+                        </p>
                     </div>
+                @endif
 
-                    <div class="pt-5">
-                        <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3>
+                {{--                Total--}}
+                <div class="py-2 flex justify-between items-center border-b">
+                    <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
+                    <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->total->formatted() }}</p>
+                </div>
 
-                        @foreach ( $cart?->lines as $line )
-                            {{-- {{dd($line->purchasable->prices->first()->price)}} --}}
-                            @php
-                                $product = $line->purchasable->product;
-                                $product_prices = $line->purchasable->prices->first();
+                Estimated arrival
+                <div class="pt-5">
+                    <h3 class="text-[16px] font-normal text-[#111111] pb-5">
+                        Arrives by Sun, 13 Apr
+                    </h3>
 
-                                if ( $product_prices->compare_price?->decimal > 0 ) {
-                                    $product_price = $product_prices->compare_price->formatted;
-                                } else {
-                                    $product_price = $product_prices->price?->formatted();
-                                }
-                            @endphp
-                            <div class="flex gap-5 items-center justify-start">
-                                <div class="">
-                                    <img class="w-[60px] h-[60px] object-contain"
-                                         src="{{ $product->thumbnail?->getUrl() }}" alt="">
-                                </div>
-                                <div>
-                                    {{-- <pre>
-                                    {{dd($line)}}
-                                    </pre> --}}
-                                    <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate><h2
-                                            class="font-semibold text-[16px] text-black">{{ $product->translateAttribute('name') }} {{ $line->option ? ' - ' . $line->option : '' }}</h2>
-                                        <a>
-                                            <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>
-                                </div>
+                    {{--                    Line Items--}}
+                    @foreach ($cart?->lines as $line)
+                        @php
+                            $product   = $line->purchasable->product;
+                            $isFree    = $line->meta['free'] ?? false;
+
+                            if ($isFree) {
+                                $displayPrice = $line->unitPrice?->formatted() ?? '$0.00';
+                                $priceLabel   = "{$displayPrice} (Free)";
+                            } else {
+                                $priceObj     = $product->prices->first();
+                                $displayPrice = $priceObj->compare_price?->decimal > 0
+                                    ? $priceObj->compare_price->formatted
+                                    : $priceObj->price?->formatted();
+                                $priceLabel   = $displayPrice;
+                            }
+                        @endphp
+
+                        <div class="flex gap-5 items-center justify-start py-3 border-b last:border-none">
+                            <div>
+                                <img class="w-[60px] h-[60px] object-contain"
+                                     src="{{ $product->thumbnail?->getUrl() }}"
+                                     alt="{{ $product->translateAttribute('name') }}">
                             </div>
-                        @endforeach
-
-                    </div>
+                            <div class="flex-1">
+                                <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
+                                    <h2 class="font-semibold text-[16px] text-black">
+                                        {{ $product->translateAttribute('name') }}
+                                        {{ $line->option ? ' - ' . $line->option : '' }}
+                                        @if ($isFree)
+                                            <span class="text-green-600 text-sm font-medium">(FREE)</span>
+                                        @endif
+                                    </h2>
+                                </a>
+                                <p class="font-normal text-[16px] text-black">
+                                    Qty: {{ $line->quantity }} @ {{ $priceLabel }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
+
 
         </div>
 

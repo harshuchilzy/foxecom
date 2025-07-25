@@ -10,51 +10,47 @@ class BuyXGetYDiscountTotals
 {
     public function handle(Cart $cart, Closure $next): Cart
     {
-        // First, let the next pipeline finish adjusting prices
         $cart = $next($cart);
 
-        // Build a quick price lookup for paid items: [cartLineId => unitPrice]
-        $priceMap = $cart->lines
-            ->filter(function ($line) {
-                return !($line->meta['free'] ?? false);
-            })
-            ->mapWithKeys(function ($line) {
-                return [$line->id => $line->unitPrice?->value ?? 0];
-            });
+        $paidLines = $cart->lines
+            ->filter(fn ($L) => !($L->meta['free'] ?? false));
 
-        // Figure out how much value we’ve given away free:
-        // For each “free” line, look up its parent’s price and multiply by free quantity
-        $freeValue = $cart->lines
-            ->filter(function ($line) {
-                return $line->meta['free'] ?? false;
-            })
-            ->sum(function ($freeLine) use ($priceMap) {
-                $parentId = $freeLine->meta['parent_line_id'] ?? null;
-                $parentPrice = $priceMap[$parentId] ?? 0;
+        $freeLines = $cart->lines
+            ->filter(fn ($L) => $L->meta['free'] ?? false);
 
-                return $parentPrice * $freeLine->quantity;
-            });
+        $zeroPrice = new Price(0, $cart->currency, $cart->currency->factor);
+        $paidSubtotal = 0;
+        $totalDiscountValue = 0;
 
-
-        // If there’s any free-value to apply, override the cart’s discount and total
-        if ($freeValue > 0) {
-            $cart->discountTotal = new Price(
-                $freeValue,
-                $cart->currency,
-                $cart->currency->factor
-            );
-
-            // Recompute total so it includes shipping (and tax if any)
-            $sub = $cart->subTotal->value;
-            $ship = $cart->shippingTotal?->value ?? 0;
-            $tax = $cart->taxTotal?->value ?? 0;
-
-            $cart->total = new Price(
-                $sub + $ship + $tax - $freeValue,
-                $cart->currency,
-                $cart->currency->factor
-            );
+        foreach ($paidLines as $paid) {
+            $unit = $paid->unitPrice->value;
+            $paidSubtotal += $unit * $paid->quantity;
         }
+
+        foreach ($freeLines as $free) {
+            $parentId = $free->meta['parent_line_id'] ?? null;
+            $parentUnit = $paidLines->firstWhere('id', $parentId)?->unitPrice->value ?? 0;
+            $discountForLine = $parentUnit * $free->quantity;
+            $totalDiscountValue += $discountForLine;
+
+            $free->unitPrice = $zeroPrice;
+            $free->subTotal = $zeroPrice;
+            $free->discountTotal = $zeroPrice;
+            $free->total = $zeroPrice;
+            $free->save();
+        }
+
+        $originalSubtotal = $paidSubtotal + $totalDiscountValue;
+
+        $shipping = $cart->shippingTotal?->value ?? 0;
+        $tax = $cart->taxTotal?->value ?? 0;
+
+        $rawTotal = $originalSubtotal + $shipping + $tax - $totalDiscountValue;
+        $finalTotal = max(0, $rawTotal);
+
+        $cart->subTotal = new Price($originalSubtotal, $cart->currency, $cart->currency->factor);
+        $cart->discountTotal = new Price($totalDiscountValue, $cart->currency, $cart->currency->factor);
+        $cart->total = new Price($finalTotal, $cart->currency, $cart->currency->factor);
 
         return $cart;
     }

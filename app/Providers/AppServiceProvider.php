@@ -17,6 +17,7 @@ use Lunar\Admin\Filament\Resources\DiscountResource;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Facades\Payments;
+use Lunar\Models\CartLine;
 use Lunar\Shipping\ShippingPlugin;
 
 class AppServiceProvider extends ServiceProvider
@@ -63,5 +64,14 @@ class AppServiceProvider extends ServiceProvider
             \App\Models\Product::class,
         // \App\Models\CustomProduct::class,
         );
+
+
+        CartLine::deleting(function (CartLine $line) {
+            if (empty(data_get($line->meta, 'free'))) {
+                CartLine::where('cart_id', $line->cart_id)
+                    ->where('meta->parent_line_id', $line->id)
+                    ->delete();
+            }
+        });
     }
 }
