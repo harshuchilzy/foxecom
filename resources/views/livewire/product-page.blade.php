@@ -664,7 +664,7 @@
         echo '</pre>';
     @endphp --}}
 
-    <div x-data="{ showModal: false }">
+    <div x-data="{ showModal: @entangle('showBulkAddToCartPopup') }">
         <!-- Trigger Button -->
         <x-wui-button primary @click="showModal = true">
             Open Product Popup
@@ -681,7 +681,7 @@
                     {{ $this->product->translateAttribute('name') }}
                 </h2>
                 @php
-                    $selectedItems = count(array_filter($toggles));
+                    $selectedItems = $this->getSumOfSelectedToggles();
                 @endphp
                 <p class="font-medium border-b-2 border-gray-300 mb-4 text-center pb-2">
                     You can purchase up to 

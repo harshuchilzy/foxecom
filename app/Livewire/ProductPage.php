@@ -49,12 +49,14 @@ class ProductPage extends Component
     ];
 
     public $showReviewPopup = false;
-
+    public bool $showBulkAddToCartPopup = false;
     public $variations = [];
     public array $selectedVariants = [];
     public array $quantities = [];
     public array $toggles = [];
     public $maxQuantityIncrement = 1;
+
+    public $sumOfSelectedToggles;
 
     public function mount($slug): void
     {
@@ -325,8 +327,19 @@ class ProductPage extends Component
                 $this->maxQuantityIncrement = $variant['quantity_increment'];
             }
         }
-
         return $this->maxQuantityIncrement;
+    }
+
+    public function getSumOfSelectedToggles()
+    {
+        $this->sumOfSelectedToggles = 0;
+        
+        foreach ($this->toggles as $key => $isSelected) {
+            if ($isSelected && isset($this->quantities[$key])) {
+                $this->sumOfSelectedToggles += $this->quantities[$key];
+            }
+        }
+        return $this->sumOfSelectedToggles;
     }
 
 
@@ -348,6 +361,76 @@ class ProductPage extends Component
         if ($this->quantities[$variantId] > 1) {
             $this->quantities[$variantId]--;
         }
+    }
+
+    public function addSelectedToCart()
+    {
+        $validatedData = $this->validate([
+            'quantities.*' => 'required|numeric|min:1',
+            'toggles.*' => 'nullable|boolean',
+        ]);
+
+        if (count(array_filter($this->toggles)) > $this->getLargestQuantityIncrement()) {
+            $this->addError('bulk-popup-error', "Please select {$this->getLargestQuantityIncrement()} variant(s) only.");
+            return;
+        }
+
+        $linesToAdd = [];
+        $hasError = false;
+
+        foreach ($this->loadVariations() as $variant) {
+            $variantId = $variant['id'];
+            $quantity = $this->quantities[$variantId] ?? 0;
+            
+            // Only add to cart if toggle is enabled or if you want all variants
+            if ($this->toggles[$variantId] && $quantity > 0) {
+                $purchasable = ProductVariant::find($variantId);
+                
+                if ($purchasable->stock < $quantity) {
+                    $this->addError('bulk-popup-error', "Not enough stock for {$variant['name']}");
+                    $hasError = true;
+                    continue;
+                }
+
+                $linesToAdd[] = [
+                    'purchasable' => $purchasable,
+                    'quantity' => $quantity,
+                ];
+            }
+        }
+
+        if ($hasError) {
+            Log::info('has error');
+            return;
+        }
+
+        if (empty($linesToAdd)) {
+            $this->addError('bulk-popup-error', 'Please select at least one variant');
+            return;
+        }
+
+        // Add all selected items to cart
+        foreach ($linesToAdd as $line) {
+            $existing = CartSession::lines()
+                ->get()
+                ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
+
+            if ($existing) {
+                CartSession::updateLines(collect([[
+                    'id' => $existing->id,
+                    'quantity' => $existing->quantity + $line['quantity']
+                ]]));
+            } else {
+                CartSession::manager()->add(
+                    $line['purchasable'],
+                    $line['quantity']
+                );
+            }
+        }
+
+        $this->dispatch('add-to-cart');
+        $this->dispatch('cart-updated');
+        $this->showBulkAddToCartPopup = false;
     }
 
     public function render(): View
