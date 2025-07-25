@@ -93,6 +93,17 @@ class CartPage extends Component
     {
         $this->validate();
 
+        foreach ($this->lines as $line) {
+            if ($line['quantity_increment'] > 0) {
+                $quantity = (int) $line['quantity'];
+                $increment = (int) $line['quantity_increment'];
+                if ($quantity % $increment !== 0) {
+                    $this->addError('cart-quantity', 'Quantity for ' . ($line['description'] ?? 'item') . ' must be a multiple of ' . $increment . '.');
+                    return;
+                }
+            } 
+        }
+
         CartSession::updateLines(
             collect($this->lines)
         );
@@ -125,6 +136,7 @@ class CartPage extends Component
                 'id' => $line->id,
                 'identifier' => $line->purchasable->getIdentifier(),
                 'quantity' => $line->quantity,
+                'quantity_increment' => $line->purchasable->quantity_increment,
                 'description' => $line->purchasable->getDescription(),
                 'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
                 'option' => $line->purchasable->getOption(),
