@@ -2,16 +2,17 @@
 
 namespace App\Livewire;
 
+use App\Traits\DeletesFreeChildLines;
 use Livewire\Component;
-use Illuminate\View\View;
 use Lunar\Models\Product;
 use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Lunar\Facades\ShippingManifest;
 
 class CartPage extends Component
 {
+    use DeletesFreeChildLines;
+
     /**
      * The editable cart lines.
      */
@@ -96,7 +97,8 @@ class CartPage extends Component
         CartSession::updateLines(
             collect($this->lines)
         );
-        $this->mapLines();
+
+        $this->cleanupFreeChildren();
 
         $this->dispatch('cartUpdated');
         $this->dispatch('add-to-cart');
@@ -156,7 +158,7 @@ class CartPage extends Component
     {
         $shippingAddress = $this->cart?->shippingAddress;
 
-        if (! $shippingAddress) {
+        if (!$shippingAddress) {
             return;
         }
 
@@ -176,11 +178,12 @@ class CartPage extends Component
             'thumbnail',
             'defaultUrl',
         ])
-        ->where('id', $product_id)
-        ->first();
+            ->where('id', $product_id)
+            ->first();
     }
 
-    function updatedCouponCode($couponCode = null) : void {
+    function updatedCouponCode($couponCode = null): void
+    {
         $cart = \Lunar\Facades\CartSession::current();
         $cart->coupon_code = $couponCode ?? $this->couponCode;
 
@@ -192,14 +195,16 @@ class CartPage extends Component
         $cart->save();
     }
 
-    function removeCoupons() : void {
+    function removeCoupons(): void
+    {
         $cart = \Lunar\Facades\CartSession::current();
         $cart->coupon_code = '';
         $cart->save();
 
     }
 
-    public function getStockForProduct($productVariantId){
+    public function getStockForProduct($productVariantId)
+    {
 
         $line = $this->cart->lines->firstWhere('purchasable_id', $productVariantId);
 
@@ -210,14 +215,15 @@ class CartPage extends Component
         return 0;
     }
 
-    public function relatedProducts(){
+    public function relatedProducts()
+    {
 
         return Product::with([
-                'variants.prices',
-                'thumbnail',
-                'brand',
-                'defaultUrl',
-            ])
+            'variants.prices',
+            'thumbnail',
+            'brand',
+            'defaultUrl',
+        ])
             ->limit(3)
             ->get();
     }
