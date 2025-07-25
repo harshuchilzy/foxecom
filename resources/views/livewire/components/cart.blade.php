@@ -125,6 +125,15 @@
 
             @if ($this->cart)
                 <div class="mt-4 space-y-4 text-center">
+                    @if ($errors->has('cart-quantity'))
+                        <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                            role="alert">
+                            @foreach ($errors->get('cart-quantity') as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                    @endif
+
                     <button
                         class="block cursor-pointer w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
                         type="button" wire:click="updateLines">

@@ -67,13 +67,22 @@
                             </div>
                         @endforeach
 
-
-                        <div class="mt-4 space-y-4 text-center float-end">
-                            <button
-                                class="block py-3 px-6 cursor-pointer text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
-                                type="button" wire:click="updateLines">
-                                Update Cart
-                            </button>
+                        <div>
+                            @if ($errors->has('cart-quantity'))
+                                <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                                    role="alert">
+                                    @foreach ($errors->get('cart-quantity') as $error)
+                                        {{ $error }}
+                                    @endforeach
+                                </div>
+                            @endif    
+                            <div class="mt-4 space-y-4 text-center float-end">
+                                <button
+                                    class="block py-3 px-6 cursor-pointer text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
+                                    type="button" wire:click="updateLines">
+                                    Update Cart
+                                </button>
+                            </div>
                         </div>
 
                     </div>

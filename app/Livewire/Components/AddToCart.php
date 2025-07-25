@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Components;
 
-use Illuminate\View\View;
 use Livewire\Component;
+use Illuminate\View\View;
 use Lunar\Base\Purchasable;
 use Lunar\Facades\CartSession;
+use Illuminate\Support\Facades\Log;
 
 class AddToCart extends Component
 {
@@ -19,6 +20,8 @@ class AddToCart extends Component
      */
     public int $quantity = 1;
 
+    public int $outer_box_qty = 1;
+
     public function rules(): array
     {
         return [
@@ -29,8 +32,9 @@ class AddToCart extends Component
     public function addToCart(): void
     {
         $this->validate();
-
-        if ($this->purchasable->stock < $this->quantity) {
+        $this->outer_box_qty = ($this->quantity) * ($this->purchasable->quantity_increment ?? 1);
+        //Log::info(print_r($this->outer_box_qty, true));
+        if ($this->purchasable->stock < $this->outer_box_qty) {
             $this->addError('quantity', 'The quantity exceeds the available stock.');
             return;
         }
@@ -44,10 +48,10 @@ class AddToCart extends Component
             // If it exists, update the quantity
             CartSession::updateLines(collect([[
                 'id' => $existing->id,
-                'quantity' => $existing->quantity + $this->quantity
+                'quantity' => $existing->quantity + $this->outer_box_qty
             ]]));
         } else {
-            CartSession::manager()->add($this->purchasable, $this->quantity);
+            CartSession::manager()->add($this->purchasable, $this->outer_box_qty);
         }
 
         $this->dispatch('add-to-cart');
