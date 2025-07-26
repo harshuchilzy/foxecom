@@ -2,20 +2,21 @@
 
 namespace App\Livewire;
 
-use App\Traits\FetchesUrls;
-use Illuminate\Support\Collection;
-use Illuminate\View\View;
 use Livewire\Component;
-use Lunar\Models\Product;
-use Lunar\Models\ProductVariant;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Livewire\WithFileUploads;
-use App\Models\ProductReview;
-use App\Models\ReviewImage;
-use Lunar\Models\Discount;
-use Lunar\Facades\CartSession;
+use Illuminate\View\View;
 use Lunar\Models\Channel;
+use Lunar\Models\Product;
 use Lunar\Models\Currency;
+use Lunar\Models\Discount;
+use App\Models\ReviewImage;
+use App\Traits\FetchesUrls;
+use App\Models\ProductReview;
+use Livewire\WithFileUploads;
+use Lunar\Facades\CartSession;
+use Lunar\Models\ProductVariant;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductPage extends Component
 {
@@ -48,7 +49,14 @@ class ProductPage extends Component
     ];
 
     public $showReviewPopup = false;
+    public bool $showBulkAddToCartPopup = false;
+    public $variations = [];
+    public array $selectedVariants = [];
+    public array $quantities = [];
+    public array $toggles = [];
+    public $maxQuantityIncrement = 1;
 
+    public $sumOfSelectedToggles;
 
     public function mount($slug): void
     {
@@ -73,6 +81,8 @@ class ProductPage extends Component
         $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
             return [$data['option']->id => $data['values']->first()->id];
         })->toArray();
+
+        $this->initializeQuantities();
     }
 
 
@@ -256,6 +266,171 @@ class ProductPage extends Component
     public function closeReviewPopup()
     {
         $this->showReviewPopup = false;
+    }
+
+    //New popup update start at here
+    public function loadVariations()
+    {
+        $this->variations = $this->product->variants()
+            ->with(['values.option', 'images'])
+            ->get()
+            ->map(function ($variant) {
+                return [
+                    'id' => $variant->id,
+                    'name' => $this->getVariantName($variant),
+                    'image_url' => $this->getVariantImage($variant),
+                    'sku' => $variant->sku,
+                    'price' => $variant->basePrices->first()->price?->formatted(),
+                    'stock' => $variant->stock,
+                    'quantity_increment' => $variant->quantity_increment,
+                    'options' => $variant->values->map(function ($value) {
+                        return [
+                            'option_id' => $value->option->id,
+                            'option_name' => $value->option->translate('name'),
+                            'value_id' => $value->id,
+                            'value_name' => $value->translate('name'),
+                        ];
+                    })->toArray()
+                ];
+            })->toArray();
+
+        return $this->variations;
+    }
+
+    protected function getVariantName($variant)
+    {
+        $productName = $this->product->translate('name');
+        $optionNames = $variant->values->map(function ($value) {
+            return $value->translate('name');
+        })->implode(' / ');
+        
+        return "{$productName} - {$optionNames}";
+    }
+
+    protected function getVariantImage($variant)
+    {
+        if ($variant->images->isNotEmpty()) {
+            return $variant->images->first()->getUrl();
+        }
+
+        if ($this->product->images->isNotEmpty()) {
+            return $this->product->images->first()->getUrl();
+        }
+
+        return asset('images/placeholder-product.png');
+    }
+
+    public function getLargestQuantityIncrement()
+    {
+        foreach ($this->loadVariations() as $variant) {
+            if ($variant['quantity_increment'] > $this->maxQuantityIncrement) {
+                $this->maxQuantityIncrement = $variant['quantity_increment'];
+            }
+        }
+        return $this->maxQuantityIncrement;
+    }
+
+    public function getSumOfSelectedToggles()
+    {
+        $this->sumOfSelectedToggles = 0;
+        
+        foreach ($this->toggles as $key => $isSelected) {
+            if ($isSelected && isset($this->quantities[$key])) {
+                $this->sumOfSelectedToggles += $this->quantities[$key];
+            }
+        }
+        return $this->sumOfSelectedToggles;
+    }
+
+
+    protected function initializeQuantities()
+    {
+        foreach ($this->loadVariations() as $variant) {
+            $this->quantities[$variant['id']] = 1;
+            $this->toggles[$variant['id']] = false;
+        }
+    }
+
+    public function incrementQuantity($variantId)
+    {
+        $this->quantities[$variantId]++;
+    }
+
+    public function decrementQuantity($variantId)
+    {
+        if ($this->quantities[$variantId] > 1) {
+            $this->quantities[$variantId]--;
+        }
+    }
+
+    public function addSelectedToCart()
+    {
+        $validatedData = $this->validate([
+            'quantities.*' => 'required|numeric|min:1',
+            'toggles.*' => 'nullable|boolean',
+        ]);
+
+        if (count(array_filter($this->toggles)) > $this->getLargestQuantityIncrement()) {
+            $this->addError('bulk-popup-error', "Please select {$this->getLargestQuantityIncrement()} variant(s) only.");
+            return;
+        }
+
+        $linesToAdd = [];
+        $hasError = false;
+
+        foreach ($this->loadVariations() as $variant) {
+            $variantId = $variant['id'];
+            $quantity = $this->quantities[$variantId] ?? 0;
+            
+            // Only add to cart if toggle is enabled or if you want all variants
+            if ($this->toggles[$variantId] && $quantity > 0) {
+                $purchasable = ProductVariant::find($variantId);
+                
+                if ($purchasable->stock < $quantity) {
+                    $this->addError('bulk-popup-error', "Not enough stock for {$variant['name']}");
+                    $hasError = true;
+                    continue;
+                }
+
+                $linesToAdd[] = [
+                    'purchasable' => $purchasable,
+                    'quantity' => $quantity,
+                ];
+            }
+        }
+
+        if ($hasError) {
+            Log::info('has error');
+            return;
+        }
+
+        if (empty($linesToAdd)) {
+            $this->addError('bulk-popup-error', 'Please select at least one variant');
+            return;
+        }
+
+        // Add all selected items to cart
+        foreach ($linesToAdd as $line) {
+            $existing = CartSession::lines()
+                ->get()
+                ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
+
+            if ($existing) {
+                CartSession::updateLines(collect([[
+                    'id' => $existing->id,
+                    'quantity' => $existing->quantity + $line['quantity']
+                ]]));
+            } else {
+                CartSession::manager()->add(
+                    $line['purchasable'],
+                    $line['quantity']
+                );
+            }
+        }
+
+        $this->dispatch('add-to-cart');
+        $this->dispatch('cart-updated');
+        $this->showBulkAddToCartPopup = false;
     }
 
     public function render(): View
