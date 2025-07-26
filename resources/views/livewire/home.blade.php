@@ -9,17 +9,23 @@
                         </video>
                     @else
                         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover">
-                            <source src="{{ asset('storage/' . $mediaCollection['hero-section-video']) }}" type="video/mp4">
+                            <source src="{{ asset('storage/' . $mediaCollection['hero-section-video']) }}"
+                                    type="video/mp4">
                         </video>
                     @endif
                     <div class="w-full h-full flex items-end justify-end relative z-10">
-                        <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
+                        <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block"
+                           href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
                     </div>
                 </div>
             @else
                 <div class="hero-section-gif w-full relative">
                     <div class="foxecom-youtube-container w-full overflow-hidden aspect-[16/9] pointer-events-none">
-                        <iframe class="" src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}?autoplay=1&mute=1&loop=1&color=white&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&playlist={{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe class=""
+                                src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}?autoplay=1&mute=1&loop=1&color=white&controls=0&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&playlist={{ \Illuminate\Support\Str::afterLast($metaFields['hero-video-link'], 'v=') }}"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
                     </div>
                     <style>
                         .foxecom-youtube-container {
@@ -44,7 +50,8 @@
                         $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
                     @endphp
 
-                    <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5 absolute bottom-0 w-full">
+                    <div
+                        class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5 absolute bottom-0 w-full">
                         <p class="text-white xl:flex items-center gap-2 hidden">
                             <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
                             <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
@@ -68,7 +75,8 @@
                     $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
                 @endphp
 
-                <div class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
+                <div
+                    class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
                     <p class="text-white xl:flex items-center gap-2 hidden">
                         <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
                         <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
@@ -118,7 +126,8 @@
                                     @if ($bannerImage)
                                         <div class="swiper-slide rounded-xl">
                                             <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
-                                                <div class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
+                                                <div
+                                                    class="h-[250px] lg:h-[350px] xl:h-[450px] rounded-[16px] overflow-hidden">
                                                     <img src="{{ asset('storage/' . $bannerImage) }}"
                                                         class="w-full h-full rounded-xl object-cover transition-transform duration-300 hover:scale-105"
                                                         alt="{{ $discount->name }}">
@@ -208,22 +217,37 @@
                                 ? asset('storage/' . $data['promo_image'])
                                 : asset('images/fallback.png');
 
-                            $claimed = (($discount->uses > 0 ? $discount->uses : 1) / ($discount->max_uses > 0 ? $discount->max_uses : 1 )) * 100; // rand(60, 98); // Simulate claimed percentage
+                            $claimed = (int)(
+                                (($discount->uses > 0 ? $discount->uses : 1)
+                                 /
+                                 ($discount->max_uses > 0 ? $discount->max_uses : 1)
+                                ) * 100
+                            );
 
-                            if(auth()->check()){
+                            if (auth()->check()) {
                                 $user_usage = 0;
                                 foreach ($discount->users as $user) {
-                                    if($user->id == auth()->user()->id) {
+                                    if ($user->id === auth()->user()->id) {
                                         $user_usage++;
                                     }
                                 }
-                                $claimed = ($user_usage / ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)) * 100; // rand(60, 98); // Simulate claimed percentage
+                                $claimed = (int)(
+                                    ($user_usage
+                                     /
+                                     ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)
+                                    ) * 100
+                                );
                             }
 
-                            if ($claimed >= 90) {
-                                $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
-                                $cardBg = 'bg-[linear-gradient(360deg,_#B0CC6F_0%,_#FFFFFF_100%)]';
-                                $textClass = 'text-[#1D1D1F]';
+                            if ($claimed >= 100) {
+                                $claimed = 100;
+                                $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
+                                $cardBg = 'bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)]';
+                                $textClass = 'text-white';
+                            }  elseif ($claimed >= 90) {
+                                $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
+                                $cardBg = 'bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)]';
+                                $textClass = 'text-white';
                             } elseif ($claimed >= 70) {
                                 $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
                                 $cardBg = 'bg-[linear-gradient(360deg,_#EFFF86_0%,_#F3F7F9_100%)]';
@@ -253,7 +277,8 @@
                                 <div class="{{ $barColor }} h-[8px] rounded-[20px]" style="width: {{ $claimed }}%"></div>
                             </div>
 
-                            <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}% claimed</p>
+                            <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}%
+                                claimed</p>
 
                             <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
                                 <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
@@ -264,7 +289,7 @@
                             @if ($productUrl)
                                 <div class="mt-4 text-center">
                                     <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
-                                        class="bg-[#1275EE] rounded-[45px] px-8 py-3 text-white text-sm inline-block">
+                                       class="bg-[#1275EE] rounded-[45px] px-8 py-3 text-white text-sm inline-block">
                                         Claim Offer
                                     </a>
                                 </div>
@@ -304,11 +329,17 @@
 
                             <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(180deg,_rgba(73,77,94,0.08)_0%,_#FFFFFF_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_10px_25px_0px_#00000073] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
                                 <div class="mb-4 flex lg:hidden justify-between items-start">
-                                    <div class="p-2 rounded-full flex items-center justify-center lg:hidden" style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.8) 100%);">
-                                        <svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M2.22998 5.46289C3.0584 5.46289 3.72997 6.13447 3.72998 6.96289V8.12109H4.97803C5.80645 8.12109 6.47803 8.79267 6.47803 9.62109C6.47777 10.4493 5.80629 11.1211 4.97803 11.1211H3.22998C1.84967 11.1208 0.730241 10.0014 0.72998 8.62109V6.96289C0.729987 6.13464 1.4018 5.46317 2.22998 5.46289ZM6.42627 3.41797C7.64967 3.41797 8.64111 4.41039 8.64111 5.63379C8.64087 6.85699 7.64952 7.84863 6.42627 7.84863H6.27686C5.0536 7.84863 4.06225 6.85699 4.06201 5.63379C4.06201 4.41039 5.05346 3.41797 6.27686 3.41797H6.42627ZM9.47412 0.145508C10.8546 0.145663 11.9739 1.2651 11.9741 2.64551V4.30371C11.9741 5.13204 11.3024 5.80356 10.4741 5.80371C9.6457 5.80371 8.97413 5.13213 8.97412 4.30371V3.14551H7.72607C6.89765 3.14551 6.22607 2.47393 6.22607 1.64551C6.22631 0.817285 6.8978 0.145508 7.72607 0.145508H9.47412Z" fill="url(#paint0_linear_479_1744)" />
+                                    <div class="p-2 rounded-full flex items-center justify-center lg:hidden"
+                                         style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0.8) 100%);">
+                                        <svg width="18" height="18" viewBox="0 0 12 12" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.22998 5.46289C3.0584 5.46289 3.72997 6.13447 3.72998 6.96289V8.12109H4.97803C5.80645 8.12109 6.47803 8.79267 6.47803 9.62109C6.47777 10.4493 5.80629 11.1211 4.97803 11.1211H3.22998C1.84967 11.1208 0.730241 10.0014 0.72998 8.62109V6.96289C0.729987 6.13464 1.4018 5.46317 2.22998 5.46289ZM6.42627 3.41797C7.64967 3.41797 8.64111 4.41039 8.64111 5.63379C8.64087 6.85699 7.64952 7.84863 6.42627 7.84863H6.27686C5.0536 7.84863 4.06225 6.85699 4.06201 5.63379C4.06201 4.41039 5.05346 3.41797 6.27686 3.41797H6.42627ZM9.47412 0.145508C10.8546 0.145663 11.9739 1.2651 11.9741 2.64551V4.30371C11.9741 5.13204 11.3024 5.80356 10.4741 5.80371C9.6457 5.80371 8.97413 5.13213 8.97412 4.30371V3.14551H7.72607C6.89765 3.14551 6.22607 2.47393 6.22607 1.64551C6.22631 0.817285 6.8978 0.145508 7.72607 0.145508H9.47412Z"
+                                                fill="url(#paint0_linear_479_1744)"/>
                                             <defs>
-                                                <linearGradient id="paint0_linear_479_1744" x1="6.10051" y1="0.145508" x2="6.10051" y2="10.6451" gradientUnits="userSpaceOnUse">
+                                                <linearGradient id="paint0_linear_479_1744" x1="6.10051" y1="0.145508"
+                                                                x2="6.10051"
+                                                                y2="10.6451" gradientUnits="userSpaceOnUse">
                                                     <stop stop-color="white"/>
                                                     <stop offset="1" stop-color="white" stop-opacity="0.7"/>
                                                 </linearGradient>
@@ -319,7 +350,8 @@
 
                                 <div class="mb-4 hidden lg:block">
                                     <div class="mb-4">
-                                        <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}" alt="Tick Tock Logo">
+                                        <img class="w-[140px] mb-2" src="{{ asset('images/tikcktocklogo.png') }}"
+                                             alt="Tick Tock Logo">
                                         <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
                                     </div>
 
@@ -355,8 +387,8 @@
 
                                 @if ($promoImage)
                                     <img src="{{ asset('storage/' . $promoImage) }}"
-                                        alt="{{ $discount->name }}"
-                                        class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[200px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150" />
+                                         alt="{{ $discount->name }}"
+                                         class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[200px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150"/>
                                 @endif
 
                                 <div class="absolute top-4 right-4 p-3 bg-[linear-gradient(180deg,_rgba(73,77,94,0.9)_0%,_rgba(0,0,0,0.8)_100%)] rounded-full lg:flex items-center justify-center hidden">

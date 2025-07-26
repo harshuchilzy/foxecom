@@ -2,14 +2,16 @@
 
 namespace App\Livewire\Components;
 
+use App\Traits\DeletesFreeChildLines;
 use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class Cart extends Component
 {
+    use DeletesFreeChildLines;
+
     /**
      * The editable cart lines.
      */
@@ -82,6 +84,8 @@ class Cart extends Component
             collect($this->lines)
         );
 
+        $this->cleanupFreeChildren();
+
         $this->dispatch('cartUpdated');
         $this->dispatch('add-to-cart');
     }
@@ -115,6 +119,7 @@ class Cart extends Component
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
                 'meta' => (array)$line->meta,
+                'quantity_increment' => $line->purchasable->quantity_increment
             ];
         })->toArray();
     }

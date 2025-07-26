@@ -3,6 +3,7 @@
 namespace App\Filament\Extensions\MyDiscountExtensions;
 
 use Closure;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
@@ -49,7 +50,11 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->label('Video URL')
                     ->placeholder('https://example.com/video.mp4')
                     ->visible(fn ($get) => $get('data.banner_type') === 'video'),
-                    
+                Textarea::make('data.description')
+                    ->label('Description')
+                    ->autosize()
+                    ->placeholder('Brief about the discount images')
+                    ->columnSpanFull(),
             ])->columns(2);
     }
 
