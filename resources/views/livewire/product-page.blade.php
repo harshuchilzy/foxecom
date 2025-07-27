@@ -528,13 +528,16 @@
                                     @php
                                         $selectedItems = $this->getSumOfSelectedToggles();
                                     @endphp
-                                    <p class="font-medium border-b-2 border-gray-300 mb-4 text-center pb-2">
-                                        You can purchase up to 
-                                        <span class="font-semibold text-themeblue">
-                                            {{ sprintf('%02d', $this->maxQuantityIncrement) }}
-                                        </span>
-                                        items. <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
+                                    <p class="font-medium text-center">
+                                        You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items. 
+                                        @if ($this->rewardItems)
+                                            <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md">{{ sprintf('%02d', $this->rewardItems) }} FREE</span>
+                                        @endif
                                     </p>
+                                    <div class="border-b-2 border-gray-300 mb-4 text-center pb-2">
+                                        <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
+                                    </div>        
+                                    
 
                                     <!-- Product Boxes -->
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -551,10 +554,10 @@
                                                 >
 
                                                 <div class="flex flex-col justify-between w-full h-full">
-                                                    <div class="text-left">
+                                                    <div class="md:text-left text-center">
                                                         <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
-                                                        <div>
-                                                            <span class="text-[#1275EE] text-[12px] md:text-lg font-semibold">
+                                                        <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
+                                                            <span class="text-[#1275EE] text-lg font-semibold">
                                                                 {{ $variant['price'] }} + VAT
                                                             </span>
                                                             <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
@@ -574,7 +577,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="flex justify-end">
+                                                    <div class="flex md:justify-end justify-center">
                                                         <x-wui-toggle 
                                                             id="toggle_{{ $variant['id'] }}" 
                                                             wire:model.live="toggles.{{ $variant['id'] }}" 

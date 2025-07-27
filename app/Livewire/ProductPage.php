@@ -55,6 +55,7 @@ class ProductPage extends Component
     public array $quantities = [];
     public array $toggles = [];
     public $maxQuantityIncrement = 1;
+    public $rewardItems;
 
     public $sumOfSelectedToggles;
 
@@ -334,8 +335,8 @@ class ProductPage extends Component
 
         if ($discount && $discountType == 'BuyXGetY') {
             if (isset($discount->data['min_qty']) && isset($discount->data['reward_qty'])) {
-                $rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
-                $this->maxQuantityIncrement = $this->maxQuantityIncrement + $rewardItems;
+                $this->rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
+                $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
             }
         }
     }
