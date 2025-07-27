@@ -497,13 +497,148 @@
 
                     @if ($discountId)
                         <div class="md:max-w-[90%] mt-5">
-                            <form wire:submit.prevent="claimOffer">
+                            {{-- <form wire:submit.prevent="claimOffer">
                                 <button
-                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[12px] lg:py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter">
+                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[12px] lg:py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
                                     Claim Offer Now
                                 </button>
-                            </form>
+                             </form> --}}
                         </div>
+
+                        <div x-data="{ showModal: @entangle('showBulkAddToCartPopup') }">
+                            <!-- Trigger Button -->
+                            <div class="md:max-w-[90%] mt-5">
+                                <button
+                                    class="bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
+                                    Claim Offer Now
+                                </button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
+                                <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl mx-4 p-6 relative max-h-[90vh] overflow-auto" @click.away="showModal = false">
+                                    <!-- Close Button -->
+                                    <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-200 text-2xl font-bold">&times;</button>
+
+                                    <!-- Product Name -->
+                                    <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
+                                        {{ $this->product->translateAttribute('name') }}
+                                    </h2>
+                                    @php
+                                        $selectedItems = $this->getSumOfSelectedToggles();
+                                    @endphp
+                                    <p class="font-medium text-center">
+                                        You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items.
+                                        @if ($this->rewardItems)
+                                            <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md">{{ sprintf('%02d', $this->rewardItems) }} FREE</span>
+                                        @endif
+                                    </p>
+                                    <div class="border-b-2 border-gray-300 mb-4 text-center pb-2">
+                                        <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
+                                    </div>
+
+
+                                    <!-- Product Boxes -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                                        @foreach($this->loadVariations() as $index => $variant)
+
+                                            <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}) }"
+                                                :class="isSelected ? 'border-blue-600' : 'border-gray-300'"
+                                                class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200">
+                                                <img
+                                                    src="{{ $variant['image_url'] }}"
+                                                    alt=""
+                                                    class="w-32 min-w-32 h-32 min-h-32 object-cover rounded"
+                                                >
+
+                                                <div class="flex flex-col justify-between w-full h-full">
+                                                    <div class="md:text-left text-center">
+                                                        <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
+                                                        <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
+                                                            <span class="text-[#1275EE] text-lg font-semibold">
+                                                                {{ $variant['price'] }} + VAT
+                                                            </span>
+                                                            <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
+                                                                <button type="button"
+                                                                        class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                                        wire:click="decrementQuantity({{ $variant['id'] }})">-
+                                                                </button>
+                                                                <input type="number"
+                                                                    min="1"
+                                                                    wire:model.live="quantities.{{ $variant['id'] }}"
+                                                                    class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
+                                                                <button type="button"
+                                                                        class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                                        wire:click="incrementQuantity({{ $variant['id'] }})">+
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex md:justify-end justify-center">
+                                                        <x-wui-toggle
+                                                            id="toggle_{{ $variant['id'] }}"
+                                                            wire:model.live="toggles.{{ $variant['id'] }}"
+                                                            info xl />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    @if ($errors->has('bulk-popup-error'))
+                                        <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                                            role="alert">
+                                            @foreach ($errors->get('bulk-popup-error') as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        </div>
+                                    @endif
+
+                                    <!-- Add to Cart Button -->
+                                    <div class="mt-6 text-center">
+                                        <button type="button"
+                                                class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter"
+                                                wire:click="addSelectedToCart"
+                                                wire:loading.attr="disabled">
+                                            <span wire:loading.remove>Add to Cart</span>
+                                            <span wire:loading>Adding...</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- discount name --}}
+                    @if ($discountId)
+                        @php
+                            $matchedDiscount = \Lunar\Models\Discount::find($discountId);
+                            $discountParts = explode(' ', $matchedDiscount?->name, 3); // Basic splitting
+                        @endphp
+                        @if ($matchedDiscount)
+                            <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
+                                 class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center">
+                                @php
+                                    $name = $matchedDiscount->name;
+                                    $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
+                                @endphp
+
+                                @if(count($parts) === 3)
+                                    <p class="text-[16px] font-normal text-white font-inter">
+                                        {{ trim($parts[0]) }}
+                                    </p>
+                                    <p class="text-[16px] font-bold text-white font-inter">
+                                        {{ 'Get' . trim($parts[2]) }}
+                                    </p>
+                                @else
+                                    <p class="text-[16px] font-normal text-white font-inter">
+                                        {{ $name }}
+                                    </p>
+                                @endif
+                            </div>
+                        @endif
                     @endif
 
                     {{-- discount name --}}
@@ -776,9 +911,9 @@
 
     <div x-data="{ showModal: @entangle('showBulkAddToCartPopup') }">
         <!-- Trigger Button -->
-        {{-- <x-wui-button primary @click="showModal = true">
+        <x-wui-button primary @click="showModal = true">
             Open Product Popup
-        </x-wui-button> --}}
+        </x-wui-button>
 
         <!-- Modal -->
         <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">

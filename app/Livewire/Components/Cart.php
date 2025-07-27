@@ -69,16 +69,16 @@ class Cart extends Component
     {
         $this->validate();
 
-        foreach ($this->lines as $line) {
-            if ($line['quantity_increment'] > 0) {
-                $quantity = (int) $line['quantity'];
-                $increment = (int) $line['quantity_increment'];
-                if ($quantity % $increment !== 0) {
-                    $this->addError('cart-quantity', 'Quantity for ' . ($line['description'] ?? 'item') . ' must be a multiple of ' . $increment . '.');
-                    return;
-                }
-            } 
-        }
+        // foreach ($this->lines as $line) {
+        //     if ($line['quantity_increment'] > 0) {
+        //         $quantity = (int) $line['quantity'];
+        //         $increment = (int) $line['quantity_increment'];
+        //         if ($quantity % $increment !== 0) {
+        //             $this->addError('cart-quantity', 'Quantity for ' . ($line['description'] ?? 'item') . ' must be a multiple of ' . $increment . '.');
+        //             return;
+        //         }
+        //     } 
+        // }
 
         CartSession::updateLines(
             collect($this->lines)
