@@ -94,9 +94,14 @@ class CartPage extends Component
     {
         $this->validate();
 
-        CartSession::updateLines(
-            collect($this->lines)
-        );
+        $paidLines = collect($this->lines)
+            ->filter(fn ($line) => empty($line['meta']['free']))
+            ->map(fn ($line) => [
+                'id' => $line['id'],
+                'quantity' => (int)$line['quantity'],
+            ]);
+
+        CartSession::updateLines($paidLines);
 
         $this->cleanupFreeChildren();
 
@@ -135,6 +140,7 @@ class CartPage extends Component
                 'unit_price' => $line->unitPrice->formatted(),
                 'stock' => $line->purchasable->stock,
                 'meta' => (array)$line->meta,
+                'quantity_increment' => $line->purchasable->quantity_increment
             ];
         })->toArray();
     }
@@ -149,6 +155,8 @@ class CartPage extends Component
         $this->cart_count = $cart?->lines->count() ?? 0;
 
         $this->linesVisible = true;
+
+        $this->dispatch('cartupdated');
     }
 
     /**
