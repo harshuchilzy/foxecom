@@ -1,17 +1,23 @@
-<div class="max-w-[1440px] mx-auto px-5 py-12">
-    <div class="max-w-[1440px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-8 justify-center items-start">
+<div class="max-w-[1440px] mx-auto px-2 lg:px-5 py-6 lg:py-12">
+    <div class="max-w-[1440px] mx-auto px-2 lg:px-5 py-6 lg:py-12 flex flex-col lg:flex-row gap-8 justify-center items-start">
         <div class="w-full lg:w-2/3 flex flex-col gap-3">
-            <h2 class="text-[#000000] font-bold text-[28px]">Bag</h2>
+            <h2 class="text-[#000000] font-bold text-[28px] hidden lg:block">Bag</h2>
+            <h2 class="text-[#000000] font-bold text-[28px] block lg:hidden text-center">Cart</h2>
+            <div class="block lg:hidden absolute top-14 left-5">
+                <button onclick="window.history.back()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="black"/></svg>
+                </button>
+            </div>
             @if ($this->cart)
                 @if ($lines)
                     <div>
                         @foreach ($lines as $index => $line)
-                            <div class="flex flex-row gap-8 border-b border-[#D9D9D9] py-5">
+                            <div class="flex flex-row gap-8 border-b border-[#D9D9D9] py-5 relative">
                                 <div class="bg-[#D9D9D9] w-1/3 flex justify-center items-center">
                                     @if ($line['thumbnail'])
-                                        <img class="w-[60%] object-contain h-[200px]" src="{{ $line['thumbnail'] }}" alt="">
+                                        <img class="w-[60%] object-contain lg:h-[200px]" src="{{ $line['thumbnail'] }}" alt="">
                                     @else
-                                        <img class="w-[60%] object-contain h-[200px]" src="{{ asset('images/placeholder.jpg') }}" alt="">
+                                        <img class="w-[60%] object-contain lg:h-[200px]" src="{{ asset('images/placeholder.jpg') }}" alt="">
                                     @endif
                                 </div>
                                 <div class="w-2/3 flex flex-col gap-2 justify-between lg:min-h-[200px]">
@@ -27,7 +33,7 @@
 
                                     <div class="flex justify-between">
                                         <div class="flex flex-row gap-3 items-center mt-auto pb-3">
-                                            <p class="font-normal text-[16px] text-black">Quantity</p>
+                                            <p class="font-normal text-[16px] text-black hidden lg:block">Quantity</p>
                                             @if (empty($line['meta']['free']))
                                                 <div
                                                     class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[30%]"
@@ -52,7 +58,7 @@
 
                                         @if (empty($line['meta']['free']))
                                             <button
-                                                class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-red-700 cursor-pointer"
+                                                class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-red-700 cursor-pointer absolute lg:relative right-2 top-3.5"
                                                 type="button" wire:click="removeLine('{{ $line['id'] }}')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                                     viewBox="0 0 24 24"
@@ -75,7 +81,7 @@
                                         {{ $error }}
                                     @endforeach
                                 </div>
-                            @endif    
+                            @endif
                             <div class="mt-4 space-y-4 text-center float-end">
                                 <button
                                     class="block py-3 px-6 cursor-pointer text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
@@ -100,9 +106,8 @@
                     Shop now
                 </a>
             @endif
-
-
         </div>
+
         <div class="w-full lg:w-1/3 flex flex-col gap-3">
             <h2 class="text-[#000000] font-bold text-[28px]">Summary</h2>
 
@@ -205,7 +210,7 @@
             </div>
         </div>
     </div>
-    <div>
+    <di class="hidden lg:block">
         <h2 class="font-bold text-[28px] text-black mb-5">You Might Also Like</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @if (count($this->relatedProducts()) > 0)
@@ -238,5 +243,13 @@
             @endif
         </div>
         <div class="w-full text-right mt-6"><a class="text-themeblue text-[16px]  font-bold" href="{{ route('products.index') }}"><div class="flex items-center justify-end">Continue Shopping <svg width="16px" height="16px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#1275EE"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#1275EE" fill-rule="evenodd" d="M5.29289,3.70711 C4.90237,3.31658 4.90237,2.68342 5.29289,2.29289 C5.68342,1.90237 6.31658,1.90237 6.70711,2.29289 L11.7071,7.29289 C12.0976,7.68342 12.0976,8.31658 11.7071,8.70711 L6.70711,13.7071 C6.31658,14.0976 5.68342,14.0976 5.29289,13.7071 C4.90237,13.3166 4.90237,12.6834 5.29289,12.2929 L9.58579,8 L5.29289,3.70711 Z"></path> </g></svg></div></a></div>
+
+        <style>
+            @media screen and (max-width: 1023px){
+                header.w-full.bg-themeblack.text-white.relative {
+                    display: none !important;
+                }
+            }
+        </style>
     </div>
 </div>

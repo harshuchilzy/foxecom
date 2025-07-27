@@ -6,7 +6,7 @@
 
     <div class="max-w-[1280px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-12 justify-center items-start">
 
-        <div class="flex w-full lg:flex-row gap-20">
+        <div class="flex w-full flex-col lg:flex-row gap-4 lg:gap-20">
             {{-- <span class="gggg">{{$currentStep}}</span> --}}
             <div class="lg:w-[60%]" id="accordion-flush" data-accordion="collapse"
                  data-active-classes="bg-white text-gray-900" data-inactive-classes="text-gray-500">
