@@ -90,12 +90,14 @@ return [
     'validators' => [
 
         'add_to_cart' => [
-            Lunar\Validation\CartLine\CartLineQuantity::class,
+            //Lunar\Validation\CartLine\CartLineQuantity::class,
+            App\Validation\CartLine\CustomCartLineQuantity::class,
             Lunar\Validation\CartLine\CartLineStock::class,
         ],
 
         'update_cart_line' => [
-            Lunar\Validation\CartLine\CartLineQuantity::class,
+            //Lunar\Validation\CartLine\CartLineQuantity::class,
+            App\Validation\CartLine\CustomCartLineQuantity::class,
             Lunar\Validation\CartLine\CartLineStock::class,
         ],
 

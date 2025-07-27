@@ -83,6 +83,7 @@ class ProductPage extends Component
         })->toArray();
 
         $this->initializeQuantities();
+        $this->getLargestQuantityIncrement();
     }
 
 
@@ -327,7 +328,16 @@ class ProductPage extends Component
                 $this->maxQuantityIncrement = $variant['quantity_increment'];
             }
         }
-        return $this->maxQuantityIncrement;
+
+        $discount = Discount::find($this->discountId);
+        $discountType = class_basename($discount->type);
+
+        if ($discount && $discountType == 'BuyXGetY') {
+            if (isset($discount->data['min_qty']) && isset($discount->data['reward_qty'])) {
+                $rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
+                $this->maxQuantityIncrement = $this->maxQuantityIncrement + $rewardItems;
+            }
+        }
     }
 
     public function getSumOfSelectedToggles()
@@ -370,8 +380,8 @@ class ProductPage extends Component
             'toggles.*' => 'nullable|boolean',
         ]);
 
-        if (count(array_filter($this->toggles)) > $this->getLargestQuantityIncrement()) {
-            $this->addError('bulk-popup-error', "Please select {$this->getLargestQuantityIncrement()} variant(s) only.");
+        if ($this->getSumOfSelectedToggles() > $this->maxQuantityIncrement) {
+            $this->addError('bulk-popup-error', "Please select {$this->maxQuantityIncrement} variant(s) only.");
             return;
         }
 
@@ -416,11 +426,13 @@ class ProductPage extends Component
                 ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
 
             if ($existing) {
+                 Log::info('existing');
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
                     'quantity' => $existing->quantity + $line['quantity']
                 ]]));
             } else {
+                Log::info('not existing');
                 CartSession::manager()->add(
                     $line['purchasable'],
                     $line['quantity']

@@ -2,23 +2,25 @@
 
 namespace App\Providers;
 
-use App\Filament\Resources\PageResource;
+use Lunar\Models\CartLine;
 
 //use App\Filament\Resources\RedemptionResource;
-use Lunar\Admin\Support\Facades\LunarPanel;
-use App\Filament\Resources\ProductReviewResource;
-use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
-use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
-use App\Filament\Resources\RedemptionResource;
-use App\Modifiers\ShippingModifier;
+use Lunar\Facades\Payments;
 use App\Payments\NgeniusPayment;
+use Lunar\Base\ShippingModifiers;
+use Lunar\Shipping\ShippingPlugin;
+use App\Modifiers\ShippingModifier;
 use Illuminate\Support\ServiceProvider;
+use App\Filament\Resources\PageResource;
+use Lunar\Admin\Support\Facades\LunarPanel;
+use App\Filament\Resources\RedemptionResource;
+use Lunar\Validation\CartLine\CartLineQuantity;
+use App\Filament\Resources\ProductReviewResource;
+use App\Validation\CartLine\CustomCartLineQuantity;
 use Lunar\Admin\Filament\Resources\DiscountResource;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
-use Lunar\Base\ShippingModifiers;
-use Lunar\Facades\Payments;
-use Lunar\Models\CartLine;
-use Lunar\Shipping\ShippingPlugin;
+use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
+use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -73,5 +75,8 @@ class AppServiceProvider extends ServiceProvider
                     ->delete();
             }
         });
+
+        //replace CartLineQuantity with CustomCartLineQuantity
+        $this->app->bind(CartLineQuantity::class, CustomCartLineQuantity::class);
     }
 }
