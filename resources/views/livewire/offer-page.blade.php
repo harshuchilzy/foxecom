@@ -47,10 +47,10 @@
     */
 
     // New logic: use lunar_discountables and lunar_urls directly
-    $productId = DB::table('lunar_discountables')
+    $productId = DB::table('lunar_discount_purchasables')
             ->where('discount_id', $id)
-            ->where('discountable_type', 'product')
-            ->value('discountable_id');
+            ->where('purchasable_type', 'product')
+            ->value('purchasable_id');
 
     $productUrl = null;
 

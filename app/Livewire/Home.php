@@ -70,10 +70,10 @@ class Home extends Component
             })
             ->get();
 
-        $discountProductIds = \DB::table('lunar_discountables')
+        $discountProductIds = \DB::table('lunar_discount_purchasables')
             ->whereIn('discount_id', $discounts->pluck('id'))
-            ->where('discountable_type', 'product')
-            ->pluck('discountable_id')
+            ->where('purchasable_type', 'product')
+            ->pluck('purchasable_id')
             ->unique();
 
         $products = \Lunar\Models\Product::whereIn('id', $discountProductIds)
@@ -90,10 +90,10 @@ class Home extends Component
             ->groupBy('model_id');
 
         $discounts->transform(function ($discount) use ($products, $brandMedia) {
-            $productIds = \DB::table('lunar_discountables')
+            $productIds = \DB::table('lunar_discount_purchasables')
                 ->where('discount_id', $discount->id)
-                ->where('discountable_type', 'product')
-                ->pluck('discountable_id');
+                ->where('purchasable_type', 'product')
+                ->pluck('purchasable_id');
 
             $discountProducts = $products->only($productIds->toArray());
 
