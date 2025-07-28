@@ -388,6 +388,11 @@ class ProductPage extends Component
             return;
         }
 
+        if ($this->getSumOfSelectedToggles() < $this->maxQuantityIncrement) {
+            $this->addError('bulk-popup-error', "Please select {$this->maxQuantityIncrement} variant(s).");
+            return;
+        }
+
         $linesToAdd = [];
         $hasError = false;
 
