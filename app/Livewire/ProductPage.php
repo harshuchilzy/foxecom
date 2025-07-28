@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Lunar\Models\Cart;
 use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Models\Channel;
@@ -380,6 +381,7 @@ class ProductPage extends Component
 
     public function addSelectedToCart()
     {
+
         $validatedData = $this->validate([
             'quantities.*' => 'required|numeric|min:1',
             'toggles.*' => 'nullable|boolean',
@@ -429,6 +431,7 @@ class ProductPage extends Component
             return;
         }
 
+
         // Add all selected items to cart
         foreach ($linesToAdd as $line) {
             $existing = CartSession::lines()
@@ -436,15 +439,13 @@ class ProductPage extends Component
                 ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
 
             if ($existing) {
-                 Log::info('existing');
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
                     'quantity' => $existing->quantity + $line['quantity']
                 ]]));
             } else {
-                Log::info('not existing');
                 CartSession::manager()->add(
-                    $line['purchasable'],
+                    $line['purchasable'], 
                     $line['quantity']
                 );
             }

@@ -300,7 +300,7 @@
                 </div>
 
                 {{--                Shipping--}}
-                @if ($this->shippingOption)
+                {{-- @if ($this->shippingOption)
                     <div class="py-2 flex justify-between items-center">
                         <h3 class="text-[16px] font-normal text-[#111111]">
                             {{ $this->shippingOption->getDescription() }}
@@ -309,7 +309,7 @@
                             {{ $this->shippingOption->getPrice()->formatted() }}
                         </p>
                     </div>
-                @endif
+                @endif --}}
 
                     @if ($this->shippingOption)
                         <div class="py-2 flex justify-between items-center">

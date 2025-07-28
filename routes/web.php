@@ -1,26 +1,26 @@
 <?php
 
-use App\Http\Controllers\CheckoutController;
+use App\Models\User;
 use App\Livewire\Home;
+use Lunar\Models\Order;
+use App\Livewire\CartPage;
+use App\Livewire\OfferPage;
 use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
 use Illuminate\Http\Request;
 use App\Livewire\AddressPage;
-use App\Livewire\CartPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\OfferPage;
 use App\Mail\CustomerNewOrderMail;
 use App\Mail\CustomerWelcomeMail;
-use App\Models\Order;
-use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Lunar\Models\Order as ModelsOrder;
+use App\Http\Controllers\CheckoutController;
 
 require __DIR__ . '/auth.php';
 

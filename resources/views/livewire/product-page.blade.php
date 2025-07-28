@@ -261,8 +261,8 @@
             </div>
 
             <div class="w-full md:w-1/2">
-                <div class="flex lg:justify-start md:justify-between items-center mt-3 mb-1 flex-wrap pl-3 lg:pl-0">
-                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter text-center lg:text-left">{{$this->product->translateAttribute('name')}}</h1>
+                <div class="flex lg:justify-left md:justify-between items-center mt-3 mb-1 flex-wrap pl-3 lg:pl-0">
+                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter lg:text-center md:text-left">{{$this->product->translateAttribute('name')}}</h1>
                     <button class="hidden">
                         <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -516,95 +516,116 @@
 
                             <!-- Modal -->
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
-                                <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl mx-4 p-6 relative max-h-[90vh] overflow-auto" @click.away="showModal = false">
-                                    <!-- Close Button -->
-                                    <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-200 text-2xl font-bold cursor-pointer">&times;</button>
+                                <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false">
+                                    <div class="sticky top-0 left-0 w-full bg-white z-20 pt-6 pb-2 border-b rounded-tr-2xl rounded-tl-2xl">
+                                        <!-- Close Button -->
+                                        <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold cursor-pointer z-50">&times;</button>
 
-                                    <!-- Product Name -->
-                                    <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
-                                        {{ $this->product->translateAttribute('name') }}
-                                    </h2>
-                                    @php
-                                        $selectedItems = $this->getSumOfSelectedToggles();
-                                    @endphp
-                                    <p class="font-medium text-center">
-                                        You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items.
-                                        @if ($this->rewardItems)
-                                            <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">Including {{ sprintf('%02d', $this->rewardItems) }} FREE item(s)</span>
-                                        @endif
-                                    </p>
-                                    <div class="border-b-2 border-gray-300 mb-4 text-center pb-2">
-                                        <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
-                                    </div>
-
-
-                                    <!-- Product Boxes -->
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                                        @foreach($this->loadVariations() as $index => $variant)
-
-                                            <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}) }"
-                                                :class="isSelected ? 'border-blue-600' : 'border-gray-300'"
-                                                class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200">
-                                                <img
-                                                    src="{{ $variant['image_url'] }}"
-                                                    alt=""
-                                                    class="w-32 min-w-32 h-32 min-h-32 object-cover rounded"
-                                                >
-
-                                                <div class="flex flex-col justify-between w-full h-full">
-                                                    <div class="md:text-left text-center">
-                                                        <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
-                                                        <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
-                                                            <span class="text-[#1275EE] text-lg font-semibold">
-                                                                {{ $variant['price'] }} + VAT
-                                                            </span>
-                                                            <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
-                                                                <button type="button"
-                                                                        class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                        wire:click="decrementQuantity({{ $variant['id'] }})">-
-                                                                </button>
-                                                                <input type="number"
-                                                                    min="1"
-                                                                    wire:model.live="quantities.{{ $variant['id'] }}"
-                                                                    class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
-                                                                <button type="button"
-                                                                        class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                        wire:click="incrementQuantity({{ $variant['id'] }})">+
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="flex md:justify-end justify-center">
-                                                        <x-wui-toggle
-                                                            id="toggle_{{ $variant['id'] }}"
-                                                            wire:model.live="toggles.{{ $variant['id'] }}"
-                                                            info xl />
-                                                    </div>
+                                        <!-- Product Name -->
+                                        <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
+                                            {{ $this->product->translateAttribute('name') }}
+                                        </h2>
+                                        @php
+                                            $selectedItems = $this->getSumOfSelectedToggles();
+                                        @endphp
+                                        <div class="lg:flex w-full gap-2 items-center">
+                                            <div class="lg:w-2/3 w-full px-4">
+                                                <p class="font-medium lg:text-left text-center">
+                                                    You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items.
+                                                    @if ($this->rewardItems)
+                                                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">Including {{ sprintf('%02d', $this->rewardItems) }} FREE item(s)</span>
+                                                    @endif
+                                                </p>
+                                                <div class="lg:text-left text-center pb-2">
+                                                    <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
                                                 </div>
                                             </div>
-                                        @endforeach
+                                            @php
+                                                $addToCartDisabled = $this->getSumOfSelectedToggles() < $this->maxQuantityIncrement;
+                                            @endphp
+
+                                            <!-- Add to Cart Button -->
+                                            <div class="text-center lg:w-1/3 w-full px-4">
+                                                <button type="button"
+                                                        class="bg-[#282828] px-[24px] py-2 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 font-inter"
+                                                        wire:click="addSelectedToCart"
+                                                        @disabled($addToCartDisabled)
+                                                        :class="{
+                                                            'opacity-50 cursor-not-allowed': @js($addToCartDisabled),
+                                                            'hover:bg-[#383838] cursor-pointer': !@js($addToCartDisabled)
+                                                        }">
+                                                    <span wire:loading.remove>Add to Cart</span>
+                                                    <span wire:loading>Adding...</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                         @if ($errors->has('bulk-popup-error'))
+                                            <div class="p-2 mt-2 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                                                role="alert">
+                                                @foreach ($errors->get('bulk-popup-error') as $error)
+                                                    {{ $error }}
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
 
-                                    @if ($errors->has('bulk-popup-error'))
-                                        <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
-                                            role="alert">
-                                            @foreach ($errors->get('bulk-popup-error') as $error)
-                                                {{ $error }}
+                                    <div class="max-h-[75vh] overflow-auto p-6 pt-4">
+                                        <!-- Product Boxes -->
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            @foreach($this->loadVariations() as $index => $variant)
+                                                @php
+                                                    $maxSelected = $this->maxQuantityIncrement; 
+                                                    $isDisabled = count(array_filter($toggles)) >= $maxSelected && !$toggles[$variant['id']];
+                                                @endphp
+                                                
+                                                <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
+                                                    :class="{
+                                                        'border-blue-600': isSelected,
+                                                    }"
+                                                    class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
+                                                    <img
+                                                        src="{{ $variant['image_url'] }}"
+                                                        alt=""
+                                                        class="w-32 min-w-32 h-32 min-h-32 object-cover rounded"
+                                                    >
+
+                                                    <div class="flex flex-col justify-between w-full h-full">
+                                                        <div class="md:text-left text-center">
+                                                            <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
+                                                            <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
+                                                                <span class="text-[#1275EE] text-lg font-semibold">
+                                                                    {{ $variant['price'] }} + VAT
+                                                                </span>
+                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
+                                                                    <button type="button"
+                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                                            wire:click="decrementQuantity({{ $variant['id'] }})">-
+                                                                    </button>
+                                                                    <input type="number"
+                                                                        min="1"
+                                                                        wire:model.live="quantities.{{ $variant['id'] }}"
+                                                                        class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
+                                                                    <button type="button"
+                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                                            wire:click="incrementQuantity({{ $variant['id'] }})">+
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="flex md:justify-end justify-center">
+                                                            <x-wui-toggle
+                                                                id="toggle_{{ $variant['id'] }}"
+                                                                wire:model.live="toggles.{{ $variant['id'] }}"
+                                                                :disabled="$isDisabled && !$toggles[$variant['id']]"
+                                                                info xl />
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         </div>
-                                    @endif
 
-                                    <!-- Add to Cart Button -->
-                                    <div class="mt-6 text-center">
-                                        <button type="button"
-                                                class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter"
-                                                wire:click="addSelectedToCart"
-                                                wire:loading.attr="disabled">
-                                            <span wire:loading.remove>Add to Cart</span>
-                                            <span wire:loading>Adding...</span>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
