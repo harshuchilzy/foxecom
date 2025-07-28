@@ -450,6 +450,23 @@ class ProductPage extends Component
             }
         }
 
+        $discount = Discount::find($this->discountId);
+
+        if (!$discount) {
+            abort(404, 'Discount not found.');
+        }
+
+        $cart = \Lunar\Facades\CartSession::current();
+        if(!$cart){
+            $cart = \Lunar\Models\Cart::create([
+                'currency_id' => Currency::getDefault()->id,
+                'channel_id' => Channel::getDefault()->id,
+            ]);
+        }
+        $cart->coupon_code = $discount->coupon;
+        $cart->calculate();
+        $cart->save();
+
         $this->dispatch('add-to-cart');
         $this->dispatch('cart-updated');
         $this->showBulkAddToCartPopup = false;

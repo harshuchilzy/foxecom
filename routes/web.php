@@ -14,9 +14,12 @@ use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\OfferPage;
+use App\Mail\CustomerNewOrderMail;
+use App\Mail\CustomerWelcomeMail;
 use App\Models\Order;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
 use Lunar\Models\Order as ModelsOrder;
 
 require __DIR__ . '/auth.php';
@@ -179,6 +182,10 @@ Route::get('/api/cities/search', function () {
         ->toArray();
 })->name('api.cities.search');
 
+Route::get('unsubscribe', function(){
+    return redirect()->route('home');
+})->name('unsubscribe');
+
 Route::middleware('auth')
     ->prefix('checkout')
     ->as('checkout.')
@@ -192,10 +199,14 @@ Route::middleware('auth')
         // $user = User::find();
         // phpinfo();
         echo 'OK';
-        $record = ModelsOrder::find(3);
-        return response()->streamDownload(function () use ($record) {
-            echo Pdf::loadView('lunarpanel::pdf.order', [
-                'record' => $record,
-            ])->stream();
-        }, name: "Order-{$record->reference}.pdf");
+        $order = Lunar\Models\Order::find(3);
+;
+            Mail::to('testreceiver@gmail.com')->send(new CustomerNewOrderMail($order));
+
+        // $record = ModelsOrder::find(3);
+        // return response()->streamDownload(function () use ($record) {
+        //     echo Pdf::loadView('lunarpanel::pdf.order', [
+        //         'record' => $record,
+        //     ])->stream();
+        // }, name: "Order-{$record->reference}.pdf");
     });

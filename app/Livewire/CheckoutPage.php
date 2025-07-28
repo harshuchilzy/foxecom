@@ -356,6 +356,9 @@ class CheckoutPage extends Component
 
         $this->cart->user->attach($this->cart->discounts);
 
+        // Order Success Mail
+        // Mail::to($this->cart->user->email);
+
         if ($payment->success) {
             return redirect()->route('checkout-success.view');
         }
