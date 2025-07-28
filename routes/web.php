@@ -84,7 +84,7 @@ Route::get('/collections/{slug}', CollectionPage::class)->middleware('auth')->na
 
 Route::get('products', ProductsPage::class)->name('products.index');
 
-Route::get('/products/{slug}', ProductPage::class)->middleware('auth')->name('product.view');
+Route::get('/products/{slug}', ProductPage::class)->name('product.view');
 
 Route::get('search', SearchPage::class)->name('search.view');
 

@@ -79,7 +79,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <x-auth-header :title="__('Sign Up')"
         :description="__('Helping retailers grow with fast access to high-demand products.')" /> --}}
 
-    <h2 class="text-center text-3xl font-semibold mt-6">{{__('Sign Up')}}</h2>
+    <h2 class="text-center text-3xl font-semibold mt-6">{{__('Login')}}</h2>
     <p class="text-gray-600 text-center">{{__('Helping retailers grow with fast access to high-demand products.')}}</p>
 
     <!-- Session Status -->
