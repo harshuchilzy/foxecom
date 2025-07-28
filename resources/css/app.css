@@ -108,3 +108,13 @@ input::-webkit-inner-spin-button {
 .swiper-slide-next .swiper-slider-claim-progress {
     display: block;
 }
+
+.mySecondSwiper .swiper-wrapper .swiper-slide a {
+    width: 350px !important;
+    display: block;
+}
+
+.swiper-backface-hidden .swiper-slide {
+    margin-right: 100px !important;
+}
+
