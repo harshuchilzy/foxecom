@@ -518,7 +518,7 @@
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
                                 <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl mx-4 p-6 relative max-h-[90vh] overflow-auto" @click.away="showModal = false">
                                     <!-- Close Button -->
-                                    <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-200 text-2xl font-bold">&times;</button>
+                                    <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-200 text-2xl font-bold cursor-pointer">&times;</button>
 
                                     <!-- Product Name -->
                                     <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
@@ -530,7 +530,7 @@
                                     <p class="font-medium text-center">
                                         You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items.
                                         @if ($this->rewardItems)
-                                            <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md">{{ sprintf('%02d', $this->rewardItems) }} FREE</span>
+                                            <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">Including {{ sprintf('%02d', $this->rewardItems) }} FREE item(s)</span>
                                         @endif
                                     </p>
                                     <div class="border-b-2 border-gray-300 mb-4 text-center pb-2">
@@ -611,6 +611,7 @@
                         </div>
                     @endif
 
+                   
                     {{-- discount name --}}
                     @if ($discountId)
                         @php
@@ -619,37 +620,7 @@
                         @endphp
                         @if ($matchedDiscount)
                             <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
-                                 class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center">
-                                @php
-                                    $name = $matchedDiscount->name;
-                                    $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
-                                @endphp
-
-                                @if(count($parts) === 3)
-                                    <p class="text-[16px] font-normal text-white font-inter">
-                                        {{ trim($parts[0]) }}
-                                    </p>
-                                    <p class="text-[16px] font-bold text-white font-inter">
-                                        {{ 'Get' . trim($parts[2]) }}
-                                    </p>
-                                @else
-                                    <p class="text-[16px] font-normal text-white font-inter">
-                                        {{ $name }}
-                                    </p>
-                                @endif
-                            </div>
-                        @endif
-                    @endif
-
-                    {{-- discount name --}}
-                    @if ($discountId)
-                        @php
-                            $matchedDiscount = \Lunar\Models\Discount::find($discountId);
-                            $discountParts = explode(' ', $matchedDiscount?->name, 3); // Basic splitting
-                        @endphp
-                        @if ($matchedDiscount)
-                            <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
-                                 class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center">
+                                 class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center md:hidden">
                                 @php
                                     $name = $matchedDiscount->name;
                                     $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
@@ -908,9 +879,5 @@
         print_r($this->loadVariations());
         echo '</pre>';
     @endphp --}}
-
-    
-
-
 
 </section>
