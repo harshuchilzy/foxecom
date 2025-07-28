@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\CustomerNewOrderMail;
 use Lunar\Models\Cart;
 use Livewire\Component;
 use Illuminate\View\View;
@@ -13,6 +14,7 @@ use Lunar\Facades\CartSession;
 use WireUi\Traits\WireUiActions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Lunar\Facades\ShippingManifest;
 
 class CheckoutPage extends Component
@@ -359,7 +361,9 @@ class CheckoutPage extends Component
         // Order Success Mail
         // Mail::to($this->cart->user->email);
 
+
         if ($payment->success) {
+            Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
             return redirect()->route('checkout-success.view');
         }
 
