@@ -261,8 +261,8 @@
             </div>
 
             <div class="w-full md:w-1/2">
-                <div class="flex lg:justify-center md:justify-between items-center mt-3 mb-1 flex-wrap pl-3 lg:pl-0">
-                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter lg:text-center md:text-left">{{$this->product->translateAttribute('name')}}</h1>
+                <div class="flex lg:justify-start md:justify-between items-center mt-3 mb-1 flex-wrap pl-3 lg:pl-0">
+                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter text-center lg:text-left">{{$this->product->translateAttribute('name')}}</h1>
                     <button class="hidden">
                         <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -611,7 +611,7 @@
                         </div>
                     @endif
 
-                   
+
                     {{-- discount name --}}
                     @if ($discountId)
                         @php
