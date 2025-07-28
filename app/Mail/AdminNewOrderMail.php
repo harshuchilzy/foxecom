@@ -9,16 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AdminNewOrderMail extends Mailable
+class AdminNewOrderMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public $order)
     {
-        //
+        $this->afterCommit();
     }
 
     /**
@@ -37,7 +37,7 @@ class AdminNewOrderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.admin.new-order',
         );
     }
 

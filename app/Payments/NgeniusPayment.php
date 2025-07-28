@@ -2,6 +2,10 @@
 
 namespace App\Payments;
 
+use App\Mail\AdminNewOrderMail;
+use App\Mail\CustomerNewOrderMail;
+use Illuminate\Support\Facades\Mail;
+use Lunar\Admin\Models\Staff;
 use Lunar\Base\DataTransferObjects\PaymentCapture;
 use Lunar\Base\DataTransferObjects\PaymentRefund;
 use Lunar\Base\DataTransferObjects\PaymentAuthorize;
@@ -62,7 +66,7 @@ class NgeniusPayment extends AbstractPayment
                     'action' => 'SALE',
                     'amount' => [
                         'currencyCode' => 'AED',
-                        'value' => (int) round($totalPrice->value * 100),
+                        'value' => (int)round($totalPrice->value * 100),
                     ],
                 ],
             ]
@@ -70,7 +74,7 @@ class NgeniusPayment extends AbstractPayment
 
         Log::info($paymentRes->getBody());
 
-        return json_decode((string) $paymentRes->getBody(), true);
+        return json_decode((string)$paymentRes->getBody(), true);
     }
 
     public function authorize(): PaymentAuthorize
@@ -118,12 +122,12 @@ class NgeniusPayment extends AbstractPayment
         $this->order->save();
 
         if ($user = auth()->user()) {
-            $raw     = $this->order->discount_breakdown;
+            $raw = $this->order->discount_breakdown;
             $entries = is_string($raw) ? json_decode($raw) : $raw;
 
             foreach ($entries as $entry) {
                 $discountId = $entry->discount_id ?? null;
-                if (! $discountId) {
+                if (!$discountId) {
                     continue;
                 }
 
@@ -136,22 +140,28 @@ class NgeniusPayment extends AbstractPayment
                     continue;
                 }
 
-                $discount   = Discount::find($discountId);
-                $rewardQty  = data_get($discount->data, 'reward_qty', 1);
+                $discount = Discount::find($discountId);
+                $rewardQty = data_get($discount->data, 'reward_qty', 1);
 
-                $timesUsed = (int) floor($freeQty / max(1, $rewardQty));
+                $timesUsed = (int)floor($freeQty / max(1, $rewardQty));
 
                 for ($i = 0; $i < $timesUsed; $i++) {
                     DB::table('lunar_discount_user')->insert([
-                        'user_id'     => $user->id,
+                        'user_id' => $user->id,
                         'discount_id' => $discountId,
-                        'created_at'  => now(),
-                        'updated_at'  => now(),
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ]);
                 }
             }
         }
 
+        Mail::to(auth()->user())->send(new CustomerNewOrderMail($this->order));
+
+        $admins = Staff::get();
+        foreach ($admins as $admin) {
+            Mail::to($admin)->send(new AdminNewOrderMail($this->order));
+        }
 
         return new PaymentCapture(
             success: true,
