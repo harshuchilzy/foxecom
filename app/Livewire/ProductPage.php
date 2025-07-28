@@ -381,15 +381,6 @@ class ProductPage extends Component
 
     public function addSelectedToCart()
     {
-        if (!$this->discountId) {
-            abort(400, 'No discount provided.');
-        }
-
-        $discount = Discount::find($this->discountId);
-
-        if (!$discount) {
-            abort(404, 'Discount not found.');
-        }
 
         $validatedData = $this->validate([
             'quantities.*' => 'required|numeric|min:1',
@@ -440,20 +431,6 @@ class ProductPage extends Component
             return;
         }
 
-        $cart = CartSession::current();
-        if(!$cart){
-            $cart = Cart::create([
-                'currency_id' => Currency::getDefault()->id,
-                'channel_id' => Channel::getDefault()->id,
-            ]);
-        }
-        $cart->coupon_code = $discount->coupon;
-
-        $cart->calculate();
-
-        $cart->save();
-
-        session(['active_discount_id' => $this->discountId]);
 
         // Add all selected items to cart
         foreach ($linesToAdd as $line) {
@@ -464,18 +441,12 @@ class ProductPage extends Component
             if ($existing) {
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
-                    'quantity' => $existing->quantity + $line['quantity'],
-                    [
-                        'applied_discount_id' => $this->discountId,
-                    ]
+                    'quantity' => $existing->quantity + $line['quantity']
                 ]]));
             } else {
                 CartSession::manager()->add(
                     $line['purchasable'], 
-                    $line['quantity'], 
-                    [
-                        'applied_discount_id' => $this->discountId,
-                    ]
+                    $line['quantity']
                 );
             }
         }
