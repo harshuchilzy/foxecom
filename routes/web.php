@@ -12,14 +12,12 @@ use App\Livewire\AddressPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\OfferPage;
-use App\Models\Order;
-use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Lunar\Models\Order as ModelsOrder;
+use App\Http\Controllers\CheckoutController;
 
 require __DIR__ . '/auth.php';
 
@@ -190,14 +188,14 @@ Route::middleware('auth')
         Route::post('complete', 'complete')->name('complete');
     });
 
-    Route::get('temp', function(){
-        // $user = User::find();
-        // phpinfo();
-        echo 'OK';
-        $record = ModelsOrder::find(3);
-        return response()->streamDownload(function () use ($record) {
-            echo Pdf::loadView('lunarpanel::pdf.order', [
-                'record' => $record,
-            ])->stream();
-        }, name: "Order-{$record->reference}.pdf");
-    });
+Route::get('temp', function(){
+    // $user = User::find();
+    // phpinfo();
+    echo 'OK';
+    $record = ModelsOrder::find(3);
+    return response()->streamDownload(function () use ($record) {
+        echo Pdf::loadView('lunarpanel::pdf.order', [
+            'record' => $record,
+        ])->stream();
+    }, name: "Order-{$record->reference}.pdf");
+});

@@ -540,13 +540,20 @@
                                                     <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
                                                 </div>
                                             </div>
+                                            @php
+                                                $addToCartDisabled = $this->getSumOfSelectedToggles() < $this->maxQuantityIncrement;
+                                            @endphp
 
                                             <!-- Add to Cart Button -->
                                             <div class="text-center lg:w-1/3 w-full px-4">
                                                 <button type="button"
-                                                        class="bg-[#282828] px-[24px] py-2 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter"
+                                                        class="bg-[#282828] px-[24px] py-2 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 font-inter"
                                                         wire:click="addSelectedToCart"
-                                                        wire:loading.attr="disabled">
+                                                        @disabled($addToCartDisabled)
+                                                        :class="{
+                                                            'opacity-50 cursor-not-allowed': @js($addToCartDisabled),
+                                                            'hover:bg-[#383838] cursor-pointer': !@js($addToCartDisabled)
+                                                        }">
                                                     <span wire:loading.remove>Add to Cart</span>
                                                     <span wire:loading>Adding...</span>
                                                 </button>
@@ -564,15 +571,19 @@
                                     </div>
 
                                     <div class="max-h-[75vh] overflow-auto p-6 pt-4">
-                                        
                                         <!-- Product Boxes -->
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                                             @foreach($this->loadVariations() as $index => $variant)
-
-                                                <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}) }"
-                                                    :class="isSelected ? 'border-blue-600' : 'border-gray-300'"
-                                                    class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200">
+                                                @php
+                                                    $maxSelected = $this->maxQuantityIncrement; 
+                                                    $isDisabled = count(array_filter($toggles)) >= $maxSelected && !$toggles[$variant['id']];
+                                                @endphp
+                                                
+                                                <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
+                                                    :class="{
+                                                        'border-blue-600': isSelected,
+                                                    }"
+                                                    class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
                                                     <img
                                                         src="{{ $variant['image_url'] }}"
                                                         alt=""
@@ -607,6 +618,7 @@
                                                             <x-wui-toggle
                                                                 id="toggle_{{ $variant['id'] }}"
                                                                 wire:model.live="toggles.{{ $variant['id'] }}"
+                                                                :disabled="$isDisabled && !$toggles[$variant['id']]"
                                                                 info xl />
                                                         </div>
                                                     </div>
