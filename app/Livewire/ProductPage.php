@@ -337,7 +337,9 @@ class ProductPage extends Component
             if ($discount && $discountType == 'BuyXGetY') {
                 if (isset($discount->data['min_qty']) && isset($discount->data['reward_qty'])) {
                     $this->rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
-                    $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
+                    if (is_int($this->rewardItems)) {
+                        $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
+                    }
                 }
             }
         }
