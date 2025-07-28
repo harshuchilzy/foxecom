@@ -15,8 +15,11 @@ use App\Livewire\ProductsPage;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\CheckoutController;
+use App\Livewire\OfferPage;
+use App\Models\Order;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Lunar\Models\Order as ModelsOrder;
 
 require __DIR__ . '/auth.php';
 
@@ -86,7 +89,7 @@ Route::get('/collections/{slug}', CollectionPage::class)->middleware('auth')->na
 
 Route::get('products', ProductsPage::class)->name('products.index');
 
-Route::get('/products/{slug}', ProductPage::class)->middleware('auth')->name('product.view');
+Route::get('/products/{slug}', ProductPage::class)->name('product.view');
 
 Route::get('search', SearchPage::class)->name('search.view');
 
@@ -189,12 +192,12 @@ Route::middleware('auth')
 
     Route::get('temp', function(){
         // $user = User::find();
-        phpinfo();
+        // phpinfo();
+        echo 'OK';
+        $record = ModelsOrder::find(3);
+        return response()->streamDownload(function () use ($record) {
+            echo Pdf::loadView('lunarpanel::pdf.order', [
+                'record' => $record,
+            ])->stream();
+        }, name: "Order-{$record->reference}.pdf");
     });
-
-// Route::get('/order/{order}/invoice/download', function(Order $order) {
-// return response()->download(
-//     Storage::path("invoices/invoice-{$order->reference}.pdf"),
-//     "invoice-{$order->reference}.pdf"
-// );
-// })->name('invoice.download');

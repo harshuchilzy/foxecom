@@ -11,10 +11,10 @@
                 </button>
             </form>
             @endif
-            
+
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
             <a href="{{route('redemptions')}}">
                 <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
                     <div class="">

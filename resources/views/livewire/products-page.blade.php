@@ -14,7 +14,7 @@
 
 
         <div class="swiper mySecondSwiper px-5 max-w-[1280px] relative mx-auto">
-            <div class="swiper-wrapper py-8 px-5 !h-[200px] lg:h-full">
+            <div class="swiper-wrapper py-8 px-5 !h-[200px] lg:!h-full">
                 @foreach ($this->collections as $collection)
                     <x-product-cards.category-card :collection="$collection" />
                 @endforeach

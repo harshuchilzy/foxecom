@@ -63,3 +63,12 @@ input.nobutton::-webkit-inner-spin-button {
     box-shadow: 0px 4px 12px 0px #0D0A2C0F;
 
 }
+
+.mySecondSwiper .swiper-wrapper .swiper-slide a {
+    width: 350px !important;
+    display: block;
+}
+
+.swiper-backface-hidden .swiper-slide {
+    margin-right: 100px !important;
+}

@@ -620,7 +620,7 @@
                         </div>
                     @endif
 
-                   
+
                     {{-- discount name --}}
                     @if ($discountId)
                         @php
