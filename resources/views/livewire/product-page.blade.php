@@ -88,7 +88,7 @@
 </section> --}}
 
 <section>
-    <div class="relative bg-white md:hidden">
+    <div class="relative bg-white md:hidden mx-3">
         <div x-data="{
                 images: [
                     @if(!empty($this->images) && count($this->images) > 0)
@@ -131,8 +131,7 @@
                     this.currentIndex = index;
                 }
             }"
-             class="flex gap-4 lg:gap-5 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row bg-[#0B0E2D] pb-8"
-             style="border-bottom-left-radius: 100% 25%; border-bottom-right-radius: 100% 25%;">
+             class="flex gap-4 lg:gap-5 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row pb-8">
 
             <div class="flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[25%] hidden">
                 <template x-for="(img, index) in images" :key="index">
@@ -144,7 +143,7 @@
                 </template>
                 {{-- <span x-text="images"></span> --}}
             </div>
-            <div class="lg:w-[75%] w-full relative">
+            <div class="lg:w-[75%] w-full relative p-5 lg:p-0 bg-[#F4F4F4] lg:bg-white rounded-[25px]">
                 <img class="m-auto md:w-full lg:w-[90%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]"
                      alt="">
                 <!-- Prev/Next Buttons -->
@@ -174,7 +173,7 @@
         </div>
     </div>
 
-    <div class="max-w-[1440px] mx-auto px-4 py-12">
+    <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
 
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
 
@@ -232,7 +231,7 @@
                     </template>
                     {{-- <span x-text="images"></span> --}}
                 </div>
-                <div class="lg:w-[75%] w-full relative">
+                <div class="lg:w-[75%] w-full relative p-5 lg:p-0 bg-[#F4F4F4] lg:bg-white rounded-[25px]">
                     <img class="m-auto md:w-full lg:w-[90%] h-[400px] lg:h-auto object-contain"
                          :src="images[currentIndex]" alt="">
                     <!-- Prev/Next Buttons -->
@@ -262,8 +261,8 @@
             </div>
 
             <div class="w-full md:w-1/2">
-                <div class="flex justify-center md:justify-between items-center mt-3 mb-1 flex-wrap">
-                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter text-center md:text-left">{{$this->product->translateAttribute('name')}}</h1>
+                <div class="flex lg:justify-center md:justify-between items-center mt-3 mb-1 flex-wrap pl-3 lg:pl-0">
+                    <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter lg:text-center md:text-left">{{$this->product->translateAttribute('name')}}</h1>
                     <button class="hidden">
                         <svg class="group cursor-pointer" width="33" height="32" viewBox="0 0 33 32" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -274,7 +273,7 @@
                     </button>
                 </div>
 
-                <div class="md:hidden flex items-center justify-between px-4">
+                <div class="md:hidden flex items-center justify-between px-3 lg:px-4">
                     <x-product-price class="font-medium flex justify-between items-center" :variant="$this->variant"/>
                     <div class="flex items-center gap-2 flex-wrap">
                         <div class="flex items-center">
@@ -316,9 +315,9 @@
                 <div class="md:hidden flex w-full">
                     <div id="short-description-accordion-flush" data-accordion="collapse"
                          data-active-classes="bg-white text-gray-900 w-full"
-                         data-inactive-classes="text-gray-500 w-full">
+                         data-inactive-classes="text-gray-500 w-full" class="w-full px-5 py-3 my-3 rounded-[8px] [box-shadow:0px_4px_14px_0px_#0000001A]">
                         <h2 id="short-description-accordion-flush-heading-1 w-full">
-                            <button type="button" class="flex mb-3 items-center justify-between !w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3" data-accordion-target="#short-description-accordion" aria-expanded="true" aria-controls="short-description-accordion">
+                            <button type="button" class="flex lg:mb-3 items-center justify-between !w-full py-1 lg:py-5 font-medium rtl:text-right text-gray-500 lg:border-b border-gray-200 gap-3" data-accordion-target="#short-description-accordion" aria-expanded="true" aria-controls="short-description-accordion">
                             <span>Descripion</span>
                             <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -341,7 +340,7 @@
                         @else
                             <p class="text-[16px] font-semibold text-[#1275EE]">Register to see the price</p>
                         @endif
-                        
+
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
                         <div class="flex items-center">
@@ -451,7 +450,7 @@
                                 @if (auth()->check())
                                     <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
                                 @endif
-                                
+
                             </div>
                         @else
                             <fieldset>
@@ -500,9 +499,9 @@
                         <div class="md:max-w-[90%] mt-5">
                             {{-- <form wire:submit.prevent="claimOffer">
                                 <button
-                                    class="bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
+                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[12px] lg:py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
                                     Claim Offer Now
-                                </button> 
+                                </button>
                              </form> --}}
                         </div>
 
@@ -529,27 +528,27 @@
                                         $selectedItems = $this->getSumOfSelectedToggles();
                                     @endphp
                                     <p class="font-medium text-center">
-                                        You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items. 
+                                        You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items.
                                         @if ($this->rewardItems)
                                             <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md">{{ sprintf('%02d', $this->rewardItems) }} FREE</span>
                                         @endif
                                     </p>
                                     <div class="border-b-2 border-gray-300 mb-4 text-center pb-2">
                                         <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
-                                    </div>        
-                                    
+                                    </div>
+
 
                                     <!-- Product Boxes -->
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    
+
                                         @foreach($this->loadVariations() as $index => $variant)
 
                                             <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}) }"
                                                 :class="isSelected ? 'border-blue-600' : 'border-gray-300'"
                                                 class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200">
-                                                <img 
-                                                    src="{{ $variant['image_url'] }}" 
-                                                    alt="" 
+                                                <img
+                                                    src="{{ $variant['image_url'] }}"
+                                                    alt=""
                                                     class="w-32 min-w-32 h-32 min-h-32 object-cover rounded"
                                                 >
 
@@ -561,15 +560,15 @@
                                                                 {{ $variant['price'] }} + VAT
                                                             </span>
                                                             <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
-                                                                <button type="button" 
+                                                                <button type="button"
                                                                         class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
                                                                         wire:click="decrementQuantity({{ $variant['id'] }})">-
                                                                 </button>
-                                                                <input type="number" 
+                                                                <input type="number"
                                                                     min="1"
                                                                     wire:model.live="quantities.{{ $variant['id'] }}"
                                                                     class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
-                                                                <button type="button" 
+                                                                <button type="button"
                                                                         class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
                                                                         wire:click="incrementQuantity({{ $variant['id'] }})">+
                                                                 </button>
@@ -578,9 +577,9 @@
                                                     </div>
 
                                                     <div class="flex md:justify-end justify-center">
-                                                        <x-wui-toggle 
-                                                            id="toggle_{{ $variant['id'] }}" 
-                                                            wire:model.live="toggles.{{ $variant['id'] }}" 
+                                                        <x-wui-toggle
+                                                            id="toggle_{{ $variant['id'] }}"
+                                                            wire:model.live="toggles.{{ $variant['id'] }}"
                                                             info xl />
                                                     </div>
                                                 </div>
@@ -595,7 +594,7 @@
                                                 {{ $error }}
                                             @endforeach
                                         </div>
-                                    @endif 
+                                    @endif
 
                                     <!-- Add to Cart Button -->
                                     <div class="mt-6 text-center">
@@ -610,6 +609,66 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
+
+                    {{-- discount name --}}
+                    @if ($discountId)
+                        @php
+                            $matchedDiscount = \Lunar\Models\Discount::find($discountId);
+                            $discountParts = explode(' ', $matchedDiscount?->name, 3); // Basic splitting
+                        @endphp
+                        @if ($matchedDiscount)
+                            <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
+                                 class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center">
+                                @php
+                                    $name = $matchedDiscount->name;
+                                    $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
+                                @endphp
+
+                                @if(count($parts) === 3)
+                                    <p class="text-[16px] font-normal text-white font-inter">
+                                        {{ trim($parts[0]) }}
+                                    </p>
+                                    <p class="text-[16px] font-bold text-white font-inter">
+                                        {{ 'Get' . trim($parts[2]) }}
+                                    </p>
+                                @else
+                                    <p class="text-[16px] font-normal text-white font-inter">
+                                        {{ $name }}
+                                    </p>
+                                @endif
+                            </div>
+                        @endif
+                    @endif
+
+                    {{-- discount name --}}
+                    @if ($discountId)
+                        @php
+                            $matchedDiscount = \Lunar\Models\Discount::find($discountId);
+                            $discountParts = explode(' ', $matchedDiscount?->name, 3); // Basic splitting
+                        @endphp
+                        @if ($matchedDiscount)
+                            <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
+                                 class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center">
+                                @php
+                                    $name = $matchedDiscount->name;
+                                    $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
+                                @endphp
+
+                                @if(count($parts) === 3)
+                                    <p class="text-[16px] font-normal text-white font-inter">
+                                        {{ trim($parts[0]) }}
+                                    </p>
+                                    <p class="text-[16px] font-bold text-white font-inter">
+                                        {{ 'Get' . trim($parts[2]) }}
+                                    </p>
+                                @else
+                                    <p class="text-[16px] font-normal text-white font-inter">
+                                        {{ $name }}
+                                    </p>
+                                @endif
+                            </div>
+                        @endif
                     @endif
 
                     <div class="flex flex-col gap-3 mt-8">
@@ -732,7 +791,7 @@
 
 
     @if ($this->suggestedProducts->isNotEmpty())
-        <div class="max-w-[1440px] mx-auto px-4 py-12">
+        <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
             <div class="pb-5">
                 <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">
                     Retailers Also Claimed : </h2>
@@ -753,7 +812,7 @@
         </div>
     @endif
 
-    <div class="max-w-[1440px] mx-auto px-4 py-12">
+    <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
         <button @click="$wire.openReviewPopup()" class="bg-themeblue text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer font-inter font-bold">
             Write a Review
         </button>
@@ -790,28 +849,28 @@
                         <label class="block font-medium text-sm text-gray-700 mb-1">Rating</label>
                         <div class="flex items-center space-x-1">
                             @for($i = 1; $i <= 5; $i++)
-                                <button 
+                                <button
                                     type="button"
                                     wire:click="$set('reviewForm.rating', {{ $i }})"
                                     class="focus:outline-none cursor-pointer"
                                 >
-                                    <svg 
-                                        xmlns="http://www.w3.org/2000/svg" 
-                                        class="h-8 w-8 {{ $i <= $reviewForm['rating'] ? 'text-yellow-400 fill-current' : 'text-gray-300 fill-current' }}" 
-                                        viewBox="0 0 20 20" 
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-8 w-8 {{ $i <= $reviewForm['rating'] ? 'text-yellow-400 fill-current' : 'text-gray-300 fill-current' }}"
+                                        viewBox="0 0 20 20"
                                     >
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                     </svg>
                                 </button>
                             @endfor
                         </div>
-                        <input 
-                            type="hidden" 
-                            id="rating" 
-                            wire:model="reviewForm.rating" 
+                        <input
+                            type="hidden"
+                            id="rating"
+                            wire:model="reviewForm.rating"
                         >
-                        @error('reviewForm.rating') 
-                            <span class="text-red-600 text-sm">{{ $message }}</span> 
+                        @error('reviewForm.rating')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
@@ -850,8 +909,105 @@
         echo '</pre>';
     @endphp --}}
 
-    
+    <div x-data="{ showModal: @entangle('showBulkAddToCartPopup') }">
+        <!-- Trigger Button -->
+        <x-wui-button primary @click="showModal = true">
+            Open Product Popup
+        </x-wui-button>
 
-    
+        <!-- Modal -->
+        <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl mx-4 p-6 relative max-h-[90vh] overflow-auto" @click.away="showModal = false">
+                <!-- Close Button -->
+                <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-200 text-2xl font-bold">&times;</button>
+
+                <!-- Product Name -->
+                <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
+                    {{ $this->product->translateAttribute('name') }}
+                </h2>
+                @php
+                    $selectedItems = $this->getSumOfSelectedToggles();
+                @endphp
+                <p class="font-medium border-b-2 border-gray-300 mb-4 text-center pb-2">
+                    You can purchase up to
+                    <span class="font-semibold text-themeblue">
+                        {{ sprintf('%02d', $this->getLargestQuantityIncrement()) }}
+                    </span>
+                    items. <strong class="{{ $selectedItems > $this->getLargestQuantityIncrement() ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
+                </p>
+
+                <!-- Product Boxes -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    @foreach($this->loadVariations() as $index => $variant)
+
+                        <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}) }"
+                            :class="isSelected ? 'border-blue-600' : 'border-gray-300'"
+                            class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200">
+                            <img
+                                src="{{ $variant['image_url'] }}"
+                                alt=""
+                                class="w-32 min-w-32 h-32 min-h-32 object-cover rounded"
+                            >
+
+                            <div class="flex flex-col justify-between w-full h-full">
+                                <div class="text-left">
+                                    <div class="text-lg font-medium font-inter">{{ $this->product->translateAttribute('name') }}</div>
+                                    <div>
+                                        <span class="text-[#1275EE] text-[12px] md:text-lg font-semibold">
+                                            {{ $variant['price'] }} + VAT
+                                        </span>
+                                        <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
+                                            <button type="button"
+                                                    class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                    wire:click="decrementQuantity({{ $variant['id'] }})">-
+                                            </button>
+                                            <input type="number"
+                                                min="1"
+                                                wire:model.live="quantities.{{ $variant['id'] }}"
+                                                class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
+                                            <button type="button"
+                                                    class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                    wire:click="incrementQuantity({{ $variant['id'] }})">+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-end">
+                                    <x-wui-toggle
+                                        id="toggle_{{ $variant['id'] }}"
+                                        wire:model.live="toggles.{{ $variant['id'] }}"
+                                        info xl />
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                @if ($errors->has('bulk-popup-error'))
+                    <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                        role="alert">
+                        @foreach ($errors->get('bulk-popup-error') as $error)
+                            {{ $error }}
+                        @endforeach
+                    </div>
+                @endif
+
+                <!-- Add to Cart Button -->
+                <div class="mt-6 text-center">
+                    <button type="button"
+                            class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter"
+                            wire:click="addSelectedToCart"
+                            wire:loading.attr="disabled">
+                        <span wire:loading.remove>Add to Cart</span>
+                        <span wire:loading>Adding...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 </section>

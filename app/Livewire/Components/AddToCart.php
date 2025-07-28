@@ -39,19 +39,20 @@ class AddToCart extends Component
             return;
         }
 
-        // Look up any existing PAID line for this variant
+        $productVariantQuantityIncrement = $this->quantity * $this->purchasable?->quantity_increment;
+
         $existing = CartSession::lines()
             ->get()
-            ->first(fn ($l) => ($l->purchasable_id === $this->purchasable->id) && empty($l->meta['free']));
+            ->first(fn ($l) => $l->purchasable_id === $this->purchasable->id && empty($l->meta['free']));
 
         if ($existing) {
-            // If it exists, update the quantity
             CartSession::updateLines(collect([[
                 'id' => $existing->id,
                 'quantity' => $existing->quantity + $this->outer_box_qty
             ]]));
         } else {
-            CartSession::manager()->add($this->purchasable, $this->outer_box_qty);
+            // CartSession::manager()->add($this->purchasable, $this->outer_box_qty);
+            CartSession::manager()->add($this->purchasable, $productVariantQuantityIncrement);
         }
 
         $this->dispatch('add-to-cart');

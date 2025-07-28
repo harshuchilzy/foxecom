@@ -2,7 +2,7 @@
     <div class="w-full h-[320px] wholesale-hero-img bg-no-repeat"></div>
 
     <div class="bg-[#D9D9D97D] py-8">
-        <div class="">
+        <div class="max-w-[1280px] relative mx-auto">
             <h2 class="text-center text-[20px] lg:text-[28px]">
                 <span class="font-bold text-black">Wholesale Spotlight.</span>
                 <span class="font-semibold text-[#6E6E73] italic">Our best sellers</span>
@@ -10,7 +10,7 @@
         </div>
 
 
-        <div class="swiper mySecondSwiper px-5">
+        <div class="swiper mySecondSwiper px-5 max-w-[1280px] relative mx-auto">
             <div class="swiper-wrapper py-8 px-5">
 
                 @foreach ($collections as $collection)

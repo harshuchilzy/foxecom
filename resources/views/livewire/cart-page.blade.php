@@ -1,90 +1,157 @@
-<div class="max-w-[1440px] mx-auto px-5 py-12">
-    <div class="max-w-[1440px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-8 justify-center items-start">
+<div class="max-w-[1440px] mx-auto px-2 lg:px-5 py-6 lg:py-12">
+    <div class="max-w-[1440px] mx-auto px-2 lg:px-5 py-6 lg:py-12 flex flex-col lg:flex-row gap-8 justify-center items-start">
         <div class="w-full lg:w-2/3 flex flex-col gap-3">
-            <h2 class="text-[#000000] font-bold text-[28px]">Bag</h2>
+            <h2 class="text-[#000000] font-bold text-[28px] hidden lg:block">Bag</h2>
+            <h2 class="text-[#000000] font-bold text-[28px] block lg:hidden text-center">Cart</h2>
+            <div class="block lg:hidden absolute top-14 left-5">
+                <button onclick="window.history.back()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="black"/></svg>
+                </button>
+            </div>
             @if ($this->cart)
                 @if ($lines)
                     <div>
                         @foreach ($lines as $index => $line)
-                            <div class="flex flex-row gap-8 border-b border-[#D9D9D9] py-5">
+                            <div class="flex flex-row gap-8 border-b border-[#D9D9D9] py-5 relative">
                                 <div class="bg-[#D9D9D9] w-1/3 flex justify-center items-center">
                                     @if ($line['thumbnail'])
-                                        <img class="w-[60%] object-contain h-[200px]" src="{{ $line['thumbnail'] }}" alt="">
+                                        <img class="w-[60%] object-contain lg:h-[200px]" src="{{ $line['thumbnail'] }}" alt="">
                                     @else
-                                        <img class="w-[60%] object-contain h-[200px]" src="{{ asset('images/placeholder.jpg') }}" alt="">
+                                        <img class="w-[60%] object-contain lg:h-[200px]" src="{{ asset('images/placeholder.jpg') }}" alt="">
                                     @endif
                                 </div>
-                                <div class="w-2/3 flex flex-col gap-2 justify-between lg:min-h-[200px]">
+
+                                <div class="w-2/3 flex flex-col gap-2 justify-between">
                                     <div>
                                         <h3 class="font-bold text-[16px] text-black">{{ $line['description'] }}</h3>
-                                        <p class="font-normal text-[16px] text-black">{{ $line['identifier'] }} / {{
-                                $line['options'] }}</p>
+                                        <p class="font-normal text-[16px] text-black">
+                                            {{ $line['identifier'] }} / {{ $line['options'] }}
+                                        </p>
                                         <p class="font-normal text-[16px]">
                                             <span class="text-black">Availability:</span>
                                             <span class="text-[#249B3E]">In Stock</span>
                                         </p>
                                     </div>
 
-                                    <div class="flex justify-between">
-                                        <div class="flex flex-row gap-3 items-center mt-auto pb-3">
-                                            <p class="font-normal text-[16px] text-black">Quantity</p>
-                                            @if (empty($line['meta']['free']))
-                                                <div
-                                                    class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[30%]"
-                                                    x-data="{quantity_{{$index}}: $wire.entangle('lines.{{ $index }}.quantity')}">
-                                                    <button class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                            @click="quantity_{{$index}}--">-
-                                                    </button>
-                                                    <input type="number" value="1"
-                                                        class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"
-                                                        wire:model.live="lines.{{ $index }}.quantity"/>
-                                                    <button class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                            @click="quantity_{{$index}}++">+
-                                                    </button>
-                                                </div>
-                                            @else
-                                                <span
-                                                    class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md">
-                                                        {{ $line['quantity'] }} FREE
-                                                </span>
-                                            @endif
-                                        </div>
+                                    <div class="flex flex-row gap-3 items-center mt-auto pb-3">
+                                        <p class="font-normal text-[16px] text-black">Quantity</p>
 
                                         @if (empty($line['meta']['free']))
-                                            <button
-                                                class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-red-700 cursor-pointer"
-                                                type="button" wire:click="removeLine('{{ $line['id'] }}')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                                </svg>
-                                            </button>
+                                            <div
+                                                x-data="{
+                                                idx: @js($index),
+                                                qty: @js($line['quantity']),
+                                                step: Math.max(1, @js($line['quantity_increment'])),
+                                                init() {
+                                                    Livewire.on('cartUpdated', () => {
+                                                        if (! this.$el.isConnected) return;
+                                                        const fresh = $wire.lines?.[this.idx]?.quantity;
+                                                        if (typeof fresh === 'number') {
+                                                            this.qty = fresh;
+                                                        }
+                                                    });
+                                                },
+
+                                                sanitize() {
+                                                    let cleaned = String(this.qty).replace(/\D+/g, '');
+                                                    if (!cleaned || +cleaned < this.step) cleaned = this.step;
+                                                    this.qty = +cleaned;
+                                                    this.sync();
+                                                },
+
+                                                snap() {
+                                                    let snapped = Math.round(this.qty / this.step) * this.step;
+                                                    if (snapped < this.step) snapped = this.step;
+                                                    this.qty = snapped;
+                                                    this.sync();
+                                                },
+
+                                                increment() {
+                                                    this.qty += this.step;
+                                                    this.sync();
+                                                },
+
+                                                decrement() {
+                                                    if (this.qty - this.step >= this.step) {
+                                                        this.qty -= this.step;
+                                                        this.sync();
+                                                    }
+                                                },
+
+                                                sync() {
+                                                    $wire.set(`lines.${this.idx}.quantity`, this.qty);
+                                                }
+                                            }
+                                                "
+                                                class="border border-[#757575] rounded-[50px] flex flex-row items-center gap-2 px-1 py-1.5 w-[80%] lg:w-[30%]"
+                                            >
+                                                <button
+                                                    class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                    type="button"
+                                                    @click="decrement()"
+                                                    :disabled="qty <= step"
+                                                >−</button>
+
+                                                <input
+                                                    x-model.number="qty"
+                                                    x-on:input="sanitize()"
+                                                    x-on:blur="snap()"
+                                                    x-on:keydown.enter.prevent="snap()"
+                                                    type="number"
+                                                    :step="step"
+                                                    :min="step"
+                                                    inputmode="numeric"
+                                                    pattern="\d*"
+                                                    class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"
+                                                />
+
+                                                <button
+                                                    class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                    type="button"
+                                                    @click="increment()"
+                                                >＋</button>
+                                            </div>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md"
+                                            >
+                                                {{ $line['quantity'] }} FREE
+                                            </span>
                                         @endif
                                     </div>
+
+                                    @if (empty($line['meta']['free']))
+                                        <button
+                                            class="p-2 ml-auto text-gray-600 transition-colors rounded-lg hover:bg-gray-100 hover:text-red-700 cursor-pointer"
+                                            type="button"
+                                            wire:click="removeLine('{{ $line['id'] }}')"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
 
-                        <div>
-                            @if ($errors->has('cart-quantity'))
-                                <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
-                                    role="alert">
-                                    @foreach ($errors->get('cart-quantity') as $error)
-                                        {{ $error }}
-                                    @endforeach
-                                </div>
-                            @endif    
-                            <div class="mt-4 space-y-4 text-center float-end">
-                                <button
-                                    class="block py-3 px-6 cursor-pointer text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
-                                    type="button" wire:click="updateLines">
-                                    Update Cart
-                                </button>
-                            </div>
+                        <div class="mt-4 space-y-4 text-center float-end">
+                            <button
+                                class="block py-3 px-6 cursor-pointer text-sm font-medium text-blue-800 border border-blue-600 rounded-[100px] hover:ring-1 hover:ring-blue-600"
+                                type="button"
+                                wire:click="updateLines"
+                            >
+                                Update Cart
+                            </button>
                         </div>
 
+                        {{-- Alpine component (place once at the bottom of your page) --}}
+                        <script>
+                            function quantityControl(initial, step, idx) {
+                            }
+                        </script>
                     </div>
                 @else
                     <div class="mt-4">Your bag is empty!</div>
@@ -100,9 +167,8 @@
                     Shop now
                 </a>
             @endif
-
-
         </div>
+
         <div class="w-full lg:w-1/3 flex flex-col gap-3">
             <h2 class="text-[#000000] font-bold text-[28px]">Summary</h2>
 
@@ -205,7 +271,7 @@
             </div>
         </div>
     </div>
-    <div>
+    <di class="hidden lg:block">
         <h2 class="font-bold text-[28px] text-black mb-5">You Might Also Like</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @if (count($this->relatedProducts()) > 0)
@@ -238,5 +304,13 @@
             @endif
         </div>
         <div class="w-full text-right mt-6"><a class="text-themeblue text-[16px]  font-bold" href="{{ route('products.index') }}"><div class="flex items-center justify-end">Continue Shopping <svg width="16px" height="16px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#1275EE"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#1275EE" fill-rule="evenodd" d="M5.29289,3.70711 C4.90237,3.31658 4.90237,2.68342 5.29289,2.29289 C5.68342,1.90237 6.31658,1.90237 6.70711,2.29289 L11.7071,7.29289 C12.0976,7.68342 12.0976,8.31658 11.7071,8.70711 L6.70711,13.7071 C6.31658,14.0976 5.68342,14.0976 5.29289,13.7071 C4.90237,13.3166 4.90237,12.6834 5.29289,12.2929 L9.58579,8 L5.29289,3.70711 Z"></path> </g></svg></div></a></div>
+
+        <style>
+            @media screen and (max-width: 1023px){
+                header.w-full.bg-themeblack.text-white.relative {
+                    display: none !important;
+                }
+            }
+        </style>
     </div>
 </div>

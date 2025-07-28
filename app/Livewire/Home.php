@@ -10,6 +10,7 @@ use Illuminate\View\View;
 use App\Models\Redemption;
 use Lunar\Models\Collection;
 use Lunar\Models\Discount;
+use Illuminate\Support\Facades\DB;
 
 class Home extends Component
 {
@@ -68,7 +69,42 @@ class Home extends Component
                     ->orWhere('ends_at', '>', now());
             })
             ->get();
-            
+
+        $discountProductIds = \DB::table('lunar_discountables')
+            ->whereIn('discount_id', $discounts->pluck('id'))
+            ->where('discountable_type', 'product')
+            ->pluck('discountable_id')
+            ->unique();
+
+        $products = \Lunar\Models\Product::whereIn('id', $discountProductIds)
+            ->with(['brand'])
+            ->get()
+            ->keyBy('id');
+
+        $brandIds = $products->pluck('brand_id')->unique()->filter();
+
+        $brandMedia = \DB::table('media')
+            ->where('model_type', 'brand')
+            ->whereIn('model_id', $brandIds)
+            ->get()
+            ->groupBy('model_id');
+
+        $discounts->transform(function ($discount) use ($products, $brandMedia) {
+            $productIds = \DB::table('lunar_discountables')
+                ->where('discount_id', $discount->id)
+                ->where('discountable_type', 'product')
+                ->pluck('discountable_id');
+
+            $discountProducts = $products->only($productIds->toArray());
+
+            $discount->products = $discountProducts->map(function ($product) use ($brandMedia) {
+                $product->brand_media = $brandMedia[$product->brand_id] ?? collect();
+                return $product;
+            });
+
+            return $discount;
+        });
+
         $latestDiscounts = $discounts; //->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
 
         return view('livewire.home', [

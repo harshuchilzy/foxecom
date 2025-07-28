@@ -51,12 +51,12 @@
                 @endif
             </div>
 
-            @if($hasDiscount)
+            {{-- @if($hasDiscount)
                 <hr class="border-gray-200">
                 <p class="text-[#249B3E] font-semibold text-[16px] md:text-lg">
                     Save {{ $price->price->currency->code }} {{ number_format($saveAmount, 2) }}
                 </p>
-            @endif
+            @endif --}}
         @else
             <p class="text-[#1275EE] font-semibold text-[16px] md:text-lg">
                 Register to see the price

@@ -80,9 +80,17 @@ class Cart extends Component
         //     } 
         // }
 
-        CartSession::updateLines(
-            collect($this->lines)
-        );
+        // CartSession::updateLines(
+        //     collect($this->lines)
+        // );
+        $paidLines = collect($this->lines)
+            ->filter(fn ($line) => empty($line['meta']['free']))
+            ->map(fn ($line) => [
+                'id' => $line['id'],
+                'quantity' => (int)$line['quantity'],
+            ]);
+
+        CartSession::updateLines($paidLines);
 
         $this->cleanupFreeChildren();
 
@@ -131,6 +139,8 @@ class Cart extends Component
         $this->cart_count = collect($this->cart->lines)->sum(fn ($line) => $line->quantity ?? 0);
 
         $this->linesVisible = true;
+
+        $this->dispatch('cartupdated');
     }
 
 
