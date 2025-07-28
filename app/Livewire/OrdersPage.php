@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use Lunar\Models\Order;
 use Lunar\Models\Product;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 use Lunar\Models\ProductVariant;
 use Illuminate\Support\Facades\Auth;
 use Nette\Utils\Random;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OrdersPage extends Component
 {
@@ -136,5 +138,19 @@ class OrdersPage extends Component
         return view('livewire.orders-page', [
             'orders' => $orders,
         ]);
+    }
+
+    function downloadInvoice($order_id) : bool | StreamedResponse {
+        if(empty($order_id)){
+            return false;
+        }
+
+        $record = Order::find($order_id);
+        
+        return response()->streamDownload(function () use ($record) {
+            echo Pdf::loadView('lunarpanel::pdf.order', [
+                'record' => $record,
+            ])->stream();
+        }, name: "Order-{$record->reference}.pdf");
     }
 }
