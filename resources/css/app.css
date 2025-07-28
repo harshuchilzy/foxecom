@@ -115,6 +115,6 @@ input::-webkit-inner-spin-button {
 }
 
 .swiper-backface-hidden .swiper-slide {
-    margin-right: 100px !important;
+    margin-right: 50px !important;
 }
 

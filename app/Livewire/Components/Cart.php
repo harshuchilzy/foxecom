@@ -80,19 +80,19 @@ class Cart extends Component
         //     } 
         // }
 
-        // CartSession::updateLines(
-        //     collect($this->lines)
-        // );
-        $paidLines = collect($this->lines)
-            ->filter(fn ($line) => empty($line['meta']['free']))
-            ->map(fn ($line) => [
-                'id' => $line['id'],
-                'quantity' => (int)$line['quantity'],
-            ]);
+        CartSession::updateLines(
+            collect($this->lines)
+        );
+        // $paidLines = collect($this->lines)
+        //     ->filter(fn ($line) => empty($line['meta']['free']))
+        //     ->map(fn ($line) => [
+        //         'id' => $line['id'],
+        //         'quantity' => (int)$line['quantity'],
+        //     ]);
 
-        CartSession::updateLines($paidLines);
+        // CartSession::updateLines($paidLines);
 
-        $this->cleanupFreeChildren();
+        // $this->cleanupFreeChildren();
 
         $this->dispatch('cartUpdated');
         $this->dispatch('add-to-cart');

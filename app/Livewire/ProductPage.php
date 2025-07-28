@@ -436,13 +436,11 @@ class ProductPage extends Component
                 ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
 
             if ($existing) {
-                 Log::info('existing');
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
                     'quantity' => $existing->quantity + $line['quantity']
                 ]]));
             } else {
-                Log::info('not existing');
                 CartSession::manager()->add(
                     $line['purchasable'],
                     $line['quantity']
