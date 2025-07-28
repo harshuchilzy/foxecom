@@ -332,7 +332,7 @@ class ProductPage extends Component
 
         $discount = Discount::find($this->discountId);
         $discountType = class_basename($discount->type);
-
+       
         if ($discount && $discountType == 'BuyXGetY') {
             if (isset($discount->data['min_qty']) && isset($discount->data['reward_qty'])) {
                 $this->rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
