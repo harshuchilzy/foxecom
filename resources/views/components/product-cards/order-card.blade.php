@@ -60,7 +60,7 @@
                                                     {{$line->option}}
                                                 </th>
                                                 <td class="px-1 py-2 text-black font-normal font-inter">
-                                                    {{$line->unit_quantity}}
+                                                    {{$line->quantity}}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -81,6 +81,7 @@
                                             </tr>
                                         </tbody>
                                     @endif
+                                  
                                 </table>
                             </div>
 

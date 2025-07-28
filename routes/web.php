@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\CheckoutController;
+use App\Models\User;
 use App\Livewire\Home;
+use Lunar\Models\Order;
+use App\Livewire\CartPage;
+use App\Livewire\OfferPage;
 use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
 use Illuminate\Http\Request;
 use App\Livewire\AddressPage;
-use App\Livewire\CartPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\OfferPage;
-use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\CheckoutController;
 
 require __DIR__ . '/auth.php';
 
@@ -189,3 +191,10 @@ Route::middleware('auth')
         // $user = User::find();
         phpinfo();
     });
+
+// Route::get('/order/{order}/invoice/download', function(Order $order) {
+// return response()->download(
+//     Storage::path("invoices/invoice-{$order->reference}.pdf"),
+//     "invoice-{$order->reference}.pdf"
+// );
+// })->name('invoice.download');
