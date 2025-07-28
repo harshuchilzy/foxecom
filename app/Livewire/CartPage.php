@@ -156,7 +156,6 @@ class CartPage extends Component
                 'unit_price' => $line->unitPrice->formatted(),
                 'stock' => $line->purchasable->stock,
                 'meta' => (array)$line->meta,
-                'quantity_increment' => $line->purchasable->quantity_increment
             ];
         })->toArray();
     }
