@@ -509,7 +509,7 @@
                             <!-- Trigger Button -->
                             <div class="md:max-w-[90%] mt-5">
                                 <button
-                                    class="bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
+                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
                                     Claim Offer Now
                                 </button>
                             </div>
