@@ -88,6 +88,9 @@ class ProductPage extends Component
         $this->getLargestQuantityIncrement();
     }
 
+    function updatedSelectedOptionValues($value) : void {
+        $this->product->variant = $this->product->variants->where('product_id', $value);
+    }
 
     public function getSuggestedProductsProperty()
     {
