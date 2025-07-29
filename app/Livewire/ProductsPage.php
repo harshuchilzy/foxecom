@@ -173,38 +173,38 @@ class ProductsPage extends Component
             // array_push($prices, $base);
             $prices->push($base);
 
-            $basePrice = $base?->price?->value;
-            $comparePrice = $base?->compare_price?->value;
+            // $basePrice = $base?->price?->value;
+            // $comparePrice = $base?->compare_price?->value;
 
-            // $base->compare_price->value = $basePrice / $outerBoxQty;
-            // $base->compare_price->value = $comparePrice / $outerBoxQty;
+            // // $base->compare_price->value = $basePrice / $outerBoxQty;
+            // // $base->compare_price->value = $comparePrice / $outerBoxQty;
 
-            $basePriceFormatted = $base?->price?->formatted;
-            $comparePriceFormatted = $base?->compare_price?->formatted;
+            // $basePriceFormatted = $base?->price?->formatted;
+            // $comparePriceFormatted = $base?->compare_price?->formatted;
 
-            // Track base price range
-            if (!is_null($basePrice)) {
-                if (is_null($minBasePrice) || $basePrice < $minBasePrice) {
-                    $minBasePrice = $basePrice;
-                    $minBasePriceFormatted = $basePriceFormatted;
-                }
-                if (is_null($maxBasePrice) || $basePrice > $maxBasePrice) {
-                    $maxBasePrice = $basePrice;
-                    $maxBasePriceFormatted = $basePriceFormatted;
-                }
-            }
+            // // Track base price range
+            // if (!is_null($basePrice)) {
+            //     if (is_null($minBasePrice) || $basePrice < $minBasePrice) {
+            //         $minBasePrice = $basePrice;
+            //         $minBasePriceFormatted = $basePriceFormatted;
+            //     }
+            //     if (is_null($maxBasePrice) || $basePrice > $maxBasePrice) {
+            //         $maxBasePrice = $basePrice;
+            //         $maxBasePriceFormatted = $basePriceFormatted;
+            //     }
+            // }
 
-            // Track compare price range
-            if (!is_null($comparePrice)) {
-                if (is_null($minComparePrice) || $comparePrice < $minComparePrice) {
-                    $minComparePrice = $comparePrice;
-                    $minComparePriceFormatted = $comparePriceFormatted;
-                }
-                if (is_null($maxComparePrice) || $comparePrice > $maxComparePrice) {
-                    $maxComparePrice = $comparePrice;
-                    $maxComparePriceFormatted = $comparePriceFormatted;
-                }
-            }
+            // // Track compare price range
+            // if (!is_null($comparePrice)) {
+            //     if (is_null($minComparePrice) || $comparePrice < $minComparePrice) {
+            //         $minComparePrice = $comparePrice;
+            //         $minComparePriceFormatted = $comparePriceFormatted;
+            //     }
+            //     if (is_null($maxComparePrice) || $comparePrice > $maxComparePrice) {
+            //         $maxComparePrice = $comparePrice;
+            //         $maxComparePriceFormatted = $comparePriceFormatted;
+            //     }
+            // }
         }
 
         // $outerBoxQty = 5;
