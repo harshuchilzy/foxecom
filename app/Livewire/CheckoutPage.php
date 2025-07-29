@@ -185,6 +185,8 @@ class CheckoutPage extends Component
         }
         $this->determineCheckoutStep();
 
+        $this->saveShippingOption();
+
 
         Log::info($this->cart->discounts);
         // Log::info($this->shipping);
@@ -215,10 +217,10 @@ class CheckoutPage extends Component
         $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
         // Log::info("Determining checkout step...");
         // Log::info($shippingAddress);
-        
+
 
         if ($shippingAddress) {
-         
+
             // if ($shippingAddress->id) {
             //     $this->currentStep = $this->steps['shipping_address'] + 1;
             // }
@@ -233,7 +235,7 @@ class CheckoutPage extends Component
                 $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
                 return;
             }
-            
+
         }
         // if ($billingAddress) {
         //     $this->currentStep = $this->steps['billing_address'] + 1;
@@ -242,7 +244,7 @@ class CheckoutPage extends Component
 
     public function saveAndContinueToNext()
     {
-        $this->saveShippingOption();
+//        $this->saveShippingOption();
         $this->determineCheckoutStep();
     }
 
@@ -270,7 +272,7 @@ class CheckoutPage extends Component
                 return $opt->getIdentifier() == $option;
             });
         }
-   
+
         return null;
     }
 
