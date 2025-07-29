@@ -29,13 +29,14 @@ class ProductPrice extends Component
                 $variant ?: $product->variants->first()
             )->get()->matched;
 
+            $outerBoxQty = $variant->product->attr('outer-box') ?? 1;
             if($this->price->compare_price->value > 0 && !isset($this->price->updated)){
-                $this->price->compare_price->value = ($this->price->compare_price->value / $variant->product->attr('outer-box'));
-                $this->price->price->value = ($this->price->price->value / $variant->product->attr('outer-box'));
+                $this->price->compare_price->value = ($this->price->compare_price->value / $outerBoxQty);
+                $this->price->price->value = ($this->price->price->value / $outerBoxQty);
                 $this->price->updated = true;
             }if(!isset($this->price->updated)){
                 $this->price->updated = true;
-                $this->price->price->value = ($this->price->price->value / $variant->product->attr('outer-box'));
+                $this->price->price->value = ($this->price->price->value / $outerBoxQty);
             }
     }
 
