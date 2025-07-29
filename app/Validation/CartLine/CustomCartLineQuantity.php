@@ -40,11 +40,11 @@ class CustomCartLineQuantity extends BaseValidator
             );
         }
 
-        if ($purchasable && $quantity < $purchasable->min_quantity) {
+        if ($purchasable && $purchasable->attr('outer-box') && $quantity < $purchasable->attr('outer-box')) {
             $this->fail(
                 'cart',
                 __('lunar::exceptions.minimum_quantity', [
-                    'quantity' => $purchasable->min_quantity,
+                    'quantity' => $purchasable->attr('outer-box'),
                 ])
             );
         }
