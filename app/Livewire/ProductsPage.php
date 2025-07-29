@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Traits\FetchesUrls;
 use Livewire\Component;
-use Lunar\Models\Product;
-use Lunar\Models\Collection;
-use Lunar\Models\Collection as CollectionModel;
 use Lunar\Models\Brand;
+use Lunar\Models\Product;
+use App\Traits\FetchesUrls;
+use Lunar\Models\Collection;
+use Illuminate\Support\Facades\Log;
+use Lunar\Models\Collection as CollectionModel;
 
 class ProductsPage extends Component
 {
@@ -146,6 +147,71 @@ class ProductsPage extends Component
     // {
     //     logger()->info("Search term updated:", ['term' => $value]);
     // }
+
+    public function getPriceRangeForProducts($product)
+    {
+        if (!$product->variants()->exists()) {
+            return null;
+        }
+
+        $variations = $product->variants()
+            ->with(['values.option', 'basePrices'])
+            ->get();
+
+        $minBasePrice = null;
+        $maxBasePrice = null;
+        $minComparePrice = null;
+        $maxComparePrice = null;
+
+        foreach ($variations as $variant) {
+            $base = $variant->basePrices->first();
+
+            $basePrice = $base?->price?->value;
+            $comparePrice = $base?->compare_price?->value;
+            $basePriceFormatted = $base?->price?->formatted;
+            $comparePriceFormatted = $base?->compare_price?->formatted;
+
+            // Track base price range
+            if (!is_null($basePrice)) {
+                if (is_null($minBasePrice) || $basePrice < $minBasePrice) {
+                    $minBasePrice = $basePrice;
+                    $minBasePriceFormatted = $basePriceFormatted;
+                }
+                if (is_null($maxBasePrice) || $basePrice > $maxBasePrice) {
+                    $maxBasePrice = $basePrice;
+                    $maxBasePriceFormatted = $basePriceFormatted;
+                }
+            }
+
+            // Track compare price range
+            if (!is_null($comparePrice)) {
+                if (is_null($minComparePrice) || $comparePrice < $minComparePrice) {
+                    $minComparePrice = $comparePrice;
+                    $minComparePriceFormatted = $comparePriceFormatted;
+                }
+                if (is_null($maxComparePrice) || $comparePrice > $maxComparePrice) {
+                    $maxComparePrice = $comparePrice;
+                    $maxComparePriceFormatted = $comparePriceFormatted;
+                }
+            }
+        }
+
+        return [
+            'basePrice' => [
+                'min' => $minBasePrice !== null ? $minBasePrice : null,
+                'max' => $maxBasePrice !== null ? $maxBasePrice : null,
+                'min_formatted' => $minBasePriceFormatted !== null ? $minBasePriceFormatted : null,
+                'max_formatted' => $maxBasePriceFormatted !== null ? $maxBasePriceFormatted : null,
+            ],
+            'comparePrice' => [
+                'min' => $minComparePrice !== null ? $minComparePrice : null,
+                'max' => $maxComparePrice !== null ? $maxComparePrice : null,
+                'min_formatted' => $minComparePriceFormatted !== null ? $minComparePriceFormatted : null,
+                'max_formatted' => $maxComparePriceFormatted !== null ? $maxComparePriceFormatted : null,
+            ],
+        ];
+    }
+
 
     public function render()
     {
