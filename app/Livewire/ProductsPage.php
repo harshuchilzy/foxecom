@@ -245,7 +245,7 @@ class ProductsPage extends Component
 
         $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
         return array(
-            'discount' => $lowest->compare_price->value ?? 0,
+            'discount' => $lowest->compare_price->formatted ?? 0,
             'price' => $finalPrice
         );
         
