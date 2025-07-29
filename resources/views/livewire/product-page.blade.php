@@ -516,7 +516,21 @@
 
                             <!-- Modal -->
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
-                                <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false">
+                                <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false" 
+                                    x-data="{
+                                        quantities: $wire.entangle('quantities'),
+                                        toggles: $wire.entangle('toggles'),
+                                        sumOfSelectedToggles: 0,
+                                        
+                                        calculateSum() {
+                                            this.sumOfSelectedToggles = Object.entries(this.toggles)
+                                                .filter(([key, isSelected]) => isSelected && this.quantities[key])
+                                                .reduce((sum, [key, isSelected]) => sum + parseInt(this.quantities[key]), 0);
+                                            
+                                            $wire.set('sumOfSelectedToggles', this.sumOfSelectedToggles);
+                                        }
+                                        
+                                }">
                                     <div class="sticky top-0 left-0 w-full bg-white z-20 pt-6 pb-2 border-b rounded-tr-2xl rounded-tl-2xl">
                                         <!-- Close Button -->
                                         <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold cursor-pointer z-50">&times;</button>
@@ -537,7 +551,7 @@
                                                     @endif
                                                 </p>
                                                 <div class="lg:text-left text-center pb-2">
-                                                    <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: {{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }} item(s)</strong>
+                                                    <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: <span x-text="sumOfSelectedToggles">{{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }}</span> item(s)</strong>
                                                 </div>
                                             </div>
                                             @php
@@ -615,16 +629,16 @@
                                                                     x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="if(quantity > 1) { quantity--; $wire.getSumOfSelectedToggles(); }">-
+                                                                            @click="if(quantity > 1) { quantity--; calculateSum(); }">-
                                                                     </button>
                                                                     <input type="number"
                                                                         min="1"
                                                                         x-model.number="quantity"
-                                                                        @change="$wire.getSumOfSelectedToggles()"
+                                                                        @change="calculateSum()"
                                                                         class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="quantity++; $wire.getSumOfSelectedToggles();">+
+                                                                            @click="quantity++; calculateSum();">+
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -634,6 +648,7 @@
                                                             <x-wui-toggle
                                                                 id="toggle_{{ $variant['id'] }}"
                                                                 wire:model.live="toggles.{{ $variant['id'] }}"
+                                                                @change="calculateSum()"
                                                                 :disabled="$isDisabled && !$toggles[$variant['id']]"
                                                                 info xl />
                                                         </div>

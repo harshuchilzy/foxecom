@@ -372,17 +372,17 @@ class ProductPage extends Component
         }
     }
 
-    public function incrementQuantity($variantId)
-    {
-        $this->quantities[$variantId]++;
-    }
+    // public function incrementQuantity($variantId)
+    // {
+    //     $this->quantities[$variantId]++;
+    // }
 
-    public function decrementQuantity($variantId)
-    {
-        if ($this->quantities[$variantId] > 1) {
-            $this->quantities[$variantId]--;
-        }
-    }
+    // public function decrementQuantity($variantId)
+    // {
+    //     if ($this->quantities[$variantId] > 1) {
+    //         $this->quantities[$variantId]--;
+    //     }
+    // }
 
     public function addSelectedToCart()
     {
