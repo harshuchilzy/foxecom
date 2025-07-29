@@ -158,59 +158,113 @@ class ProductsPage extends Component
             ->with(['values.option', 'basePrices'])
             ->get();
 
+        $outerBoxQty = $product->attr('outer-box') ?? 1;
+
         $minBasePrice = null;
         $maxBasePrice = null;
         $minComparePrice = null;
         $maxComparePrice = null;
         
 
+        $prices = collect();
+
         foreach ($variations as $variant) {
+
             $base = $variant->basePrices->first();
+            // array_push($prices, $base);
+            $prices->push($base);
 
-            $basePrice = $base?->price?->value;
-            $comparePrice = $base?->compare_price?->value;
-            $basePriceFormatted = $base?->price?->formatted;
-            $comparePriceFormatted = $base?->compare_price?->formatted;
+            // $basePrice = $base?->price?->value;
+            // $comparePrice = $base?->compare_price?->value;
 
-            // Track base price range
-            if (!is_null($basePrice)) {
-                if (is_null($minBasePrice) || $basePrice < $minBasePrice) {
-                    $minBasePrice = $basePrice;
-                    $minBasePriceFormatted = $basePriceFormatted;
-                }
-                if (is_null($maxBasePrice) || $basePrice > $maxBasePrice) {
-                    $maxBasePrice = $basePrice;
-                    $maxBasePriceFormatted = $basePriceFormatted;
-                }
-            }
+            // // $base->compare_price->value = $basePrice / $outerBoxQty;
+            // // $base->compare_price->value = $comparePrice / $outerBoxQty;
 
-            // Track compare price range
-            if (!is_null($comparePrice)) {
-                if (is_null($minComparePrice) || $comparePrice < $minComparePrice) {
-                    $minComparePrice = $comparePrice;
-                    $minComparePriceFormatted = $comparePriceFormatted;
-                }
-                if (is_null($maxComparePrice) || $comparePrice > $maxComparePrice) {
-                    $maxComparePrice = $comparePrice;
-                    $maxComparePriceFormatted = $comparePriceFormatted;
-                }
-            }
+            // $basePriceFormatted = $base?->price?->formatted;
+            // $comparePriceFormatted = $base?->compare_price?->formatted;
+
+            // // Track base price range
+            // if (!is_null($basePrice)) {
+            //     if (is_null($minBasePrice) || $basePrice < $minBasePrice) {
+            //         $minBasePrice = $basePrice;
+            //         $minBasePriceFormatted = $basePriceFormatted;
+            //     }
+            //     if (is_null($maxBasePrice) || $basePrice > $maxBasePrice) {
+            //         $maxBasePrice = $basePrice;
+            //         $maxBasePriceFormatted = $basePriceFormatted;
+            //     }
+            // }
+
+            // // Track compare price range
+            // if (!is_null($comparePrice)) {
+            //     if (is_null($minComparePrice) || $comparePrice < $minComparePrice) {
+            //         $minComparePrice = $comparePrice;
+            //         $minComparePriceFormatted = $comparePriceFormatted;
+            //     }
+            //     if (is_null($maxComparePrice) || $comparePrice > $maxComparePrice) {
+            //         $maxComparePrice = $comparePrice;
+            //         $maxComparePriceFormatted = $comparePriceFormatted;
+            //     }
+            // }
         }
 
-        return [
-            'basePrice' => [
-                'min' => $minBasePrice !== null ? $minBasePrice : null,
-                'max' => $maxBasePrice !== null ? $maxBasePrice : null,
-                'min_formatted' => $minBasePriceFormatted !== null ? $minBasePriceFormatted : null,
-                'max_formatted' => $maxBasePriceFormatted !== null ? $maxBasePriceFormatted : null,
-            ],
-            'comparePrice' => [
-                'min' => $minComparePrice !== null ? $minComparePrice : null,
-                'max' => $maxComparePrice !== null ? $maxComparePrice : null,
-                'min_formatted' => $minComparePriceFormatted !== null ? $minComparePriceFormatted : null,
-                'max_formatted' => $maxComparePriceFormatted !== null ? $maxComparePriceFormatted : null,
-            ],
-        ];
+        // $outerBoxQty = 5;
+        $outerBoxQty = $product->attr('outer-box') ?? 1;
+
+        $pricesWithEffectivePrice = $prices->map(function ($item) use ($outerBoxQty) {
+            $effectivePrice = ($item->compare_price->value ?? 0) > 0
+                ? $item->compare_price->value
+                : $item->price->value;
+
+            $item->per_unit_price = $effectivePrice / $outerBoxQty;
+            // Log::info($item->per_unit_price);
+
+            return $item;
+        });
+
+        $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
+        $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
+
+        if($lowest->compare_price->value > 0){
+            $lowest->compare_price->value = $lowest->compare_price->value / $outerBoxQty;
+        }else{
+            $lowest->price->value = $lowest->price->value / $outerBoxQty;
+        }
+
+         if($highest->compare_price->value > 0){
+            $highest->compare_price->value = $highest->compare_price->value / $outerBoxQty;
+        }else{
+            $highest->price->value = $highest->price->value / $outerBoxQty;
+        }
+
+        // Log::info('Prices');
+
+        // Log::info($lowest);
+        // Log::info($highest);
+
+        // Log::info('End Prices');
+
+        $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
+        return array(
+            'discount' => $lowest->compare_price->formatted ?? 0,
+            'price' => $finalPrice
+        );
+        
+
+        // return [
+        //     'basePrice' => [
+        //         'min' => $minBasePrice !== null ? $minBasePrice : null,
+        //         'max' => $maxBasePrice !== null ? $maxBasePrice : null,
+        //         'min_formatted' => $minBasePriceFormatted !== null ? $minBasePriceFormatted : null,
+        //         'max_formatted' => $maxBasePriceFormatted !== null ? $maxBasePriceFormatted : null,
+        //     ],
+        //     'comparePrice' => [
+        //         'min' => $minComparePrice !== null ? $minComparePrice : null,
+        //         'max' => $maxComparePrice !== null ? $maxComparePrice : null,
+        //         'min_formatted' => $minComparePriceFormatted !== null ? $minComparePriceFormatted : null,
+        //         'max_formatted' => $maxComparePriceFormatted !== null ? $maxComparePriceFormatted : null,
+        //     ],
+        // ];
     }
 
 

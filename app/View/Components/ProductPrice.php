@@ -34,7 +34,9 @@ class ProductPrice extends Component
                 $this->price->compare_price->value = ($this->price->compare_price->value / $outerBoxQty);
                 $this->price->price->value = ($this->price->price->value / $outerBoxQty);
                 $this->price->updated = true;
-            }if(!isset($this->price->updated)){
+            }
+            
+            if(!isset($this->price->updated)){
                 $this->price->updated = true;
                 $this->price->price->value = ($this->price->price->value / $outerBoxQty);
             }
