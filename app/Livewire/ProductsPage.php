@@ -217,15 +217,15 @@ class ProductsPage extends Component
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
 
         if($lowest->compare_price->value > 0){
-            $lowest->compare_price->value = $lowest->compare_price->value / $outerBoxQty;
+            $lowest->compare_price->value = $lowest->per_unit_price;
         }else{
-            $lowest->price->value = $lowest->price->value / $outerBoxQty;
+            $lowest->price->value = $lowest->per_unit_price;
         }
 
          if($highest->compare_price->value > 0){
-            $highest->compare_price->value = $highest->compare_price->value / $outerBoxQty;
+            $highest->compare_price->value = $highest->per_unit_price;
         }else{
-            $highest->price->value = $highest->price->value / $outerBoxQty;
+            $highest->price->value = $highest->per_unit_price;
         }
 
         // Log::info('Prices');
