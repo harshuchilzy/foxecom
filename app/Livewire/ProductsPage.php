@@ -218,17 +218,17 @@ class ProductsPage extends Component
         $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
 
-        if($lowest->compare_price->value > 0){
-            $lowest->compare_price->value = $lowest->compare_price->value / $outerBoxQty;
-        }else{
-            $lowest->price->value = $lowest->price->value / $outerBoxQty;
-        }
+        // if($lowest->compare_price->value > 0){
+        //     $lowest->compare_price->value = $lowest->per_unit_price;
+        // }else{
+            $lowest->price->value = $lowest->per_unit_price;
+        // }
 
-         if($highest->compare_price->value > 0){
-            $highest->compare_price->value = $highest->compare_price->value / $outerBoxQty;
-        }else{
-            $highest->price->value = $highest->price->value / $outerBoxQty;
-        }
+        //  if($highest->compare_price->value > 0){
+        //     $highest->compare_price->value = $highest->per_unit_price;
+        // }else{
+            $highest->price->value = $highest->per_unit_price;
+        // }
 
         // Log::info('Prices');
 
