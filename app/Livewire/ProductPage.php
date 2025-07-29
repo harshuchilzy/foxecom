@@ -328,11 +328,13 @@ class ProductPage extends Component
 
     public function getLargestQuantityIncrement()
     {
-        foreach ($this->loadVariations() as $variant) {
-            if ($variant['quantity_increment'] > $this->maxQuantityIncrement) {
-                $this->maxQuantityIncrement = $variant['quantity_increment'];
-            }
-        }
+        // foreach ($this->loadVariations() as $variant) {
+        //     if ($variant['quantity_increment'] > $this->maxQuantityIncrement) {
+        //         $this->maxQuantityIncrement = $variant['quantity_increment'];
+        //     }
+        // }
+
+        $this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
 
         $discount = Discount::find($this->discountId);
         if($discount){
