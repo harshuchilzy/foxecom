@@ -200,7 +200,6 @@ Route::middleware('auth')
         // phpinfo();
         echo 'OK';
         $order = Lunar\Models\Order::find(3);
-;
             Mail::to('testreceiver@gmail.com')->send(new CustomerNewOrderMail($order));
 
         // $record = ModelsOrder::find(3);

@@ -17,6 +17,7 @@
         "lunarphp/lunar": "^1.0.0-beta",
         "lunarphp/stripe": "^1.0@beta",
         "lunarphp/table-rate-shipping": "^1.0@beta",
+        "mailersend/laravel-driver": "^2.11",
         "wireui/wireui": "^2.4"
     },
     "require-dev": {
