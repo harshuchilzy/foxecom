@@ -28,7 +28,7 @@
                 </ul>
             </div>
         </div>
-        <div class="flex flex-col items-center lg:items-start">
+        <div class="flex flex-col items-start lg:items-start">
             <a href="tel:+447925606692" class="bg-[#1B1819] text-white py-[8px] px-[16px] rounded-lg cursor-pointer">Request
                 a call</a>
             <div class="mt-4">
