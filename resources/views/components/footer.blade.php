@@ -8,24 +8,27 @@
         <div class="flex items-start gap-12">
             <div>
                 <p class="text-[#1B1819] uppercase font-normal text-[12px] mb-4">Information</p>
-                <ul class="text-[#1B1819] font-normal text-[14px] flex flex-col gap-2">
-                    <li><a href="{{route('about')}}">About Us</a></li>
-                    <li><a href="{{route('contact')}}">Contacts</a></li>
-                    <li><a href="{{route('privacy-policy')}}">Privacy Policy</a></li>
-                    <li><a href="{{route('terms-conditions')}}">Terms and Conditions</a></li>
-                    <li><a href="{{route('refund-policy')}}">Refund Policy</a></li>
+                <ul class="text-[#1B1819] font-normal font-inter text-[16px] flex flex-col gap-1">
+                    <li><a href="{{route('privacy-policy')}}">Privacy</a></li>
+                    <li><a href="#">FAQ</a></li>
                     <li><a href="{{route('delivery-policy')}}">Shipping and Payment</a></li>
-                    <li><a href="{{route('partners')}}">Partners</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="{{route('contact')}}">Contacts</a></li>
 
+                    {{-- <li><a href="{{route('about')}}">About Us</a></li>
+                    <li><a href="{{route('terms-conditions')}}">Terms and Conditions</a></li>
+                    <li><a href="{{route('refund-policy')}}">Refund Policy</a></li> --}}
+                    
                 </ul>
             </div>
             <div>
-                <p class="text-[#1B1819] uppercase font-normal text-[12px] mb-4">Menu</p>
+                {{-- <p class="text-[#1B1819] uppercase font-normal text-[12px] mb-4">Menu</p>
                 <ul class="text-[#1B1819] font-normal text-[14px] flex flex-col gap-2">
                     <li><a href="#">Example</a></li>
                     <li><a href="#">Example</a></li>
                     <li><a href="#">Example</a></li>
-                </ul>
+                </ul> --}}
             </div>
         </div>
         <div class="flex flex-col items-center lg:items-start">

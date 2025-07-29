@@ -140,7 +140,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div class="flex gap-2 items-center">
                 <input type="checkbox" wire:model="remember" id="remember">
                 <label for="remember" class="p-0 m-0">{{__('Remember me')}}</label>
-    </div>
+             </div>
 
             @if (Route::has('password.request'))
             <div class="text-sm text-right block">
@@ -160,14 +160,15 @@ new #[Layout('components.layouts.auth')] class extends Component {
     </form>
 
     @if (Route::has('register'))
-    <div class="w-full text-zinc-600 mb-4">
-        <p class="text-center overflow-hidden before:h-[1px] after:h-[1px] after:bg-black
-           after:inline-block after:relative after:align-middle after:w-1/4
-           before:bg-black before:inline-block before:relative before:align-middle
-           before:w-1/4 before:right-2 after:left-2 mb-3 py-4">{{ __('New to FOXERGO?') }}</p>
-        <a href="{{route('register')}}"
-            class="bg-gray-300 hover:bg-gray-500 px-5 py-5 w-full font-semibold text-white block text-center"
-            wire:navigate>{{ __('Create your FOXERGO account') }}</a>
-    </div>
+        <div class="w-full text-zinc-600 mb-4">
+            <p class="text-center overflow-hidden before:h-[1px] after:h-[1px] after:bg-black
+            after:inline-block after:relative after:align-middle after:w-1/4
+            before:bg-black before:inline-block before:relative before:align-middle
+            before:w-1/4 before:right-2 after:left-2 mb-3 py-4">{{ __('New to FOXERGO?') }}</p>
+            <a href="{{route('register')}}"
+                class="bg-gray-300 hover:bg-gray-500 px-5 py-5 w-full font-semibold text-white block text-center"
+                wire:navigate>{{ __('Create your FOXERGO account') }}</a>
+        </div>
     @endif
+
 </div>
