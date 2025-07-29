@@ -3,7 +3,6 @@
 @php
     $price = $product->prices->first();
     $comparePrice = $price->compare_price;
-
     $priceRange = $this->getPriceRangeForProducts($product);
 
     if ( $priceRange ) {
@@ -40,7 +39,7 @@
     $discountPercentage = $hasDiscount ? round(($saveAmount / $price->price->decimal) * 100) : 0;
     
 @endphp
-{{-- {{dd($product->variants()->first())}} --}}
+{{-- {{dd($product->outer-box)}} --}}
 <div class="bg-white border border-[#008ECC] rounded-[16px] relative group hover:shadow-lg transition-shadow overflow-hidden shadow-[0px_4px_45px_0px_#00000020]">
     @if($hasDiscount)
         <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px] z-10">

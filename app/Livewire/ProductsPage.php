@@ -162,6 +162,7 @@ class ProductsPage extends Component
         $maxBasePrice = null;
         $minComparePrice = null;
         $maxComparePrice = null;
+        
 
         foreach ($variations as $variant) {
             $base = $variant->basePrices->first();
