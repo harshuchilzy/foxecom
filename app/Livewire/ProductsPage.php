@@ -160,11 +160,6 @@ class ProductsPage extends Component
 
         $outerBoxQty = $product->attr('outer-box') ?? 1;
 
-        $minBasePrice = null;
-        $maxBasePrice = null;
-        $minComparePrice = null;
-        $maxComparePrice = null;
-
         $prices = collect();
 
         foreach ($variations as $variant) {
@@ -207,9 +202,6 @@ class ProductsPage extends Component
             // }
         }
 
-        // $outerBoxQty = 5;
-        $outerBoxQty = $product->attr('outer-box') ?? 1;
-
         $pricesWithEffectivePrice = $prices->map(function ($item) use ($outerBoxQty) {
             $effectivePrice = ($item->compare_price->value ?? 0) > 0
                 ? $item->compare_price->value
@@ -243,9 +235,13 @@ class ProductsPage extends Component
 
         // Log::info('End Prices');
 
-        $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
+        if($lowest->price->value == $highest->price->value){
+            $finalPrice = $highest->price->formatted; 
+        }else{
+            $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
+        }
         return array(
-            'discount' => $lowest->compare_price->formatted ?? 0,
+            'discount' => 0, // $lowest->compare_price->formatted ?? 0,
             'price' => $finalPrice
         );
         
