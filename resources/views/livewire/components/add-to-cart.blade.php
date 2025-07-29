@@ -21,7 +21,8 @@
         <button type="submit"
                 class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter"
                 wire:click.prevent="addToCart">
-            Add to Cart
+            <span wire:loading.remove wire:target="addToCart">Add to Cart</span>
+            <span wire:loading wire:target="addToCart">Adding...</span>
         </button>
     </div>
 

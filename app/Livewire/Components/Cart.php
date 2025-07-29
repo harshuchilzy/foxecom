@@ -127,7 +127,6 @@ class Cart extends Component
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
                 'meta' => (array)$line->meta,
-                'quantity_increment' => $line->purchasable->quantity_increment
             ];
         })->toArray();
     }

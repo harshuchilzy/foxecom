@@ -554,8 +554,8 @@
                                                             'opacity-50 cursor-not-allowed': @js($addToCartDisabled),
                                                             'hover:bg-[#383838] cursor-pointer': !@js($addToCartDisabled)
                                                         }">
-                                                    <span wire:loading.remove>Add to Cart</span>
-                                                    <span wire:loading>Adding...</span>
+                                                    <span wire:loading.remove wire:target="addSelectedToCart">Add to Cart</span>
+                                                    <span wire:loading wire:target="addSelectedToCart">Adding...</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -611,6 +611,21 @@
                                                                             wire:click="incrementQuantity({{ $variant['id'] }})">+
                                                                     </button>
                                                                 </div>
+                                                                {{-- <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]"
+                                                                    x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
+                                                                    <button type="button"
+                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                                            @click="if(quantity > 1) quantity--">-
+                                                                    </button>
+                                                                    <input type="number"
+                                                                        min="1"
+                                                                        x-model.number="quantity"
+                                                                        class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
+                                                                    <button type="button"
+                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                                            @click="quantity++">+
+                                                                    </button>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
 
@@ -887,8 +902,8 @@
                     </div>
 
                     <button type="submit" class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 mt-4 cursor-pointer" wire:loading.attr="disabled">
-                        <span wire:loading.remove>Submit Review</span>
-                        <span wire:loading>Processing...</span>
+                        <span wire:loading.remove wire:target="submitReview">Submit Review</span>
+                        <span wire:loading wire:target="submitReview">Processing...</span>
                     </button>
                 </form>
             </div>

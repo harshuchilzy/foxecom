@@ -163,43 +163,9 @@ class ProductsPage extends Component
         $prices = collect();
 
         foreach ($variations as $variant) {
-
             $base = $variant->basePrices->first();
             // array_push($prices, $base);
             $prices->push($base);
-
-            // $basePrice = $base?->price?->value;
-            // $comparePrice = $base?->compare_price?->value;
-
-            // // $base->compare_price->value = $basePrice / $outerBoxQty;
-            // // $base->compare_price->value = $comparePrice / $outerBoxQty;
-
-            // $basePriceFormatted = $base?->price?->formatted;
-            // $comparePriceFormatted = $base?->compare_price?->formatted;
-
-            // // Track base price range
-            // if (!is_null($basePrice)) {
-            //     if (is_null($minBasePrice) || $basePrice < $minBasePrice) {
-            //         $minBasePrice = $basePrice;
-            //         $minBasePriceFormatted = $basePriceFormatted;
-            //     }
-            //     if (is_null($maxBasePrice) || $basePrice > $maxBasePrice) {
-            //         $maxBasePrice = $basePrice;
-            //         $maxBasePriceFormatted = $basePriceFormatted;
-            //     }
-            // }
-
-            // // Track compare price range
-            // if (!is_null($comparePrice)) {
-            //     if (is_null($minComparePrice) || $comparePrice < $minComparePrice) {
-            //         $minComparePrice = $comparePrice;
-            //         $minComparePriceFormatted = $comparePriceFormatted;
-            //     }
-            //     if (is_null($maxComparePrice) || $comparePrice > $maxComparePrice) {
-            //         $maxComparePrice = $comparePrice;
-            //         $maxComparePriceFormatted = $comparePriceFormatted;
-            //     }
-            // }
         }
 
         $pricesWithEffectivePrice = $prices->map(function ($item) use ($outerBoxQty) {
@@ -213,29 +179,15 @@ class ProductsPage extends Component
             return $item;
         });
 
-        // Log::info(print_r($pricesWithEffectivePrice, true));
 
         $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
 
-        // if($lowest->compare_price->value > 0){
-        //     $lowest->compare_price->value = $lowest->per_unit_price;
-        // }else{
+       
             $lowest->price->value = $lowest->per_unit_price;
-        // }
-
-        //  if($highest->compare_price->value > 0){
-        //     $highest->compare_price->value = $highest->per_unit_price;
-        // }else{
+       
             $highest->price->value = $highest->per_unit_price;
-        // }
-
-        // Log::info('Prices');
-
-        // Log::info($lowest);
-        // Log::info($highest);
-
-        // Log::info('End Prices');
+       
 
         if($lowest->price->value == $highest->price->value){
             $finalPrice = $highest->price->formatted; 
@@ -247,21 +199,6 @@ class ProductsPage extends Component
             'price' => $finalPrice
         );
         
-
-        // return [
-        //     'basePrice' => [
-        //         'min' => $minBasePrice !== null ? $minBasePrice : null,
-        //         'max' => $maxBasePrice !== null ? $maxBasePrice : null,
-        //         'min_formatted' => $minBasePriceFormatted !== null ? $minBasePriceFormatted : null,
-        //         'max_formatted' => $maxBasePriceFormatted !== null ? $maxBasePriceFormatted : null,
-        //     ],
-        //     'comparePrice' => [
-        //         'min' => $minComparePrice !== null ? $minComparePrice : null,
-        //         'max' => $maxComparePrice !== null ? $maxComparePrice : null,
-        //         'min_formatted' => $minComparePriceFormatted !== null ? $minComparePriceFormatted : null,
-        //         'max_formatted' => $maxComparePriceFormatted !== null ? $maxComparePriceFormatted : null,
-        //     ],
-        // ];
     }
 
 
