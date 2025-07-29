@@ -60,7 +60,7 @@
                                                     {{$line->option}}
                                                 </th>
                                                 <td class="px-1 py-2 text-black font-normal font-inter">
-                                                    {{$line->unit_quantity}}
+                                                    {{$line->quantity}}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -81,6 +81,7 @@
                                             </tr>
                                         </tbody>
                                     @endif
+                                  
                                 </table>
                             </div>
 
@@ -100,10 +101,10 @@
         </div>
 
         <div class="w-full lg:w-1/4 flex flex-col gap-2">
-            <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Track package</button>
-            <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Return items</button>
-            <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">View Invoice</button>
-            <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Leave a product review</button>
+            {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Track package</button> --}}
+            {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Return items</button> --}}
+            <button wire:click="downloadInvoice({{$order->id}})" class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1 cursor-pointer">View Invoice</button>
+            {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Leave a product review</button> --}}
         </div>
     </div>
 </div>

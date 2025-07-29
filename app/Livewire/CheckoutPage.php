@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\CustomerNewOrderMail;
 use Lunar\Models\Cart;
 use Livewire\Component;
 use Illuminate\View\View;
@@ -13,6 +14,7 @@ use Lunar\Facades\CartSession;
 use WireUi\Traits\WireUiActions;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Lunar\Facades\ShippingManifest;
 
 class CheckoutPage extends Component
@@ -183,6 +185,8 @@ class CheckoutPage extends Component
         }
         $this->determineCheckoutStep();
 
+        $this->saveShippingOption();
+
 
         Log::info($this->cart->discounts);
         // Log::info($this->shipping);
@@ -213,10 +217,10 @@ class CheckoutPage extends Component
         $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
         // Log::info("Determining checkout step...");
         // Log::info($shippingAddress);
-        
+
 
         if ($shippingAddress) {
-         
+
             // if ($shippingAddress->id) {
             //     $this->currentStep = $this->steps['shipping_address'] + 1;
             // }
@@ -231,7 +235,7 @@ class CheckoutPage extends Component
                 $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
                 return;
             }
-            
+
         }
         // if ($billingAddress) {
         //     $this->currentStep = $this->steps['billing_address'] + 1;
@@ -240,7 +244,7 @@ class CheckoutPage extends Component
 
     public function saveAndContinueToNext()
     {
-        $this->saveShippingOption();
+//        $this->saveShippingOption();
         $this->determineCheckoutStep();
     }
 
@@ -268,7 +272,7 @@ class CheckoutPage extends Component
                 return $opt->getIdentifier() == $option;
             });
         }
-   
+
         return null;
     }
 
@@ -356,7 +360,12 @@ class CheckoutPage extends Component
 
         $this->cart->user->attach($this->cart->discounts);
 
+        // Order Success Mail
+        // Mail::to($this->cart->user->email);
+
+
         if ($payment->success) {
+            Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
             return redirect()->route('checkout-success.view');
         }
 

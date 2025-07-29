@@ -130,12 +130,12 @@
 
                             </div>
 
-                            <div class="pt-5" x-show="!showAddressEdit">
-                                {{-- <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>
-                                <p class="font-semibold text-[16px] text-[#70707C]">Free</p>
-                                <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
-                                @include('partials.checkout.shipping_option', ['step' => $steps['shipping_option']])
-                            </div>
+{{--                            <div class="pt-5" x-show="!showAddressEdit">--}}
+{{--                                --}}{{-- <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>--}}
+{{--                                <p class="font-semibold text-[16px] text-[#70707C]">Free</p>--}}
+{{--                                <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
+{{--                                @include('partials.checkout.shipping_option', ['step' => $steps['shipping_option']])--}}
+{{--                            </div>--}}
 
 
                             <a x-show="!showAddressEdit" @click="$wire.saveAndContinueToNext()"
@@ -300,7 +300,7 @@
                 </div>
 
                 {{--                Shipping--}}
-                @if ($this->shippingOption)
+                {{-- @if ($this->shippingOption)
                     <div class="py-2 flex justify-between items-center">
                         <h3 class="text-[16px] font-normal text-[#111111]">
                             {{ $this->shippingOption->getDescription() }}
@@ -309,7 +309,7 @@
                             {{ $this->shippingOption->getPrice()->formatted() }}
                         </p>
                     </div>
-                @endif
+                @endif --}}
 
                     @if ($this->shippingOption)
                         <div class="py-2 flex justify-between items-center">

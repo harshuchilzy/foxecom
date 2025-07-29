@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CustomerWelcomeMail;
 
 new #[Layout('components.layouts.auth')] class extends Component {
 
-use Livewire\WithFileUploads;
+    use Livewire\WithFileUploads;
 
     public string $first_name = '';
     public string $last_name = '';
@@ -152,6 +154,8 @@ use Livewire\WithFileUploads;
         }
 
         Auth::login($user);
+
+        Mail::to($validated['email'])->send(new CustomerWelcomeMail($validated['first_name'], $validated['last_name']));
 
         $this->redirectIntended(route('home', absolute: false), navigate: true);
     }
@@ -452,8 +456,7 @@ use Livewire\WithFileUploads;
             <!-- Country (fixed to UK) -->
             <div class="border border-theme-zinc p-3 mb-3">
                 <label class="uppercase text-xs">Country</label>
-                {{-- <select wire:model.blur="country" id="country" --}}
-                <select wire:model="country" id="country"
+                {{-- <select wire:model.blur="country" id="country" --}} <select wire:model="country" id="country"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 focus:outline-none">
                     <option value="uk">United Kingdom</option>
                     <option value="uae">United Arab Emirates</option>
@@ -472,8 +475,7 @@ use Livewire\WithFileUploads;
                         <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
                         @endforeach
                     </select> --}}
-                    <div
-                        x-data="{
+                    <div x-data="{
                             open: false,
                             search: '',
                             selected: @entangle('city'),
@@ -502,40 +504,25 @@ use Livewire\WithFileUploads;
                                 const option = this.options.find(o => o.value === this.selected);
                                 return option ? option.label : '';
                             }
-                        }"
-                        x-init="init()"
-                        class="relative w-full"
-                    >
-                        <button
-                            type="button"
-                            @click="open = !open"
-                            class="w-full px-4 py-2 text-sm text-left bg-white border border-[#6B7280] rounded-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
+                        }" x-init="init()" class="relative w-full">
+                        <button type="button" @click="open = !open"
+                            class="w-full px-4 py-2 text-sm text-left bg-white border border-[#6B7280] rounded-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <span x-text="selectedLabel() || 'Select a city...'"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline float-right" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline float-right" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
 
-                        <div
-                            x-show="open"
-                            @click.away="open = false"
-                            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
-                        >
-                            <input
-                                type="text"
-                                x-model="search"
-                                @input="fetchOptions()"
-                                placeholder="Search city..."
-                                class="w-full px-4 py-2 border-b border-gray-300 text-sm focus:outline-none"
-                            />
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                            <input type="text" x-model="search" @input="fetchOptions()" placeholder="Search city..."
+                                class="w-full px-4 py-2 border-b border-gray-300 text-sm focus:outline-none" />
 
                             <template x-for="option in options" :key="option.value">
-                                <div
-                                    @click="selectOption(option)"
-                                    class="px-4 py-2 cursor-pointer hover:bg-blue-100"
-                                    x-text="option.label"
-                                ></div>
+                                <div @click="selectOption(option)" class="px-4 py-2 cursor-pointer hover:bg-blue-100"
+                                    x-text="option.label"></div>
                             </template>
 
                             <div x-show="!options.length" class="px-4 py-2 text-gray-500 text-sm">
@@ -616,73 +603,74 @@ use Livewire\WithFileUploads;
 
         <div x-data="{ customerType: @entangle('customer_type') }" class="my-4">
             <div x-show="customerType === 'wholesaler'" class="grid md:grid-cols-2 gap-4 retailer-hidden-section">
-            <!-- Company Registration Certificate -->
-            <div class="border border-theme-zinc p-3">
-                <label for="registration_certificate" class="uppercase text-xs">Company Registration Certificate</label>
-                <input type="file" wire:model="registration_certificate" id="registration_certificate"
-                    class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
-                @error('registration_certificate')
-                <div class="mt-3 text-sm font-medium text-red-500">
-                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ $message }}
+                <!-- Company Registration Certificate -->
+                <div class="border border-theme-zinc p-3">
+                    <label for="registration_certificate" class="uppercase text-xs">Company Registration
+                        Certificate</label>
+                    <input type="file" wire:model="registration_certificate" id="registration_certificate"
+                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
+                    @error('registration_certificate')
+                    <div class="mt-3 text-sm font-medium text-red-500">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
-                @enderror
-            </div>
 
-            <!-- VAT Certificate -->
-            <div class="border border-theme-zinc p-3">
-                <label for="vat_certificate" class="uppercase text-xs">VAT Certificate</label>
-                <input type="file" wire:model="vat_certificate" id="vat_certificate"
-                    class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
-                @error('vat_certificate')
-                <div class="mt-3 text-sm font-medium text-red-500">
-                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ $message }}
+                <!-- VAT Certificate -->
+                <div class="border border-theme-zinc p-3">
+                    <label for="vat_certificate" class="uppercase text-xs">VAT Certificate</label>
+                    <input type="file" wire:model="vat_certificate" id="vat_certificate"
+                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
+                    @error('vat_certificate')
+                    <div class="mt-3 text-sm font-medium text-red-500">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
-                @enderror
-            </div>
 
-            <!-- Proof of ID -->
-            <div class="border border-theme-zinc p-3">
-                <label for="proof_of_id" class="uppercase text-xs">Proof of ID</label>
-                <input type="file" wire:model="proof_of_id" id="proof_of_id"
-                    class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
-                @error('proof_of_id')
-                <div class="mt-3 text-sm font-medium text-red-500">
-                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ $message }}
+                <!-- Proof of ID -->
+                <div class="border border-theme-zinc p-3">
+                    <label for="proof_of_id" class="uppercase text-xs">Proof of ID</label>
+                    <input type="file" wire:model="proof_of_id" id="proof_of_id"
+                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
+                    @error('proof_of_id')
+                    <div class="mt-3 text-sm font-medium text-red-500">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
-                @enderror
-            </div>
 
-            <!-- Proof of Address -->
-            <div class="border border-theme-zinc p-3">
-                <label for="proof_of_address" class="uppercase text-xs">Proof of Address</label>
-                <input type="file" wire:model="proof_of_address" id="proof_of_address"
-                    class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
-                @error('proof_of_address')
-                <div class="mt-3 text-sm font-medium text-red-500">
-                    <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    {{ $message }}
+                <!-- Proof of Address -->
+                <div class="border border-theme-zinc p-3">
+                    <label for="proof_of_address" class="uppercase text-xs">Proof of Address</label>
+                    <input type="file" wire:model="proof_of_address" id="proof_of_address"
+                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
+                    @error('proof_of_address')
+                    <div class="mt-3 text-sm font-medium text-red-500">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
-                @enderror
-            </div>
             </div>
         </div>
 

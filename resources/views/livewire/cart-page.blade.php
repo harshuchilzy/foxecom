@@ -37,7 +37,7 @@
                                         <p class="font-normal text-[16px] text-black">Quantity</p>
 
                                         @if (empty($line['meta']['free']))
-                                            <div
+                                            {{-- <div
                                                 x-data="{
                                                 idx: @js($index),
                                                 qty: @js($line['quantity']),
@@ -110,6 +110,20 @@
                                                     type="button"
                                                     @click="increment()"
                                                 >＋</button>
+                                            </div> --}}
+
+                                            <div
+                                                class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[30%]"
+                                                x-data="{quantity_{{$index}}: $wire.entangle('lines.{{ $index }}.quantity')}">
+                                                <button class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                        @click="quantity_{{$index}}--">-
+                                                </button>
+                                                <input type="number" value="1"
+                                                    class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"
+                                                    wire:model.live="lines.{{ $index }}.quantity"/>
+                                                <button class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
+                                                        @click="quantity_{{$index}}++">+
+                                                </button>
                                             </div>
                                         @else
                                             <span

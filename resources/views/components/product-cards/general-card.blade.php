@@ -1,19 +1,16 @@
 @props(['product'])
 
 @php
-    $price = $product->prices->first();
-    $hasDiscount = $price->compare_price->decimal > 0;
-    $comparePrice = $price->compare_price;
-    $saveAmount = $hasDiscount ? ($price->price->decimal - $comparePrice->decimal) : 0;
-    $discountPercentage = $hasDiscount ? round(($saveAmount / $price->price->decimal) * 100) : 0;
+    // $price = $product->prices->first();
+    $priceRange = $this->getPriceRangeForProducts($product);
 @endphp
-
+{{-- {{dd($product->outer-box)}} --}}
 <div class="bg-white border border-[#008ECC] rounded-[16px] relative group hover:shadow-lg transition-shadow overflow-hidden shadow-[0px_4px_45px_0px_#00000020]">
-    @if($hasDiscount)
+    {{-- @if($hasDiscount)
         <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px] z-10">
             <p class="font-semibold text-white text-[14px]">{{ $discountPercentage }}% OFF</p>
         </div>
-    @endif
+    @endif --}}
 
     <div class="p-3 hover:cursor-pointer bg-[#F5F5F5] ">
         <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
@@ -34,19 +31,18 @@
         </a>
 
         @if (auth()->check())
-            <div class="flex items-center gap-2">
-                @if($hasDiscount)
+            <div class="flex items-center gap-2 flex-wrap">
+    
+                @if(isset($priceRange['discount']) && !empty($priceRange['discount']))
                     <span class="text-gray-400 text-sm line-through">
-                        {{ $price->price->formatted }}
+                        {{ $priceRange['discount'] }}
                     </span>
-                @endif
-                @if($hasDiscount)
                     <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold">
-                        {{ $comparePrice->formatted }} + VAT
+                        {{ $priceRange['price'] }} + VAT
                     </span>
                 @else
                     <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold">
-                        {{ $price->price->formatted }} + VAT
+                        {{ $priceRange['price'] }} + VAT
                     </span>
                 @endif
             </div>

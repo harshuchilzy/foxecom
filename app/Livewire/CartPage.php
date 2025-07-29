@@ -105,18 +105,18 @@ class CartPage extends Component
         //     } 
         // }
 
-        // CartSession::updateLines(
-        //     collect($this->lines)
-        // );
+        CartSession::updateLines(
+            collect($this->lines)
+        );
 
-        $paidLines = collect($this->lines)
-            ->filter(fn ($line) => empty($line['meta']['free']))
-            ->map(fn ($line) => [
-                'id' => $line['id'],
-                'quantity' => (int)$line['quantity'],
-            ]);
+        // $paidLines = collect($this->lines)
+        //     ->filter(fn ($line) => empty($line['meta']['free']))
+        //     ->map(fn ($line) => [
+        //         'id' => $line['id'],
+        //         'quantity' => (int)$line['quantity'],
+        //     ]);
 
-        CartSession::updateLines($paidLines);
+        // CartSession::updateLines($paidLines);
 
         $this->cleanupFreeChildren();
 
@@ -126,10 +126,11 @@ class CartPage extends Component
 
     public function removeLine($id): void
     {
-        CartSession::remove($id);
-        $this->mapLines();
-
-        $this->dispatch('add-to-cart');
+        if($this->cart->lines->where('id', $id)->first()){
+            CartSession::remove($id);
+            $this->mapLines();
+            $this->dispatch('add-to-cart');
+        }
     }
 
     /**

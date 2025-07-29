@@ -23,9 +23,6 @@
             </select>
         </div>
     </div>
-    
-        
-    
 
     <div class="flex gap-6 items-start flex-col md:flex-row">
         <div class="w-full md:w-[75%]">

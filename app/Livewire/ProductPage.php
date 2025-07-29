@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Lunar\Models\Cart;
 use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Models\Channel;
@@ -87,6 +88,9 @@ class ProductPage extends Component
         $this->getLargestQuantityIncrement();
     }
 
+    function updatedSelectedOptionValues($value) : void {
+        $this->product->variant = $this->product->variants->where('product_id', $value);
+    }
 
     public function getSuggestedProductsProperty()
     {
@@ -324,11 +328,13 @@ class ProductPage extends Component
 
     public function getLargestQuantityIncrement()
     {
-        foreach ($this->loadVariations() as $variant) {
-            if ($variant['quantity_increment'] > $this->maxQuantityIncrement) {
-                $this->maxQuantityIncrement = $variant['quantity_increment'];
-            }
-        }
+        // foreach ($this->loadVariations() as $variant) {
+        //     if ($variant['quantity_increment'] > $this->maxQuantityIncrement) {
+        //         $this->maxQuantityIncrement = $variant['quantity_increment'];
+        //     }
+        // }
+
+        $this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
 
         $discount = Discount::find($this->discountId);
         if($discount){
@@ -380,6 +386,7 @@ class ProductPage extends Component
 
     public function addSelectedToCart()
     {
+
         $validatedData = $this->validate([
             'quantities.*' => 'required|numeric|min:1',
             'toggles.*' => 'nullable|boolean',
@@ -429,6 +436,7 @@ class ProductPage extends Component
             return;
         }
 
+
         // Add all selected items to cart
         foreach ($linesToAdd as $line) {
             $existing = CartSession::lines()
@@ -436,23 +444,93 @@ class ProductPage extends Component
                 ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
 
             if ($existing) {
-                 Log::info('existing');
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
                     'quantity' => $existing->quantity + $line['quantity']
                 ]]));
             } else {
-                Log::info('not existing');
                 CartSession::manager()->add(
-                    $line['purchasable'],
+                    $line['purchasable'], 
                     $line['quantity']
                 );
             }
         }
 
+        $discount = Discount::find($this->discountId);
+
+        if (!$discount) {
+            abort(404, 'Discount not found.');
+        }
+
+        $cart = \Lunar\Facades\CartSession::current();
+        if(!$cart){
+            $cart = \Lunar\Models\Cart::create([
+                'currency_id' => Currency::getDefault()->id,
+                'channel_id' => Channel::getDefault()->id,
+            ]);
+        }
+        $cart->coupon_code = $discount->coupon;
+        $cart->calculate();
+        $cart->save();
+
         $this->dispatch('add-to-cart');
         $this->dispatch('cart-updated');
         $this->showBulkAddToCartPopup = false;
+    }
+
+    public function getPriceRangeForProducts($product)
+    {
+        if (!$product->variants()->exists()) {
+            return null;
+        }
+
+        $variations = $product->variants()
+            ->with(['values.option', 'basePrices'])
+            ->get();
+
+        $outerBoxQty = $product->attr('outer-box') ?? 1;
+
+        $prices = collect();
+
+        foreach ($variations as $variant) {
+            $base = $variant->basePrices->first();
+            // array_push($prices, $base);
+            $prices->push($base);
+        }
+
+        $pricesWithEffectivePrice = $prices->map(function ($item) use ($outerBoxQty) {
+            $effectivePrice = ($item->compare_price->value ?? 0) > 0
+                ? $item->compare_price->value
+                : $item->price->value;
+
+            $item->per_unit_price = $effectivePrice / $outerBoxQty;
+            // Log::info($item->per_unit_price);
+
+            return $item;
+        });
+
+
+        $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
+        $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
+
+       
+            $lowest->price->value = $lowest->per_unit_price;
+       
+
+        
+            $highest->price->value = $highest->per_unit_price;
+       
+
+        if($lowest->price->value == $highest->price->value){
+            $finalPrice = $highest->price->formatted; 
+        }else{
+            $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
+        }
+        return array(
+            'discount' => 0, // $lowest->compare_price->formatted ?? 0,
+            'price' => $finalPrice
+        );
+        
     }
 
     public function render(): View

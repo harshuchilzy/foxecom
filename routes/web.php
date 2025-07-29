@@ -1,20 +1,26 @@
 <?php
 
-use App\Http\Controllers\CheckoutController;
+use App\Models\User;
 use App\Livewire\Home;
+use Lunar\Models\Order;
+use App\Livewire\CartPage;
+use App\Livewire\OfferPage;
 use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
 use Illuminate\Http\Request;
 use App\Livewire\AddressPage;
-use App\Livewire\CartPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\OfferPage;
-use App\Models\User;
+use App\Mail\CustomerNewOrderMail;
+use App\Mail\CustomerWelcomeMail;
+use Illuminate\Support\Facades\Mail;
+use Lunar\Models\Order as ModelsOrder;
+use App\Http\Controllers\CheckoutController;
 
 require __DIR__ . '/auth.php';
 
@@ -176,6 +182,10 @@ Route::get('/api/cities/search', function () {
         ->toArray();
 })->name('api.cities.search');
 
+Route::get('unsubscribe', function(){
+    return redirect()->route('home');
+})->name('unsubscribe');
+
 Route::middleware('auth')
     ->prefix('checkout')
     ->as('checkout.')
@@ -187,5 +197,16 @@ Route::middleware('auth')
 
     Route::get('temp', function(){
         // $user = User::find();
-        phpinfo();
+        // phpinfo();
+        echo 'OK';
+        $order = Lunar\Models\Order::find(3);
+;
+            Mail::to('testreceiver@gmail.com')->send(new CustomerNewOrderMail($order));
+
+        // $record = ModelsOrder::find(3);
+        // return response()->streamDownload(function () use ($record) {
+        //     echo Pdf::loadView('lunarpanel::pdf.order', [
+        //         'record' => $record,
+        //     ])->stream();
+        // }, name: "Order-{$record->reference}.pdf");
     });

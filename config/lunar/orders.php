@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\CustomerNewOrderMail;
 use Lunar\Base\OrderReferenceGenerator;
 
 return [
@@ -48,8 +49,11 @@ return [
         'payment-received' => [
             'label' => 'Payment Received',
             'color' => '#6a67ce',
-            'mailers' => [],
-            'notifications' => [],
+            'mailers' => [
+                CustomerNewOrderMail::class
+            ],
+            'notifications' => [
+            ],
             'favourite' => true,
         ],
 

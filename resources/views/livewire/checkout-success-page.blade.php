@@ -18,7 +18,7 @@
 
             <a class="inline-block px-8 py-3 mt-8 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:ring-1 hover:ring-blue-600"
                href="{{ url('/') }}">
-                continue
+                Continue
             </a>
         </div>
     </div>
