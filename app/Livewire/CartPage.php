@@ -126,10 +126,11 @@ class CartPage extends Component
 
     public function removeLine($id): void
     {
-        CartSession::remove($id);
-        $this->mapLines();
-
-        $this->dispatch('add-to-cart');
+        if($this->cart->lines->where('id', $id)->first()){
+            CartSession::remove($id);
+            $this->mapLines();
+            $this->dispatch('add-to-cart');
+        }
     }
 
     /**
