@@ -213,6 +213,8 @@ class ProductsPage extends Component
             return $item;
         });
 
+        // Log::info(print_r($pricesWithEffectivePrice, true));
+
         $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
 
