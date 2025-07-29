@@ -33,7 +33,7 @@ class AddToCart extends Component
     {
         $this->validate();
         $outerBoxQty = $this->purchasable?->product->attr('outer-box') ?? 1;
-        $this->outer_box_qty = ($this->quantity) * ($outerBoxQty);
+        $this->outer_box_qty = ($this->quantity) * ($outerBoxQty);       
         //Log::info(print_r($this->outer_box_qty, true));
         if ($this->purchasable->stock < $this->outer_box_qty) {
             $this->addError('quantity', 'The quantity exceeds the available stock.');

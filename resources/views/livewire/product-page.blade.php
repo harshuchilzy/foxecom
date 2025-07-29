@@ -576,12 +576,12 @@
                                             @foreach($this->loadVariations() as $index => $variant)
                                                 @php
                                                     $maxSelected = $this->maxQuantityIncrement; 
-                                                    $isDisabled = count(array_filter($toggles)) >= $maxSelected && !$toggles[$variant['id']];
+                                                    $isDisabled = $this->getSumOfSelectedToggles() >= $maxSelected;
                                                 @endphp
                                                 
                                                 <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
                                                     :class="{
-                                                        'border-blue-600': isSelected,
+                                                        'border-blue-600 selected': isSelected,
                                                     }"
                                                     class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
                                                     <img
@@ -597,7 +597,7 @@
                                                                 <span class="text-[#1275EE] text-lg font-semibold">
                                                                     {{ $variant['price'] }} + VAT
                                                                 </span>
-                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
+                                                                {{-- <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
                                                                             wire:click="decrementQuantity({{ $variant['id'] }})">-
@@ -610,22 +610,23 @@
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
                                                                             wire:click="incrementQuantity({{ $variant['id'] }})">+
                                                                     </button>
-                                                                </div>
-                                                                {{-- <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]"
+                                                                </div> --}}
+                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]"
                                                                     x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="if(quantity > 1) quantity--">-
+                                                                            @click="if(quantity > 1) { quantity--; $wire.getSumOfSelectedToggles(); }">-
                                                                     </button>
                                                                     <input type="number"
                                                                         min="1"
                                                                         x-model.number="quantity"
+                                                                        @change="$wire.getSumOfSelectedToggles()"
                                                                         class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="quantity++">+
+                                                                            @click="quantity++; $wire.getSumOfSelectedToggles();">+
                                                                     </button>
-                                                                </div> --}}
+                                                                </div>
                                                             </div>
                                                         </div>
 
