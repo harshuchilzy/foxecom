@@ -366,6 +366,7 @@
                                     : $priceObj->price?->formatted();
                                 $priceLabel   = $displayPrice;
                             }
+                    
                         @endphp
 
                         <div class="flex gap-5 items-center justify-start py-3 border-b last:border-none">
@@ -378,7 +379,7 @@
                                 <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
                                     <h2 class="font-semibold text-[16px] text-black">
                                         {{ $product->translateAttribute('name') }}
-                                        {{ $line->option ? ' - ' . $line->option : '' }}
+                                        {{ $line->purchasable?->getOption() ? ' - ' . $line->purchasable->getOption() : '' }}
                                         @if ($isFree)
                                             <span class="text-green-600 text-sm font-medium">(FREE)</span>
                                         @endif

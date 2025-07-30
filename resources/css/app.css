@@ -110,11 +110,11 @@ input::-webkit-inner-spin-button {
 }
 
 .mySecondSwiper .swiper-wrapper .swiper-slide a {
-    width: 350px !important;
+    width: 305px !important;
     display: block;
 }
 
 .swiper-backface-hidden .swiper-slide {
-    margin-right: 50px !important;
+    margin-right: 11px !important;
 }
 

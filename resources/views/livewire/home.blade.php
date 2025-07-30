@@ -42,7 +42,7 @@
                         }
                     </style>
                     <div class="absolute bottom-[156px] right-[120px]  z-10">
-                        <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 bottom-8 right-8 hidden lg:block" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
+                        <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 bottom-8 right-8 hidden lg:block hover:bg-[#11316d] hover:shadow-lg" href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
                     </div>
 
                     @php
@@ -203,8 +203,8 @@
                     @endforeach
                 </div> --}}
 
-                <div class="overflow-x-auto relative">
-                    <div class="overflow-hidden w-[800px] md:w-full relative flex md:grid md:grid-cols-3 gap-3 md:gap-6">
+                <div class="relative">
+                    <div class="md:w-full relative flex md:grid md:grid-cols-3 gap-3 md:gap-6">
                         @foreach ($latestDiscounts as $discount)
                             @php
                                 if (isset($discount->data['display_type']) && !in_array('latest-promotions', $discount->data['display_type'])) {
@@ -259,20 +259,29 @@
                                     $textClass = 'text-[#1D1D1F]';
                                 }
 
+
                                 // Get linked product slug for "Claim" button
                                 $product = $discount->purchasables ? $discount->purchasables->first()?->product : null;
                                 $productUrl = $product?->defaultUrl?->slug;
+
+                                // dd($discount);
                             @endphp
 
-                            <div class="rounded-[20px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
-                                <div class="flex items-center justify-between w-full">
+                            <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
+                                <div class="items-center justify-between w-full lg:flex hidden">
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
-                                        <h3 class="font-semibold text-2xl mt-2 {{ $textClass }}">{{ $title }}</h3>
+                                        <h3 class="font-semibold text-2xl mt-2 {{ $textClass }} ">{{ $title }}</h3>
                                     </a>
-                                    <p class="text-[18px] font-semibold mt-2 lg:hidden {{ $textClass }}">{{ $claimed }}%</p>
+                                    <p class="text-[18px] font-semibold mt-2 {{ $textClass }}">{{ $claimed }}%</p>
                                 </div>
 
-                                <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
+                                <div class="items-center justify-between w-full lg:hidden flex">
+                                    <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
+                                        <h3 class="font-semibold text-xs sm:text-lg uppercase mt-2 {{ $textClass }} ">{{ $title }}</h3>
+                                    </a>
+                                </div>
+
+                                <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2 lg:block hidden">Tap to reveal offer</p>
 
                                 <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
                                     <div class="{{ $barColor }} h-[8px] rounded-[20px]" style="width: {{ $claimed }}%"></div>
@@ -322,6 +331,7 @@
                             $data = $discount->data;
                             $bannerImage = $data['banner_image'] ?? null;
                             $promoImage = $data['promo_image'] ?? null;
+                            $mobilePromoImage = $data['mobile_promo_image'] ?? $promoImage;
                             $imageToShow = $bannerImage ?? $promoImage;
 
                             $marketingHeader = $data['marketing_header'] ?? null;
@@ -363,7 +373,7 @@
                             // }
 
                         @endphp
-                            <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(180deg,_rgba(73,77,94,0.08)_0%,_#FFFFFF_100%)] rounded-2xl p-3 lg:p-6 shadow-[0px_10px_25px_0px_#00000073] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
+                            <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(180deg,_rgba(73,77,94,0.08)_0%,_#FFFFFF_100%)] rounded-2xl p-3 lg:p-6 lg:pb-6 pb-0 shadow-[0px_10px_25px_0px_#00000073] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
                                 <div class="mb-4 flex lg:hidden justify-end items-start">
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <div class="rounded-full flex items-center justify-center lg:hidden"
@@ -402,10 +412,10 @@
                                             {!! $discount->description !!}
                                         </p>
                                     @endif --}}
-                                    <p class="text-black font-bold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block font-inter opacity-70 leading-6 pt-5">{{ $marketingHeader }}</p>
+                                    <p class="text-black font-bold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block font-inter opacity-70 leading-6 pt-5 ">{{ $marketingHeader }}</p>
 
                                     @if($discountFeatures)
-                                        <ul class="pt-6 font-semibold font-inter opacity-70 list-disc list-inside ml-4">
+                                        <ul class="pt-6 font-semibold font-inter opacity-70 list-disc list-inside ml-4 hidden lg:block">
                                             @foreach($discountFeaturesArray as $discountFeature)
                                                 <li>{{ $discountFeature }}</li>
                                             @endforeach
@@ -437,7 +447,11 @@
                                 @if ($promoImage)
                                     <img src="{{ asset('storage/' . $promoImage) }}"
                                          alt="{{ $discount->name }}"
-                                         class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[170px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150"/>
+                                         class="absolute right-0 lg:-right-8 -bottom-[90px] lg:-bottom-[120px] h-[170px] lg:h-[350px] xl:h-[450px] w-full lg:object-bottom-right object-contain drop-shadow-lg scale-200 lg:scale-150 lg:block hidden"/>
+                                    
+                                    <img src="{{ asset('storage/' . $mobilePromoImage) }}"
+                                         alt="mobile-{{ $discount->name }}"
+                                         class="h-[174px] w-auto object-contain drop-shadow-lg lg:hidden block"/>
                                 @endif
 
                                 <a href="{{ route('discount.show', ['id' => $discount->id]) }}" class="absolute top-4 right-4 p-3 bg-[linear-gradient(180deg,_rgba(73,77,94,0.9)_0%,_rgba(0,0,0,0.8)_100%)] rounded-full lg:flex items-center justify-center hidden">

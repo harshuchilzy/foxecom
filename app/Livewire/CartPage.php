@@ -149,6 +149,7 @@ class CartPage extends Component
                 'identifier' => $line->purchasable->getIdentifier(),
                 'quantity' => $line->quantity,
                 'quantity_increment' => $line->purchasable->quantity_increment,
+                'outer_box' => $line->purchasable?->product->attr('outer-box') ?? 1,
                 'description' => $line->purchasable->getDescription(),
                 'thumbnail' => $line->purchasable->getThumbnail()?->getUrl(),
                 'option' => $line->purchasable->getOption(),

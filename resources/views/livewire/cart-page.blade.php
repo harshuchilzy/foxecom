@@ -23,13 +23,19 @@
 
                                 <div class="w-2/3 flex flex-col gap-2 justify-between">
                                     <div>
-                                        <h3 class="font-bold text-[16px] text-black">{{ $line['description'] }}</h3>
-                                        <p class="font-normal text-[16px] text-black">
+                                        <h3 class="font-bold text-[16px] text-black mb-1">{{ $line['description'] }} - {{ $line['options'] }}</h3>
+                                        {{-- <p class="font-normal text-[16px] text-black">
                                             {{ $line['identifier'] }} / {{ $line['options'] }}
-                                        </p>
+                                        </p> --}}
+                                        <p class="font-normal text-[16px] text-black font-inter mb-1">Box of {{ $line['outer_box'] }}</p>
                                         <p class="font-normal text-[16px]">
-                                            <span class="text-black">Availability:</span>
-                                            <span class="text-[#249B3E]">In Stock</span>
+                                            <span class="text-black font-inter font-normal">Availability:</span>
+                                            @if ($line['stock'] > 0)
+                                                <span class="text-[#249B3E] font-inter font-normal">In Stock</span>
+                                            @else
+                                                <span class="text-red-600 font-inter font-normal">Out of Stock</span>
+                                            @endif
+                                            
                                         </p>
                                     </div>
 

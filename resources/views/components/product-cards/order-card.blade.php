@@ -85,14 +85,22 @@
                                 </table>
                             </div>
 
+                            @php
+                                if($line->purchasable_type == 'product_variant') {
+                                    $formattedQuantity = $line->quantity;
+                                } else {
+                                    $formattedQuantity = $line->unit_quantity;
+                                }
+                            @endphp
+
                             <div class="flex justify-start items-center gap-3">
                                 <livewire:components.order-page-add-to-cart
                                     :purchasable="$line->purchasable"
-                                    wire:key="$product->id"
-                                    :quantity="$line->unit_quantity"
+                                    wire:key="add-to-cart-{{ $line->id }}"
+                                    :quantity="$formattedQuantity"
                                     :type="'orderBtn'"
                                 />
-                                <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px]">View your item</a>
+                                <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px] hover:bg-[#D9D9D966] hover:shadow-lg">View your item</a>
                             </div>
                         </div>
                     </div>
@@ -103,7 +111,10 @@
         <div class="w-full lg:w-1/4 flex flex-col gap-2">
             {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Track package</button> --}}
             {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Return items</button> --}}
-            <button wire:click="downloadInvoice({{$order->id}})" class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1 cursor-pointer">View Invoice</button>
+            <button wire:click.prevent="downloadInvoice({{$order->id}})" class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1 cursor-pointer hover:bg-[#D9D9D966] hover:shadow-lg">
+                <span wire:loading.remove wire:target="downloadInvoice()">Download Invoice</span>
+                <span wire:loading wire:target="downloadInvoice()">Downloading...</span>
+            </button>
             {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Leave a product review</button> --}}
         </div>
     </div>

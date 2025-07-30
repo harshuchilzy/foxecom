@@ -25,14 +25,17 @@ class MyDiscountResourceExtension extends ResourceExtension
                 FileUpload::make('data.banner_image')
                     ->label('Spotlight Image')
                     ->image()
-                    ->required()
-                    ->columnSpanFull(),
+                    ->required(),
                 FileUpload::make('data.mobile_banner_image')
                     ->label('Mobile Spotlight Image')
                     ->image()
                     ->required(),
                 FileUpload::make('data.promo_image')
                     ->label('Offer Image')
+                    ->image()
+                    ->required(),
+                FileUpload::make('data.mobile_promo_image')
+                    ->label('Mobile Offer Image')
                     ->image()
                     ->required(),
                 TextInput::make('data.marketing_header')
