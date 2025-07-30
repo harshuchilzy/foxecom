@@ -584,7 +584,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="max-h-[75vh] overflow-auto p-6 pt-4">
+                                    <div class="max-h-[75vh] overflow-auto p-6 pt-4 mt-10 md:mt-0">
                                         <!-- Product Boxes -->
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             @foreach($this->loadVariations() as $index => $variant)
@@ -599,7 +599,7 @@
                                                     :class="{
                                                         'border-blue-600 selected': isSelected,
                                                     }"
-                                                    class="border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
+                                                    class="bulk-order-product-box border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
                                                     <img
                                                         src="{{ $variant['image_url'] }}"
                                                         alt=""
@@ -627,7 +627,7 @@
                                                                             wire:click="incrementQuantity({{ $variant['id'] }})">+
                                                                     </button>
                                                                 </div> --}}
-                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]"
+                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[50%] lg:w-[50%]"
                                                                     x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
@@ -646,7 +646,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="flex md:justify-end justify-center">
+                                                        <div class="toggle-switch-wrapper flex md:justify-end justify-center">
                                                             <x-wui-toggle
                                                                 id="toggle_{{ $variant['id'] }}"
                                                                 wire:model.live="toggles.{{ $variant['id'] }}"
