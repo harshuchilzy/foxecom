@@ -25,17 +25,24 @@ class MyDiscountResourceExtension extends ResourceExtension
                 FileUpload::make('data.banner_image')
                     ->label('Spotlight Image')
                     ->image()
+                    ->required()
+                    ->columnSpanFull(),
+                FileUpload::make('data.mobile_banner_image')
+                    ->label('Mobile Spotlight Image')
+                    ->image()
                     ->required(),
                 FileUpload::make('data.promo_image')
                     ->label('Offer Image')
                     ->image()
                     ->required(),
                 TextInput::make('data.marketing_header')
-                    ->label('Marketing header'),
+                    ->label('Marketing header')
+                    ->columnSpanFull(),
                 TagsInput::make('data.discount_features')
                     ->label('Discount Features')
                     ->placeholder('Add keywords (e.g., Bulk Buy, Mega Value)')
-                    ->separator(','),
+                    ->separator(',')
+                    ->columnSpanFull(),
                 Select::make('data.display_type')
                     ->multiple()
                     ->label('Active Positions')
@@ -45,11 +52,13 @@ class MyDiscountResourceExtension extends ResourceExtension
                         'banner' => 'Banner',
                     ])
                     ->required()
-                    ->reactive(),
+                    ->reactive()
+                    ->columnSpanFull(),
                 TextInput::make('data.video_url')
                     ->label('Video URL')
                     ->placeholder('https://example.com/video.mp4')
-                    ->visible(fn ($get) => $get('data.banner_type') === 'video'),
+                    ->visible(fn ($get) => $get('data.banner_type') === 'video')
+                    ->columnSpanFull(),
                 Textarea::make('data.description')
                     ->label('Description')
                     ->autosize()

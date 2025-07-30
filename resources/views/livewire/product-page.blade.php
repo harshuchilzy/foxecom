@@ -509,7 +509,7 @@
                             <!-- Trigger Button -->
                             <div class="md:max-w-[90%] mt-5">
                                 <button
-                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
+                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter hover:bg-[#1275EE] hover:text-white hover:lg:border-[#1275EE] hover:shadow-lg" @click="showModal = true">
                                     Claim Offer Now
                                 </button>
                             </div>
@@ -551,7 +551,7 @@
                                                     @endif
                                                 </p>
                                                 <div class="lg:text-left text-center pb-2">
-                                                    <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: <span x-text="sumOfSelectedToggles">{{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }}</span> item(s)</strong>
+                                                    <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: <span>{{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }}</span> item(s)</strong>
                                                 </div>
                                             </div>
                                             @php
@@ -566,7 +566,7 @@
                                                         @disabled($addToCartDisabled)
                                                         :class="{
                                                             'opacity-50 cursor-not-allowed': @js($addToCartDisabled),
-                                                            'hover:bg-[#383838] cursor-pointer': !@js($addToCartDisabled)
+                                                            'hover:bg-[#454545] cursor-pointer': !@js($addToCartDisabled)
                                                         }">
                                                     <span wire:loading.remove wire:target="addSelectedToCart">Add to Cart</span>
                                                     <span wire:loading wire:target="addSelectedToCart">Adding...</span>
@@ -593,7 +593,9 @@
                                                     $isDisabled = $this->getSumOfSelectedToggles() >= $maxSelected;
                                                 @endphp
                                                 
-                                                <div x-data="{ isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
+                                                <div x-data="{ 
+                                                    isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), 
+                                                    isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
                                                     :class="{
                                                         'border-blue-600 selected': isSelected,
                                                     }"
@@ -629,16 +631,16 @@
                                                                     x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="if(quantity > 1) { quantity--; calculateSum(); }">-
+                                                                            @click="if(quantity > 1) { quantity--; $wire.getSumOfSelectedToggles(); }">-
                                                                     </button>
                                                                     <input type="number"
                                                                         min="1"
                                                                         x-model.number="quantity"
-                                                                        @change="calculateSum()"
+                                                                        @change="$wire.getSumOfSelectedToggles()"
                                                                         class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
                                                                     <button type="button"
                                                                             class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="quantity++; calculateSum();">+
+                                                                            @click="quantity++; $wire.getSumOfSelectedToggles();">+
                                                                     </button>
                                                                 </div>
                                                             </div>
@@ -648,7 +650,7 @@
                                                             <x-wui-toggle
                                                                 id="toggle_{{ $variant['id'] }}"
                                                                 wire:model.live="toggles.{{ $variant['id'] }}"
-                                                                @change="calculateSum()"
+                                                                @change="$wire.getSumOfSelectedToggles()"
                                                                 :disabled="$isDisabled && !$toggles[$variant['id']]"
                                                                 info xl />
                                                         </div>
@@ -835,17 +837,19 @@
         </div>
     @endif
 
-    <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
-        <button @click="$wire.openReviewPopup()" class="bg-themeblue text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer font-inter font-bold">
-            Write a Review
-        </button>
-    </div>
+    {{-- Review section --}}
+    <div x-data="{ reviewPopup: @entangle('showReviewPopup')}">
+        <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
+            <button @click="reviewPopup = true" class="w-[150px] h-[40px] flex items-center justify-center gap-2 rounded-[60px] hover:bg-[#1275EE] bg-[#11316d] text-white font-inter font-bold cursor-pointer">
+                Write a Review
+            </button>
+        </div>
 
-    @if($showReviewPopup)
-        <div class="fixed inset-0  bg-opacity-10 z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+    
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto" x-show="reviewPopup" x-cloak>
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative" @click.away="reviewPopup = false">
                 <h2 class="text-2xl font-bold text-black mb-4">Write a Review</h2>
-                <button @click="$wire.closeReviewPopup()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 cursor-pointer">
+                <button @click="reviewPopup = false" class="absolute top-4 right-4 text-gray-500 cursor-pointer hover:text-red-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -917,14 +921,14 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 mt-4 cursor-pointer" wire:loading.attr="disabled">
+                    <button type="submit" class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter hover:bg-[#454545] hover:shadow-lg" wire:loading.attr="disabled" wire:target="submitReview">
                         <span wire:loading.remove wire:target="submitReview">Submit Review</span>
                         <span wire:loading wire:target="submitReview">Processing...</span>
                     </button>
                 </form>
             </div>
         </div>
-    @endif
+    </div>
 
     {{-- @php
     echo '<pre>';

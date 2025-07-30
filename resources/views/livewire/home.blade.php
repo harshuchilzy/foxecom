@@ -379,17 +379,21 @@
                                             $firstProduct = isset($discount->products) && $discount->products instanceof \Illuminate\Support\Collection
                                                 ? $discount->products->first()
                                                 : null;
-
+                                            
                                             $firstBrandMedia = $firstProduct?->brand_media instanceof \Illuminate\Support\Collection
                                                 ? $firstProduct->brand_media->first()
                                                 : null;
-
+                                            
                                             $brandImageUrl = $firstBrandMedia && isset($firstBrandMedia->uuid)
                                                 ? asset("storage/{$firstBrandMedia->id}/{$firstBrandMedia->file_name}")
-                                                : asset('images/fallback.png');
+                                                : '';
                                         @endphp
 
-                                        <img class="w-[60px] lg:w-[140px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
+                                        @if ($brandImageUrl)
+                                            <img class="w-[60px] lg:w-[140px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
+                                        @else
+                                            <div class="h-[24px] lg:w-[140px] mb-2"></div>
+                                        @endif
                                         <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
                                     </div>
 

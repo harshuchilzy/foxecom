@@ -49,7 +49,7 @@ class ProductPage extends Component
         'reviewForm.images.*' => 'nullable|image|max:2048',
     ];
 
-    public $showReviewPopup = false;
+    public bool $showReviewPopup = false;
     public bool $showBulkAddToCartPopup = false;
     public $variations = [];
     public array $selectedVariants = [];
@@ -264,15 +264,15 @@ class ProductPage extends Component
         return redirect()->route('product.view', ['slug' => $this->url->slug]);
     }
 
-    public function openReviewPopup()
-    {
-        $this->showReviewPopup = true;
-    }
+    // public function openReviewPopup()
+    // {
+    //     $this->showReviewPopup = true;
+    // }
 
-    public function closeReviewPopup()
-    {
-        $this->showReviewPopup = false;
-    }
+    // public function closeReviewPopup()
+    // {
+    //     $this->showReviewPopup = false;
+    // }
 
     //New popup update start at here
     public function loadVariations()

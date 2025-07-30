@@ -4,6 +4,7 @@
     use Lunar\Models\Url;
 
     $bannerImage = $discount->data['banner_image'] ?? null;
+    $mobileBannerImage = $discount->data['mobile_banner_image'] ?? $bannerImage;
     $discountType = class_basename($discount->type);
     $couponAmount = $discount->data['coupon_amount'] ?? 0;
     $displayText = match ($discountType) {
@@ -71,13 +72,16 @@
     $couponCode = $discount->coupon;
 
 @endphp
-<div class="w-full h-[100vh] relative" style="background-image: url('{{ asset('storage/' . $bannerImage) }}'); background-size: cover; background-position: center;">
+<div class="w-full relative">
+
+    <img src="{{ asset('storage/' . $bannerImage) }}" class="w-full hidden md:block"/>
+    <img src="{{ asset('storage/' . $mobileBannerImage) }}" class="w-full block md:hidden"/>
     <div class="block lg:hidden absolute top-8 left-5">
         <button onclick="window.history.back()">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="14" fill="#D9D9D9" fill-opacity="0.5"/><path fill-rule="evenodd" clip-rule="evenodd" d="M11.343 13.9999L18.414 21.0709L17 22.4849L9.22199 14.7069C9.03451 14.5194 8.9292 14.2651 8.9292 13.9999C8.9292 13.7347 9.03451 13.4804 9.22199 13.2929L17 5.51489L18.414 6.92889L11.343 13.9999Z" fill="white"/></svg>
         </button>
     </div>
-    <div class="hidden lg:flex gap-5 items-center justify-between px-10 py-26 bg-no-repeat absolute top-[35%] right-0 offer-txt-bg">
+    <div class="hidden lg:flex gap-5 items-center justify-between px-10 py-26 bg-no-repeat absolute top-1/2 -translate-y-1/2 right-0 offer-txt-bg">
         <div class="claim-offer-label">
             <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
             <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
