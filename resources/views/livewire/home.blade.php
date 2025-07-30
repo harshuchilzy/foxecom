@@ -276,7 +276,7 @@
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-2xl mt-2 {{ $textClass }} ">{{ $title }}</h3>
                                     </a>
-                                    <p class="text-[18px] font-semibold mt-2 {{ $textClass }}">{{ $claimed }}%</p>
+                                    {{-- <p class="text-[18px] font-semibold mt-2 {{ $textClass }}">{{ $claimed }}%</p> --}}
                                 </div>
 
                                 <div class="items-center justify-between w-full lg:hidden block">
