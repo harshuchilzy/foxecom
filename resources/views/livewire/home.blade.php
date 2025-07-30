@@ -203,7 +203,7 @@
                     @endforeach
                 </div> --}}
 
-                <div class="relative">
+                <div class="overflow-x-auto pb-2">
                     <div class="md:w-full relative flex md:grid md:grid-cols-3 gap-3 md:gap-6">
                         @foreach ($latestDiscounts as $discount)
                             @php
@@ -217,6 +217,10 @@
                                 $image = isset($data['promo_image']) && $data['promo_image']
                                     ? asset('storage/' . $data['promo_image'])
                                     : asset('images/fallback.png');
+
+                                $mobileImage = isset($data['mobile_promo_image']) && $data['mobile_promo_image']
+                                    ? asset('storage/' . $data['promo_image'])
+                                    : $image;
 
                                 $claimed = (int)(
                                     (($discount->uses > 0 ? $discount->uses : 1)
@@ -264,7 +268,7 @@
                                 $product = $discount->purchasables ? $discount->purchasables->first()?->product : null;
                                 $productUrl = $product?->defaultUrl?->slug;
 
-                                // dd($discount);
+                                $productBrand = $discount->products->first()?->brand?->name ?? '';
                             @endphp
 
                             <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
@@ -275,7 +279,8 @@
                                     <p class="text-[18px] font-semibold mt-2 {{ $textClass }}">{{ $claimed }}%</p>
                                 </div>
 
-                                <div class="items-center justify-between w-full lg:hidden flex">
+                                <div class="items-center justify-between w-full lg:hidden block">
+                                    <div class="mb-1 uppercase text-xs sm:text-lg font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">{{ $productBrand }}</div>
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-xs sm:text-lg uppercase mt-2 {{ $textClass }} ">{{ $title }}</h3>
                                     </a>
@@ -290,9 +295,15 @@
                                 <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}%
                                     claimed</p>
 
-                                <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
+                                <div class="w-full justify-center items-center mt-4 lg:mt-8 xl:mt-0 lg:flex hidden">
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $image }}" alt="{{ $title }}">
+                                    </a>
+                                </div>
+
+                                <div class="w-full justify-center items-center mt-4 lg:mt-8 xl:mt-0 lg:hidden flex">
+                                    <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
+                                        <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $mobileImage }}" alt="{{ $title }}">
                                     </a>
                                 </div>
 
