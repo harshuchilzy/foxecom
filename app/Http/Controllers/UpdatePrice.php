@@ -19,23 +19,23 @@ class UpdatePrice extends Controller
                     $outerBox = (int)($variant->product->attr('outer-box') ?? 1);
                     
                     $variant->prices->each(function ($price) use ($outerBox) {
-                        $updateData = [];
+                        // $updateData = [];
                 
-                        if (!is_null($price->price)) {
-                            $updateData['price'] = $price->price->value * $outerBox;
-                        }
+                        // if (!is_null($price->price)) {
+                        //     $updateData['price'] = $price->price->value * $outerBox;
+                        // }
                         
-                        if (!is_null($price->compare_price)) {
-                            $updateData['compare_price'] = $price->compare_price->value * $outerBox;
-                        }
+                        // if (!is_null($price->compare_price)) {
+                        //     $updateData['compare_price'] = $price->compare_price->value * $outerBox;
+                        // }
                         
-                        if (!empty($updateData)) {
-                            $price->update($updateData);
-                        }
-                        // echo '<pre>';
-                        // print_r($price);
-                        // echo '</pre>';
-                        // print_r($outerBox);
+                        // if (!empty($updateData)) {
+                        //     $price->update($updateData);
+                        // }
+                        echo '<pre>';
+                        print_r($price);
+                        echo '</pre>';
+                        print_r($outerBox);
                     });
                 }
             });

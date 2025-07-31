@@ -212,4 +212,5 @@ Route::get('temp', function(){
         // }, name: "Order-{$record->reference}.pdf");
     });
 
-Route::get('update-prices', [UpdatePrice::class, 'update']);
+// Price updating route    
+// Route::get('update-prices', [UpdatePrice::class, 'update']);
