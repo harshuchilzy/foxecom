@@ -14,11 +14,12 @@ use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
+use App\Mail\CustomerWelcomeMail;
+use App\Mail\CustomerNewOrderMail;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\UpdatePrice;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use App\Mail\CustomerNewOrderMail;
-use App\Mail\CustomerWelcomeMail;
-use Illuminate\Support\Facades\Mail;
 use Lunar\Models\Order as ModelsOrder;
 use App\Http\Controllers\CheckoutController;
 
@@ -195,7 +196,7 @@ Route::middleware('auth')
         Route::post('complete', 'complete')->name('complete');
     });
 
-    Route::get('temp', function(){
+Route::get('temp', function(){
         // $user = User::find();
         // phpinfo();
         echo 'OK';
@@ -210,3 +211,5 @@ Route::middleware('auth')
         //     ])->stream();
         // }, name: "Order-{$record->reference}.pdf");
     });
+
+Route::get('update-prices', [UpdatePrice::class, 'update']);

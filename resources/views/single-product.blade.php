@@ -85,6 +85,7 @@
                                 {{ $product->variant->first()->prices->first()->compare_price->formatted }}
                             @endif
                         </p>
+                    
 
                         {{-- @foreach($product->variants as $variant)
                             <div class="variant">
