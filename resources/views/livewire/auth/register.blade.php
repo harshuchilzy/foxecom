@@ -35,52 +35,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
     public $registration_certificate, $vat_certificate, $proof_of_id, $proof_of_address;
     public string $customer_type = 'retailer'; // default selection
 
-    // public array $cities = array();
-
-    // function mount() : void {
-    //     $this->loadUKCities();
-    // }
-
-    // public function updated($property) : void {
-    //     Log::info("Property updated: {$property}");
-    //     if($property === 'country') {
-    //         $this->reset('city');
-    //         $this->cities = [];
-    //         if ($this->country === 'uk') {
-    //             $this->loadUKCities();
-    //         } elseif ($this->country === 'uae') {
-    //             $this->loadUAECities();
-    //         }
-    //     }
-    // }
-
-    // function loadUKCities() : void {
-    //     $this->cities = [
-    //         ['value' => 'london', 'label' => 'London'],
-    //         ['value' => 'manchester', 'label' => 'Manchester'],
-    //         ['value' => 'birmingham', 'label' => 'Birmingham'],
-    //         ['value' => 'liverpool', 'label' => 'Liverpool'],
-    //         ['value' => 'leeds', 'label' => 'Leeds'],
-    //         ['value' => 'glasgow', 'label' => 'Glasgow'],
-    //         ['value' => 'edinburgh', 'label' => 'Edinburgh'],
-    //         ['value' => 'bristol', 'label' => 'Bristol'],
-    //         ['value' => 'sheffield', 'label' => 'Sheffield'],
-    //         ['value' => 'nottingham', 'label' => 'Nottingham']
-    //     ];
-    // }
-
-    // function loadUAECities() : void {
-    //     $this->cities = [
-    //         ['value' => 'dubai', 'label' => 'Dubai'],
-    //         ['value' => 'abu_dhabi', 'label' => 'Abu Dhabi'],
-    //         ['value' => 'sharjah', 'label' => 'Sharjah'],
-    //         ['value' => 'ajman', 'label' => 'Ajman'],
-    //         ['value' => 'fujairah', 'label' => 'Fujairah'],
-    //         ['value' => 'ras_al_khaimah', 'label' => 'Ras Al Khaimah'],
-    //         ['value' => 'umm_al_quwain', 'label' => 'Umm Al Quwain']
-    //     ];
-    // }
-
     /**
      * Handle an incoming registration request.
      */
@@ -116,8 +70,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
         $validated['vat_certificate'] = $this->vat_certificate?->store('uploads/vat_certificates', 'public');
         $validated['proof_of_id'] = $this->proof_of_id?->store('uploads/proof_of_id', 'public');
         $validated['proof_of_address'] = $this->proof_of_address?->store('uploads/proof_of_address', 'public');
-
-        // Log::info('User registration data:' . print_r($validated, false));
 
         event(new Registered(($user = User::create($validated))));
 
@@ -230,9 +182,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div class="col-span-2">
                 <label for="country_code" class="uppercase text-xs">Country Code <span
                         class="text-red-500 text-xs">*</span></label>
-                <select wire:model="country_code" id="country_code"
-                    class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none">
-                    {{-- <option value="">Country Phone Code* (e.g., 971)</option> --}}
+                <select wire:model="country_code" id="country_code" class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none">
                     <option value="971">+971 (UAE)</option>
                     <option value="44" selected>+44 (UK)</option>
                 </select>
@@ -456,8 +406,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <!-- Country (fixed to UK) -->
             <div class="border border-theme-zinc p-3 mb-3">
                 <label class="uppercase text-xs">Country</label>
-                {{-- <select wire:model.blur="country" id="country" --}} <select wire:model="country" id="country"
-                    class="bg-whiterounded-0 block w-full py-2 text-zinc-900 focus:outline-none">
+                <select wire:model="country" id="country" class="bg-whiterounded-0 block w-full py-2 text-zinc-900 focus:outline-none">
                     <option value="uk">United Kingdom</option>
                     <option value="uae">United Arab Emirates</option>
                 </select>
@@ -466,15 +415,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
                 <div class="p-3 city-select">
                     <!-- City -->
-                    <label for="city" class="uppercase text-xs">Select City <span
-                            class="text-red-500 text-xs">*</span></label>
-                    {{-- <select x-model="city" wire:model="city" id="city"
-                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 focus:outline-none">
-                        <option value="">-- Select City --</option>
-                        @foreach ($cities as $city)
-                        <option value="{{$city['value']}}" class="capitalize">{{$city['label']}}</option>
-                        @endforeach
-                    </select> --}}
+                    <label for="city" class="uppercase text-xs">Select City <span class="text-red-500 text-xs">*</span></label>
                     <div x-data="{
                             open: false,
                             search: '',
@@ -545,9 +486,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Postcode -->
                 <div class="p-3">
-                    <label for="postcode" class="uppercase text-xs">Postcode <span
-                            class="text-red-500 text-xs">*</span></label>
-                    {{-- <input type="text" wire:model="post_code"> --}}
+                    <label for="postcode" class="uppercase text-xs">Postcode <span class="text-red-500 text-xs">*</span></label>
                     <input type="text" wire:model="postcode" id="postcode"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                         placeholder="E.g. W1A 1AA" />
@@ -676,8 +615,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="flex items-center justify-end">
             <button type="submit"
-                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign
-                Up')}}</button>
+                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign Up')}}</button>
         </div>
     </form>
 

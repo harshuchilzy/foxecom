@@ -8,12 +8,18 @@ use Lunar\Models\Product;
 use Illuminate\Support\Facades\DB;
 class OfferPage extends Component
 {
+    /**
+     * Discount collect
+     */
     public Discount $discount;
+
+    /**
+     * Discount Id
+     */
     public int $id;
 
     public function mount( int $id ): void
     {
-        // $this->discount = Discount::findOrFail($id);
         $this->discount = Discount::findOrFail($id);
 
         $productId = DB::table('lunar_discount_purchasables')

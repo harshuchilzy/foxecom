@@ -1,25 +1,19 @@
 
 <div class="max-w-[1440px] mx-auto px-5 py-12 flex flex-col gap-8 justify-center items-center lg:min-h-[70vh] bg-white">
 
-    {{-- @if (session()->has('success'))
-        <div class="text-green-600 font-medium">{{ session('success') }}</div>
-    @endif --}}
-
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
-
-        {{-- Billing address section --}}
+        <!-- Billing address section -->
         <div class="flex flex-col gap-8">
             <div class="flex justify-between w-full">
                 <p class="font-inter font-semibold text-[22px] text-black">Billing Address</p>
                 @if ($billingAddress)
-                    <button class="cursor-pointer" x-on:click="$openModal('billingAddressEdit')" type="button">
+                    <button class="cursor-pointer hover:text-[#1275EE] hover:shadow-lg rounded-lg" x-on:click="$openModal('billingAddressEdit')" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                         </svg>
                     </button>
                 @else
-                    <button class="cursor-pointer" data-modal-target="billing-address-edit" x-on:click="$openModal('billingAddressEdit')" type="button">
+                    <button class="cursor-pointer hover:text-[#1275EE] hover:shadow-lg rounded-lg" data-modal-target="billing-address-edit" x-on:click="$openModal('billingAddressEdit')" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                     </button>
                 @endif
@@ -34,11 +28,8 @@
 
                         <p class="font-inter font-normal text-[15px] text-black">{{ $first_name }} {{ $last_name }}</p>
                         @if (empty($billingAddress->postcode))
-                            {{-- <button type="button" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">
-                                {{__('Add a billing address')}}
-                            </button> --}}
-                            <button class="cursor-pointer flex gap-4 my-4 border py-3 px-6" data-modal-target="billing-address-edit" data-modal-toggle="billing-address-edit" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> <span>{{__('Add a billing address')}}</span>
+                            <button class="cursor-pointer flex gap-4 my-4 border py-3 px-6 hover:text-[#1275EE]" data-modal-target="billing-address-edit" data-modal-toggle="billing-address-edit" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke-width="1.5"  class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> <span>{{__('Add a billing address')}}</span>
                             </button>
                         @else
                             <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->line_one ?? '' }}</p>
@@ -56,7 +47,7 @@
                 @endif
 
                 <!-- Billing Address Edit modal -->
-                <x-wui-modal-card name="billingAddressEdit" wire:model="billingAddressEdit" title="Billing Address" description="">
+                <x-wui-modal-card name="billingAddressEdit" wire:model="billingAddressEdit" title="Billing Address" description="" >
                     <input type="hidden" name="billing_default" value="1">
                     <div class="mb-6">
                         <label for="company" class="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
@@ -109,8 +100,11 @@
                             </select>
                         </div>
                         <x-slot name="footer" class="flex justify-between gap-x-4">
-                            <button type="submit" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"  wire:click="saveBillingAddress" primary >Save Address</button>
-                            <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="close">Cancel</button>
+                            <button type="submit" class="!text-white !bg-[#11316d] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-[60px] text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="saveBillingAddress" primary >
+                                <span wire:loading.remove wire:target="saveBillingAddress">Save Address</span>
+                                <span wire:loading wire:target="saveBillingAddress">Saving...</span>
+                            </button>
+                            <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-[60px] border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer font-inter hover:shadow-lg" x-on:click="close">Cancel</button>
                         </x-slot>
                     </div>
                 </x-wui-modal-card>
@@ -119,11 +113,11 @@
         </div>
 
 
-        {{-- Shipping Address section --}}
+        <!-- Shipping Address section -->
         <div class="flex flex-col gap-8">
             <div class="flex justify-between w-full">
                 <p class="font-inter font-semibold text-[22px] text-black">Shipping Address</p>
-                <button class="cursor-pointer"  x-on:click="$openModal('addShippingAddress')" type="button">
+                <button class="cursor-pointer hover:text-[#1275EE] hover:shadow-lg rounded-lg"  x-on:click="$openModal('addShippingAddress')" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 </button>
             </div>
@@ -150,7 +144,6 @@
                     </thead>
                     <tbody>
                     @forelse ($shippingAddresses as $address)
-                        {{-- {{dd($address)}} --}}
                         <tr class="odd:bg-white even:bg-gray-50 border-gray-200">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 {{ $address->first_name }} {{ $address->last_name }}
@@ -246,48 +239,54 @@
                     </div>
 
                     <x-slot name="footer" class="flex justify-between gap-x-4">
-                        <button type="submit" class="!text-white !bg-blue-700 !hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"  wire:click="saveShippingAddress(null)" primary >Save Address</button>
-                        <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer" x-on:click="close">Cancel</button>
+                        <button type="submit" class="!text-white !bg-[#11316d] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-[60px] text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="saveShippingAddress(null)" primary >
+                            <span wire:loading.remove wire:target="saveShippingAddress">Save Address</span>
+                            <span wire:loading wire:target="saveShippingAddress">Saving...</span>
+                        </button>
+                        <button type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-[60px] border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:ring-gray-100 cursor-pointer font-inter hover:shadow-lg" x-on:click="close">Cancel</button>
                     </x-slot>
                 </x-wui-modal-card>
 
             </div>
         </div>
     </div>
-        @script
+
+    <!-- Address page scripts -->
+    @script
         <script>
-        let shippingModal;
+            let shippingModal;
 
-        $wire.on('address-modal-open', () => {
-            setTimeout(() => {
-                const options = {
-                    backdrop: 'dynamic',
-                    backdropClasses:
-                        'bg-gray-900/50 fixed inset-0 z-40 backdrop',
-                    closable: true,
-                    onHide: () => {
-                        console.log('modal is hidden');
-                        document.querySelectorAll('.backdrop').forEach(el => el.style.display = 'none');
-                    },
-                    onShow: () => {
-                        console.log('modal is shown');
-                    },
-                    onToggle: () => {
-                        console.log('modal has been toggled');
-                    }
-                };
-                shippingModal = new Modal(document.getElementById('shipping-address-add'), options);
-                shippingModal.show();
-            }, 300);
-        });
+            $wire.on('address-modal-open', () => {
+                setTimeout(() => {
+                    const options = {
+                        backdrop: 'dynamic',
+                        backdropClasses:
+                            'bg-gray-900/50 fixed inset-0 z-40 backdrop',
+                        closable: true,
+                        onHide: () => {
+                            console.log('modal is hidden');
+                            document.querySelectorAll('.backdrop').forEach(el => el.style.display = 'none');
+                        },
+                        onShow: () => {
+                            console.log('modal is shown');
+                        },
+                        onToggle: () => {
+                            console.log('modal has been toggled');
+                        }
+                    };
+                    shippingModal = new Modal(document.getElementById('shipping-address-add'), options);
+                    shippingModal.show();
+                }, 300);
+            });
 
-        // Listen for custom close event
-        window.addEventListener('close-shipping-modal', () => {
-            if (shippingModal) {
-                shippingModal.hide();
-            }
-        });
+            // Listen for custom close event
+            window.addEventListener('close-shipping-modal', () => {
+                if (shippingModal) {
+                    shippingModal.hide();
+                }
+            });
         </script>
-        @endscript
+    @endscript
+
 </div>
 

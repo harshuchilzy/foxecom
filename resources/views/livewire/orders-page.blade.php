@@ -1,9 +1,10 @@
 <div class="max-w-[1280px] relative mx-auto px-4">
+    <!-- Order page title section -->
     <div class="pt-5 flex w-full justify-start">
         <h1 class="font-semibold text-[30px] text-[#111111]">Your Orders</h1>
     </div>
 
-    
+    <!-- Filter orders section -->
     <div class="py-5 flex items-center gap-6 w-full">
         <p class="text-black text-[14px]">
             <span class="font-bold"></span>
@@ -24,7 +25,9 @@
         </div>
     </div>
 
+    <!-- Orders section -->
     <div class="flex gap-6 items-start flex-col md:flex-row">
+        <!-- Placed orders subsection -->
         <div class="w-full md:w-[75%]">
             @if ($orderCount > 0)
                 @foreach ($orders as $order)
@@ -41,6 +44,7 @@
             </div>
         </div>
 
+        <!-- Order suggestion subsection -->
         <div class="w-full md:w-[25%]">
             @php
             $orderItems = $this->getRandomOrderItems()
@@ -56,14 +60,6 @@
 
                             <p class="text-black text-[14px] font-inter">
                                 <span class="font-normal">Buy from </span>
-                                @php
-                                    // if ($orderItem['product']->prices['compare_price'] > 0) {
-                                    //     $productPrice = $orderItem['product']->compare_price->formatted;
-                                    // } else {
-                                    //     $productPrice = $orderItem['product']->price->formatted;
-                                    // }
-                                    //dd($orderItem['product']->prices->compare_price);
-                                @endphp
                                 <span class="font-bold">{{$orderItem['line'] ? $orderItem['line']->unit_price->formatted : ''}}</span>
                             </p>
                             <p class="text-black text-[14px] font-normal font-inter">{{ $orderItem['order_created_at'] ? 'Purchased ' . $orderItem['order_created_at']->format('M Y') : 'Not ordered yet'}}</p>

@@ -3,13 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Page;
-use Lunar\DiscountTypes\BuyXGetY;
 use Lunar\Models\Url;
 use Livewire\Component;
+use Lunar\Models\Brand;
 use Illuminate\View\View;
 use App\Models\Redemption;
-use Lunar\Models\Collection;
 use Lunar\Models\Discount;
+use Lunar\Models\Collection;
+use Lunar\DiscountTypes\BuyXGetY;
 use Illuminate\Support\Facades\DB;
 
 class Home extends Component
@@ -55,13 +56,26 @@ class Home extends Component
         return $collections->inRandomOrder()->first()?->element;
     }
 
+    /**
+     * Get BrandSlugs
+     */
+    public function getBrandSlug($brandId) 
+    {
+        $brandSlug = $brandId 
+                        ? Url::where('element_id', $brandId)
+                            ->where('element_type', 'brand')
+                            ->value('slug') 
+                        : null;
+
+        return $brandSlug;
+    }
+
     public function render(): View
     {
         $page = Page::with(['meta', 'gallery'])->where('slug', 'home')->first();
         $metaFields = $page?->getMetaKeyValueArray() ?? [];
         $mediaCollection = $page?->getMediaCollectionArray() ?? [];
 
-        //$discounts = Discount::active()->get();
         $discounts = Discount::whereNotNull('starts_at')
             ->where('starts_at', '<=', now())
             ->where(function ($query) {
@@ -105,7 +119,7 @@ class Home extends Component
             return $discount;
         });
 
-        $latestDiscounts = $discounts; //->where('type', 'Lunar\DiscountTypes\BuyXGetY')->take(3);
+        $latestDiscounts = $discounts; 
 
         return view('livewire.home', [
             'latestDiscounts' => $latestDiscounts,

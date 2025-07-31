@@ -1,5 +1,6 @@
 <div
     x-data="{ currentStep: @entangle('currentStep'), showAddressEdit: @entangle('showAddressEdit'), deliveryOptionVerified: @entangle('deliveryOptionVerified') }">
+    <!-- Checkout page title -->
     <div class="pt-5 flex w-full justify-center">
         <h1 class="font-bold text-[30px] text-[#111111]">Checkout</h1>
     </div>
@@ -7,10 +8,9 @@
     <div class="max-w-[1280px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-12 justify-center items-start">
 
         <div class="flex w-full flex-col lg:flex-row gap-4 lg:gap-20">
-            {{-- <span class="gggg">{{$currentStep}}</span> --}}
             <div class="lg:w-[60%]" id="accordion-flush" data-accordion="collapse"
                  data-active-classes="bg-white text-gray-900" data-inactive-classes="text-gray-500">
-                {{-- Delivery Options Section --}}
+                <!-- Delivery Options Section - header -->
                 <h2 id="accordion-delivery-options">
                     <button type="button"
                             @click="$wire.set('currentStep', 1), $wire.set('deliveryOptionVerified', false)"
@@ -26,6 +26,7 @@
                         </svg>
                     </button>
                 </h2>
+                <!-- Delivery Options Section - content -->
                 <div id="accordion-flush-body-1"
                      aria-labelledby="accordion-delivery-options">
                     <div class="py-5 border-b border-gray-200">
@@ -80,8 +81,8 @@
                                                       :async-data="route('api.address.search')" option-label="address"
                                                       option-value="id"/>
                                     </div>
-                                    {{-- Delivery Address --}}
 
+                                    {{-- Delivery Address --}}
                                     @if (isset($shipping['postcode']) && !empty($shipping['postcode']))
                                         <div class="py-5" x-show="!showAddressEdit">
                                             <h3 class="font-semibold text-[18px] text-[#111111] mb-2">
@@ -130,14 +131,6 @@
 
                             </div>
 
-{{--                            <div class="pt-5" x-show="!showAddressEdit">--}}
-{{--                                --}}{{-- <h3 class="font-semibold text-[16px] text-[#111111]">Delivery</h3>--}}
-{{--                                <p class="font-semibold text-[16px] text-[#70707C]">Free</p>--}}
-{{--                                <p class="font-semibold text-[16px] text-[#70707C]">Arrives by Tue 15 Apr</p> --}}
-{{--                                @include('partials.checkout.shipping_option', ['step' => $steps['shipping_option']])--}}
-{{--                            </div>--}}
-
-
                             <a x-show="!showAddressEdit" @click="$wire.saveAndContinueToNext()"
                                class="{{ $currentStep != 1 ? 'hidden' : 'mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center' }}">Save
                                 & Continue</a>
@@ -146,6 +139,7 @@
                     </div>
                 </div>
 
+                <!-- Payments Section - header -->
                 <h2 id="accordion-flush-heading-2">
                     <button type="button"
                             class="flex items-center cursor-pointer justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
@@ -162,26 +156,21 @@
                     </button>
                 </h2>
 
+                <!-- Payments Section - content -->
                 @include('partials.checkout.payment')
 
-                {{-- Order Review Section --}}
+                <!-- Order Review Section - header -->
                 <h2 id="accordion-flush-heading-3">
                     <button type="button"
                             class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3 cursor-pointer"
                             data-accordion-target="#accordion-flush-body-3" @click="$wire.set('currentStep', 3)"
                             aria-expanded="false" aria-controls="accordion-flush-body-3">
                         <span class="font-semibold text-[24px] text-[#111111]">Order Review</span>
-                        {{-- <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 14.5C5 14.5 6.5 14.5 8.5 18C8.5 18 14.059 8.833 19 7" stroke="black"
-                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg> --}}
                     </button>
                 </h2>
 
-                <div id="accordion-flush-body-3"
-                     {{--                     class="{{ $currentStep != 3 ? 'hidden' : '' }}"--}}
-                     aria-labelledby="accordion-flush-heading-3">
+                <!-- Order Review Section - content -->
+                <div id="accordion-flush-body-3" aria-labelledby="accordion-flush-heading-3">
                     <div class="py-5 border-b border-gray-200">
                         <div class="pt-5">
                             <p class="text-[16px] font-semibold text-[#70707C]">By clicking the 'Submit
@@ -211,67 +200,7 @@
             </div>
 
 
-            {{-- In Your Bag Section --}}
-            {{--            <div class="w-full lg:w-[40%] flex flex-col gap-3">--}}
-            {{--                <h2 class="text-[#000000] font-bold text-[24px]">In Your Bag</h2>--}}
-            {{--                <div class="w-full">--}}
-            {{--                    <div class="py-2 flex justify-between items-center">--}}
-            {{--                        <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>--}}
-            {{--                        <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->subTotal->formatted() }}</p>--}}
-            {{--                    </div>--}}
-
-            {{--                    @if ($this->shippingOption)--}}
-            {{--                        <div class="py-2 flex justify-between items-center">--}}
-            {{--                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}</h3>--}}
-            {{--                            <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>--}}
-            {{--                        </div>--}}
-            {{--                    @endif--}}
-
-            {{--                    <div class="py-2 flex justify-between items-center">--}}
-            {{--                        <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>--}}
-            {{--                        <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->total->formatted() }}</p>--}}
-            {{--                    </div>--}}
-
-            {{--                    <div class="pt-5">--}}
-            {{--                        <h3 class="text-[16px] font-normal text-[#111111] pb-5">Arrives by Sun, 13 Apr</h3>--}}
-
-            {{--                        @foreach ( $cart?->lines as $line )--}}
-            {{--                            --}}{{-- {{dd($line->purchasable->prices->first()->price)}} --}}
-            {{--                            @php--}}
-            {{--                                $product = $line->purchasable->product;--}}
-            {{--                                $product_prices = $line->purchasable->prices->first();--}}
-
-            {{--                                if ( $product_prices->compare_price?->decimal > 0 ) {--}}
-            {{--                                    $product_price = $product_prices->compare_price->formatted;--}}
-            {{--                                } else {--}}
-            {{--                                    $product_price = $product_prices->price?->formatted();--}}
-            {{--                                }--}}
-            {{--                            @endphp--}}
-            {{--                            <div class="flex gap-5 items-center justify-start">--}}
-            {{--                                <div class="">--}}
-            {{--                                    <img class="w-[60px] h-[60px] object-contain"--}}
-            {{--                                         src="{{ $product->thumbnail?->getUrl() }}" alt="">--}}
-            {{--                                </div>--}}
-            {{--                                <div>--}}
-            {{--                                    --}}{{-- <pre>--}}
-            {{--                                    {{dd($line)}}--}}
-            {{--                                    </pre> --}}
-            {{--                                    <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>--}}
-            {{--                                        <h2--}}
-            {{--                                            class="font-semibold text-[16px] text-black">{{ $product->translateAttribute('name') }} {{ $line->option ? ' - ' . $line->option : '' }}--}}
-            {{--                                        </h2>--}}
-            {{--                                    </a>--}}
-
-            {{--                                    <p class="font-normal text-[16px] text-black">{{ 'Qty: ' . $line->quantity . ' @ ' . $product_price }}</p>--}}
-            {{--                                </div>--}}
-            {{--                            </div>--}}
-            {{--                        @endforeach--}}
-
-            {{--                    </div>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-
-
+            <!-- In Your Bag Section -->
             <div class="w-full lg:w-[40%] flex flex-col gap-3">
                 @php
                     // Total quantities
@@ -284,7 +213,7 @@
 
                 <h2 class="text-[#000000] font-bold text-[24px]">In Your Bag</h2>
 
-                {{--                Total Products--}}
+                {{-- Total Products --}}
                 <div class="py-2 flex justify-between items-center border-b">
                     <h3 class="text-[16px] font-normal text-[#111111]">Total Products</h3>
                     <p class="text-[14px] font-normal text-[#111111]">
@@ -293,46 +222,36 @@
                     </p>
                 </div>
 
-                {{--                Subtotal--}}
+                {{-- Subtotal --}}
                 <div class="py-2 flex justify-between items-center">
                     <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
                     <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->subTotal->formatted() }}</p>
                 </div>
 
-                {{--                Shipping--}}
-                {{-- @if ($this->shippingOption)
+                {{-- Shipping options --}}
+                @if ($this->shippingOption)
                     <div class="py-2 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">
-                            {{ $this->shippingOption->getDescription() }}
-                        </h3>
-                        <p class="text-[14px] font-normal text-[#111111]">
-                            {{ $this->shippingOption->getPrice()->formatted() }}
-                        </p>
+                        <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getName() }}</h3>
+                        <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>
                     </div>
-                @endif --}}
+                @endif
 
-                    @if ($this->shippingOption)
-                        <div class="py-2 flex justify-between items-center">
-                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getName() }}</h3>
-                            <p class="text-[14px] font-normal text-[#111111]">{{ $this->shippingOption->getPrice()->formatted() }}</p>
+                {{-- Taxes --}}
+                @if($cart?->taxBreakdown)
+                    @foreach ($this->cart?->taxBreakdown->amounts as $tax)
+                        <div class="py-3 flex justify-between items-center">
+                            <h3 class="text-[16px] font-normal text-[#111111]">
+                                {{ $tax->description }} : {{ $tax->percentage }}%
+                            </h3>
+
+                            <p class="text-[14px] font-normal text-[#111111]">
+                                {{ $tax->price->formatted() }}
+                            </p>
                         </div>
-                    @endif
+                    @endforeach
+                @endif
 
-                    @if($cart?->taxBreakdown)
-                        @foreach ($this->cart?->taxBreakdown->amounts as $tax)
-                            <div class="py-3 flex justify-between items-center">
-                                <h3 class="text-[16px] font-normal text-[#111111]">
-                                    {{ $tax->description }} : {{ $tax->percentage }}%
-                                </h3>
-
-                                <p class="text-[14px] font-normal text-[#111111]">
-                                    {{ $tax->price->formatted() }}
-                                </p>
-                            </div>
-                        @endforeach
-                    @endif
-
-                {{--                Discount--}}
+                {{-- Discount --}}
                 @if ($cart?->discountTotal && $cart->discountTotal->value > 0)
                     <div class="py-2 flex justify-between items-center">
                         <h3 class="text-[16px] font-normal text-[#111111]">Discount</h3>
@@ -342,15 +261,15 @@
                     </div>
                 @endif
 
-                {{--                Total--}}
+                {{-- Total --}}
                 <div class="py-2 flex justify-between items-center border-b">
                     <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
                     <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->total->formatted() }}</p>
                 </div>
 
+                {{-- Items in the bag --}}
                 <div class="pt-5">
-
-                    {{--                    Line Items--}}
+                    {{-- Line Items --}}
                     @foreach ($cart?->lines as $line)
                         @php
                             $product   = $line->purchasable->product;
@@ -394,111 +313,9 @@
                 </div>
             </div>
 
-
         </div>
 
     </div>
-
-
-    {{-- <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start">
-                <div
-                    class="px-6 py-8 space-y-4 bg-white border border-gray-100 lg:sticky lg:top-8 rounded-xl lg:order-last">
-                    <h3 class="font-medium">
-                        Order Summary
-                    </h3>
-
-                    <div class="flow-root">
-                        <div class="-my-4 divide-y divide-gray-100">
-                            @foreach ($cart->lines as $line)
-                            <div class="flex items-center py-4" wire:key="cart_line_{{ $line->id }}">
-                                <img class="object-cover w-16 h-16 rounded"
-                                    src="{{ $line->purchasable->getThumbnail()->getUrl() }}" />
-
-                                <div class="flex-1 ml-4">
-                                    <p class="text-sm font-medium max-w-[35ch]">
-                                        {{ $line->purchasable->getDescription() }}
-                                    </p>
-
-                                    <span class="block mt-1 text-xs text-gray-500">
-                                        {{ $line->quantity }} @ {{ $line->subTotal->formatted() }}
-                                    </span>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="flow-root">
-                        <dl class="-my-4 text-sm divide-y divide-gray-100">
-                            <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
-                                    Sub Total
-                                </dt>
-
-                                <dd class="w-1/2 text-right">
-                                    {{ $cart->subTotal->formatted() }}
-                                </dd>
-                            </div>
-
-                            @if ($this->shippingOption)
-                            <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
-                                    {{ $this->shippingOption->getDescription() }}
-                                </dt>
-
-                                <dd class="w-1/2 text-right">
-                                    {{ $this->shippingOption->getPrice()->formatted() }}
-                                </dd>
-                            </div>
-                            @endif
-
-                            @foreach ($cart->taxBreakdown->amounts as $tax)
-                            <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
-                                    {{ $tax->description }}
-                                </dt>
-
-                                <dd class="w-1/2 text-right">
-                                    {{ $tax->price->formatted() }}
-                                </dd>
-                            </div>
-                            @endforeach
-
-                            <div class="flex flex-wrap py-4">
-                                <dt class="w-1/2 font-medium">
-                                    Total
-                                </dt>
-
-                                <dd class="w-1/2 text-right">
-                                    {{ $cart->total->formatted() }}
-                                </dd>
-                            </div>
-                        </dl>
-                    </div>
-                </div>
-
-                <div class="space-y-6 lg:col-span-2">
-                    @include('partials.checkout.address', [
-                    'type' => 'shipping',
-                    'step' => $steps['shipping_address'],
-                    ])
-
-                    @include('partials.checkout.shipping_option', [
-                    'step' => $steps['shipping_option'],
-                    ])
-
-                    @include('partials.checkout.address', [
-                    'type' => 'billing',
-                    'step' => $steps['billing_address'],
-                    ])
-
-                    @include('partials.checkout.payment', [
-                    'step' => $steps['payment'],
-                    ])
-                </div>
-            </div>
-        </div>
-        </div> --}}
+    
 </div>
 

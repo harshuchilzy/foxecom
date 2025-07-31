@@ -14,24 +14,31 @@ class ProductsPage extends Component
 {
     /**
      * Sorting option for products.
-     *
-     * @var string
      */
     public $sortOption = '';
+    
      /**
      * The search term for the search input.
-     *
-     * @var string
      */
     public $term = null;
 
+    /**
+     * Store all brands - Filter
+     */
     public $brands;
+
+    /**
+     * Selected Brands - Filter
+     */
     public $selectedBrand = '';
 
+    /**
+     * Selected Price Range - Filter
+     */
     public $selectedPriceRange = '';
 
     /**
-     * {@inheritDoc}
+     * Query strings - Filter
      */
     protected $queryString = [
         'term',
@@ -40,6 +47,9 @@ class ProductsPage extends Component
         'selectedPriceRange',
     ];
 
+    /**
+     * Store Product Collections
+     */
     public $collections;
 
     public function mount(): void
@@ -61,6 +71,9 @@ class ProductsPage extends Component
         return Collection::with(['defaultUrl'])->get()->toTree();
     }
 
+    /**
+     * Filter products by selected rangers
+     */
     public function getProductsProperty()
     {
         $query = Product::with(['variants.basePrices', 'defaultUrl']);
@@ -110,6 +123,10 @@ class ProductsPage extends Component
 
         return $products;
     }
+
+    /**
+     * Get price range - Filter
+     */
     public function getPriceRangesProperty()
     {
         $minPrice = Product::with('variants.basePrices')
@@ -143,11 +160,9 @@ class ProductsPage extends Component
         return $ranges;
     }
 
-    // public function updatedTerm($value)
-    // {
-    //     logger()->info("Search term updated:", ['term' => $value]);
-    // }
-
+    /**
+     * Get price ranger for individul products
+     */
     public function getPriceRangeForProducts($product)
     {
         if (!$product->variants()->exists()) {
@@ -164,7 +179,6 @@ class ProductsPage extends Component
 
         foreach ($variations as $variant) {
             $base = $variant->basePrices->first();
-            // array_push($prices, $base);
             $prices->push($base);
         }
 
@@ -174,7 +188,6 @@ class ProductsPage extends Component
                 : $item->price->value;
 
             $item->per_unit_price = $effectivePrice / $outerBoxQty;
-            // Log::info($item->per_unit_price);
 
             return $item;
         });
@@ -195,12 +208,11 @@ class ProductsPage extends Component
             $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
         }
         return array(
-            'discount' => 0, // $lowest->compare_price->formatted ?? 0,
+            'discount' => 0, 
             'price' => $finalPrice
         );
         
     }
-
 
     public function render()
     {

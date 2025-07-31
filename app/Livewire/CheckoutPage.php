@@ -26,21 +26,25 @@ class CheckoutPage extends Component
      */
     public ?Cart $cart;
 
+    /**
+     * Address type
+     */
     public $type = 'shipping';
 
+    /**
+     * Selected ShippingAddress
+     */
     public $selectedShippingAddress;
 
     /**
      * The shipping address instance.
      */
-    //public ?CartAddress $shipping = null;
     public $shipping = [];
     public $delivery = [];
 
     /**
      * The billing address instance.
      */
-    // public ?CartAddress $billing = null;
     public $billing = [];
 
     /**
@@ -58,33 +62,27 @@ class CheckoutPage extends Component
      */
     public $chosenShipping = null;
 
-    /**
-     * The shipping address fields.
-     */
-    // public $countries;
-    // public $shipping_company, $shipping_first_name, $shipping_last_name, $shipping_phone, $shipping_email;
-    // public $shipping_streetno, $shipping_address, $shipping_city, $shipping_postcode, $shipping_state, $shipping_countries;
-    // public $shippingAddressFields = false;
+    
 
     /**
      * The checkout steps.
      */
-    // public array $steps = [
-    //     'shipping_address' => 1,
-    //     'shipping_option' => 2,
-    //     'billing_address' => 3,
-    //     'payment' => 4,
-    // ];
-
     public array $steps = [
         'shipping_option' => 1,
         'payment' => 2,
         'confirmation' => 3,
     ];
 
+    /**
+     * Delivery Option Verified
+     */
     public $deliveryOptionVerified = false;
 
+    /**
+     * Show AddressEdit
+     */
     public $showAddressEdit = false;
+
     /**
      * The payment type we want to use.
      */
@@ -98,10 +96,19 @@ class CheckoutPage extends Component
         'selectedShippingOption' => 'refreshCart',
     ];
 
+    /**
+     * Payment intent
+     */
     public $payment_intent = null;
 
+    /**
+     * Payment intent client secret
+     */
     public $payment_intent_client_secret = null;
 
+    /**
+     * Payment string
+     */
     protected $queryString = [
         'payment_intent',
         'payment_intent_client_secret',
@@ -124,9 +131,6 @@ class CheckoutPage extends Component
 
     public function mount(): void
     {
-        //Render the countries
-        //$this->countries = Country::orderBy('name')->get();
-
         if (!$this->cart = CartSession::current()) {
             $this->redirect('/');
 
@@ -149,15 +153,10 @@ class CheckoutPage extends Component
         // Do we have a shipping address?
         $this->shipping = $this->cart->shippingAddress ?: new CartAddress;
 
-        // if(auth()->check()){
-        //     $customer = auth()->user()->customers->first();
-        // }
         $customer = auth()->check() ? auth()->user()->customers->first() : null;
 
         if (($this->shipping) && $customer) {
-            //$this->shipping = $customer->addresses->where('shipping_default', 0)->first()?->toArray();
-            //$this->shipping = new CartAddress($this->shipping);
-
+            
             $this->shipping = $customer->addresses->where('billing_default', 1)->first()?->toArray();
 
             if (empty($this->shipping)) {
@@ -172,13 +171,8 @@ class CheckoutPage extends Component
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         if (($this->billing) && $customer) {
-            //Log::info($customer->addresses->where('billing_default', 1)->first()?->toArray());
+            
             $this->billing = $customer->addresses->where('billing_default', 1)->first()?->toArray();
-            // $this->billing = array(
-            //     'first_email' => 'Test'
-            // );
-            //$this->billing['country_id'] = 235;
-            //Log::info($this->billing);
             $this->cart->setBillingAddress($this->billing);
             $this->billing = new CartAddress($this->billing);
 
@@ -187,10 +181,6 @@ class CheckoutPage extends Component
 
         $this->saveShippingOption();
 
-
-        Log::info($this->cart->discounts);
-        // Log::info($this->shipping);
-        //Log::info($this->shipping);
     }
 
 
@@ -213,17 +203,9 @@ class CheckoutPage extends Component
     public function determineCheckoutStep(): void
     {
         $shippingAddress = $this->cart->shippingAddress;
-        //$billingAddress = $this->cart->billingAddress;
         $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
-        // Log::info("Determining checkout step...");
-        // Log::info($shippingAddress);
-
-
+        
         if ($shippingAddress) {
-
-            // if ($shippingAddress->id) {
-            //     $this->currentStep = $this->steps['shipping_address'] + 1;
-            // }
 
             // Do we have a selected option?
             if ($this->shippingOption && $shippingAddress->id) {
@@ -237,14 +219,11 @@ class CheckoutPage extends Component
             }
 
         }
-        // if ($billingAddress) {
-        //     $this->currentStep = $this->steps['billing_address'] + 1;
-        // }
+       
     }
 
     public function saveAndContinueToNext()
     {
-//        $this->saveShippingOption();
         $this->determineCheckoutStep();
     }
 
@@ -282,8 +261,6 @@ class CheckoutPage extends Component
             $customer = auth()->user()->customers->first();
             $this->shipping = $customer->addresses->find($this->selectedShippingAddress)?->toArray();
             $this->cart->setShippingAddress($this->shipping);
-            Log::info('Shipping address updated.');
-            Log::info($this->shipping);
         }
     }
 
@@ -292,48 +269,18 @@ class CheckoutPage extends Component
      */
     public function saveAddress(string $type): void
     {
-
-        Log::info("Saving address of type: " . $type);
-        Log::info($this->delivery);
-
         $validatedData = $this->validate(
             $this->getAddressValidation($type)
         );
 
-        //Log::info("Validated data for address type: " . $type);
-        //Log::info($validatedData);
-
-        // $address = new CartAddress($this->{$type});
         $address = $this->{$type};
-
-        // if ($type == 'billing') {
-        //     $this->cart->setBillingAddress($address);
-        //     $this->billing = $this->cart->billingAddress;
-        // }
 
         if ($type == 'delivery') {
             $this->shipping = new CartAddress();
             $this->cart->setShippingAddress($address);
             $this->shipping = $this->cart->shippingAddress;
-
-            // if ($this->shippingIsBilling) {
-            //     // Do we already have a billing address?
-            //     if ($billing = $this->cart->billingAddress) {
-            //         $billing->fill($validatedData['shipping']);
-            //         $this->cart->setBillingAddress($billing);
-            //     } else {
-            //         $address = $address->only(
-            //             $address->getFillable()
-            //         );
-            //         $this->cart->setBillingAddress($address);
-            //     }
-
-            //     $this->billing = $this->cart->billingAddress;
-            // }
         }
 
-        Log::info("Shipping address set as: ");
-        Log::info($this->shipping);
         $this->determineCheckoutStep();
         $this->showAddressEdit = false;
     }
@@ -350,7 +297,6 @@ class CheckoutPage extends Component
 
     public function checkout()
     {
-        // Log::info("Checkout initiated with payment type: " . $this->billing);
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
@@ -359,10 +305,6 @@ class CheckoutPage extends Component
         CartSession::clear();
 
         $this->cart->user->attach($this->cart->discounts);
-
-        // Order Success Mail
-        // Mail::to($this->cart->user->email);
-
 
         if ($payment->success) {
             Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
@@ -395,8 +337,6 @@ class CheckoutPage extends Component
      */
     protected function getAddressValidation(string $type): array
     {
-        //Log::info("Address type on validation: " . $type);
-        //Log::info($this->shipping);
         return [
             "{$type}.first_name" => 'required',
             "{$type}.last_name" => 'required',

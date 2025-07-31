@@ -11,32 +11,6 @@
                 </div>
                 <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start">
 
-                    {{-- <div class="w-full">
-                        @php
-                            $billingAddress = auth()->user()?->customer?->addresses()->where('billing_default', true)->first();
-                        @endphp
-
-                        @if ($billingAddress)
-                            @if ($billingAddress->company_name)
-                                <p class="font-inter font-normal text-[18px] text-black">{{ $billingAddress->company_name }}</p>
-                                <hr class="my-3">
-                            @endif
-
-                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->first_name }} {{ $billingAddress->last_name }}</p>
-                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->line_one }}</p>
-                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->postcode }} {{ $billingAddress->city }}</p>
-
-                            <hr class="my-3">
-                            <p class="font-inter font-normal text-[15px] text-black">{{ auth()->user()->email }}</p>
-                            <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->phone }}</p>
-                            @if ($billingAddress->vat_no)
-                                <p class="font-inter font-normal text-[15px] text-black">{{ $billingAddress->vat_no }}</p>
-                            @endif
-                        @else
-                            <p class="font-inter text-[15px] text-red-500">No billing address found.</p>
-                        @endif
-                    </div> --}}
-
                     <div class="w-full">
 
                         <p class="font-inter font-normal text-[18px] text-black">Dayz Solutions</p>
@@ -56,9 +30,7 @@
                     <div id="shipping-address-edit" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-2xl max-h-full">
                             <div class="relative bg-white rounded-lg shadow-sm">
-                                {{-- @php
-                                    $shippingAddress = auth()->user()?->customer->addresses()->where('shipping_default', true)->first();
-                                @endphp --}}
+                               
                                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                                     <h3 class="text-xl font-semibold text-gray-900">
                                         Edit Shipping Address

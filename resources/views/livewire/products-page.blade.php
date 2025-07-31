@@ -1,9 +1,10 @@
 <div>
-    {{-- <div class="w-full h-[320px] wholesale-hero-img bg-no-repeat" style="background-image: url('{{asset('/images/wholesale-hero.jpg')}}')"></div> --}}
+    <!-- Hero banner section -->
     <div class="w-full">
         <img class="w-full h-[35vh] lg:h-auto object-cover object-top-right" src="{{asset('/images/wholesale-hero.jpg')}}"/>
     </div>
 
+    <!-- Collection of products and filter section -->
     <div class="bg-[#D9D9D97D] py-8">
         <div class="max-w-[1280px] relative mx-auto">
             <h2 class="text-center text-[20px] lg:text-[28px]">
@@ -12,7 +13,7 @@
             </h2>
         </div>
 
-
+        <!-- Collection of products subsection -->
         <div class="swiper mySecondSwiper px-5 max-w-[1280px] relative mx-auto">
             <div class="swiper-wrapper py-8 px-5 !h-[200px] lg:!h-full">
                 @foreach ($this->collections as $collection)
@@ -22,6 +23,7 @@
 
         </div>
 
+        <!-- Filter subsection -->
         <div class="max-w-[1280px] relative mx-auto" x-data="{show: false}">
             <div class="w-full relative px-3 lg:px-0">
                 <span class="absolute top-1/2 lg:left-1 transform -translate-y-1/2">
@@ -34,21 +36,6 @@
             </div>
 
             <div class="pt-6 w-full grid grid-cols-3 gap-3 lg:gap-5 px-3 lg:px-0" x-show="show" x-cloak>
-                {{-- <div>
-                    <form class="max-w-sm mx-auto relative">
-                        <label for="filter_select" class="sr-only">Filter select</label>
-                        <select id="filter_select" class="block py-2 w-full text-sm text-[#000000] font-semibold text-[18px] px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
-                            <option selected>Filter</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
-                        </select>
-                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.25 11.6665C6.25 11.335 6.3817 11.017 6.61612 10.7826C6.85054 10.5482 7.16848 10.4165 7.5 10.4165H32.5C32.8315 10.4165 33.1495 10.5482 33.3839 10.7826C33.6183 11.017 33.75 11.335 33.75 11.6665C33.75 11.998 33.6183 12.316 33.3839 12.5504C33.1495 12.7848 32.8315 12.9165 32.5 12.9165H7.5C7.16848 12.9165 6.85054 12.7848 6.61612 12.5504C6.3817 12.316 6.25 11.998 6.25 11.6665ZM10.4167 19.9998C10.4167 19.6683 10.5484 19.3504 10.7828 19.116C11.0172 18.8815 11.3351 18.7498 11.6667 18.7498H28.3333C28.6649 18.7498 28.9828 18.8815 29.2172 19.116C29.4516 19.3504 29.5833 19.6683 29.5833 19.9998C29.5833 20.3314 29.4516 20.6493 29.2172 20.8837C28.9828 21.1181 28.6649 21.2498 28.3333 21.2498H11.6667C11.3351 21.2498 11.0172 21.1181 10.7828 20.8837C10.5484 20.6493 10.4167 20.3314 10.4167 19.9998ZM15.4167 28.3332C15.4167 28.0016 15.5484 27.6837 15.7828 27.4493C16.0172 27.2149 16.3351 27.0832 16.6667 27.0832H23.3333C23.6649 27.0832 23.9828 27.2149 24.2172 27.4493C24.4516 27.6837 24.5833 28.0016 24.5833 28.3332C24.5833 28.6647 24.4516 28.9826 24.2172 29.2171C23.9828 29.4515 23.6649 29.5832 23.3333 29.5832H16.6667C16.3351 29.5832 16.0172 29.4515 15.7828 29.2171C15.5484 28.9826 15.4167 28.6647 15.4167 28.3332Z" fill="black"/></svg>
-                        </span>
-                    </form>
-                </div> --}}
                 <div>
                     <form class="max-w-sm mx-auto relative">
                         <label for="sort_select" class="sr-only">Sort select</label>
@@ -67,12 +54,6 @@
                 <div>
                     <form class="max-w-sm mx-auto relative">
                         <label for="price_select" class="sr-only">Price select</label>
-                        {{-- <select id="price_select" wire:model.live="selectedPriceRange" class="">
-                            <option value="">All Prices</option>
-                            @foreach ($priceRanges as $range)
-                                <option value="{{ $range['min'] }}-{{ $range['max'] }}">{{ $range['label'] }}</option>
-                            @endforeach
-                        </select> --}}
                         <select wire:model.live="selectedPriceRange" class="block py-1.5 lg:py-2 w-full text-sm text-[#000000] font-semibold text-[15px] lg:text-[18px] px-6 lg:px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
                             <option value="">Select Price Range</option>
                             @foreach ($this->priceRanges as $range)
@@ -98,6 +79,7 @@
         </div>
     </div>
 
+    <!-- Product boxes section -->
     <div class="max-w-[1280px] mx-auto px-2 py-8">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
             @foreach ($this->products as $product)

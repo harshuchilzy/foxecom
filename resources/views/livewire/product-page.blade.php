@@ -1,93 +1,5 @@
-{{-- <section>
-    <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
-        <div class="grid items-start grid-cols-1 gap-8 md:grid-cols-2">
-            <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
-                @if ($this->image)
-                    <div class="aspect-w-1 aspect-h-1">
-                        <img class="object-cover rounded-xl"
-                             src="{{ $this->image->getUrl('large') }}"
-                             alt="{{ $this->product->translateAttribute('name') }}" />
-                    </div>
-                @endif
-
-                <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                    @foreach ($this->images as $image)
-                        <div class="aspect-w-1 aspect-h-1"
-                             wire:key="image_{{ $image->id }}">
-                            <img loading="lazy"
-                                 class="object-cover rounded-xl"
-                                 src="{{ $image->getUrl('small') }}"
-                                 alt="{{ $this->product->translateAttribute('name') }}" />
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-
-            <div>
-                <div class="flex items-center justify-between">
-                    <h1 class="text-xl font-bold">
-                        {{ $this->product->translateAttribute('name') }}
-                    </h1>
-
-                    <x-product-price class="ml-4 font-medium"
-                                     :variant="$this->variant" />
-                </div>
-
-                <p class="mt-1 text-sm text-gray-500">
-                    {{ $this->variant->sku }}
-                </p>
-
-                <article class="mt-4 text-gray-700">
-                    {!! $this->product->translateAttribute('description') !!}
-                </article>
-
-                <form class="mt-4">
-                    <div class="space-y-4">
-                        @foreach ($this->productOptions as $option)
-                            <fieldset>
-                                <legend class="text-xs font-medium text-gray-700">
-                                    {{ $option['option']->translate('name') }}
-                                </legend>
-
-                                <div class="flex flex-wrap gap-2 mt-2 text-xs tracking-wide uppercase"
-                                     x-data="{
-                                         selectedOption: @entangle('selectedOptionValues').live,
-                                         selectedValues: [],
-                                     }"
-                                     x-init="selectedValues = Object.values(selectedOption);
-                                     $watch('selectedOption', value =>
-                                         selectedValues = Object.values(selectedOption)
-                                     )">
-                                    @foreach ($option['values'] as $value)
-                                        <button class="px-6 py-4 font-medium border rounded-lg focus:outline-none focus:ring"
-                                                type="button"
-                                                wire:click="
-                                                $set('selectedOptionValues.{{ $option['option']->id }}', {{ $value->id }})
-                                            "
-                                                :class="{
-                                                    'bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700': selectedValues
-                                                        .includes({{ $value->id }}),
-                                                    'hover:bg-gray-100': !selectedValues.includes({{ $value->id }})
-                                                }">
-                                            {{ $value->translate('name') }}
-                                        </button>
-                                    @endforeach
-                                </div>
-                            </fieldset>
-                        @endforeach
-                    </div>
-
-                    <div class="max-w-xs mt-8">
-                        <livewire:components.add-to-cart :purchasable="$this->variant"
-                                                         :wire:key="$this->variant->id">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section> --}}
-
 <section>
+    <!-- Product image box - Mobile -->
     <div class="relative bg-white md:hidden mx-3">
         <div x-data="{
                 images: [
@@ -133,6 +45,7 @@
             }"
              class="flex gap-4 lg:gap-5 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row pb-8">
 
+            <!-- Product images thumbnails -->
             <div class="flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[25%] hidden">
                 <template x-for="(img, index) in images" :key="index">
                     <img class="w-[20%] lg:w-[70%] border-2" :class="{
@@ -141,14 +54,12 @@
                             }" @click="set(index)" :src="img" alt="">
 
                 </template>
-                {{-- <span x-text="images"></span> --}}
             </div>
+
+            <!-- Product feature image -->
             <div class="lg:w-[75%] w-full relative p-5 lg:p-0 bg-[#F4F4F4] lg:bg-white rounded-[25px]">
                 <img class="m-auto md:w-full lg:w-[90%] h-[400px] lg:h-auto object-contain" :src="images[currentIndex]"
                      alt="">
-                <!-- Prev/Next Buttons -->
-                {{-- <button @click="prev();" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-r cursor-pointer">◀</button>
-                <button @click="next();" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">▶</button> --}}
                 <!-- Lightbox Trigger -->
                 <div class="absolute top-0 right-0">
                     <button @click="open(currentIndex);"
@@ -169,6 +80,8 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Lightbox -->
             <x-lightbox/>
         </div>
     </div>
@@ -177,6 +90,7 @@
 
         <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-start">
 
+            <!-- Product image box - Desktop -->
             <div x-data="{
                     images: [
                         @if(!empty($this->images) && count($this->images) > 0)
@@ -221,6 +135,7 @@
                 }"
                  class="hidden md:flex gap-4 lg:gap-5 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
 
+                <!-- Product images thumbnails -->
                 <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[25%]">
                     <template x-for="(img, index) in images" :key="index">
                         <img class="w-[20%] lg:w-[70%] border-2 cursor-pointer" :class="{
@@ -229,14 +144,12 @@
                                 }" @click="set(index)" :src="img" alt="">
 
                     </template>
-                    {{-- <span x-text="images"></span> --}}
                 </div>
+
+                <!-- Product feature image -->
                 <div class="lg:w-[75%] w-full relative p-5 lg:p-0 bg-[#F4F4F4] lg:bg-white rounded-[25px]">
                     <img class="m-auto md:w-full lg:w-[90%] h-[400px] lg:h-auto object-contain"
                          :src="images[currentIndex]" alt="">
-                    <!-- Prev/Next Buttons -->
-                    {{-- <button @click="prev();" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-r cursor-pointer">◀</button>
-                    <button @click="next();" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white/30 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded-l cursor-pointer">▶</button> --}}
                     <!-- Lightbox Trigger -->
                     <div class="absolute top-0 right-0">
                         <button @click="open(currentIndex);"
@@ -257,10 +170,15 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Lightbox -->
                 <x-lightbox/>
             </div>
 
+            <!-- Product details section -->
             <div class="w-full md:w-1/2">
+
+                <!-- Product title subsection -->
                 <div class="flex lg:justify-left md:justify-between items-center mt-3 mb-1 flex-wrap pl-3 lg:pl-0">
                     <h1 class="text-[20px] md:text-[26px] font-bold text-black font-inter lg:text-center md:text-left">{{$this->product->translateAttribute('name')}}</h1>
                     <button class="hidden">
@@ -273,6 +191,7 @@
                     </button>
                 </div>
 
+                <!-- Product review subsection - Mobile -->
                 <div class="md:hidden flex items-center justify-between px-3 lg:px-4">
                     <x-product-price class="font-medium flex justify-between items-center" :variant="$this->variant"/>
                     <div class="flex items-center gap-2 flex-wrap">
@@ -312,6 +231,7 @@
                     </div>
                 </div>
 
+                <!-- Product short description subsection - Mobile -->
                 <div class="md:hidden flex w-full">
                     <div id="short-description-accordion-flush" data-accordion="collapse"
                          data-active-classes="bg-white text-gray-900 w-full"
@@ -333,6 +253,7 @@
                     </div>
                 </div>
 
+                <!-- Product price and review subsection - Desktop -->
                 <div class="md:flex items-center gap-4 mb-8 border-b-2 border-black pb-4 hidden">
                     <div class="items-baseline gap-5 border-r border-black pr-3 relative">
                         @if (auth()->check())
@@ -379,28 +300,24 @@
                     </div>
                 </div>
 
+                <!-- Product short description subsection - Desktop -->
                 <div class="hidden md:flex flex-col items-start gap-3">
                     {!! $this->product->translateAttribute('short-description') !!}
                 </div>
-                {{-- <pre>
-                {{print_r($this->product, true)}}
-                </pre> --}}
+                
+                <!-- Product options and add to cart subsection -->
                 <form class="mt-4">
                     <div class="space-y-4">
                         @if (count($this->productOptions))
                             @foreach ($this->productOptions as $option)
                                 <fieldset class="mb-1">
-                                    {{-- <legend class="text-xs font-medium text-gray-700">
-                                        {{ $option['option']->translate('name') }}
-                                    </legend> --}}
+    
                                     <div class="mt-4">
                                         <label for="quantity"
                                                class="sr-only">
                                             Quantity
                                         </label>
-
                                         <label for="quantity" class="sr-only">Choose quantity:</label>
-
                                     </div>
 
                                     <div class="md:max-w-[90%]">
@@ -455,7 +372,6 @@
                         @else
                             <fieldset>
                                 <legend class="text-xs font-medium text-gray-700">
-                                    {{-- {{ $option['option']->translate('name') }} --}}
                                 </legend>
 
                                 <div
@@ -478,35 +394,16 @@
                             </fieldset>
                         @endif
                     </div>
-
                 </form>
 
-
-                <div class="">
-                    {{-- <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-4 md:max-w-[90%]">
-                        <select id="countries" class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full md:w-1/2 h-12 cursor-pointer font-inter">
-                            @foreach ($this->product->productOptions as $option)
-                                @foreach ($option->values as $value)
-                                    <option value="{{ $value->id }}">{{ $value->translate('name') }}</option>
-                                @endforeach
-                            @endforeach
-                        </select>
-
-                        <button class="bg-[#282828] px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold w-full md:w-1/2 cursor-pointer font-inter">Claim Offer</button>
-                    </div> --}}
-
+                
+                <div>
+                    <!-- Claim Offer Now subsection -->
                     @if ($discountId)
-                        <div class="md:max-w-[90%] mt-5">
-                            {{-- <form wire:submit.prevent="claimOffer">
-                                <button
-                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[12px] lg:py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter" @click="showModal = true">
-                                    Claim Offer Now
-                                </button>
-                             </form> --}}
-                        </div>
+                        <div class="md:max-w-[90%] mt-5"></div>
 
                         <div x-data="{ showModal: @entangle('showBulkAddToCartPopup') }">
-                            <!-- Trigger Button -->
+                            <!-- Claim Offer Now Trigger Button -->
                             <div class="md:max-w-[90%] mt-5">
                                 <button
                                     class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter hover:bg-[#1275EE] hover:text-white hover:lg:border-[#1275EE] hover:shadow-lg" @click="showModal = true">
@@ -514,7 +411,7 @@
                                 </button>
                             </div>
 
-                            <!-- Modal -->
+                            <!-- Claim Offer Now Modal -->
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
                                 <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false" 
                                     x-data="{
@@ -593,6 +490,7 @@
                                                     $isDisabled = $this->getSumOfSelectedToggles() >= $maxSelected;
                                                 @endphp
                                                 
+                                                <!-- Product Box -->
                                                 <div x-data="{ 
                                                     isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), 
                                                     isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
@@ -607,26 +505,15 @@
                                                     >
 
                                                     <div class="flex flex-col justify-between w-full h-full">
+
                                                         <div class="md:text-left text-center">
                                                             <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
+
                                                             <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
                                                                 <span class="text-[#1275EE] text-lg font-semibold">
                                                                     {{ $variant['price'] }} + VAT
                                                                 </span>
-                                                                {{-- <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[50%]">
-                                                                    <button type="button"
-                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            wire:click="decrementQuantity({{ $variant['id'] }})">-
-                                                                    </button>
-                                                                    <input type="number"
-                                                                        min="1"
-                                                                        wire:model.live="quantities.{{ $variant['id'] }}"
-                                                                        class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
-                                                                    <button type="button"
-                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            wire:click="incrementQuantity({{ $variant['id'] }})">+
-                                                                    </button>
-                                                                </div> --}}
+                                                                
                                                                 <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[50%] lg:w-[50%]"
                                                                     x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
                                                                     <button type="button"
@@ -666,7 +553,7 @@
                     @endif
 
 
-                    {{-- discount name --}}
+                    <!-- Discount label - Mobile -->
                     @if ($discountId)
                         @php
                             $matchedDiscount = \Lunar\Models\Discount::find($discountId);
@@ -696,6 +583,7 @@
                         @endif
                     @endif
 
+                    <!-- Shipping method and shipping policy labels subsection-->
                     <div class="flex flex-col gap-3 mt-8">
                         <div class="flex items-center gap-3">
                             <span>
@@ -755,7 +643,7 @@
         </div>
     </div>
 
-
+    <!-- Product long description section-->
     <div class="w-full bg-[#F8F8F8] py-12">
         <div
             class="max-w-[1440px] mx-auto px-4 font-inter"
@@ -781,12 +669,11 @@
                 x-ref="content"
                 x-bind:style="`max-height: ${expanded ? fullHeight + 'px' : maxHeight + 'px'}`"
             >
-                    <span
-                        class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
-                        {!! $this->product->translateAttribute('description') !!}
-                    </span>
+                <span
+                    class="long-description-wrapper list-disc list-inside font-semibold text-[14px] md:text-[16px] lg:text-[20px] text-black flex flex-col gap-3">
+                    {!! $this->product->translateAttribute('description') !!}
+                </span>
 
-                <!-- Only show the fade effect when not expanded -->
                 <div x-show="!expanded && showToggle"
                      class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F8F8F8] to-transparent pointer-events-none mb-0"></div>
 
@@ -802,7 +689,6 @@
                 </style>
             </div>
 
-            <!-- Conditionally show toggle button only if content exceeds max height -->
             <button
                 x-show="showToggle"
                 @click="expanded = !expanded"
@@ -814,7 +700,7 @@
 
     </div>
 
-
+    <!-- Related products section-->
     @if ($this->suggestedProducts->isNotEmpty())
         <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
             <div class="pb-5">
@@ -837,7 +723,7 @@
         </div>
     @endif
 
-    {{-- Review section --}}
+    <!-- Review section -->
     <div x-data="{ reviewPopup: @entangle('showReviewPopup')}">
         <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
             <button @click="reviewPopup = true" class="w-[150px] h-[40px] flex items-center justify-center gap-2 rounded-[60px] hover:bg-[#1275EE] bg-[#11316d] text-white font-inter font-bold cursor-pointer">
@@ -858,20 +744,15 @@
                     <div>
                         <label for="reviewer_name" class="block font-medium text-sm text-gray-700">Name</label>
                         <input type="text" id="reviewer_name" wire:model="reviewForm.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        @error('reviewForm.name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                        @error('reviewForm.name') <span class="text-red-600 text-sm">{{ str_replace('form.name', 'name', $message) }}</span> @enderror
                     </div>
 
                     <div>
                         <label for="reviewer_email" class="block font-medium text-sm text-gray-700">Email</label>
                         <input type="email" id="reviewer_email" wire:model="reviewForm.email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        @error('reviewForm.email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                        @error('reviewForm.email') <span class="text-red-600 text-sm">{{ str_replace('form.email', 'email', $message) }}</span> @enderror
                     </div>
 
-                    {{-- <div>
-                        <label for="rating" class="block font-medium text-sm text-gray-700">Rating (1-5)</label>
-                        <input type="number" min="1" max="5" id="rating" wire:model="reviewForm.rating" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        @error('reviewForm.rating') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                    </div> --}}
                     <div>
                         <label class="block font-medium text-sm text-gray-700 mb-1">Rating</label>
                         <div
@@ -902,20 +783,20 @@
                             wire:model="reviewForm.rating"
                         >
                         @error('reviewForm.rating')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                            <span class="text-red-600 text-sm">{{ str_replace('form.rating', 'rating', $message) }}</span>
                         @enderror
                     </div>
 
                     <div>
                         <label for="review" class="block font-medium text-sm text-gray-700">Review</label>
                         <textarea id="review" rows="4" wire:model="reviewForm.review" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
-                        @error('reviewForm.review') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                        @error('reviewForm.review') <span class="text-red-600 text-sm">{{ str_replace('form.review', 'review', $message) }}</span> @enderror
                     </div>
 
                     <div>
                         <label for="review_images" class="block font-medium text-sm text-gray-700">Upload Images</label>
                         <input type="file" id="review_images" wire:model="reviewForm.images" multiple accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                        @error('reviewForm.images.*') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                        @error('reviewForm.images.*') <span class="text-red-600 text-sm">{{ str_replace('form.images', 'images', $message) }}</span> @enderror
 
                         <div class="flex gap-2 mt-2">
                             @if (!empty($reviewForm['images']))
@@ -928,17 +809,11 @@
 
                     <button type="submit" class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter hover:bg-[#454545] hover:shadow-lg" wire:loading.attr="disabled" wire:target="submitReview">
                         <span wire:loading.remove wire:target="submitReview">Submit Review</span>
-                        <span wire:loading wire:target="submitReview">Processing...</span>
+                        <span wire:loading wire:target="submitReview">Submitting...</span>
                     </button>
                 </form>
             </div>
         </div>
     </div>
-
-    {{-- @php
-    echo '<pre>';
-        print_r($this->loadVariations());
-        echo '</pre>';
-    @endphp --}}
 
 </section>

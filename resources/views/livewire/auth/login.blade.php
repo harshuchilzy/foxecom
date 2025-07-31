@@ -75,10 +75,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 }; ?>
 
 <div class="flex flex-col gap-6 max-w-xl mx-auto font-zen-kaku-gothic-antique">
-    {{--
-    <x-auth-header :title="__('Sign Up')"
-        :description="__('Helping retailers grow with fast access to high-demand products.')" /> --}}
-
+    
     <h2 class="text-center text-3xl font-semibold mt-6">{{__('Login')}}</h2>
     <p class="text-gray-600 text-center">{{__('Helping retailers grow with fast access to high-demand products.')}}</p>
 
@@ -135,8 +132,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-            {{-- <flux:checkbox wire:model="remember" :label="__('Remember me')" value="1" /> --}}
-
             <div class="flex gap-2 items-center">
                 <input type="checkbox" wire:model="remember" id="remember">
                 <label for="remember" class="p-0 m-0">{{__('Remember me')}}</label>
@@ -150,12 +145,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
             </div>
             @endif
         </div>
+        
         <!-- Remember Me -->
-
         <div class="flex items-center justify-end">
-            <button type="submit"
-                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign
-                In')}}</button>
+            <button type="submit" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign In')}}</button>
         </div>
     </form>
 

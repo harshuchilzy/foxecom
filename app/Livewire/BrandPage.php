@@ -2,13 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Traits\FetchesUrls;
-use Illuminate\Support\Collection;
-use Illuminate\View\View;
 use Livewire\Component;
-use Lunar\Models\Collection as CollectionModel;
+use App\Traits\FetchesUrls;
+use Lunar\Models\Brand as BrandModel;
 
-class CollectionPage extends Component
+class BrandPage extends Component
 {
     use FetchesUrls;
 
@@ -16,7 +14,7 @@ class CollectionPage extends Component
     {
         $this->url = $this->fetchUrl(
             $slug,
-            (new CollectionModel)->getMorphClass(),
+            (new BrandModel)->getMorphClass(),
             [
                 'element.thumbnail',
                 'element.products.variants.basePrices',
@@ -32,14 +30,11 @@ class CollectionPage extends Component
     /**
      * Computed property to return the collection.
      */
-    public function getCollectionProperty(): mixed
+    public function getBrandProperty(): mixed
     {
         return $this->url->element;
     }
 
-    /**
-     * Get Price Range for Individual Products
-     */
     public function getPriceRangeForProducts($product)
     {
         if (!$product->variants()->exists()) {
@@ -82,15 +77,15 @@ class CollectionPage extends Component
         }else{
             $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
         }
-
         return array(
             'discount' => 0, 
             'price' => $finalPrice
-        ); 
+        );
+        
     }
 
-    public function render(): View
+    public function render()
     {
-        return view('livewire.collection-page');
+        return view('livewire.brand-page');
     }
 }

@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Livewire\Home;
 use Lunar\Models\Order;
 use App\Livewire\CartPage;
+use App\Livewire\BrandPage;
 use App\Livewire\OfferPage;
 use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
@@ -88,6 +89,8 @@ Route::get('/new-checkout', function () {
 Route::get('/', Home::class)->name('home');
 
 Route::get('/collections/{slug}', CollectionPage::class)->middleware('auth')->name('collection.view');
+
+Route::get('/brands/{slug}', BrandPage::class)->middleware('auth')->name('brand.view');
 
 Route::get('products', ProductsPage::class)->name('products.index');
 

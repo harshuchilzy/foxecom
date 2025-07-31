@@ -1,13 +1,20 @@
 <div class="max-w-[1440px] mx-auto px-2 lg:px-5 py-6 lg:py-12">
+
+    <!-- Cart Section -->
     <div class="max-w-[1440px] mx-auto px-2 lg:px-5 py-6 lg:py-12 flex flex-col lg:flex-row gap-8 justify-center items-start">
         <div class="w-full lg:w-2/3 flex flex-col gap-3">
+            <!-- Cart page title - Desktop -->
             <h2 class="text-[#000000] font-bold text-[28px] hidden lg:block">Bag</h2>
+            <!-- Cart page title - Mobile -->
             <h2 class="text-[#000000] font-bold text-[28px] block lg:hidden text-center">Cart</h2>
+            <!-- Cart page back button - Mobile -->
             <div class="block lg:hidden absolute top-14 left-5">
                 <button onclick="window.history.back()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="black"/></svg>
                 </button>
             </div>
+
+            <!-- Cart items -->
             @if ($this->cart)
                 @if ($lines)
                     <div>
@@ -24,12 +31,10 @@
                                 <div class="w-2/3 flex flex-col gap-2 justify-between">
                                     <div>
                                         <h3 class="font-bold text-[16px] text-black mb-1">{{ $line['description'] }} - {{ $line['options'] }}</h3>
-                                        {{-- <p class="font-normal text-[16px] text-black">
-                                            {{ $line['identifier'] }} / {{ $line['options'] }}
-                                        </p> --}}
                                         <p class="font-normal text-[16px] text-black font-inter mb-1">Box of {{ $line['outer_box'] }}</p>
                                         <p class="font-normal text-[16px]">
                                             <span class="text-black font-inter font-normal">Availability:</span>
+
                                             @if ($line['stock'] > 0)
                                                 <span class="text-[#249B3E] font-inter font-normal">In Stock</span>
                                             @else
@@ -43,81 +48,6 @@
                                         <p class="font-normal text-[16px] text-black">Quantity</p>
 
                                         @if (empty($line['meta']['free']))
-                                            {{-- <div
-                                                x-data="{
-                                                idx: @js($index),
-                                                qty: @js($line['quantity']),
-                                                step: Math.max(1, @js($line['quantity_increment'])),
-                                                init() {
-                                                    Livewire.on('cartUpdated', () => {
-                                                        if (! this.$el.isConnected) return;
-                                                        const fresh = $wire.lines?.[this.idx]?.quantity;
-                                                        if (typeof fresh === 'number') {
-                                                            this.qty = fresh;
-                                                        }
-                                                    });
-                                                },
-
-                                                sanitize() {
-                                                    let cleaned = String(this.qty).replace(/\D+/g, '');
-                                                    if (!cleaned || +cleaned < this.step) cleaned = this.step;
-                                                    this.qty = +cleaned;
-                                                    this.sync();
-                                                },
-
-                                                snap() {
-                                                    let snapped = Math.round(this.qty / this.step) * this.step;
-                                                    if (snapped < this.step) snapped = this.step;
-                                                    this.qty = snapped;
-                                                    this.sync();
-                                                },
-
-                                                increment() {
-                                                    this.qty += this.step;
-                                                    this.sync();
-                                                },
-
-                                                decrement() {
-                                                    if (this.qty - this.step >= this.step) {
-                                                        this.qty -= this.step;
-                                                        this.sync();
-                                                    }
-                                                },
-
-                                                sync() {
-                                                    $wire.set(`lines.${this.idx}.quantity`, this.qty);
-                                                }
-                                            }
-                                                "
-                                                class="border border-[#757575] rounded-[50px] flex flex-row items-center gap-2 px-1 py-1.5 w-[80%] lg:w-[30%]"
-                                            >
-                                                <button
-                                                    class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                    type="button"
-                                                    @click="decrement()"
-                                                    :disabled="qty <= step"
-                                                >−</button>
-
-                                                <input
-                                                    x-model.number="qty"
-                                                    x-on:input="sanitize()"
-                                                    x-on:blur="snap()"
-                                                    x-on:keydown.enter.prevent="snap()"
-                                                    type="number"
-                                                    :step="step"
-                                                    :min="step"
-                                                    inputmode="numeric"
-                                                    pattern="\d*"
-                                                    class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"
-                                                />
-
-                                                <button
-                                                    class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                    type="button"
-                                                    @click="increment()"
-                                                >＋</button>
-                                            </div> --}}
-
                                             <div
                                                 class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[80%] lg:w-[30%]"
                                                 x-data="{quantity_{{$index}}: $wire.entangle('lines.{{ $index }}.quantity')}">
@@ -167,11 +97,6 @@
                             </button>
                         </div>
 
-                        {{-- Alpine component (place once at the bottom of your page) --}}
-                        <script>
-                            function quantityControl(initial, step, idx) {
-                            }
-                        </script>
                     </div>
                 @else
                     <div class="mt-4">Your bag is empty!</div>
@@ -189,6 +114,7 @@
             @endif
         </div>
 
+        <!-- Summary section -->
         <div class="w-full lg:w-1/3 flex flex-col gap-3">
             <h2 class="text-[#000000] font-bold text-[28px]">Summary</h2>
 
@@ -238,11 +164,6 @@
                             <p class="text-[14px] font-normal text-[#111111]">{{
                             $this->shippingOption->getPrice()->formatted() }}</p>
                         </div>
-                    @else
-                        {{-- <div class="py-3 flex justify-between items-center">
-                            <h3 class="text-[16px] font-normal text-[#111111]">Estimated Delivery & Handling</h3>
-                            <p class="text-[14px] font-normal text-[#111111]">FREE</p>
-                        </div> --}}
                     @endif
 
                     @if ($this->cart?->discountTotal && $this->cart?->discountTotal->value > 0)
@@ -291,6 +212,8 @@
             </div>
         </div>
     </div>
+
+    <!-- You Might Also Like Section -->
     <di class="hidden lg:block">
         <h2 class="font-bold text-[28px] text-black mb-5">You Might Also Like</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

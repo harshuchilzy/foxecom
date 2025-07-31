@@ -18,20 +18,40 @@ class OrdersPage extends Component
 {
     use WithPagination;
 
+    /**
+     * Orders Per Page
+     */
     public $perPage = 10;
+
+    /**
+     * Sorting params
+     */
     public $sortField = 'created_at';
     public $sortDirection = 'desc';
     public $timeFilter = 'all';
 
+    /**
+     * Orders count
+     */
     public $orderCount;
+
+    /**
+     * Order Total
+     */
     public $totalRevenue;
     
 
+    /**
+     * Update Time Filter
+     */
     public function updatedTimeFilter()
     {
         $this->resetPage(); 
     }
 
+    /**
+     * Sort Orders
+     */
     public function sortBy($field)
     {
         if ($this->sortField === $field) {
@@ -43,6 +63,9 @@ class OrdersPage extends Component
         $this->sortField = $field;
     }
 
+    /**
+     * Get Order Items
+     */
     public function getOrderItems($product_id)
     {
         return Product::with([
@@ -54,6 +77,9 @@ class OrdersPage extends Component
         ->first();
     }
 
+     /**
+     * Get Random Order Items
+     */
     public function getRandomOrderItems()
     {
         $customerId = Auth::id();
@@ -99,6 +125,22 @@ class OrdersPage extends Component
         return $productsWithDates;
     }
 
+    /**
+     * Download Invoice
+     */
+    function downloadInvoice($order_id) : bool | StreamedResponse {
+        if(empty($order_id)){
+            return false;
+        }
+
+        $record = Order::find($order_id);
+        
+        return response()->streamDownload(function () use ($record) {
+            echo Pdf::loadView('lunarpanel::pdf.order', [
+                'record' => $record,
+            ])->stream();
+        }, name: "Order-{$record->reference}.pdf");
+    }
 
     public function render()
     {
@@ -141,17 +183,4 @@ class OrdersPage extends Component
         ]);
     }
 
-    function downloadInvoice($order_id) : bool | StreamedResponse {
-        if(empty($order_id)){
-            return false;
-        }
-
-        $record = Order::find($order_id);
-        
-        return response()->streamDownload(function () use ($record) {
-            echo Pdf::loadView('lunarpanel::pdf.order', [
-                'record' => $record,
-            ])->stream();
-        }, name: "Order-{$record->reference}.pdf");
-    }
 }

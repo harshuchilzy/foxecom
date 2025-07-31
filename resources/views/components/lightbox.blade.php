@@ -1,5 +1,5 @@
 <!-- Lightbox -->
-<div >
+<div>
     <!-- Lightbox Overlay -->
     <div class="fixed inset-0 bg-black/90 z-50 flex-col items-center justify-center" x-show="show" x-transition x-cloak>
         <!-- Action Bar -->

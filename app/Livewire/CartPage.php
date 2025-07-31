@@ -36,16 +36,6 @@ class CartPage extends Component
         ];
     }
 
-    // public function mount(): void
-    // {
-
-    //     $this->mapLines();
-
-    //     $cart = \Lunar\Facades\CartSession::current();
-
-    //     $this->cart_count = $cart?->lines->count() ?? 0;
-    // }
-
     public function mount(): void
     {
         // Apply discount if query param exists
@@ -94,29 +84,9 @@ class CartPage extends Component
     {
         $this->validate();
 
-        // foreach ($this->lines as $line) {
-        //     if ($line['quantity_increment'] > 0) {
-        //         $quantity = (int) $line['quantity'];
-        //         $increment = (int) $line['quantity_increment'];
-        //         if ($quantity % $increment !== 0) {
-        //             $this->addError('cart-quantity', 'Quantity for ' . ($line['description'] ?? 'item') . ' must be a multiple of ' . $increment . '.');
-        //             return;
-        //         }
-        //     } 
-        // }
-
         CartSession::updateLines(
             collect($this->lines)
         );
-
-        // $paidLines = collect($this->lines)
-        //     ->filter(fn ($line) => empty($line['meta']['free']))
-        //     ->map(fn ($line) => [
-        //         'id' => $line['id'],
-        //         'quantity' => (int)$line['quantity'],
-        //     ]);
-
-        // CartSession::updateLines($paidLines);
 
         $this->cleanupFreeChildren();
 
@@ -143,7 +113,6 @@ class CartPage extends Component
     {
 
         $this->lines = $this->cartLines->map(function ($line) {
-            // Log::info($line->purchasable);
             return [
                 'id' => $line->id,
                 'identifier' => $line->purchasable->getIdentifier(),

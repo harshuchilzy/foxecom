@@ -46,7 +46,7 @@ class AddressPage extends Component
     {
         $user = auth()->user();
         $customer = $user->customers->first();
-        // dd($user);
+   
         $this->first_name = $customer->first_name;
         $this->last_name = $customer->last_name;
         $this->countries = Country::orderBy('name')->get();
@@ -119,13 +119,11 @@ class AddressPage extends Component
         ];
 
         if ($this->billingAddressId) {
-            Log::info("address id found");
             Address::where('id', $this->billingAddressId)->update($addressData);
         } else {
             Address::create($addressData);
         }
 
-        //session()->flash('success', 'Billing address saved successfully!');
         $this->mount();
 
         $this->billingAddressEdit = false;
@@ -198,7 +196,6 @@ class AddressPage extends Component
 
         $this->editingShippingAddressId = null;
 
-        //session()->flash('success', 'Shipping address saved successfully!');
         $this->mount();
 
         $this->addShippingAddress = false;
@@ -222,33 +219,17 @@ class AddressPage extends Component
         $this->shipping_state = $address->state;
         $this->shipping_countries = $address->country->iso2 ?? '';
 
-        // $this->dispatch('addShippingAddress', id: $addressId);
-
         $this->addShippingAddress = true;
     }
 
 
     public function dropShippingAddress($addressId)
     {
-        Log::info("Deleting shipping address with ID: $addressId");
-        // $user = auth()->user();
-        // $customer = $user->customers->first();
-        // $customer_id = $customer->id;
-
         $address = Address::find($addressId);
-
-        // if (!$address) {
-        //     session()->flash('error', 'Address not found.');
-        //     return;
-        // }
-
-        // if ($address->customer_id !== $customer_id) {
-        //     abort(403, 'Unauthorized action.');
-        // }
 
         $address->delete();
         $this->mount();
-        // session()->flash('success', 'Shipping address deleted successfully.');
+        
     }
 
 

@@ -1,9 +1,12 @@
 <header class="w-full bg-themeblack text-white relative" x-data="{ show: false }">
+    <!-- Header - Desktop -->
     <div class="lg:flex items-center container mx-auto gap-8 hidden p-4">
+        <!-- Site Logo -->
         <div>
             <a href="{{route('home')}}"><img class="w-3xs xl:w-2xs" src="{{ asset('images/logo.png') }}" alt=""></a>
         </div>
         <div class="flex items-center justify-between gap-4 w-full">
+            <!-- User billing address -->
             <div class="flex items-center gap-4">
                 @if (auth()->check())
                     <svg width="22" height="27" viewBox="0 0 22 27" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 14.75C13.0711 14.75 14.75 13.0711 14.75 11C14.75 8.92893 13.0711 7.25 11 7.25C8.92893 7.25 7.25 8.92893 7.25 11C7.25 13.0711 8.92893 14.75 11 14.75Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 1C8.34784 1 5.8043 2.05357 3.92893 3.92893C2.05357 5.8043 1 8.34784 1 11C1 13.365 1.5025 14.9125 2.875 16.625L11 26L19.125 16.625C20.4975 14.9125 21 13.365 21 11C21 8.34784 19.9464 5.8043 18.0711 3.92893C16.1957 2.05357 13.6522 1 11 1Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -14,14 +17,13 @@
                     @endphp
 
                     <div class="flex flex-col">
-
                         <span class="text-sans text-[#C5C6CC] lg:text-sm xl:text-lg font-semibold">Deliver to {{ $user->first_name ?? 'Guest' }}</span>
-                        {{-- <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">{{ $shipping ? $shipping->line_one . ' ' . $shipping->postcode : 'No address set' }}</span> --}}
                         <span class="text-sans textwhite lg:text-base xl:text-xl font-bold">{{ $lineTwoValue }}</span>
                     </div>
                 @endif
             </div>
 
+            <!-- Offers and Wholesale Buttons -->
             <div class="flex items-center gap-4 flex-wrap xl:flex-nowrap lg:w-[20%] xl:w-auto">
                 <a href="{{route('home')}}" class="w-[150px] h-[40px] flex items-center justify-center gap-2 rounded-[60px] hover:bg-[#1275EE] {{ request()->routeIs('home') ? 'bg-[#1275EE]' : 'bg-[#1275EE4D]' }}">
                     <span>
@@ -38,6 +40,7 @@
                 </a>
             </div>
 
+            <!-- My Account Section -->
             <div class="flex items-center">
                 <div class="flex flex-col">
                     @auth
@@ -50,6 +53,7 @@
                 </div>
             </div>
 
+            <!-- My Orders Section -->
             <div class="flex items-center">
                 <a href="{{route('redemptions')}}">
                     <div class="flex flex-col">
@@ -59,6 +63,7 @@
                 </a>
             </div>
 
+            <!-- My Cart Section -->
             <div class="flex items-center -mr-4 sm:-mr-6 lg:mr-0">
                 @livewire('components.cart')
 
@@ -104,6 +109,7 @@
         </div>
     </div>
 
+    <!-- Header - Mobile -->
     <div class="block lg:hidden p-4">
 
         <div class="flex items-center justify-between gap-4 w-full pt-5 relative">
@@ -115,24 +121,6 @@
                 @livewire('components.cart')
 
                 <div x-data="{ mobileMenu: false }">
-                    {{-- <button x-on:click="mobileMenu = !mobileMenu"
-                            class="grid flex-shrink-0 w-16 h-16 border-l border-gray-100 lg:hidden">
-                        <span class="sr-only">Toggle Menu</span>
-
-                        <span class="place-self-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="w-5 h-5"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor">
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </span>
-                    </button> --}}
-
                     <div x-cloak
                          x-transition
                          x-show="mobileMenu"
@@ -153,13 +141,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="modal-action absolute top-3 right-4 !m-0 z-9">
-                <form method="dialog">
-                    <button class="bg-transparent hover:bg-transparent text-black">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="#000" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
-                    </button>
-                </form>
-            </div> --}}
+    
         </div>
 
         <div class="flex items-end justify-center gap-4 w-full -mt-6 pl-[15px]">
@@ -172,7 +154,7 @@
 
     </div>
 
-
+    <!-- Header menu - Mobile -->
     <div class="z-10 p-6 absolute w-full bg-themeblack min-h-screen transition-all duration-300 ease-out transform -translate-y-full" :class="{'translate-y-0': show}" x-show="show" @click.away="show = false">
         <div class="rounded-[15px] p-0 bg-white opacity-100 w-full">
             <div class="p-5">
@@ -184,45 +166,13 @@
                 <ul class="menu text-black w-full p-0 font-normal text-[16px] font-inter">
                     <li class="pb-2">
                         <summary class="!bg-transparent"><a href="{{route('account')}}">Account Settings</a></summary>
-                        {{-- <details close>
-                            <summary class="!bg-transparent"><a href="">Account Settings</a></summary>
-                            <ul>
-                                <li><a>Account Settings Submenu 1</a></li>
-                                <li><a>Account Settings Submenu 2</a></li>
-                            </ul>
-                        </details> --}}
                     </li>
                     <li class="pb-2">
                         <summary><a href="{{route('redemptions')}}">Redemptions and Orders</a></summary>
-                        {{-- <details close>
-                            <summary>Redemptions and Orders</summary>
-                            <ul>
-                                <li><a>Notifications Submenu 1</a></li>
-                                <li><a>Notifications Submenu 2</a></li>
-                            </ul>
-                        </details> --}}
                     </li>
                     <li class="pb-2">
                         <summary><a href="{{ route('addresses') }}">Your Addresses</a></summary>
-                        {{-- <details close>
-                            <summary><a href="{{route('redemptions')}}">Your Addresses</a></summary>
-                            <ul>
-                                <li><a>Notifications Submenu 1</a></li>
-                                <li><a>Notifications Submenu 2</a></li>
-                            </ul>
-                        </details> --}}
                     </li>
-                    {{-- <li class="flex items-center justify-between flex-row pb-2">
-                        <span>Add a payment method</span>
-                        <span><svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.7662 7.35238H7.31948V12.7991H5.50389V7.35238H0.0571289V5.53679H5.50389V0.0900269H7.31948V5.53679H12.7662V7.35238Z" fill="#4B4B4B"/></svg></span>
-                    </li>
-
-                    <li class="flex items-center justify-between flex-row pb-2">
-                        <span>Push notifications</span>
-                        <span class="!bg-transparent">
-                            <input type="checkbox" checked="checked" class="toggle border-[#c0bcbd] bg-[#c0bcbd] checked:border-[#E5386D] checked:bg-[#E5386D] checked:text-white"/>
-                        </span>
-                    </li> --}}
                 </ul>
             </div>
             <hr>
@@ -231,33 +181,12 @@
                 <ul class="menu text-black w-full p-0 font-normal text-[16px] font-inter">
                     <li class="pb-2">
                         <summary class="!bg-transparent">About us</summary>
-                        {{-- <details close>
-                            <summary class="!bg-transparent">About us</summary>
-                            <ul>
-                                <li><a>About us Submenu 1</a></li>
-                                <li><a>About us Submenu 2</a></li>
-                            </ul>
-                        </details> --}}
                     </li>
                     <li class="pb-2">
                         <summary>Privacy policy</summary>
-                        {{-- <details close>
-                            <summary>Privacy policy</summary>
-                            <ul>
-                                <li><a>Privacy policy Submenu 1</a></li>
-                                <li><a>Privacy policy Submenu 2</a></li>
-                            </ul>
-                        </details> --}}
                     </li>
                     <li class="pb-2">
                         <summary>Terms and conditions</summary>
-                        {{-- <details close>
-                            <summary>Terms and conditions</summary>
-                            <ul>
-                                <li><a>Terms and conditions Submenu 1</a></li>
-                                <li><a>Terms and conditions Submenu 2</a></li>
-                            </ul>
-                        </details> --}}
                     </li>
                 </ul>
             </div>

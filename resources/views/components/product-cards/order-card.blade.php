@@ -13,9 +13,6 @@
             <div class="flex flex-col gap-1 w-[50%]">
                 <p class="font-inter text-normal text-[12px] text-black uppercase">Dispatch to</p>
                 <p class="font-inter text-normal text-[12px] text-black">{{$order->billingAddress->first_name}} {{$order->billingAddress->last_name}}</p>
-                {{-- <pre>
-                {{print_r($order->shippingAddress)}}
-                </pre> --}}
             </div>
         </div>
         <div>
@@ -30,12 +27,9 @@
                 <p class="font-inter font-normal text-[12px] text-black">{{$order->note}}</p>
             </div>
             @foreach($order->lines as $line)
-                {{-- {{dd($line)}} --}}
                 @if($line->type == 'physical')
                     @php
-                        // $product = $this->getOrderItems($line->purchasable_id);
                         $product = $line->purchasable->product;
-                        //print_r($line->purchasable->id);
                     @endphp
                     <div class="flex justify-start py-4 flex-col md:flex-row gap-3 md:gap-1">
                         <img class="w-[50%] md:w-[20%] object-cover" src="{{ $product->thumbnail?->getUrl('small') }}" alt=""/>
@@ -109,13 +103,10 @@
         </div>
 
         <div class="w-full lg:w-1/4 flex flex-col gap-2">
-            {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Track package</button> --}}
-            {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Return items</button> --}}
             <button wire:click.prevent="downloadInvoice({{$order->id}})" class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1 cursor-pointer hover:bg-[#D9D9D966] hover:shadow-lg">
                 <span wire:loading.remove wire:target="downloadInvoice()">Download Invoice</span>
                 <span wire:loading wire:target="downloadInvoice()">Downloading...</span>
             </button>
-            {{-- <button class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1">Leave a product review</button> --}}
         </div>
     </div>
 </div>

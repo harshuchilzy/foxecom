@@ -1,28 +1,11 @@
 @props(['relatedProduct'])
-{{-- <div class="bg-[#F5F5F5] border border-[#008ECC] rounded-[16px] ">
-    <div class="p-3">
-        <a href="/products/{{$relatedProduct->id}}"><img class="w-full h-[180px] object-contain" src="{{ $relatedProduct->images->first()?->getUrl() }}" alt=""></a>
-    </div>
-    <div class="bg-white rounded-b-[16px] p-3 h-[45%]">
-        <a href="/products/{{$relatedProduct->id}}"><h2 class="text-[#222222] text-[18px] md:text-[24px] font-semibold">{{$relatedProduct->translateAttribute('name')}}</h2></a>
-        <p class="text-[#000000] text-[16px] md:text-[20px] font-normal mb-2">{{$relatedProduct->prices->first()->price->formatted}}</p>
-        <hr>
-        <p class="text-[#249B3E] font-semibold text-[20px] md:text-[24px] mt-2">Save - £1.20</p>
-    </div>
-</div> --}}
 
 @php
-    //$price = $relatedProduct->prices->first();
     $priceRange = $this->getPriceRangeForProducts($relatedProduct);
 @endphp
 
 <div class="bg-white border border-[#008ECC] rounded-[16px] relative group hover:shadow-lg transition-shadow overflow-hidden shadow-[0px_4px_45px_0px_#00000020]">
-    {{-- @if($hasDiscount)
-        <div class="bg-[#008ECC] p-3 w-[25%] flex justify-center items-center absolute top-0 right-0 rounded-bl-[16px] rounded-tr-[16px] z-10">
-            <p class="font-semibold text-white text-[14px]">{{ $discountPercentage }}% OFF</p>
-        </div>
-    @endif --}}
-
+   
     <div class="p-3 hover:cursor-pointer bg-[#F5F5F5] ">
         <a href="{{ route('product.view', $relatedProduct->defaultUrl->slug) }}" wire:navigate>
             <img
@@ -58,12 +41,6 @@
                 @endif
             </div>
 
-            {{-- @if($hasDiscount)
-                <hr class="border-gray-200">
-                <p class="text-[#249B3E] font-semibold text-[16px] md:text-lg">
-                    Save {{ $price->price->currency->code }} {{ number_format($saveAmount, 2) }}
-                </p>
-            @endif --}}
         @else
             <p class="text-[#1275EE] font-semibold text-[16px] md:text-lg">
                 Register to see the price

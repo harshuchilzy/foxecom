@@ -29,10 +29,19 @@ class ProductPage extends Component
      */
     public array $selectedOptionValues = [];
 
+    /**
+     * Product quantity
+     */
     public $quantity = 1;
 
+    /**
+     * Product discount id
+     */
     public ?string $discountId = null;
 
+    /**
+     * Product review all the fields
+     */
     public array $reviewForm = [
         'name' => '',
         'email' => '',
@@ -41,6 +50,9 @@ class ProductPage extends Component
         'images' => [],
     ];
 
+    /**
+     * Product review validation rules
+     */
     protected $rules = [
         'reviewForm.name' => 'required|string|max:255',
         'reviewForm.email' => 'required|email',
@@ -49,15 +61,49 @@ class ProductPage extends Component
         'reviewForm.images.*' => 'nullable|image|max:2048',
     ];
 
+    /**
+     * Show Review Popup
+     */
     public bool $showReviewPopup = false;
+
+    /**
+     * Show Bulk Add to Cart Popup
+     */
     public bool $showBulkAddToCartPopup = false;
+
+    /**
+     * Product Variations
+     */
     public $variations = [];
+
+    /**
+     * Selected Variants
+     */
     public array $selectedVariants = [];
+
+    /**
+     * Selected Variant Quantities
+     */
     public array $quantities = [];
+
+    /**
+     * Selected Variant Toggles
+     */
     public array $toggles = [];
+
+    /**
+     * Maximum outer box quantity
+     */
     public $maxQuantityIncrement = 1;
+
+    /**
+     * Rewarded items(free items)
+     */
     public $rewardItems;
 
+    /**
+     * Sum of the selected toggles
+     */
     public $sumOfSelectedToggles;
 
     public function mount($slug): void
@@ -88,10 +134,16 @@ class ProductPage extends Component
         $this->getLargestQuantityIncrement();
     }
 
+    /**
+     * Updated Selected Option Values by Product Id
+     */
     function updatedSelectedOptionValues($value) : void {
         $this->product->variant = $this->product->variants->where('product_id', $value);
     }
 
+    /**
+     * Get limited products
+     */
     public function getSuggestedProductsProperty()
     {
         return Product::with(['media', 'prices'])
@@ -100,6 +152,9 @@ class ProductPage extends Component
             ->get();
     }
 
+    /**
+     * Get Cross Sell Products
+     */
     public function getCrossSellProductsProperty(): Collection
     {
         return $this->product->associations
@@ -184,6 +239,9 @@ class ProductPage extends Component
         })->take(8);
     }
 
+    /**
+     * Get Review Count
+     */
     public function getReviewCountProperty(): int
     {
         return ProductReview::where('product_id', $this->product->id)
@@ -191,6 +249,9 @@ class ProductPage extends Component
             ->count();
     }
 
+    /**
+     * Get Average Rating
+     */
     public function getAverageRatingProperty(): ?float
     {
         return ProductReview::where('product_id', $this->product->id)
@@ -198,11 +259,17 @@ class ProductPage extends Component
             ->avg('rating'); 
     }
 
+    /**
+     * Get Average Formatted Rating
+     */
     public function getFormattedAverageProperty(): string
     {
         return number_format($this->averageRating, 1) ?: '0.0'; 
     }
 
+    /**
+     * Submit Product Review 
+     */
     public function submitReview()
     {
         $this->validate();
@@ -227,6 +294,9 @@ class ProductPage extends Component
         $this->closeReviewPopup();
     }
 
+    /**
+     * ClaimOffer Button Action
+     */
     public function claimOffer()
     {
         if (!$this->discountId) {
@@ -260,21 +330,12 @@ class ProductPage extends Component
             'applied_discount_id' => $this->discountId,
         ]);
 
-        // return redirect()->route('checkout.view');
         return redirect()->route('product.view', ['slug' => $this->url->slug]);
     }
 
-    // public function openReviewPopup()
-    // {
-    //     $this->showReviewPopup = true;
-    // }
-
-    // public function closeReviewPopup()
-    // {
-    //     $this->showReviewPopup = false;
-    // }
-
-    //New popup update start at here
+    /**
+     * Load variations inside popup
+     */
     public function loadVariations()
     {
         $this->variations = $this->product->variants()
@@ -303,6 +364,9 @@ class ProductPage extends Component
         return $this->variations;
     }
 
+    /**
+     * Get Variant Name
+     */
     protected function getVariantName($variant)
     {
         $productName = $this->product->translate('name');
@@ -313,6 +377,9 @@ class ProductPage extends Component
         return "{$productName} - {$optionNames}";
     }
 
+    /**
+     * Get Variant Image
+     */
     protected function getVariantImage($variant)
     {
         if ($variant->images->isNotEmpty()) {
@@ -323,17 +390,14 @@ class ProductPage extends Component
             return $this->product->images->first()->getUrl();
         }
 
-        return asset('images/placeholder-product.png');
+        return asset('images/placeholder.jpg');
     }
 
+    /**
+     * Get maximum products qunatity
+     */
     public function getLargestQuantityIncrement()
     {
-        // foreach ($this->loadVariations() as $variant) {
-        //     if ($variant['quantity_increment'] > $this->maxQuantityIncrement) {
-        //         $this->maxQuantityIncrement = $variant['quantity_increment'];
-        //     }
-        // }
-
         $this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
 
         $discount = Discount::find($this->discountId);
@@ -351,6 +415,9 @@ class ProductPage extends Component
         }
     }
 
+    /**
+     * Sum of the selected toggles
+     */
     public function getSumOfSelectedToggles()
     {
         $this->sumOfSelectedToggles = 0;
@@ -363,7 +430,10 @@ class ProductPage extends Component
         return $this->sumOfSelectedToggles;
     }
 
-
+    /**
+     * Reset qunatities and toggles
+     * @return void
+     */
     protected function initializeQuantities()
     {
         foreach ($this->loadVariations() as $variant) {
@@ -372,18 +442,9 @@ class ProductPage extends Component
         }
     }
 
-    // public function incrementQuantity($variantId)
-    // {
-    //     $this->quantities[$variantId]++;
-    // }
-
-    // public function decrementQuantity($variantId)
-    // {
-    //     if ($this->quantities[$variantId] > 1) {
-    //         $this->quantities[$variantId]--;
-    //     }
-    // }
-
+    /**
+     * Bulk Order Popup Add to Cart Action
+     */
     public function addSelectedToCart()
     {
 
@@ -478,6 +539,9 @@ class ProductPage extends Component
         $this->showBulkAddToCartPopup = false;
     }
 
+    /**
+     * Get Price Range for Indicidual Products
+     */
     public function getPriceRangeForProducts($product)
     {
         if (!$product->variants()->exists()) {
@@ -494,7 +558,6 @@ class ProductPage extends Component
 
         foreach ($variations as $variant) {
             $base = $variant->basePrices->first();
-            // array_push($prices, $base);
             $prices->push($base);
         }
 
@@ -504,7 +567,6 @@ class ProductPage extends Component
                 : $item->price->value;
 
             $item->per_unit_price = $effectivePrice / $outerBoxQty;
-            // Log::info($item->per_unit_price);
 
             return $item;
         });
@@ -512,13 +574,10 @@ class ProductPage extends Component
 
         $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
-
        
-            $lowest->price->value = $lowest->per_unit_price;
-       
-
-        
-            $highest->price->value = $highest->per_unit_price;
+        $lowest->price->value = $lowest->per_unit_price;
+    
+        $highest->price->value = $highest->per_unit_price;
        
 
         if($lowest->price->value == $highest->price->value){
@@ -527,7 +586,7 @@ class ProductPage extends Component
             $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
         }
         return array(
-            'discount' => 0, // $lowest->compare_price->formatted ?? 0,
+            'discount' => 0, 
             'price' => $finalPrice
         );
         

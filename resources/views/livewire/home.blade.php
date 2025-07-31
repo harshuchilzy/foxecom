@@ -1,6 +1,7 @@
 <div>
     <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
         <main class="flex w-full flex-col bg-[#FFFFFF]">
+            <!-- Hero video section -->
             @if(empty($metaFields['hero-video-link']))
                 <div class="hero-section-gif relative bg-cover bg-no-repeat bg-center h-[35vh] lg:h-[90vh] w-full">
                     @if(empty($metaFields['hero-video-link']))
@@ -50,48 +51,10 @@
                         $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
                     @endphp
 
-                    {{-- <div
-                        class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5 absolute bottom-0 w-full">
-                        <p class="text-white xl:flex items-center gap-2 hidden">
-                            <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                            <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                        </p>
-                        <p class="text-white flex items-center gap-2">
-                            <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                            <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                        </p>
-                        <p class="text-white flex items-center gap-2">
-                            <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                            <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                        </p>
-                    </div> --}}
-
                 </div>
             @endif
 
-            @if(empty($metaFields['hero-video-link']))
-                @php
-                    $brandName = $metaFields['hero-sale-brand-name'] ?? 'Al Fakir';
-                    $brandOffer = $metaFields['hero-sale-brand-offer'] ?? 'BUY 4 OUTERS AND GET 1 FREE';
-                @endphp
-
-                {{-- <div
-                    class="bg-[#901823] lg:bg-second-dark-blue flex justify-center lg:justify-between items-center py-2 lg:py-6 px-5">
-                    <p class="text-white xl:flex items-center gap-2 hidden">
-                        <span class="font-semibold lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                        <span class="font-strong lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                    </p>
-                    <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                        <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                    </p>
-                    <p class="text-white flex items-center gap-2">
-                        <span class="font-semibold text-[10px] lg:text-sm xl:text-lg">{{ $brandName }}</span>
-                        <span class="font-strong text-[10px] lg:text-sm xl:text-lg">{{ $brandOffer }}</span>
-                    </p>
-                </div> --}}
-            @endif
-
+            <!-- Promotion Spotlight slider section -->    
             <div class="flex flex-col bg-[#ECECEC]">
                 <div class="py-8 lg:pt-12 lg:pb-8">
                     <h2 class="text-center text-[20px] lg:text-[28px]">
@@ -112,15 +75,6 @@
 
                                         $claimed = (($discount->uses > 0 ? $discount->uses : 1) / ($discount->max_uses > 0 ? $discount->max_uses : 1 )) * 100; // rand(60, 98); // Simulate claimed percentage
 
-                                        // if(auth()->check()){
-                                        //     $user_usage = 0;
-                                        //     foreach ($discount->users as $user) {
-                                        //         if($user->id == auth()->user()->id) {
-                                        //             $user_usage++;
-                                        //         }
-                                        //     }
-                                        //     $claimed = ($user_usage / ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)) * 100; // rand(60, 98); // Simulate claimed percentage
-                                        // }
                                     @endphp
 
                                     @if ($bannerImage)
@@ -153,6 +107,7 @@
                 </div>
             </div>
 
+            <!-- Latest Promotions section --> 
             <div class="bg-white px-4 lg:px-8 xl:px-16 py-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
@@ -160,48 +115,6 @@
                         <span class="font-bold text-[#6E6E73]">{{$metaFields['latest-promotion-title'] ?? 'Take a look what’s new.'}}</span>
                     </h2>
                 </div>
-
-                {{-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    @foreach ($latestRedemptions as $latestRedemption)
-                        @php
-                            $title = $latestRedemption->title;
-                            $image = $latestRedemption->product_image ? asset('storage/' . $latestRedemption->product_image) : asset('images/fallback.png');
-                            $claimed = rand(60, 98); // Replace with $latestRedemption->claimed_percentage if you have this in DB
-
-                            if ($claimed >= 90) {
-                                $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
-                                $cardBg = 'bg-[linear-gradient(360deg,_#090403_0%,_#676767_100%)]';
-                                $textClass = 'text-white';
-                            } elseif ($claimed >= 70) {
-                                $barColor = 'bg-[linear-gradient(360deg,_#95D7EF_0%,_#2E6EA2_100%)]';
-                                $cardBg = 'bg-[linear-gradient(360deg,_#F3F7F9_0%,_#D6EBF6_100%)]';
-                                $textClass = 'text-[#1D1D1F]';
-                            } else {
-                                $barColor = 'bg-[linear-gradient(360deg,_#DEDBDC_0%,_#494D5E_100%)]';
-                                $cardBg = 'bg-[linear-gradient(270deg,_rgba(136,136,136,0.7)_0%,_#EEEEEE_100%)]';
-                                $textClass = 'text-[#1D1D1F]';
-                            }
-                        @endphp
-
-                        <div class="rounded-[20px] p-4 lg:p-8 {{ $cardBg }} shadow-[0px_4px_4px_0px_#00000040] w-full">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-semibold text-2xl mt-2 {{ $textClass }}">{{ $title }}</h3>
-                                <p class="text-[18px] font-semibold mt-2 lg:hidden {{ $textClass }}">{{ $claimed }}%</p>
-                            </div>
-                            <p class="text-[15px] font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text mt-2">Claim Your Free Outer Here</p>
-
-                            <div class="w-full bg-[#D9D9D9] rounded-[20px] h-[8px] mt-2">
-                                <div class="{{ $barColor }} w-[{{ $claimed }}%] h-[8px] rounded-[20px]"></div>
-                            </div>
-
-                            <p class="text-[12px] font-semibold mt-2 hidden lg:flex {{ $textClass }}">{{ $claimed }}% claimed</p>
-
-                            <div class="w-full flex justify-center items-center mt-4 lg:mt-8 xl:mt-0">
-                                <img class="w-[180px] lg:w-[200px] xl:w-[350px] xl:h-[240px] object-contain" src="{{ $image }}" alt="{{ $title }}">
-                            </div>
-                        </div>
-                    @endforeach
-                </div> --}}
 
                 <div class="overflow-x-auto pb-2">
                     <div class="md:w-full relative flex md:grid md:grid-cols-3 gap-3 md:gap-6">
@@ -211,7 +124,6 @@
                                     continue;
                                 }
 
-                                // if($discount)
                                 $title = $discount->name;
                                 $data = $discount->data;
                                 $image = isset($data['promo_image']) && $data['promo_image']
@@ -228,21 +140,6 @@
                                     ($discount->max_uses > 0 ? $discount->max_uses : 1)
                                     ) * 100
                                 );
-
-                                // if (auth()->check()) {
-                                //     $user_usage = 0;
-                                //     foreach ($discount->users as $user) {
-                                //         if ($user->id === auth()->user()->id) {
-                                //             $user_usage++;
-                                //         }
-                                //     }
-                                //     $claimed = (int)(
-                                //         ($user_usage
-                                //         /
-                                //         ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)
-                                //         ) * 100
-                                //     );
-                                // }
 
                                 if ($claimed >= 100) {
                                     $claimed = 100;
@@ -263,12 +160,14 @@
                                     $textClass = 'text-[#1D1D1F]';
                                 }
 
-
                                 // Get linked product slug for "Claim" button
                                 $product = $discount->purchasables ? $discount->purchasables->first()?->product : null;
                                 $productUrl = $product?->defaultUrl?->slug;
 
                                 $productBrand = $discount->products->first()?->brand?->name ?? '';
+
+                                $productBrandId = $discount->products->first()?->brand?->id ?? null;
+                                $productBrandSlug = $this->getBrandSlug($productBrandId);
                             @endphp
 
                             <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
@@ -276,11 +175,14 @@
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-2xl mt-2 {{ $textClass }} ">{{ $title }}</h3>
                                     </a>
-                                    {{-- <p class="text-[18px] font-semibold mt-2 {{ $textClass }}">{{ $claimed }}%</p> --}}
                                 </div>
 
                                 <div class="items-center justify-between w-full lg:hidden block">
-                                    <div class="mb-1 uppercase text-xs sm:text-lg font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">{{ $productBrand }}</div>
+                                    @if(!empty($productBrandSlug) && !empty($productBrand))
+                                        <a href="{{ route('brand.view', ['slug' => $productBrandSlug]) }}">
+                                            <div class="mb-1 uppercase text-xs sm:text-lg font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">{{ $productBrand }}</div>
+                                        </a>
+                                    @endif
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-xs sm:text-lg uppercase mt-2 {{ $textClass }} ">{{ $title }}</h3>
                                     </a>
@@ -322,6 +224,7 @@
                 </div>
             </div>
 
+            <!-- All Promotions Section --> 
             <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:pt-0 xl:pb-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
@@ -333,57 +236,25 @@
                 @foreach ($discounts->chunk(4) as $index => $discountChunk)
                     <div class="grid grid-cols-2 gap-3 lg:gap-6">
                         @foreach ($discountChunk as $discount)
-                        @php
+                            @php
+                                $data = $discount->data;
+                                $bannerImage = $data['banner_image'] ?? null;
+                                $promoImage = $data['promo_image'] ?? null;
+                                $mobilePromoImage = $data['mobile_promo_image'] ?? $promoImage;
+                                $imageToShow = $bannerImage ?? $promoImage;
 
-                            // if (isset($discount->data['display_type']) && !in_array('banner', $discount->data['display_type'])) {
-                            //     continue;
-                            // }
+                                $marketingHeader = $data['marketing_header'] ?? null;
+                                $discountFeatures = $data['discount_features'] ?? null;
+                                $discountFeaturesArray = explode(',', $discountFeatures);
 
-                            $data = $discount->data;
-                            $bannerImage = $data['banner_image'] ?? null;
-                            $promoImage = $data['promo_image'] ?? null;
-                            $mobilePromoImage = $data['mobile_promo_image'] ?? $promoImage;
-                            $imageToShow = $bannerImage ?? $promoImage;
-
-                            $marketingHeader = $data['marketing_header'] ?? null;
-                            $discountFeatures = $data['discount_features'] ?? null;
-                            $discountFeaturesArray = explode(',', $discountFeatures);
-
-                            // Claimed bar calculation and color
-                            $claimed = (int)(
-                                (($discount->uses > 0 ? $discount->uses : 1)
-                                /
-                                ($discount->max_uses > 0 ? $discount->max_uses : 1)
-                                ) * 100
-                            );
-
-                            // if (auth()->check()) {
-                            //     $user_usage = 0;
-                            //     foreach ($discount->users as $user) {
-                            //         if ($user->id === auth()->user()->id) {
-                            //             $user_usage++;
-                            //         }
-                            //     }
-                            //     $claimed = (int)(
-                            //         ($user_usage
-                            //         /
-                            //         ($discount->max_uses_per_user > 0 ? $discount->max_uses_per_user : 1)
-                            //         ) * 100
-                            //     );
-                            // }
-
-                            // if ($claimed >= 100) {
-                            //     $claimed = 100;
-                            //     $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
-                            // } elseif ($claimed >= 90) {
-                            //     $barColor = 'bg-[linear-gradient(360deg,_#F9F671_0%,_#4B7A0A_100%)]';
-                            // } elseif ($claimed >= 70) {
-                            //     $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
-                            // } else {
-                            //     $barColor = 'bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)]';
-                            // }
-
-                        @endphp
+                                // Claimed bar calculation and color
+                                $claimed = (int)(
+                                    (($discount->uses > 0 ? $discount->uses : 1)
+                                    /
+                                    ($discount->max_uses > 0 ? $discount->max_uses : 1)
+                                    ) * 100
+                                );
+                            @endphp
                             <div class="relative w-full h-[260px] lg:h-[500px] bg-[linear-gradient(180deg,_rgba(73,77,94,0.08)_0%,_#FFFFFF_100%)] rounded-2xl p-3 lg:p-6 lg:pb-6 pb-0 shadow-[0px_10px_25px_0px_#00000073] hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden flex flex-col justify-between">
                                 <div class="mb-4 flex lg:hidden justify-end items-start">
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
@@ -408,21 +279,21 @@
                                             $brandImageUrl = $firstBrandMedia && isset($firstBrandMedia->uuid)
                                                 ? asset("storage/{$firstBrandMedia->id}/{$firstBrandMedia->file_name}")
                                                 : '';
+
+                                            $brandId = $firstProduct->brand->id ?? null;
+                                            $brandSlug = $this->getBrandSlug($brandId);
                                         @endphp
 
-                                        @if ($brandImageUrl)
-                                            <img class="w-[60px] lg:w-[140px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
+                                        @if (!empty($brandImageUrl) && !empty($brandSlug))
+                                            <a href="{{ route('brand.view', ['slug' => $brandSlug]) }}" class="z-1 relative">
+                                                <img class="w-[60px] lg:w-[140px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
+                                            </a>
                                         @else
                                             <div class="h-[24px] lg:w-[140px] mb-2"></div>
                                         @endif
                                         <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
                                     </div>
 
-                                    {{-- @if ($discount->description)
-                                        <p class="text-black font-semibold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block">
-                                            {!! $discount->description !!}
-                                        </p>
-                                    @endif --}}
                                     <p class="text-black font-bold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block font-inter opacity-70 leading-6 pt-5 ">{{ $marketingHeader }}</p>
 
                                     @if($discountFeatures)
@@ -439,7 +310,6 @@
                                     <div class="w-full bg-[#D9D9D9] rounded-[2px] h-[8px] mt-2 lg:hidden">
                                         <div class="bg-[linear-gradient(90deg,_#95D7EF_0%,_#2E6EA2_100%)] h-[8px] rounded-[2px]" style="width: {{ $claimed }}%"></div>
                                     </div>
-                                    {{-- <p class="text-[12px] font-semibold mt-2 lg:hidden text-[#1D1D1F]">{{ $claimed }}% claimed</p> --}}
                                 </div>
 
                                 <a href="{{ route('discount.show', ['id' => $discount->id]) }}" class="group lg:flex items-center gap-2 text-gray-800 font-medium hover:text-gray-900 transition-colors duration-200 hidden z-9 lg:text-[22px]">
@@ -480,7 +350,7 @@
                         @endforeach
                     </div>
 
-                    {{-- Banner after 1st and 2nd set --}}
+                    <!-- Banner after 1st and 2nd set -->
                     @if ($index == 0)
                         <div class="w-full my-12">
                             <a href="{{ route('products.index') }}">
@@ -507,23 +377,4 @@
         </main>
     </div>
 
-    {{-- <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-12 sm:px-6 lg:px-8">
-        @if ($this->saleCollection)
-            <x-collection-sale />
-        @endif
-
-        @if ($this->randomCollection)
-            <section>
-                <h2 class="text-3xl font-bold">
-                    {{ $this->randomCollection->translateAttribute('name') }}
-                </h2>
-
-                <div class="grid grid-cols-2 mt-8 lg:grid-cols-4 gap-x-4 gap-y-8">
-                    @foreach ($this->randomCollection->products as $product)
-                        <x-product-card :product="$product" />
-                    @endforeach
-                </div>
-            </section>
-        @endif
-    </div> --}}
 </div>
