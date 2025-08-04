@@ -32,7 +32,7 @@
         class="w-40 px-4 py-3 rounded-lg text-center font-inter font-medium md:text-lg text-sm
               bg-gray-800 border border-gray-600 text-gray-300
               hover:bg-red-600 hover:text-white hover:border-red-700
-              focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50
+              focus:outline-none 
               active:bg-red-700 active:scale-95
               transition-all duration-200 ease-in-out
               shadow-md hover:shadow-lg cursor-pointer" 
@@ -46,7 +46,7 @@
         class="w-40 px-4 py-3 rounded-lg text-center font-inter font-medium md:text-lg text-sm
               bg-blue-900 border border-blue-700 text-blue-100
               hover:bg-green-600 hover:text-white hover:border-green-700
-              focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50
+              focus:outline-none
               active:bg-green-700 active:scale-95
               transition-all duration-200 ease-in-out
               shadow-md hover:shadow-lg cursor-pointer" 
