@@ -268,6 +268,7 @@
                                 <div class="mb-4 block absolute lg:relative top-3 left-2">
                                     <div class="mb-4">
                                         @php
+        
                                             $firstProduct = isset($discount->products) && $discount->products instanceof \Illuminate\Support\Collection
                                                 ? $discount->products->first()
                                                 : null;
@@ -283,13 +284,13 @@
                                             $brandId = $firstProduct->brand->id ?? null;
                                             $brandSlug = $this->getBrandSlug($brandId);
 
-                                            $brandImageUrl = $discount->discountables->first()?->discountable->brand->getMedia('*')[0]->getUrl();
+                                            //$brandImageUrl = $discount->discountables->first()?->discountable->brand->getMedia('*')[0]->getUrl();
 
                                         @endphp
 
                                         @if (!empty($brandImageUrl) && !empty($brandSlug))
                                             <a href="{{ route('brand.view', ['slug' => $brandSlug]) }}" class="z-1 relative">
-                                                <img class="w-[60px] lg:w-[140px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
+                                                <img class="h-[25px] lg:h-[45px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
                                             </a>
                                         @else
                                             <div class="h-[24px] lg:w-[140px] mb-2"></div>

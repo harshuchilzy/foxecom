@@ -302,7 +302,11 @@
 
                 <!-- Product short description subsection - Desktop -->
                 <div class="hidden md:flex flex-col items-start gap-3">
-                    {!! $this->product->translateAttribute('short-description') !!}
+                    @if ( $discountId )
+                        {!! $this->product->translateAttribute('offer-short-description') !!}
+                    @else
+                        {!! $this->product->translateAttribute('short-description') !!}
+                    @endif
                 </div>
                 
                 <!-- Product options and add to cart subsection -->
