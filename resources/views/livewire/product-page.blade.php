@@ -515,7 +515,7 @@
 
                                                             <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
                                                                 <span class="text-[#1275EE] text-lg font-semibold">
-                                                                    {{ $variant['price'] }} + VAT
+                                                                    {{ $variant['unit_price_per_outer_box'] }} + VAT 
                                                                 </span>
                                                                 
                                                                 <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[50%] lg:w-[50%]"

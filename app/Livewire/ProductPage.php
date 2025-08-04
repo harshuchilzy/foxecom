@@ -7,6 +7,7 @@ use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Models\Channel;
 use Lunar\Models\Product;
+use Lunar\DataTypes\Price;
 use Lunar\Models\Currency;
 use Lunar\Models\Discount;
 use App\Models\ReviewImage;
@@ -338,6 +339,7 @@ class ProductPage extends Component
      */
     public function loadVariations()
     {
+        
         $this->variations = $this->product->variants()
             ->with(['values.option', 'images'])
             ->get()
@@ -346,7 +348,6 @@ class ProductPage extends Component
                 $basePrice = $variant->basePrices->first()->price;
                 $unitPricePerOuterBox = $basePrice?->value / $outerBoxQty;
 
-
                 return [
                     'id' => $variant->id,
                     'name' => $this->getVariantName($variant),
@@ -354,7 +355,13 @@ class ProductPage extends Component
                     'sku' => $variant->sku,
                     'price' => $variant->basePrices->first()->price?->formatted(),
                     'outer_box_qty' => $outerBoxQty,
-                    'unit_price_per_outer_box' => $unitPricePerOuterBox,
+                    'unit_price_per_outer_box' =>  $basePrice 
+                                                        ? (new Price(
+                                                            $unitPricePerOuterBox,
+                                                            $basePrice->currency,
+                                                            $basePrice->unitQty
+                                                        ))->formatted()
+                                                        : null,
                     'stock' => $variant->stock,
                     'quantity_increment' => $variant->quantity_increment,
                     'options' => $variant->values->map(function ($value) {
