@@ -24,13 +24,35 @@
       </p>
     </div>
 
-    <!-- Date of Birth -->
-    <div class="flex justify-center gap-2">
-      {{-- <input type="number" placeholder="DD" class="w-23 h-14 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1" max="31" x-model="day" />
-      <input type="number" placeholder="MM" class="w-23 h-14 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1" max="12" x-model="month" />
-      <input type="number" placeholder="YYYY" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1900" x-model="year" /> --}}
-      <button type="button" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF280] text-center font-inter font-normal text-xl hover:bg-blue-600 hover:text-white cursor-pointer duration-200 transition" @click="foxecomAgeRestrict()">I'm under 18</button>
-      <button type="button" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF280] text-center font-inter font-normal text-xl hover:bg-blue-600 hover:text-white cursor-pointer duration-200 transition" @click="foxecomAgVarified()">I'm over 18</button>
+    <!-- Age verifications -->
+    <div class="flex justify-center gap-4">
+      <!-- Under 18 Button -->
+      <button 
+        type="button" 
+        class="w-40 px-4 py-3 rounded-lg text-center font-inter font-medium text-lg
+              bg-gray-800 border border-gray-600 text-gray-300
+              hover:bg-red-600 hover:text-white hover:border-red-700
+              focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50
+              active:bg-red-700 active:scale-95
+              transition-all duration-200 ease-in-out
+              shadow-md hover:shadow-lg cursor-pointer" 
+        @click="foxecomAgeRestrict()">
+        I'm under 18
+      </button>
+      
+      <!-- Over 18 Button -->
+      <button 
+        type="button" 
+        class="w-40 px-4 py-3 rounded-lg text-center font-inter font-medium text-lg
+              bg-blue-900 border border-blue-700 text-blue-100
+              hover:bg-green-600 hover:text-white hover:border-green-700
+              focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50
+              active:bg-green-700 active:scale-95
+              transition-all duration-200 ease-in-out
+              shadow-md hover:shadow-lg cursor-pointer" 
+        @click="foxecomAgeVerified()">
+        I'm over 18
+      </button>
     </div>
 
     <div class="error text-xs font-medium font-inter text-red-500 mt-2" x-text="errorMessage" x-show="errorMessage"></div>

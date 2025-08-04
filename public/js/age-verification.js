@@ -16,7 +16,7 @@ document.addEventListener('alpine:init', () => {
     },
     
 
-    foxecomAgVarified() {
+    foxecomAgeVerified() {
 
         this.errorMessage = '';
 
