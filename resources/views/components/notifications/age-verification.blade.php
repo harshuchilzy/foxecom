@@ -14,7 +14,7 @@
     </div>
 
     <!-- Age Verification Text -->
-    <div class="mb-6">
+    <div class="mb-10">
       <h2 class="text-4xl font-semibold mb-5 font-inter">Age Verification Required</h2>
       <p class="text-base font-semibold text-white font-inter mb-7">
         Certain products contain nicotine, which is a highly addictive substance. Sales are restricted to individuals 18 years and<br> older.
@@ -26,10 +26,11 @@
 
     <!-- Date of Birth -->
     <div class="flex justify-center gap-2">
-      <input type="number" placeholder="DD" class="w-23 h-14 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1" max="31" x-model="day" />
+      {{-- <input type="number" placeholder="DD" class="w-23 h-14 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1" max="31" x-model="day" />
       <input type="number" placeholder="MM" class="w-23 h-14 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1" max="12" x-model="month" />
-      <input type="number" placeholder="YYYY" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1900" x-model="year" />
-      <button type="button" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF280] text-center font-inter font-normal text-xl hover:bg-blue-600 hover:text-white cursor-pointer duration-200 transition" @click="foxecomVerifyAge()">ENTER</button>
+      <input type="number" placeholder="YYYY" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF2] text-center font-inter font-normal text-xl" min="1900" x-model="year" /> --}}
+      <button type="button" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF280] text-center font-inter font-normal text-xl hover:bg-blue-600 hover:text-white cursor-pointer duration-200 transition" @click="foxecomAgeRestrict()">I'm under 18</button>
+      <button type="button" class="w-36 px-2 py-2 bg-input-black border border-input-border-gray rounded text-[#FFFFF280] text-center font-inter font-normal text-xl hover:bg-blue-600 hover:text-white cursor-pointer duration-200 transition" @click="foxecomAgVarified()">I'm over 18</button>
     </div>
 
     <div class="error text-xs font-medium font-inter text-red-500 mt-2" x-text="errorMessage" x-show="errorMessage"></div>
