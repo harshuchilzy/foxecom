@@ -289,7 +289,8 @@
                                             $brandSlug = $this->getBrandSlug($brandId);
 
                                             $brandImageUrl = $discount->discountables?->first()?->discountable->brand->getMedia('*')[0]->getUrl();
-                                           
+                                            $brandSlug = $this->getBrandSlug($discount->discountables?->first()?->discountable->brand->id);
+                                     
                                         @endphp
 
                                         @if (!empty($brandImageUrl) && !empty($brandSlug))
