@@ -299,7 +299,9 @@
                                         @else
                                             <div class="h-[24px] lg:w-[140px] mb-2"></div>
                                         @endif
-                                        <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
+                                        <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
+                                            <h2 class="text-transparent hidden lg:block bg-clip-text bg-[linear-gradient(75.62deg,_#565656_62.01%,_rgba(132,132,132,0.5)_103.64%)] font-semibold text-[40px] lg:text-[64px]">{{ $discount->name }}</h2>
+                                        </a>
                                     </div>
 
                                     <p class="text-black font-bold text-[20px] max-w-[55%] lg:max-w-[35%] hidden lg:block font-inter opacity-70 leading-6 pt-5 ">{{ $marketingHeader }}</p>
@@ -333,6 +335,7 @@
                                     </span>
                                 </a>
 
+                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                 @if ($promoImage)
                                     <img src="{{ asset('storage/' . $promoImage) }}"
                                          alt="{{ $discount->name }}"
@@ -342,8 +345,9 @@
                                          alt="mobile-{{ $discount->name }}"
                                          class="h-[174px] w-auto object-contain drop-shadow-lg lg:hidden block"/>
                                 @endif
+                                </a>
 
-                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}" class="absolute top-4 right-4 p-3 bg-[linear-gradient(180deg,_rgba(73,77,94,0.9)_0%,_rgba(0,0,0,0.8)_100%)] rounded-full lg:flex items-center justify-center hidden">
+                                <a href="{{ route('discount.show', ['id' => $discount->id]) }}" class="absolute top-4 right-4 p-3 bg-[linear-gradient(180deg,_rgba(73,77,94,0.9)_0%,_rgba(0,0,0,0.8)_100%)] rounded-full lg:flex items-center justify-center hidden z-2">
                                     <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M2.36084 18.4702C3.18896 18.4704 3.86059 19.1421 3.86084 19.9702V27.2749H11.4634C12.2915 27.2751 12.9631 27.9468 12.9634 28.7749C12.9634 29.6032 12.2916 30.2747 11.4634 30.2749H3.36084C1.98029 30.2747 0.86084 29.1555 0.86084 27.7749V19.9702C0.861089 19.1421 1.53273 18.4704 2.36084 18.4702ZM20.5962 8.23096C22.253 8.23097 23.5962 9.57411 23.5962 11.231V19.9058C23.596 21.5624 22.2529 22.9057 20.5962 22.9058H11.4263C9.76956 22.9058 8.4265 21.5624 8.42627 19.9058V11.231C8.42627 9.5741 9.76941 8.23096 11.4263 8.23096H20.5962ZM28.6655 0.86084C30.0461 0.861027 31.1655 1.98024 31.1655 3.36084V11.1655C31.1655 11.9938 30.4938 12.6653 29.6655 12.6655C28.8373 12.6653 28.1655 11.9938 28.1655 11.1655V3.86084H20.563C19.7347 3.86065 19.063 3.18915 19.063 2.36084C19.063 1.53253 19.7347 0.861034 20.563 0.86084H28.6655Z" fill="url(#paint0_linear_754_1551)"/>
                                     <defs>

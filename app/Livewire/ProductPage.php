@@ -342,12 +342,19 @@ class ProductPage extends Component
             ->with(['values.option', 'images'])
             ->get()
             ->map(function ($variant) {
+                $outerBoxQty = $this->product->attr('outer-box') ?? 1;
+                $basePrice = $variant->basePrices->first()->price;
+                $unitPricePerOuterBox = $basePrice?->value / $outerBoxQty;
+
+
                 return [
                     'id' => $variant->id,
                     'name' => $this->getVariantName($variant),
                     'image_url' => $this->getVariantImage($variant),
                     'sku' => $variant->sku,
                     'price' => $variant->basePrices->first()->price?->formatted(),
+                    'outer_box_qty' => $outerBoxQty,
+                    'unit_price_per_outer_box' => $unitPricePerOuterBox,
                     'stock' => $variant->stock,
                     'quantity_increment' => $variant->quantity_increment,
                     'options' => $variant->values->map(function ($value) {
@@ -398,7 +405,7 @@ class ProductPage extends Component
      */
     public function getLargestQuantityIncrement()
     {
-        $this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
+        //$this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
 
         $discount = Discount::find($this->discountId);
         if($discount){
@@ -406,10 +413,12 @@ class ProductPage extends Component
 
             if ($discount && $discountType == 'BuyXGetY') {
                 if (isset($discount->data['min_qty']) && isset($discount->data['reward_qty'])) {
-                    $this->rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
-                    if (is_int($this->rewardItems)) {
-                        $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
-                    }
+                    // $this->rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
+                    // if (is_int($this->rewardItems)) {
+                    //     $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
+                    // }
+                    $this->maxQuantityIncrement = $discount->data['min_qty'];
+                    $this->rewardItems = $discount->data['reward_qty'];
                 }
             }
         }

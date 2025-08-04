@@ -115,6 +115,8 @@ class Cart extends Component
     public function mapLines(): void
     {
         $this->lines = $this->cartLines->map(function ($line) {
+            $outerBoxQty = $line->purchasable?->product->attr('outer-box') ?? 1;
+        
             return [
                 'id' => $line->id,
                 'identifier' => $line->purchasable->getIdentifier(),
@@ -126,6 +128,7 @@ class Cart extends Component
                 'options' => $line->purchasable->getOptions()->implode(' / '),
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
+                'outer_box_qty' => $outerBoxQty,
                 'meta' => (array)$line->meta,
             ];
         })->toArray();
