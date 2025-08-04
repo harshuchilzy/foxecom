@@ -38,6 +38,10 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->label('Mobile Offer Image')
                     ->image()
                     ->required(),
+                FileUpload::make('data.promo_cover_image')
+                    ->label('Offer Cover Image')
+                    ->image()
+                    ->columnSpanFull(),
                 TextInput::make('data.marketing_header')
                     ->label('Marketing header')
                     ->columnSpanFull(),

@@ -134,6 +134,10 @@
                                     ? asset('storage/' . $data['promo_image'])
                                     : $image;
 
+                                $promoCoverImage = isset($data['promo_cover_image']) && $data['promo_cover_image']
+                                    ? asset('storage/' . $data['promo_cover_image'])
+                                    : null;
+
                                 $claimed = (int)(
                                     (($discount->uses > 0 ? $discount->uses : 1)
                                     /
@@ -170,7 +174,7 @@
                                 $productBrandSlug = $this->getBrandSlug($productBrandId);
                             @endphp
 
-                            <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
+                            <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full" style="background-image: url({{ $promoCoverImage }}); background-repeat: no-repeat; background-size: cover;">
                                 <div class="items-center justify-between w-full lg:flex hidden">
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-2xl mt-2 {{ $textClass }} ">{{ $title }}</h3>
