@@ -19,6 +19,7 @@
                 @if ($lines)
                     <div>
                         @foreach ($lines as $index => $line)
+                            
                             <div class="flex flex-row gap-8 border-b border-[#D9D9D9] py-5 relative">
                                 <div class="bg-[#D9D9D9] w-1/3 flex justify-center items-center">
                                     @if ($line['thumbnail'])
@@ -30,8 +31,11 @@
 
                                 <div class="w-2/3 flex flex-col gap-2 justify-between">
                                     <div>
-                                        <h3 class="font-bold text-[16px] text-black mb-1">{{ $line['description'] }} - {{ $line['options'] }}</h3>
+                                        <a href="{{ route('product.view', ['slug' => $line['product_slug']]) }}">
+                                            <h3 class="font-bold text-[16px] text-black mb-1">{{ $line['description'] }} - {{ $line['options'] }}</h3>
+                                        </a>
                                         <p class="font-normal text-[16px] text-black font-inter mb-1">Box of {{ $line['outer_box'] }}</p>
+                                        <p class="text-black font-inter font-normal text-[16px]">Price: <span class="text-[#1375ee]">{{ $line['unit_price'] }} + VAT</span></p>
                                         <p class="font-normal text-[16px]">
                                             <span class="text-black font-inter font-normal">Availability:</span>
 

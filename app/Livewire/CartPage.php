@@ -125,6 +125,7 @@ class CartPage extends Component
                 'options' => $line->purchasable->getOptions()->implode(' / '),
                 'sub_total' => $line->subTotal->formatted(),
                 'unit_price' => $line->unitPrice->formatted(),
+                'product_slug' => $line->purchasable?->product->defaultUrl?->slug,
                 'stock' => $line->purchasable->stock,
                 'meta' => (array)$line->meta,
             ];
