@@ -19,6 +19,7 @@ class BuyXGetYDiscountItems
             return $next($cart);
         }
 
+        // Original discount logic remains unchanged
         $buyXGetY = $cart->discountBreakdown
             ->where('discount.type', BuyXGetY::class);
 

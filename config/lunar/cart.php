@@ -55,7 +55,8 @@ return [
          * Run these pipelines when the cart lines are being calculated.
         */
         'cart_lines' => [
-            Lunar\Pipelines\CartLine\GetUnitPrice::class,
+            //Lunar\Pipelines\CartLine\GetUnitPrice::class,
+            App\Filament\PipeLines\Cart\OuterBoxPricing::class, //new addition unit price formatted before calculations.
         ],
     ],
 

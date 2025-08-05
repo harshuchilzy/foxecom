@@ -3,6 +3,7 @@
 namespace App\Modifiers;
 
 use Lunar\Models\Cart;
+use Illuminate\Support\Facades\Log;
 
 class ShippingModifier
 {
@@ -26,7 +27,7 @@ class ShippingModifier
                 )
             );
         }
-
+        
         return $next($cart);
     }
 }

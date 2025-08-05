@@ -10,8 +10,10 @@ use App\Payments\NgeniusPayment;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Shipping\ShippingPlugin;
 use App\Modifiers\ShippingModifier;
+use Lunar\Actions\Carts\CalculateLine;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\PageResource;
+use App\Actions\Carts\CustomCalculateLine;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use App\Filament\Resources\RedemptionResource;
 use Lunar\Validation\CartLine\CartLineQuantity;
@@ -78,5 +80,6 @@ class AppServiceProvider extends ServiceProvider
 
         //replace CartLineQuantity with CustomCartLineQuantity
         $this->app->bind(CartLineQuantity::class, CustomCartLineQuantity::class);
+
     }
 }

@@ -5,6 +5,7 @@ namespace App\Filament\PipeLines\Cart;
 use Closure;
 use Lunar\Models\Cart;
 use Lunar\DataTypes\Price;
+use Illuminate\Support\Facades\Log;
 
 class BuyXGetYDiscountTotals
 {
@@ -42,12 +43,12 @@ class BuyXGetYDiscountTotals
 
         $originalSubtotal = $paidSubtotal + $totalDiscountValue;
 
-        $shipping = $cart->shippingTotal?->value ?? 0;
+        $shipping = $cart->shippingSubTotal?->value ?? 0;
         $tax = $cart->taxTotal?->value ?? 0;
-
+      
         $rawTotal = $originalSubtotal + $shipping + $tax - $totalDiscountValue;
         $finalTotal = max(0, $rawTotal);
-
+        
         $cart->subTotal = new Price($originalSubtotal, $cart->currency, $cart->currency->factor);
         $cart->discountTotal = new Price($totalDiscountValue, $cart->currency, $cart->currency->factor);
         $cart->total = new Price($finalTotal, $cart->currency, $cart->currency->factor);
