@@ -40,6 +40,10 @@
 
     $couponCode = $discount->coupon;
 
+    if(empty($productUrl)){
+        $productUrl = $discount->discountables->where('type', 'reward')->first()->discountable->defaultUrl->slug;
+    }
+
 @endphp
 
 <div class="w-full relative">
