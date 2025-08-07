@@ -136,7 +136,7 @@
                  class="hidden md:flex gap-4 lg:gap-5 items-center w-full md:w-1/2 flex-col-reverse lg:flex-row ">
 
                 <!-- Product images thumbnails -->
-                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[25%]">
+                <div class="flex flex-row lg:flex-col justify-center lg:justify-between items-center gap-3 lg:w-[25%] w-full max-h-[720px] overflow-auto">
                     <template x-for="(img, index) in images" :key="index">
                         <img class="w-[20%] lg:w-[70%] border-2 cursor-pointer" :class="{
                                     'border-black': currentIndex === index,
