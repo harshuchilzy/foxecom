@@ -424,8 +424,9 @@ class ProductPage extends Component
                     // if (is_int($this->rewardItems)) {
                     //     $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
                     // }
-                    $this->maxQuantityIncrement = $discount->data['min_qty'];
                     $this->rewardItems = $discount->data['reward_qty'];
+
+                    $this->maxQuantityIncrement = $discount->data['min_qty'] + $this->rewardItems;
                 }
             }
         }
