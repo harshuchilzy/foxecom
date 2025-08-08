@@ -86,7 +86,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <!-- Email Address -->
         <div class="border border-theme-zinc p-3">
             <!-- Email -->
-            <label for="email" class="uppercase text-xs">Email <span class="text-red-500 text-xs">*</span></label>
+            <label for="email" class="uppercase text-xs text-black">Email <span class="text-red-500 text-xs">*</span></label>
             <input type="email" wire:model="email" id="email"
                 class="bg-white  rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                 autofocus autocomplete="email" placeholder="{{ __('user@foxecom.com') }}" />
@@ -107,7 +107,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div class="relative">
             <div class="border border-theme-zinc p-3">
                 <!-- Password -->
-                <label for="password" class="uppercase text-xs">Password <span
+                <label for="password" class="uppercase text-xs text-black">Password <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="password" wire:model="password" id="password"
                     class="bg-white  rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
