@@ -556,7 +556,7 @@ class ProductPage extends Component
     }
 
     /**
-     * Get Price Range for Indicidual Products
+     * Get Price Range for Individual Products
      */
     public function getPriceRangeForProducts($product)
     {
