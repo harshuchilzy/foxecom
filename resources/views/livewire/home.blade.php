@@ -272,23 +272,28 @@
                                 <div class="mb-4 block absolute lg:relative top-3 left-2">
                                     <div class="mb-4">
                                         @php
-        
-                                            $firstProduct = isset($discount->products) && $discount->products instanceof \Illuminate\Support\Collection
-                                                ? $discount->products->first()
-                                                : null;
-                                            
-                                            $firstBrandMedia = $firstProduct?->brand_media instanceof \Illuminate\Support\Collection
-                                                ? $firstProduct->brand_media->first()
-                                                : null;
-                                            
-                                            $brandImageUrl = $firstBrandMedia && isset($firstBrandMedia->uuid)
-                                                ? asset("storage/{$firstBrandMedia->id}/{$firstBrandMedia->file_name}")
-                                                : '';
 
-                                            $brandId = $firstProduct->brand->id ?? null;
-                                            $brandSlug = $this->getBrandSlug($brandId);
+                                            // $firstProduct = isset($discount->products) && $discount->products instanceof \Illuminate\Support\Collection
+                                            //     ? $discount->products->first()
+                                            //     : null;
+                                            
+                                            // $firstBrandMedia = $firstProduct?->brand_media instanceof \Illuminate\Support\Collection
+                                            //     ? $firstProduct->brand_media->first()
+                                            //     : null;
+                                            
+                                            // $brandImageUrl = $firstBrandMedia && isset($firstBrandMedia->uuid)
+                                            //     ? asset("storage/{$firstBrandMedia->id}/{$firstBrandMedia->file_name}")
+                                            //     : '';
 
-                                            $brandImageUrl = $discount->discountables?->first()?->discountable->brand->getMedia('*')[0]->getUrl();
+                                            // $brandId = $firstProduct->brand->id ?? null;
+                                            // $brandSlug = $this->getBrandSlug($brandId);
+
+                                            $brandMedia = $discount->discountables?->first()?->discountable->brand->getMedia('*');
+                                            if(isset($brandMedia) && $brandMedia->isNotEmpty()) {
+                                                $brandImageUrl = asset('storage/' . $brandMedia->first()->id . '/' . $brandMedia->first()->file_name);
+                                            } else {
+                                                $brandImageUrl = '';
+                                            }
                                             $brandSlug = $this->getBrandSlug($discount->discountables?->first()?->discountable->brand->id);
                                             //print_r($discount->discountables, true);
                                         @endphp
