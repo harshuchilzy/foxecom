@@ -76,7 +76,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
 <div class="flex flex-col gap-6 max-w-xl mx-auto font-zen-kaku-gothic-antique">
     
-    <h2 class="text-center text-3xl font-semibold mt-6">{{__('Login')}}</h2>
+    <h2 class="text-center text-3xl font-semibold mt-6 text-black">{{__('Login')}}</h2>
     <p class="text-gray-600 text-center">{{__('Helping retailers grow with fast access to high-demand products.')}}</p>
 
     <!-- Session Status -->
@@ -134,7 +134,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div class="grid grid-cols-2 gap-4">
             <div class="flex gap-2 items-center">
                 <input type="checkbox" wire:model="remember" id="remember">
-                <label for="remember" class="p-0 m-0">{{__('Remember me')}}</label>
+                <label for="remember" class="p-0 m-0 text-black">{{__('Remember me')}}</label>
              </div>
 
             @if (Route::has('password.request'))
