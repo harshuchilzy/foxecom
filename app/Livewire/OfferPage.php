@@ -26,43 +26,18 @@ class OfferPage extends Component
     public function mount( int $id ): void
     {
         $this->discount = Discount::findOrFail($id);
-
-        $productId = DB::table('lunar_discount_purchasables')
-            ->where('discount_id', $id)
-            ->where('purchasable_type', 'product')
-            ->value('purchasable_id');
-
-        if ($productId) {
-            $this->product = Product::with('defaultUrl')->find($productId);
-        }
-
-        $this->discount->linked_product = $this->product;
-
         $this->getProductUrl();
     }
 
     public function getProductUrl()
     {
-        if ($this->product->id) {
-            $this->productUrl = Url::where('element_type', 'product')
-                ->where('element_id', $this->product->id)
-                ->where('default', true)
-                ->value('slug');
-
-            if (!$this->productUrl) {
-                $this->productUrl = Url::where('element_type', 'product')
-                    ->where('element_id', $this->product->id)
-                    ->orderByDesc('default')
-                    ->value('slug');
-            }
-        }
-
+        $this->productUrl = $this->discount->discountables?->where('type', 'condition')->first()->discountable->defaultUrl->slug;
+    
         if(empty($this->productUrl)){
             $this->productUrl = $this->discount->discountables?->where('type', 'reward')->first()->discountable->defaultUrl->slug;
         }
-
+ 
         return $this->productUrl;
-        
     }
 
 
@@ -76,7 +51,7 @@ class OfferPage extends Component
         $displayText = match ($discountType) {
             'percentage' => "{$couponAmount}% off",
             'fixed_cart' => "Save $ {$couponAmount} on cart",
-            'fixed_product' => "$ {$couponAmount } off each item",
+            'fixed_product' => "$ {$couponAmount} off each item",
             default => "Redeem offer"
         };
 
