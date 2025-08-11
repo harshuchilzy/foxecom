@@ -410,8 +410,13 @@ class ProductPage extends Component
 
             if ($discount && $discountType == 'BuyXGetY') {
                 if (isset($discount->data['min_qty']) && isset($discount->data['reward_qty'])) {
-                    $this->maxQuantityIncrement = $discount->data['min_qty'];
+                    // $this->rewardItems = ( $this->maxQuantityIncrement / $discount->data['min_qty'] ) * $discount->data['reward_qty'];
+                    // if (is_int($this->rewardItems)) {
+                    //     $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
+                    // }
                     $this->rewardItems = $discount->data['reward_qty'];
+
+                    $this->maxQuantityIncrement = $discount->data['min_qty'] + $this->rewardItems;
                 }
             }
         }
@@ -539,7 +544,7 @@ class ProductPage extends Component
     }
 
     /**
-     * Get Price Range for Indicidual Products
+     * Get Price Range for Individual Products
      */
     public function getPriceRangeForProducts($product)
     {

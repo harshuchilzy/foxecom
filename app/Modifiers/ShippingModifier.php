@@ -22,7 +22,7 @@ class ShippingModifier
                     name: 'Basic Delivery',
                     description: 'Basic Delivery',
                     identifier: 'BASDEL',
-                    price: new \Lunar\DataTypes\Price(500, $cart->currency, 1),
+                    price: new \Lunar\DataTypes\Price(0, $cart->currency, 1),
                     taxClass: \Lunar\Models\TaxClass::getDefault()
                 )
             );
