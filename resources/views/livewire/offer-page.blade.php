@@ -21,18 +21,18 @@
                 @if ($productUrl)
                     <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
                     class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                        Claim here
+                        {{ __('Claim here') }}
                     </a>
                 @elseif ($discountType === 'AmountOff' && $couponCode)
                     <a href="{{ route('cart', ['discount' => $discount->id]) }}"
                         class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                        Claim here
+                        {{ __('Claim here') }}
                     </a>
                 @endif
             @else
                 <a href="{{ route('register') }}"
                 class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                    Register now
+                    {{ __('Register now') }}
                 </a>
             @endif
         </div>
@@ -47,7 +47,7 @@
 
     <!-- Offer slider - Mobile -->
     <div class="lg:hidden absolute top-10/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-        <h1 class="text-white text-sm tracking-wider mb-2 absolute top-[15px] left-[85px] font-semibold">Slide to Claim Offer</h1>
+        <h1 class="text-white text-sm tracking-wider mb-2 absolute top-[15px] left-[85px] font-semibold">{{ __('Slide to Claim Offer') }}</h1>
         <input type="range" value="0" class="pullee mx-auto" placeholder="Slide to Claim Offer" />
     </div>
 

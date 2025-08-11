@@ -225,7 +225,7 @@
                         </div>
 
                         <div>
-                            <p class="font-normal text-black text-[14px] font-inter">({{ $this->reviewCount }} reviews)</p>
+                            <p class="font-normal text-black text-[14px] font-inter">({{ $this->reviewCount }} {{ $this->reviewCount === 1 ? __('review') : __('reviews') }})</p>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                          data-inactive-classes="text-gray-500 w-full" class="w-full px-5 py-3 my-3 rounded-[8px] [box-shadow:0px_4px_14px_0px_#0000001A]">
                         <h2 id="short-description-accordion-flush-heading-1 w-full">
                             <button type="button" class="flex lg:mb-3 items-center justify-between !w-full py-1 lg:py-5 font-medium rtl:text-right text-gray-500 lg:border-b border-gray-200 gap-3" data-accordion-target="#short-description-accordion" aria-expanded="true" aria-controls="short-description-accordion">
-                            <span>Descripion</span>
+                            <span>{{ __('Descripion') }}</span>
                             <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                             </svg>
@@ -258,7 +258,7 @@
                         @if (auth()->check())
                             <x-product-price class="font-medium flex items-baseline flex-wrap gap-4" :variant="$this->variant" />
                         @else
-                            <p class="text-[16px] font-semibold text-[#1275EE]">Register to see the price</p>
+                            <p class="text-[16px] font-semibold text-[#1275EE]">{{ __('Register to see the price') }}</p>
                         @endif
 
                     </div>
@@ -294,7 +294,7 @@
                         </div>
 
                         <div>
-                            <p class="font-normal text-black text-[14px] font-inter">({{ $this->reviewCount }} reviews)</p>
+                            <p class="font-normal text-black text-[14px] font-inter">({{ $this->reviewCount }} {{ $this->reviewCount === 1 ? __('review') : __('reviews') }})</p>
                         </div>
                     </div>
                 </div>
@@ -318,9 +318,9 @@
                                     <div class="mt-4">
                                         <label for="quantity"
                                                class="sr-only">
-                                            Quantity
+                                            {{ __('Quantity') }}
                                         </label>
-                                        <label for="quantity" class="sr-only">Choose quantity:</label>
+                                        <label for="quantity" class="sr-only">{{ __('Choose quantity:') }}</label>
                                     </div>
 
                                     <div class="md:max-w-[90%]">
@@ -348,7 +348,7 @@
                                                 class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
                                                 wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
                                             >
-                                                <option value="">-- Select {{ $option['option']->translate('name') }}
+                                                <option value="">-- {{ __('Select') }} {{ $option['option']->translate('name') }}
                                                     --
                                                 </option>
 
@@ -410,7 +410,7 @@
                             <div class="md:max-w-[90%] mt-5">
                                 <button
                                     class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter hover:bg-[#1275EE] hover:text-white hover:lg:border-[#1275EE] hover:shadow-lg" @click="showModal = true">
-                                    Claim Offer Now
+                                    {{ __('Claim Offer Now') }}
                                 </button>
                             </div>
 
@@ -418,19 +418,16 @@
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
                                 <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false" 
                                     x-data="{
-                                        quantities: $wire.entangle('quantities'),
-                                        toggles: $wire.entangle('toggles'),
+                                        quantities: @entangle('quantities').live,
+                                        toggles: @entangle('toggles').live,
                                         sumOfSelectedToggles: 0,
-                                        
                                         calculateSum() {
                                             this.sumOfSelectedToggles = Object.entries(this.toggles)
-                                                .filter(([key, isSelected]) => isSelected && this.quantities[key])
-                                                .reduce((sum, [key, isSelected]) => sum + parseInt(this.quantities[key]), 0);
-                                            
+                                                .filter(([key, on]) => on && this.quantities[key])
+                                                .reduce((sum, [key]) => sum + Number(this.quantities[key] ?? 0), 0);
                                             $wire.set('sumOfSelectedToggles', this.sumOfSelectedToggles);
                                         }
-                                        
-                                }">
+                                    }">
                                     <div class="sticky top-0 left-0 w-full bg-white z-20 pt-6 pb-2 border-b rounded-tr-2xl rounded-tl-2xl">
                                         <!-- Close Button -->
                                         <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold cursor-pointer z-50">&times;</button>
@@ -439,37 +436,36 @@
                                         <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
                                             {{ $this->product->translateAttribute('name') }}
                                         </h2>
-                                        @php
-                                            $selectedItems = $this->getSumOfSelectedToggles();
-                                        @endphp
+                                       
                                         <div class="lg:flex w-full gap-2 items-center">
                                             <div class="lg:w-2/3 w-full px-4">
                                                 <p class="font-medium lg:text-left text-center">
-                                                    You can purchase up to <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> items.
+                                                    {{ __('You can purchase up to') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->maxQuantityIncrement) }}</span> {{ __('items.') }}
                                                     @if ($this->rewardItems)
-                                                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">Including {{ sprintf('%02d', $this->rewardItems) }} FREE item(s)</span>
+                                                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">{{ __('Including') }} {{ sprintf('%02d', $this->rewardItems) }} {{ __('FREE item(s)') }}</span>
                                                     @endif
                                                 </p>
                                                 <div class="lg:text-left text-center pb-2">
-                                                    <strong class="{{ $selectedItems > $this->maxQuantityIncrement ? 'text-red-600' : 'text-themeblue' }}">Selected: <span>{{ $selectedItems === 0 ? '0' : sprintf('%02d', $selectedItems) }}</span> item(s)</strong>
+                                                    <strong :class="sumOfSelectedToggles > {{ $this->maxQuantityIncrement }} ? 'text-red-600' : 'text-themeblue'">
+                                                        {{ __('Selected:') }}
+                                                        <span x-text="String(sumOfSelectedToggles).padStart(2, '0')"></span>
+                                                        {{ __('item(s)') }}
+                                                    </strong>
                                                 </div>
                                             </div>
-                                            @php
-                                                $addToCartDisabled = $this->getSumOfSelectedToggles() < $this->maxQuantityIncrement;
-                                            @endphp
-
+                                            
                                             <!-- Add to Cart Button -->
                                             <div class="text-center lg:w-1/3 w-full px-4">
                                                 <button type="button"
-                                                        class="bg-[#282828] px-[24px] py-2 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 font-inter"
-                                                        wire:click="addSelectedToCart"
-                                                        @disabled($addToCartDisabled)
-                                                        :class="{
-                                                            'opacity-50 cursor-not-allowed': @js($addToCartDisabled),
-                                                            'hover:bg-[#454545] cursor-pointer': !@js($addToCartDisabled)
-                                                        }">
-                                                    <span wire:loading.remove wire:target="addSelectedToCart">Add to Cart</span>
-                                                    <span wire:loading wire:target="addSelectedToCart">Adding...</span>
+                                                    class="bg-[#282828] px-[24px] py-2 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 font-inter"
+                                                    wire:click="addSelectedToCart"
+                                                    :disabled="sumOfSelectedToggles < {{ $this->maxQuantityIncrement }}"
+                                                    :class="{
+                                                        'opacity-50 cursor-not-allowed': sumOfSelectedToggles < {{ $this->maxQuantityIncrement }},
+                                                        'hover:bg-[#454545] cursor-pointer': sumOfSelectedToggles >= {{ $this->maxQuantityIncrement }}
+                                                    }">
+                                                    <span wire:loading.remove wire:target="addSelectedToCart">{{ __('Add to Cart') }}</span>
+                                                    <span wire:loading wire:target="addSelectedToCart">{{ __('Adding...') }}</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -488,24 +484,18 @@
                                         <!-- Product Boxes -->
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             @foreach($this->loadVariations() as $index => $variant)
-                                                @php
-                                                    $maxSelected = $this->maxQuantityIncrement; 
-                                                    $isDisabled = $this->getSumOfSelectedToggles() >= $maxSelected;
-                                                @endphp
-                                                
                                                 <!-- Product Box -->
                                                 <div x-data="{ 
-                                                    isSelected: $wire.entangle('toggles.' + {{ $variant['id'] }}), 
-                                                    isDisabled: {{ $isDisabled ? 'true' : 'false' }} }"
-                                                    :class="{
-                                                        'border-blue-600 selected': isSelected,
+                                                        isSelected: $wire.entangle('toggles.{{ $variant['id'] }}').live, 
+                                                        maxSelected: {{ $this->maxQuantityIncrement }},
+                                                        get isDisabled() {
+                                                            return !this.isSelected && sumOfSelectedToggles >= this.maxSelected;
+                                                        }
                                                     }"
+                                                    :class="{ 'border-blue-600 selected': isSelected }"
                                                     class="bulk-order-product-box border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
-                                                    <img
-                                                        src="{{ $variant['image_url'] }}"
-                                                        alt=""
-                                                        class="w-32 min-w-32 h-32 min-h-32 object-cover rounded"
-                                                    >
+
+                                                    <img src="{{ $variant['image_url'] }}" alt="" class="w-32 min-w-32 h-32 min-h-32 object-cover rounded">
 
                                                     <div class="flex flex-col justify-between w-full h-full">
 
@@ -514,36 +504,44 @@
 
                                                             <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
                                                                 <span class="text-[#1275EE] text-lg font-semibold">
-                                                                    {{ $variant['unit_price_per_outer_box'] }} + VAT 
+                                                                    {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }} 
                                                                 </span>
                                                                 
-                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex flex-row items-center gap-2 px-1 w-[50%] lg:w-[50%]"
-                                                                    x-data="{ quantity: $wire.entangle('quantities.{{ $variant['id'] }}') }">
-                                                                    <button type="button"
-                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="if(quantity > 1) { quantity--; $wire.getSumOfSelectedToggles(); }">-
+                                                                <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
+                                                                    <button 
+                                                                        type="button" 
+                                                                        class="px-2 text-3xl cursor-pointer"
+                                                                        @click="if((quantities['{{ $variant['id'] }}'] ?? 1) > 1){ quantities['{{ $variant['id'] }}']--; $nextTick(() => calculateSum()); }">-
                                                                     </button>
-                                                                    <input type="number"
-                                                                        min="1"
-                                                                        x-model.number="quantity"
-                                                                        @change="$wire.getSumOfSelectedToggles()"
-                                                                        class="w-full text-center flex justify-center border-0 p-0 m-0 nobutton"/>
-                                                                    <button type="button"
-                                                                            class="px-2 border-0 border-[#757575] cursor-pointer text-3xl"
-                                                                            @click="quantity++; $wire.getSumOfSelectedToggles();">+
+
+                                                                    <input type="number" min="1"
+                                                                        x-model.number="quantities['{{ $variant['id'] }}']"
+                                                                        @input.debounce.0ms="calculateSum()"
+                                                                        class="w-full text-center border-0 p-0 m-0 nobutton" />
+
+                                                                    <button 
+                                                                        type="button" 
+                                                                        class="px-2 text-3xl cursor-pointer"
+                                                                        @click="quantities['{{ $variant['id'] }}'] = Number(quantities['{{ $variant['id'] }}'] ?? 0) + 1; $nextTick(() => calculateSum());" >+
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="toggle-switch-wrapper flex md:justify-end justify-center">
-                                                            <x-wui-toggle
-                                                                id="toggle_{{ $variant['id'] }}"
-                                                                wire:model.live="toggles.{{ $variant['id'] }}"
-                                                                @change="$wire.getSumOfSelectedToggles()"
-                                                                :disabled="$isDisabled && !$toggles[$variant['id']]"
-                                                                info xl />
+                                                        <div class="md:text-end">
+                                                            <div class="group relative inline-block w-10 h-6">
+                                                                <input type="checkbox" class="sr-only"
+                                                                    id="toggle_{{ $variant['id'] }}"
+                                                                    wire:model.live="toggles.{{ $variant['id'] }}"
+                                                                    @change="calculateSum()"
+                                                                    :disabled="isDisabled"
+                                                                >
+                                                                <label for="toggle_{{ $variant['id'] }}" class="block h-6 cursor-pointer rounded-full bg-gray-300 transition-colors duration-200 group-has-[input:checked]:bg-green-500">
+                                                                    <span class="absolute h-5 w-5 top-0.5 left-0.5 bg-white rounded-full shadow-sm transition-transform duration-200 group-has-[input:checked]:translate-x-4"></span>
+                                                                </label>
+                                                            </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -558,15 +556,11 @@
 
                     <!-- Discount label - Mobile -->
                     @if ($discountId)
-                        @php
-                            $matchedDiscount = \Lunar\Models\Discount::find($discountId);
-                            $discountParts = explode(' ', $matchedDiscount?->name, 3); // Basic splitting
-                        @endphp
-                        @if ($matchedDiscount)
+                        @if ($this->getDiscount())
                             <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
                                  class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center md:hidden">
                                 @php
-                                    $name = $matchedDiscount->name;
+                                    $name = $this->getDiscount()?->name;
                                     $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
                                 @endphp
 
@@ -615,7 +609,7 @@
                                                                        stroke-linejoin="round"/></svg>
                             </span>
 
-                            <span class="text-[16px] font-normal text-black font-inter">Free worldwide shipping </span>
+                            <span class="text-[16px] font-normal text-black font-inter">{{ __('Free worldwide shipping') }} </span>
                         </div>
                         <div class="flex items-center gap-3">
                             <span>
@@ -636,9 +630,7 @@
                                         stroke-linejoin="round"/></svg>
                             </span>
 
-                            <span class="text-[16px] font-normal text-black font-inter">Delivers in: 1-2 Working Days <a
-                                    href="{{ route('delivery-policy') }}"
-                                    class="underline"> Shipping & Return</a></span>
+                            <span class="text-[16px] font-normal text-black font-inter">{{ __('Delivers in: 1-2 Working Days') }} <a href="{{ route('delivery-policy') }}" class="underline"> {{ __('Shipping & Return') }}</a></span>
                         </div>
                     </div>
                 </div>
@@ -664,7 +656,7 @@
             }"
         >
             <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">
-                Unmatched Features for an Exceptional Vaping Journey
+                {{ __('Unmatched Features for an Exceptional Vaping Journey') }}
             </h2>
 
             <div
@@ -707,8 +699,7 @@
     @if ($this->suggestedProducts->isNotEmpty())
         <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
             <div class="pb-5">
-                <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">
-                    Retailers Also Claimed : </h2>
+                <h2 class="font-semibold text-black text-[26px] lg:text-[32px] font-hanken-grotesk lg:ml-13 ml-0">{{ __('Retailers Also Claimed :') }} </h2>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
 
@@ -730,14 +721,14 @@
     <div x-data="{ reviewPopup: @entangle('showReviewPopup')}">
         <div class="max-w-[1440px] mx-auto px-4 py-5 lg:py-12">
             <button @click="reviewPopup = true" class="w-[150px] h-[40px] flex items-center justify-center gap-2 rounded-[60px] hover:bg-[#1275EE] bg-[#11316d] text-white font-inter font-bold cursor-pointer">
-                Write a Review
+                {{ __('Write a Review') }}
             </button>
         </div>
 
     
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto" x-show="reviewPopup" x-cloak>
             <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative" @click.away="reviewPopup = false">
-                <h2 class="text-2xl font-bold text-black mb-4">Write a Review</h2>
+                <h2 class="text-2xl font-bold text-black mb-4">{{ __('Write a Review') }}</h2>
                 <button @click="reviewPopup = false" class="absolute top-4 right-4 text-gray-500 cursor-pointer hover:text-red-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -745,19 +736,19 @@
                 </button>
                 <form wire:submit.prevent="submitReview" class="space-y-4">
                     <div>
-                        <label for="reviewer_name" class="block font-medium text-sm text-gray-700">Name</label>
+                        <label for="reviewer_name" class="block font-medium text-sm text-gray-700">{{ __('Name') }}</label>
                         <input type="text" id="reviewer_name" wire:model="reviewForm.name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                         @error('reviewForm.name') <span class="text-red-600 text-sm">{{ str_replace('form.name', 'name', $message) }}</span> @enderror
                     </div>
 
                     <div>
-                        <label for="reviewer_email" class="block font-medium text-sm text-gray-700">Email</label>
+                        <label for="reviewer_email" class="block font-medium text-sm text-gray-700">{{ __('Email') }}</label>
                         <input type="email" id="reviewer_email" wire:model="reviewForm.email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                         @error('reviewForm.email') <span class="text-red-600 text-sm">{{ str_replace('form.email', 'email', $message) }}</span> @enderror
                     </div>
 
                     <div>
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Rating</label>
+                        <label class="block font-medium text-sm text-gray-700 mb-1">{{ __('Rating') }}</label>
                         <div
                             x-data="{ rating: @entangle('reviewForm.rating') }"
                             class="flex items-center space-x-1"
@@ -791,13 +782,13 @@
                     </div>
 
                     <div>
-                        <label for="review" class="block font-medium text-sm text-gray-700">Review</label>
+                        <label for="review" class="block font-medium text-sm text-gray-700">{{ __('Review') }}</label>
                         <textarea id="review" rows="4" wire:model="reviewForm.review" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
                         @error('reviewForm.review') <span class="text-red-600 text-sm">{{ str_replace('form.review', 'review', $message) }}</span> @enderror
                     </div>
 
                     <div>
-                        <label for="review_images" class="block font-medium text-sm text-gray-700">Upload Images</label>
+                        <label for="review_images" class="block font-medium text-sm text-gray-700">{{ __('Upload Images') }}</label>
                         <input type="file" id="review_images" wire:model="reviewForm.images" multiple accept="image/*" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                         @error('reviewForm.images.*') <span class="text-red-600 text-sm">{{ str_replace('form.images', 'images', $message) }}</span> @enderror
 
@@ -811,8 +802,8 @@
                     </div>
 
                     <button type="submit" class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter hover:bg-[#454545] hover:shadow-lg" wire:loading.attr="disabled" wire:target="submitReview">
-                        <span wire:loading.remove wire:target="submitReview">Submit Review</span>
-                        <span wire:loading wire:target="submitReview">Submitting...</span>
+                        <span wire:loading.remove wire:target="submitReview">{{ __('Submit Review') }}</span>
+                        <span wire:loading wire:target="submitReview">{{ __('Submitting...') }}</span>
                     </button>
                 </form>
             </div>
