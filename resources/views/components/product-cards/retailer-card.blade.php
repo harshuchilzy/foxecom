@@ -32,18 +32,18 @@
                         {{ $priceRange['discount'] }}
                     </span>
                     <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold">
-                        {{ $priceRange['price'] }} + VAT
+                        {{ $priceRange['price'] }} + {{ __('VAT') }}
                     </span>
                 @else
                     <span class="text-[#1275EE] text-[16px] md:text-lg font-semibold">
-                        {{ $priceRange['price'] }} + VAT
+                        {{ $priceRange['price'] }} + {{ __('VAT') }}
                     </span>
                 @endif
             </div>
 
         @else
             <p class="text-[#1275EE] font-semibold text-[16px] md:text-lg">
-                Register to see the price
+                {{ __('Register to see the price') }}
             </p>
         @endif
     </div>

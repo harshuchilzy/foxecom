@@ -304,23 +304,22 @@ class ProductPage extends Component
             abort(400, 'No discount provided.');
         }
 
-        $discount = Discount::find($this->discountId);
+        $discount = $this->getDiscount();
 
         if (!$discount) {
             abort(404, 'Discount not found.');
         }
 
-        $cart = \Lunar\Facades\CartSession::current();
+        $cart = CartSession::current();
         if(!$cart){
-            $cart = \Lunar\Models\Cart::create([
+            $cart = Cart::create([
                 'currency_id' => Currency::getDefault()->id,
                 'channel_id' => Channel::getDefault()->id,
             ]);
         }
+        
         $cart->coupon_code = $discount->coupon;
-
         $cart->calculate();
-
         $cart->save();
 
         session(['active_discount_id' => $this->discountId]);
@@ -339,7 +338,6 @@ class ProductPage extends Component
      */
     public function loadVariations()
     {
-        
         $this->variations = $this->product->variants()
             ->with(['values.option', 'images'])
             ->get()
@@ -355,13 +353,7 @@ class ProductPage extends Component
                     'sku' => $variant->sku,
                     'price' => $variant->basePrices->first()->price?->formatted(),
                     'outer_box_qty' => $outerBoxQty,
-                    'unit_price_per_outer_box' =>  $basePrice 
-                                                        ? (new Price(
-                                                            $unitPricePerOuterBox,
-                                                            $basePrice->currency,
-                                                            $basePrice->unitQty
-                                                        ))->formatted()
-                                                        : null,
+                    'unit_price_per_outer_box' =>  $basePrice ? ( new Price($unitPricePerOuterBox, $basePrice->currency, $basePrice->unitQty) )->formatted() : null,
                     'stock' => $variant->stock,
                     'quantity_increment' => $variant->quantity_increment,
                     'options' => $variant->values->map(function ($value) {
@@ -412,9 +404,7 @@ class ProductPage extends Component
      */
     public function getLargestQuantityIncrement()
     {
-        //$this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
-
-        $discount = Discount::find($this->discountId);
+        $discount = $this->getDiscount();
         if($discount){
             $discountType = class_basename($discount->type);
 
@@ -464,7 +454,6 @@ class ProductPage extends Component
      */
     public function addSelectedToCart()
     {
-
         $validatedData = $this->validate([
             'quantities.*' => 'required|numeric|min:1',
             'toggles.*' => 'nullable|boolean',
@@ -505,7 +494,6 @@ class ProductPage extends Component
         }
 
         if ($hasError) {
-            Log::info('has error');
             return;
         }
 
@@ -513,7 +501,6 @@ class ProductPage extends Component
             $this->addError('bulk-popup-error', 'Please select at least one variant');
             return;
         }
-
 
         // Add all selected items to cart
         foreach ($linesToAdd as $line) {
@@ -534,15 +521,15 @@ class ProductPage extends Component
             }
         }
 
-        $discount = Discount::find($this->discountId);
+        $discount = $this->getDiscount();
 
         if (!$discount) {
             abort(404, 'Discount not found.');
         }
 
-        $cart = \Lunar\Facades\CartSession::current();
+        $cart = CartSession::current();
         if(!$cart){
-            $cart = \Lunar\Models\Cart::create([
+            $cart = Cart::create([
                 'currency_id' => Currency::getDefault()->id,
                 'channel_id' => Channel::getDefault()->id,
             ]);
@@ -607,6 +594,15 @@ class ProductPage extends Component
             'price' => $finalPrice
         );
         
+    }
+
+    /**
+     * Get Discount
+     */
+    public function getDiscount()
+    {
+        $discount = Discount::find($this->discountId);
+        return $discount;
     }
 
     public function render(): View

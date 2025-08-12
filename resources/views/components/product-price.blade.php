@@ -5,17 +5,17 @@
                 {{ $price?->price->formatted() }}
             </p>
             <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">
-                {{ $price?->compare_price->formatted }}<span class="text-lg font-semibold "> + VAT</span>
+                {{ $price?->compare_price->formatted }}<span class="text-lg font-semibold "> + {{ __('VAT') }}</span>
             </p>
         @else
             <p class="text-[30px] md:text-[40px] text-[#1275EE] font-normal">
-                {{ $price?->price->formatted() }}<span class="text-lg font-semibold "> + VAT</span>
+                {{ $price?->price->formatted() }}<span class="text-lg font-semibold "> + {{ __('VAT') }}</span>
             </p>
         @endif
     </span>
 </div>
 @if ($outerBoxQty)
    <div class="bg-green-100 text-green-600 text-sm font-semibold py-1 rounded-full mt-2 clear-both inline-block px-4">
-        Outer Case ({{ $outerBoxQty }} Units - £{{number_format(($price?->price->value/100) * $outerBoxQty, 2)}})
+        {{ __('Outer Case') }} ({{ $outerBoxQty }} {{ __('Units') }} - £{{number_format(($price?->price->value/100) * $outerBoxQty, 2)}})
     </div> 
 @endif

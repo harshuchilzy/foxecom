@@ -33,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
     {
         LunarPanel::panel(function ($panel) {
             return $panel
+                ->brandName('Foxergo')
+                ->brandLogo(asset('images/dayzSolution_logo.png'))
+                ->darkModeBrandLogo(asset('images/dayzSolution_logo_dark.png'))
+                ->favicon(asset('images/blacklogo.png'))
                 ->path('dashboard')
                 ->plugins([
                     new ShippingPlugin,

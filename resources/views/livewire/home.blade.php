@@ -16,7 +16,7 @@
                     @endif
                     <div class="w-full h-full flex items-end justify-end relative">
                         <a class="bg-themeblue rounded-[45px] text-white px-6 py-2 absolute bottom-8 right-8 hidden lg:block"
-                           href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">Redeem Free Offer</a>
+                           href="{{ $metaFields['redeem-offer-link'] ?? '#' }}">{{ __('Redeem Free Offer') }}</a>
                     </div>
                 </div>
             @else
@@ -74,7 +74,6 @@
                                         $bannerImage = $data['banner_image'] ?? null;
 
                                         $claimed = (($discount->uses > 0 ? $discount->uses : 1) / ($discount->max_uses > 0 ? $discount->max_uses : 1 )) * 100; // rand(60, 98); // Simulate claimed percentage
-
                                     @endphp
 
                                     @if ($bannerImage)
