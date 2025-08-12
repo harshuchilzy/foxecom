@@ -24,8 +24,7 @@
 
         <!-- Contact Details -->
         <div class="flex flex-col items-start lg:items-start">
-            <a href="tel:+447925606692" class="bg-[#1B1819] text-white py-[8px] px-[16px] rounded-lg cursor-pointer">Request
-                a call</a>
+            <a href="tel:+447925606692" class="bg-[#1B1819] text-white py-[8px] px-[16px] rounded-lg cursor-pointer">Call Now</a>
             <div class="mt-4">
                 <a href="tel:+447925606692"><p class="font-semibold text-[14px] text-[#1B1819]">+44 7925 606692</p></a>
                 <a href="mailto:accounts@foxergo.com"><p class="font-semibold text-[14px] text-[#1B1819]">accounts@foxergo.com</p></a>
@@ -63,7 +62,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="{{ asset('js/age-verification.js') }}"></script>
 
     <!-- Age Verification Popup -->

@@ -3,7 +3,7 @@
         <div class="w-full flex justify-center items-center">
             <h1 class="font-inter font-semibold text-[32px] text-black">Contact Us</h1>
         </div>
-        <div class="py-8 flex gap-8">
+        <div class="py-8 flex gap-8 flex-col lg:flex-row">
             <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-between w-full">
                 <div class="flex flex-col gap-4">
                     <div class="flex gap-2 items-center">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="border border-[#008ECC] rounded-[6px] p-5 flex flex-col gap-4 items-start justify-start w-full">
-                <form class="w-3/4 mx-auto">
+                <form class="w-full lg:w-3/4 mx-auto">
                     <div class="mb-5">
                         <label for="email-address-icon" class="block mb-2 text-sm font-medium text-gray-900">Name <span class="text-[#FF0000]">*</span></label>
                         <div class="relative">
