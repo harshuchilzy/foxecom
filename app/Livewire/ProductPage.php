@@ -522,7 +522,8 @@ class ProductPage extends Component
             } else {
                 CartSession::manager()->add(
                     $line['purchasable'], 
-                    $line['quantity']
+                    $line['quantity'],
+                    $line['meta']
                 );
             }
         }
