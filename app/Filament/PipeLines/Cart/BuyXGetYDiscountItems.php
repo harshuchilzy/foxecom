@@ -159,6 +159,7 @@ class BuyXGetYDiscountItems
                             'from_popup' => false
                         ],
                     ]);
+                   
 
                     $free->unitPrice = $zeroPrice;
                     $free->subTotal = $zeroPrice;
