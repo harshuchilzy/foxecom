@@ -257,7 +257,7 @@ class ProductPage extends Component
     {
         return ProductReview::where('product_id', $this->product->id)
             ->where('approved', true)
-            ->avg('rating'); 
+            ->avg('rating');
     }
 
     /**
@@ -265,11 +265,11 @@ class ProductPage extends Component
      */
     public function getFormattedAverageProperty(): string
     {
-        return number_format($this->averageRating, 1) ?: '0.0'; 
+        return number_format($this->averageRating, 1) ?: '0.0';
     }
 
     /**
-     * Submit Product Review 
+     * Submit Product Review
      */
     public function submitReview()
     {
@@ -317,7 +317,7 @@ class ProductPage extends Component
                 'channel_id' => Channel::getDefault()->id,
             ]);
         }
-        
+
         $cart->coupon_code = $discount->coupon;
         $cart->calculate();
         $cart->save();
@@ -379,7 +379,7 @@ class ProductPage extends Component
         $optionNames = $variant->values->map(function ($value) {
             return $value->translate('name');
         })->implode(' / ');
-        
+
         return "{$productName} - {$optionNames}";
     }
 
@@ -428,7 +428,7 @@ class ProductPage extends Component
     public function getSumOfSelectedToggles()
     {
         $this->sumOfSelectedToggles = 0;
-        
+
         foreach ($this->toggles as $key => $isSelected) {
             if ($isSelected && isset($this->quantities[$key])) {
                 $this->sumOfSelectedToggles += $this->quantities[$key];
@@ -475,11 +475,11 @@ class ProductPage extends Component
         foreach ($this->loadVariations() as $variant) {
             $variantId = $variant['id'];
             $quantity = $this->quantities[$variantId] ?? 0;
-            
+
             // Only add to cart if toggle is enabled or if you want all variants
             if ($this->toggles[$variantId] && $quantity > 0) {
                 $purchasable = ProductVariant::find($variantId);
-                
+
                 if ($purchasable->stock < $quantity) {
                     $this->addError('bulk-popup-error', "Not enough stock for {$variant['name']}");
                     $hasError = true;
@@ -522,8 +522,7 @@ class ProductPage extends Component
             } else {
                 CartSession::manager()->add(
                     $line['purchasable'], 
-                    $line['quantity'],
-                    $line['meta'],
+                    $line['quantity']
                 );
             }
         }
@@ -585,22 +584,22 @@ class ProductPage extends Component
 
         $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
-       
+
         $lowest->price->value = $lowest->per_unit_price;
-    
+
         $highest->price->value = $highest->per_unit_price;
-       
+
 
         if($lowest->price->value == $highest->price->value){
-            $finalPrice = $highest->price->formatted; 
+            $finalPrice = $highest->price->formatted;
         }else{
-            $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
+            $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted;
         }
         return array(
-            'discount' => 0, 
+            'discount' => 0,
             'price' => $finalPrice
         );
-        
+
     }
 
     /**

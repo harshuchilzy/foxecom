@@ -307,14 +307,14 @@
                         {!! $this->product->translateAttribute('short-description') !!}
                     @endif
                 </div>
-                
+
                 <!-- Product options and add to cart subsection -->
                 <form class="mt-4">
                     <div class="space-y-4">
                         @if (count($this->productOptions))
                             @foreach ($this->productOptions as $option)
                                 <fieldset class="mb-1">
-    
+
                                     <div class="mt-4">
                                         <label for="quantity"
                                                class="sr-only">
@@ -399,7 +399,7 @@
                     </div>
                 </form>
 
-                
+
                 <div>
                     <!-- Claim Offer Now subsection -->
                     @if ($discountId)
@@ -416,7 +416,7 @@
 
                             <!-- Claim Offer Now Modal -->
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
-                                <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false" 
+                                <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false"
                                     x-data="{
                                         quantities: @entangle('quantities').live,
                                         toggles: @entangle('toggles').live,
@@ -436,7 +436,7 @@
                                         <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
                                             {{ $this->product->translateAttribute('name') }}
                                         </h2>
-                                       
+
                                         <div class="lg:flex w-full gap-2 items-center">
                                             <div class="lg:w-2/3 w-full px-4">
                                                 <p class="font-medium lg:text-left text-center">
@@ -453,7 +453,7 @@
                                                     </strong>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- Add to Cart Button -->
                                             <div class="text-center lg:w-1/3 w-full px-4">
                                                 <button type="button"
@@ -485,8 +485,8 @@
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             @foreach($this->loadVariations() as $index => $variant)
                                                 <!-- Product Box -->
-                                                <div x-data="{ 
-                                                        isSelected: $wire.entangle('toggles.{{ $variant['id'] }}').live, 
+                                                <div x-data="{
+                                                        isSelected: $wire.entangle('toggles.{{ $variant['id'] }}').live,
                                                         maxSelected: {{ $this->maxQuantityIncrement }},
                                                         get isDisabled() {
                                                             return !this.isSelected && sumOfSelectedToggles >= this.maxSelected;
@@ -504,12 +504,12 @@
 
                                                             <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
                                                                 <span class="text-[#1275EE] text-lg font-semibold">
-                                                                    {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }} 
+                                                                    {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }}
                                                                 </span>
-                                                                
+
                                                                 <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
-                                                                    <button 
-                                                                        type="button" 
+                                                                    <button
+                                                                        type="button"
                                                                         class="px-2 text-3xl cursor-pointer"
                                                                         @click="if((quantities['{{ $variant['id'] }}'] ?? 1) > 1){ quantities['{{ $variant['id'] }}']--; $nextTick(() => calculateSum()); }">-
                                                                     </button>
@@ -519,8 +519,8 @@
                                                                         @input.debounce.0ms="calculateSum()"
                                                                         class="w-full text-center border-0 p-0 m-0 nobutton" />
 
-                                                                    <button 
-                                                                        type="button" 
+                                                                    <button
+                                                                        type="button"
                                                                         class="px-2 text-3xl cursor-pointer"
                                                                         @click="quantities['{{ $variant['id'] }}'] = Number(quantities['{{ $variant['id'] }}'] ?? 0) + 1; $nextTick(() => calculateSum());" >+
                                                                     </button>
@@ -609,7 +609,7 @@
                                                                        stroke-linejoin="round"/></svg>
                             </span>
 
-                            <span class="text-[16px] font-normal text-black font-inter">{{ __('Free worldwide shipping') }} </span>
+                            <span class="text-[16px] font-normal text-black font-inter">{{ __('Free Shipping for UAE and UK.') }} </span>
                         </div>
                         <div class="flex items-center gap-3">
                             <span>
@@ -725,7 +725,7 @@
             </button>
         </div>
 
-    
+
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto" x-show="reviewPopup" x-cloak>
             <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative" @click.away="reviewPopup = false">
                 <h2 class="text-2xl font-bold text-black mb-4">{{ __('Write a Review') }}</h2>

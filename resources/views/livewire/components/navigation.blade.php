@@ -205,13 +205,16 @@
                 <p class="text-[#ADADAD] font-normal text-[16px] ml-2 py-3">More</p>
                 <ul class="menu text-black w-full p-0 font-normal text-[16px] font-inter">
                     <li class="pb-2">
-                        <summary class="!bg-transparent">About us</summary>
+                        <summary class="!bg-transparent"><a href="{{ route('about') }}">About us</a></summary>
                     </li>
                     <li class="pb-2">
-                        <summary>Privacy policy</summary>
+                        <summary class="!bg-transparent"><a href="{{ route('contact') }}">Contact us</a></summary>
                     </li>
                     <li class="pb-2">
-                        <summary>Terms and conditions</summary>
+                        <summary><a href="{{ route('privacy-policy') }}">Privacy policy</a></summary>
+                    </li>
+                    <li class="pb-2">
+                        <summary><a href="{{ route('terms-conditions') }}">Terms and conditions</a></summary>
                     </li>
                 </ul>
             </div>
