@@ -36,7 +36,6 @@ class OfferPage extends Component
         $this->discount->linked_product = $product;
     }
 
-
     public function render()
     {
         return view('livewire.offer-page');
