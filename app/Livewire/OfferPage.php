@@ -31,10 +31,10 @@ class OfferPage extends Component
 
     public function getProductUrl()
     {
-        $this->productUrl = $this->discount->discountables?->where('type', 'condition')->first()->discountable->defaultUrl->slug;
+        $this->productUrl = $this->discount->discountables?->where('type', 'condition')->first()?->discountable->defaultUrl->slug;
     
         if(empty($this->productUrl)){
-            $this->productUrl = $this->discount->discountables?->where('type', 'reward')->first()->discountable->defaultUrl->slug;
+            $this->productUrl = $this->discount->discountables?->where('type', 'reward')->first()?->discountable->defaultUrl->slug;
         }
  
         return $this->productUrl;
