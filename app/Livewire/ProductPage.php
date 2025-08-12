@@ -292,7 +292,7 @@ class ProductPage extends Component
 
         session()->flash('success', 'Review submitted and awaiting approval.');
 
-        $this->closeReviewPopup();
+        $this->showReviewPopup = false;
     }
 
     /**
@@ -489,6 +489,9 @@ class ProductPage extends Component
                 $linesToAdd[] = [
                     'purchasable' => $purchasable,
                     'quantity' => $quantity,
+                    'meta' => [
+                        'from_popup' => true
+                    ]
                 ];
             }
         }
@@ -511,12 +514,16 @@ class ProductPage extends Component
             if ($existing) {
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
-                    'quantity' => $existing->quantity + $line['quantity']
+                    'quantity' => $existing->quantity + $line['quantity'],
+                    'meta' => [
+                        'from_popup' => true
+                    ]
                 ]]));
             } else {
                 CartSession::manager()->add(
                     $line['purchasable'], 
-                    $line['quantity']
+                    $line['quantity'],
+                    $line['meta'],
                 );
             }
         }

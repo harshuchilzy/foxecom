@@ -137,7 +137,7 @@ class CartPage extends Component
 
         $this->mapLines();
 
-        $cart = \Lunar\Facades\CartSession::current();
+        $cart = CartSession::current();
 
         $this->cart_count = $cart?->lines->count() ?? 0;
 

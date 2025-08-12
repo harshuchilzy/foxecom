@@ -114,22 +114,22 @@ new #[Layout('components.layouts.auth')] class extends Component {
 }; ?>
 
 <div class="flex flex-col gap-6 w-full max-w-xl mx-auto font-zen-kaku-gothic-antique">
-    <h2 class="text-center text-3xl font-semibold mt-6">{{__('Sign Up')}}</h2>
+    <h2 class="text-center text-3xl font-semibold mt-6 text-[#222222]">{{__('Sign Up')}}</h2>
     <p class="text-gray-600 text-center">{{__('Helping retailers grow with fast access to high-demand products.')}}</p>
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
     <div class="border border-theme-zinc p-3">
-        <label class="uppercase text-xs">Registration Type <span class="text-red-500 text-xs">*</span></label>
+        <label class="uppercase text-xs text-[#222222]">Registration Type <span class="text-red-500 text-xs">*</span></label>
         <div class="flex gap-4 mt-2">
             <label class="flex items-center space-x-2">
                 <input type="radio" wire:model="customer_type" value="retailer" />
-                <span>Retailer</span>
+                <span class="text-[#222222]">Retailer</span>
             </label>
             <label class="flex items-center space-x-2">
                 <input type="radio" wire:model="customer_type" value="wholesaler" />
-                <span>Wholesaler</span>
+                <span class="text-[#222222]">Wholesaler</span>
             </label>
         </div>
     </div>
@@ -138,7 +138,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
             <div class=" p-3">
                 <!-- First Name -->
-                <label for="first_name" class="uppercase text-xs">First Name <span
+                <label for="first_name" class="uppercase text-xs text-[#222222]">First Name <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="text" wire:model="first_name" id="first_name"
                     class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -158,7 +158,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             </div>
             <div class=" p-3">
                 <!-- Last Name -->
-                <label for="last_name" class="uppercase text-xs">Last Name <span
+                <label for="last_name" class="uppercase text-xs text-[#222222]">Last Name <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="text" wire:model="last_name" id="last_name"
                     class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -180,7 +180,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="grid md:not-only-of-type:grid-cols-6 gap-4 border border-theme-zinc p-3">
             <div class="col-span-2">
-                <label for="country_code" class="uppercase text-xs">Country Code <span
+                <label for="country_code" class="uppercase text-xs text-[#222222]">Country Code <span
                         class="text-red-500 text-xs">*</span></label>
                 <select wire:model="country_code" id="country_code" class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none">
                     <option value="971">+971 (UAE)</option>
@@ -201,7 +201,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             </div>
             <div class="col-span-4">
                 <!-- Phone -->
-                <label for="phone" class="uppercase text-xs">Phone Number <span
+                <label for="phone" class="uppercase text-xs text-[#222222]">Phone Number <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="tel" wire:model="phone" id="phone"
                     class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -223,7 +223,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="border border-theme-zinc p-3">
             <!-- Email -->
-            <label for="email" class="uppercase text-xs">Email <span class="text-red-500 text-xs">*</span></label>
+            <label for="email" class="uppercase text-xs text-[#222222]">Email <span class="text-red-500 text-xs">*</span></label>
             <input type="email" wire:model="email" id="email"
                 class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                 autofocus autocomplete="email" placeholder="{{ __('user@foxecom.com') }}" />
@@ -242,7 +242,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="border border-theme-zinc p-3">
             <!-- Password -->
-            <label for="password" class="uppercase text-xs">Password <span class="text-red-500 text-xs">*</span></label>
+            <label for="password" class="uppercase text-xs text-[#222222]">Password <span class="text-red-500 text-xs">*</span></label>
             <input type="password" wire:model="password" id="password"
                 class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                 autofocus autocomplete="password" placeholder="{{ __('********') }}" />
@@ -263,7 +263,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="border border-theme-zinc p-3">
             <!-- Password Confirmation -->
-            <label for="password_confirmation" class="uppercase text-xs">Confirm Password</label>
+            <label for="password_confirmation" class="uppercase text-xs text-[#222222]">Confirm Password</label>
             <input type="password" wire:model="password_confirmation" id="password_confirmation"
                 class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                 autofocus autocomplete="false" placeholder="{{ __('********') }}" />
@@ -281,13 +281,13 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
 
         <div class="mt-4">
-            <h3 class="text-2xl">Company Details</h3>
+            <h3 class="text-2xl text-[#222222]">Company Details</h3>
         </div>
 
         <div class="space-y-4">
             <!-- Company Name -->
             <div class="border border-theme-zinc p-3">
-                <label for="company_name" class="uppercase text-xs">Company Name <span
+                <label for="company_name" class="uppercase text-xs text-[#222222]">Company Name <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="text" wire:model="company_name" id="company_name"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -307,7 +307,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <!-- Company Type -->
             <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
                 <div class=" p-3">
-                    <label for="company_type" class="uppercase text-xs">Choose Company Type</label>
+                    <label for="company_type" class="uppercase text-xs text-[#222222]">Choose Company Type</label>
                     <select wire:model="company_type" id="company_type"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 focus:outline-none">
                         <option value="">-- Select Type --</option>
@@ -330,7 +330,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Company Registration Number -->
                 <div class=" p-3">
-                    <label for="company_registration" class="uppercase text-xs">Company Registration Number <span
+                    <label for="company_registration" class="uppercase text-xs text-[#222222]">Company Registration Number <span
                             class="text-red-500 text-xs">*</span></label>
                     <input type="text" wire:model="company_registration" id="company_registration"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -350,7 +350,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
             <!-- Store Name -->
             <div class="border border-theme-zinc p-3">
-                <label for="store_name" class="uppercase text-xs">Store name (trading as)</label>
+                <label for="store_name" class="uppercase text-xs text-[#222222]">Store name (trading as)</label>
                 <input type="text" wire:model="store_name" id="store_name"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                     placeholder="Store name" />
@@ -368,7 +368,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
             <!-- Address Line 1 -->
             <div class="border border-theme-zinc p-3">
-                <label for="address_line_1" class="uppercase text-xs">Address Line 1 <span
+                <label for="address_line_1" class="uppercase text-xs text-[#222222]">Address Line 1 <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="text" wire:model="address_line_1" id="address_line_1"
                     class="bg-white rounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -386,7 +386,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
             <!-- Address Line 2 -->
             <div class="border border-theme-zinc p-3">
-                <label for="address_line_2" class="uppercase text-xs">Address Line 2</label>
+                <label for="address_line_2" class="uppercase text-xs text-[#222222]">Address Line 2</label>
                 <input type="text" wire:model="address_line_2" id="address_line_2"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                     placeholder="Apartment, suite, etc." />
@@ -405,7 +405,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
             <!-- Country (fixed to UK) -->
             <div class="border border-theme-zinc p-3 mb-3">
-                <label class="uppercase text-xs">Country</label>
+                <label class="uppercase text-xs text-[#222222]">Country</label>
                 <select wire:model="country" id="country" class="bg-whiterounded-0 block w-full py-2 text-zinc-900 focus:outline-none">
                     <option value="uk">United Kingdom</option>
                     <option value="uae">United Arab Emirates</option>
@@ -415,7 +415,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
                 <div class="p-3 city-select">
                     <!-- City -->
-                    <label for="city" class="uppercase text-xs">Select City <span class="text-red-500 text-xs">*</span></label>
+                    <label for="city" class="uppercase text-xs text-[#222222]">Select City <span class="text-red-500 text-xs">*</span></label>
                     <div x-data="{
                             open: false,
                             search: '',
@@ -486,7 +486,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Postcode -->
                 <div class="p-3">
-                    <label for="postcode" class="uppercase text-xs">Postcode <span class="text-red-500 text-xs">*</span></label>
+                    <label for="postcode" class="uppercase text-xs text-[#222222]">Postcode <span class="text-red-500 text-xs">*</span></label>
                     <input type="text" wire:model="postcode" id="postcode"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                         placeholder="E.g. W1A 1AA" />
@@ -505,7 +505,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
             <!-- Sector -->
             <div class="border border-theme-zinc p-3">
-                <label for="company_sector" class="uppercase text-xs">What sector is your company in?</label>
+                <label for="company_sector" class="uppercase text-xs text-[#222222]">What sector is your company in?</label>
                 <input type="text" wire:model="company_sector" id="company_sector"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                     placeholder="E.g. Technology, Retail, Healthcare" />
@@ -523,7 +523,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
             <!-- Website Link -->
             <div class="border border-theme-zinc p-3">
-                <label for="store_url" class="uppercase text-xs">Website Link</label>
+                <label for="store_url" class="uppercase text-xs text-[#222222]">Website Link</label>
                 <input type="url" wire:model="store_url" id="store_url"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                     placeholder="https://yourcompany.com" />
@@ -544,7 +544,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div x-show="customerType === 'wholesaler'" class="grid md:grid-cols-2 gap-4 retailer-hidden-section">
                 <!-- Company Registration Certificate -->
                 <div class="border border-theme-zinc p-3">
-                    <label for="registration_certificate" class="uppercase text-xs">Company Registration
+                    <label for="registration_certificate" class="uppercase text-xs text-[#222222]">Company Registration
                         Certificate</label>
                     <input type="file" wire:model="registration_certificate" id="registration_certificate"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
@@ -562,7 +562,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- VAT Certificate -->
                 <div class="border border-theme-zinc p-3">
-                    <label for="vat_certificate" class="uppercase text-xs">VAT Certificate</label>
+                    <label for="vat_certificate" class="uppercase text-xs text-[#222222]">VAT Certificate</label>
                     <input type="file" wire:model="vat_certificate" id="vat_certificate"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
                     @error('vat_certificate')
@@ -579,7 +579,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Proof of ID -->
                 <div class="border border-theme-zinc p-3">
-                    <label for="proof_of_id" class="uppercase text-xs">Proof of ID</label>
+                    <label for="proof_of_id" class="uppercase text-xs text-[#222222]">Proof of ID</label>
                     <input type="file" wire:model="proof_of_id" id="proof_of_id"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
                     @error('proof_of_id')
@@ -596,7 +596,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Proof of Address -->
                 <div class="border border-theme-zinc p-3">
-                    <label for="proof_of_address" class="uppercase text-xs">Proof of Address</label>
+                    <label for="proof_of_address" class="uppercase text-xs text-[#222222]">Proof of Address</label>
                     <input type="file" wire:model="proof_of_address" id="proof_of_address"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 file:text-zinc-400 focus:outline-none" />
                     @error('proof_of_address')
@@ -615,7 +615,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="flex items-center justify-end">
             <button type="submit"
-                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign Up')}}</button>
+                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5 cursor-pointer">{{__('Sign Up')}}</button>
         </div>
     </form>
 

@@ -131,10 +131,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         </div>
 
+        <!-- Remember Me -->
         <div class="grid grid-cols-2 gap-4">
             <div class="flex gap-2 items-center">
                 <input type="checkbox" wire:model="remember" id="remember">
-                <label for="remember" class="p-0 m-0 text-black">{{__('Remember me')}}</label>
+                <label for="remember" class="p-0 m-0 text-black cursor-pointer">{{__('Remember me')}}</label>
              </div>
 
             @if (Route::has('password.request'))
@@ -146,9 +147,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
             @endif
         </div>
         
-        <!-- Remember Me -->
+        <!-- Sing in button -->
         <div class="flex items-center justify-end">
-            <button type="submit" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5">{{__('Sign In')}}</button>
+            <button type="submit" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5 cursor-pointer">{{__('Sign In')}}</button>
         </div>
     </form>
 

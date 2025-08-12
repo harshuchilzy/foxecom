@@ -109,11 +109,11 @@
                     @endif
 
                     <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-100">
-                        <dt class="w-1/2 font-medium">
+                        <dt class="w-1/2 font-medium text-[#222]">
                             Sub Total
                         </dt>
 
-                        <dd class="w-1/2 text-right">
+                        <dd class="w-1/2 text-right text-[#222]">
                             {{ $this->cart->subTotal->formatted() }}
                         </dd>
                     </dl>

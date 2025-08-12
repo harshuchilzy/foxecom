@@ -3,11 +3,12 @@
 namespace App\Filament\PipeLines\Cart;
 
 use Closure;
-use Lunar\DiscountTypes\BuyXGetY;
 use Lunar\Facades\DB;
 use Lunar\Models\Cart;
-use Lunar\Models\CartLine;
 use Lunar\DataTypes\Price;
+use Lunar\Models\CartLine;
+use Lunar\DiscountTypes\BuyXGetY;
+use Illuminate\Support\Facades\Log;
 
 class BuyXGetYDiscountItems
 {
@@ -19,21 +20,35 @@ class BuyXGetYDiscountItems
             return $next($cart);
         }
 
-        // Original discount logic remains unchanged
+        $cartLines = $cart->lines->load('purchasable');
+
+        // Group lines by product_id and sum quantities
+        $totalsByProduct = $cartLines
+            ->groupBy(fn($line) => $line->purchasable->product_id)
+            ->map(fn($group) => $group->sum('quantity'));
+
+        // $variationCounts = $cartLines
+        //     ->groupBy(fn($line) => $line->purchasable->product_id)
+        //     ->map(fn($group) => $group->unique('purchasable_id')->count());
+
+
         $buyXGetY = $cart->discountBreakdown
             ->where('discount.type', BuyXGetY::class);
 
         if ($buyXGetY->isEmpty()) {
+            Log::info('empty buy X get Y');
             foreach ($cart->lines->where(fn ($L) => ($L->meta['free'] ?? false)) as $fl) {
                 $fl->delete();
             }
             return $next($cart);
         }
 
+
         $paidLines = collect();
         $freeLines = collect();
         foreach ($cart->lines as $line) {
             $vid = $line->purchasable_id;
+            
             if (!empty($line->meta['free']) && isset($line->meta['discount_id'])) {
                 $freeLines[$vid] = $line;
             } else {
@@ -73,13 +88,23 @@ class BuyXGetYDiscountItems
                 }
             }
 
+            $processedProducts = [];
+
             foreach ($eligibleVariants as $vid) {
                 if (!$paidLines->has($vid)) {
                     continue;
                 }
 
                 $paid = $paidLines[$vid];
-                $totalGroups = intdiv($paid->quantity, $minQty);
+                $parentId = $paidLines[$vid]->purchasable->product_id;
+               
+                if (in_array($parentId, $processedProducts, true)) {
+                    continue;
+                }
+
+                $processedProducts[] = $parentId;
+
+                $totalGroups = intdiv($totalsByProduct[$parentId], $minQty);
 
                 if ($totalGroups <= 0) {
                     if ($freeLines->has($vid) && ($freeLines[$vid]->meta['discount_id'] ?? null) === $discount->id) {
@@ -112,7 +137,9 @@ class BuyXGetYDiscountItems
 
                     $free->save();
                     $keepFreeLines->push($vid);
+
                 } else {
+
                     if ($freeLines->has($vid)) {
                         $freeLines[$vid]->delete();
                         $freeLines->forget($vid);
@@ -129,6 +156,7 @@ class BuyXGetYDiscountItems
                             'free' => true,
                             'discount_id' => $discount->id,
                             'parent_line_id' => $paid->id,
+                            'from_popup' => false
                         ],
                     ]);
 
