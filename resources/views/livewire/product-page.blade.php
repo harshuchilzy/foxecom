@@ -328,6 +328,7 @@
                                              x-data="{
                                                 selectedOption: @entangle('selectedOptionValues').live,
                                                 selectedValues: [],
+                                                selectedValue: ''
                                             }"
                                              x-init="selectedValues = Object.values(selectedOption);
                                             $watch('selectedOption', value =>
@@ -345,6 +346,7 @@
 
                                             <select
                                                 id="option-select-{{ $option['option']->id }}"
+                                                x-model="selectedValue"
                                                 class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
                                                 wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
                                             >

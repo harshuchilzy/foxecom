@@ -56,7 +56,7 @@ return [
         */
         'cart_lines' => [
             Lunar\Pipelines\CartLine\GetUnitPrice::class,
-            // App\Filament\PipeLines\Cart\OuterBoxPricing::class, //new addition unit price formatted before calculations.
+            //App\Filament\PipeLines\Cart\OuterBoxPricing::class, //new addition unit price formatted before calculations.
         ],
     ],
 

@@ -3,7 +3,7 @@
         <button
             class="grid w-16 h-16 transition lg:border-l border-gray-100 lg:border-l-transparent hover:opacity-75 cursor-pointer pr-3 lg:pr-0"
             x-on:click="linesVisible = !linesVisible">
-            <span class="sr-only">Cart</span>
+            <span class="sr-only">{{ __('Cart') }}</span>
 
             <span class="place-self-center relative ">
                 <svg width="53" height="38" viewBox="0 0 53 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@
         <div
             class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-4 bg-white border border-gray-100 shadow-xl sm:left-auto rounded-xl"
             x-show="linesVisible" x-on:click.away="linesVisible = false" x-transition x-cloak>
-            <button class="absolute text-gray-500 transition-transform top-3 right-3 hover:scale-110" type="button"
+            <button class="absolute text-gray-500 transition-transform top-3 right-3 hover:scale-110 cursor-pointer hover:text-red-700" type="button"
                     aria-label="Close" x-on:click="linesVisible = false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
@@ -104,22 +104,35 @@
                         </div>
                     @else
                         <p class="py-4 text-sm font-medium text-center text-gray-500">
-                            Your cart is empty
+                            {{ __('Your cart is empty') }}
                         </p>
                     @endif
 
-                    <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-100">
-                        <dt class="w-1/2 font-medium text-[#222]">
-                            Sub Total
-                        </dt>
+                    <div class="pt-4 mt-6 border-t"> 
+                        <dl class="flex flex-wrap px-1 text-sm border-gray-100">
+                            <dt class="w-1/2 font-medium text-[#222]">
+                                {{ __('Sub Total') }}
+                            </dt>
 
-                        <dd class="w-1/2 text-right text-[#222]">
-                            {{ $this->cart->subTotal->formatted() }}
-                        </dd>
-                    </dl>
+                            <dd class="w-1/2 text-right text-[#222]">
+                                {{ $this->cart->subTotal->formatted() }}
+                            </dd>
+                        </dl>
+                        @if ($this->cart?->discountTotal && $this->cart?->discountTotal->value > 0)
+                            <dl class="flex flex-wrap mt-1 px-1 text-sm border-gray-100 bg-green-200 rounded">
+                                <dt class="w-1/2 font-medium text-[#222]">
+                                    {{ __('Discount') }}
+                                </dt>
+
+                                <dd class="w-1/2 text-right text-[#222]">
+                                    -{{ $this->cart?->discountTotal->formatted() }}
+                                </dd>
+                            </dl>
+                        @endif
+                    </div>
                 @else
                     <p class="py-4 text-sm font-medium text-center text-gray-500">
-                        Your cart is empty
+                        {{ __('Your cart is empty') }}
                     </p>
                 @endif
             </div>
@@ -139,18 +152,18 @@
                     <button
                         class="hover:bg-[#D9D9D966] hover:text-black block cursor-pointer w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 hover:border-black rounded-[100px]"
                         type="button" wire:click="updateLines">
-                        <span wire:loading.remove wire:target="updateLines">Update Cart</span>
-                        <span wire:loading wire:target="updateLines">Updating...</span>
+                        <span wire:loading.remove wire:target="updateLines">{{ __('Update Cart') }}</span>
+                        <span wire:loading wire:target="updateLines">{{ __('Updating...') }}</span>
                     </button>
 
                     <a class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-[100px] hover:bg-[#11316d] hover:shadow-lg"
                        href="{{ route('checkout.view') }}" wire:navigate>
-                        Checkout
+                        {{ __('Checkout') }}
                     </a>
 
                     <a class="inline-block text-sm font-medium text-gray-600 underline hover:text-gray-500"
                        href="{{ route('cart') }}">
-                        View Cart
+                        {{ __('View Cart') }}
                     </a>
                 </div>
             @endif

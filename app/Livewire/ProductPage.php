@@ -514,16 +514,12 @@ class ProductPage extends Component
             if ($existing) {
                 CartSession::updateLines(collect([[
                     'id' => $existing->id,
-                    'quantity' => $existing->quantity + $line['quantity'],
-                    'meta' => [
-                        'from_popup' => true
-                    ]
+                    'quantity' => $existing->quantity + $line['quantity']
                 ]]));
             } else {
                 CartSession::manager()->add(
                     $line['purchasable'], 
-                    $line['quantity'],
-                    $line['meta']
+                    $line['quantity']
                 );
             }
         }

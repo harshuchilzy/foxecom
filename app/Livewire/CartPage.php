@@ -2,12 +2,16 @@
 
 namespace App\Livewire;
 
-use App\Traits\DeletesFreeChildLines;
 use Livewire\Component;
 use Lunar\Models\Product;
+use Lunar\DataTypes\Price;
+use Lunar\Models\Discount;
 use Lunar\Facades\CartSession;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Lunar\Facades\ShippingManifest;
+use Lunar\Managers\DiscountManager;
+use App\Traits\DeletesFreeChildLines;
 
 class CartPage extends Component
 {
@@ -41,7 +45,6 @@ class CartPage extends Component
         // Apply discount if query param exists
         if (request()->has('discount')) {
             $discountId = request()->get('discount');
-
             $discount = \Lunar\Models\Discount::find($discountId);
 
             if ($discount && $discount->coupon) {
@@ -191,8 +194,9 @@ class CartPage extends Component
 
     function removeCoupons(): void
     {
-        $cart = \Lunar\Facades\CartSession::current();
+        $cart = CartSession::current();
         $cart->coupon_code = '';
+        $cart->calculate();
         $cart->save();
     }
 
