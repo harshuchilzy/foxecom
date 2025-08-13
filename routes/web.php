@@ -24,6 +24,7 @@ use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use Lunar\Models\Order as ModelsOrder;
 use App\Http\Controllers\CheckoutController;
+use Lunar\Facades\CartSession;
 
 require __DIR__ . '/auth.php';
 
@@ -111,6 +112,10 @@ Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions'
 
 //Cart Page - livewire
 Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
+Route::get('/cart/empty', function () {
+    CartSession::clear();
+    return redirect()->route('cart');
+})->middleware('auth')->name('cart.empty');
 
 //Address Page - livewire
 Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('auth');
