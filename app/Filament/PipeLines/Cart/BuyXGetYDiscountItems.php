@@ -43,10 +43,15 @@ class BuyXGetYDiscountItems
             return $next($cart);
         }
 
-
         $paidLines = collect();
         $freeLines = collect();
         foreach ($cart->lines as $line) {
+            // Log::info($line);
+
+            // if(isset($line->meta->from_popup) && $line->meta->from_popup){
+            //     $parentProductId = $line->purchasable_id;
+            // }
+
             $vid = $line->purchasable_id;
             
             if (!empty($line->meta['free']) && isset($line->meta['discount_id'])) {
@@ -60,6 +65,7 @@ class BuyXGetYDiscountItems
 
         foreach ($buyXGetY as $breakdown) {
             $discount = $breakdown->discount;
+            // Log::info($discount);
             $data = $discount->data;
             $minQty = (int)data_get($data, 'min_qty', 10);
             $rewQty = (int)data_get($data, 'reward_qty', 2);
@@ -83,6 +89,7 @@ class BuyXGetYDiscountItems
 
             $eligibleVariants = collect();
             foreach ($breakdown->lines as $breakdownLine) {
+                // Log::info(json_encode($breakdownLine));
                 if ($breakdownLine->line) {
                     $eligibleVariants->push($breakdownLine->line->purchasable_id);
                 }
