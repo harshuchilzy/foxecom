@@ -2,7 +2,7 @@
     x-data="{ currentStep: @entangle('currentStep'), showAddressEdit: @entangle('showAddressEdit'), deliveryOptionVerified: @entangle('deliveryOptionVerified') }">
     <!-- Checkout page title -->
     <div class="pt-5 flex w-full justify-center">
-        <h1 class="font-bold text-[30px] text-[#111111]">Checkout</h1>
+        <h1 class="font-bold text-[30px] text-[#111111]">{{ __('Checkout') }}</h1>
     </div>
 
     <div class="max-w-[1280px] mx-auto px-5 py-12 flex flex-col lg:flex-row gap-12 justify-center items-start">
@@ -17,7 +17,7 @@
                             class="flex cursor-pointer items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
                             data-accordion-target="#accordion-flush-body-1" aria-expanded="true"
                             aria-controls="accordion-flush-body-1">
-                        <span class="font-semibold text-[24px] text-[#111111]">Delivery Option</span>
+                        <span class="font-semibold text-[24px] text-[#111111]">{{ __('Delivery Option') }}</span>
                         <svg class="{{ $deliveryOptionVerified == true ? '' : 'hidden'}}" width="26" height="26"
                              viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +65,7 @@
                                                         stroke="black" stroke-width="1.5" stroke-linecap="round"
                                                         stroke-linejoin="round"/>
                                                 </svg>
-                                                <span class="font-normal text-[16px] text-[#111111]">Delivery</span>
+                                                <span class="font-normal text-[16px] text-[#111111]">{{ __('Delivery') }}</span>
 
                                             </button>
                                         </li>
@@ -113,9 +113,8 @@
                                     @endif
                                     <div delivery class="{{ $currentStep != 1 ? 'hidden' : 'py-2' }}">
                                         <div x-show="!showAddressEdit">
-                                            <button type="button" x-on:click="showAddressEdit = true"
-                                                    class="text-[#111111] font-normal text-[13px] underline cursor-pointer">
-                                                Enter address manually
+                                            <button type="button" x-on:click="showAddressEdit = true" class="text-[#111111] font-normal text-[13px] underline cursor-pointer">
+                                                {{ __('Enter address manually') }}
                                             </button>
                                         </div>
                                     </div>
@@ -132,8 +131,9 @@
                             </div>
 
                             <a x-show="!showAddressEdit" @click="$wire.saveAndContinueToNext()"
-                               class="{{ $currentStep != 1 ? 'hidden' : 'mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center' }}">Save
-                                & Continue</a>
+                               class="{{ $currentStep != 1 ? 'hidden' : 'mt-3 block px-5 py-4 w-1/2 text-white bg-[#0066FF] h-14 text-[16px] text-inter cursor-pointer rounded-full hover:bg-blue-500 font-normal text-center' }}">
+                               {{ __('Save & Continue') }}
+                            </a>
 
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                             data-accordion-target="#accordion-flush-body-2"
                             aria-expanded="false" aria-controls="accordion-flush-body-2">
 
-                        <span class="font-semibold text-[24px] text-[#111111]">Payment</span>
+                        <span class="font-semibold text-[24px] text-[#111111]">{{ __('Payment') }}</span>
                         <svg width="26" height="26"
                              viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -165,7 +165,7 @@
                             class="flex items-center justify-start w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3 cursor-pointer"
                             data-accordion-target="#accordion-flush-body-3" @click="$wire.set('currentStep', 3)"
                             aria-expanded="false" aria-controls="accordion-flush-body-3">
-                        <span class="font-semibold text-[24px] text-[#111111]">Order Review</span>
+                        <span class="font-semibold text-[24px] text-[#111111]">{{ __('Order Review') }}</span>
                     </button>
                 </h2>
 
@@ -173,11 +173,10 @@
                 <div id="accordion-flush-body-3" aria-labelledby="accordion-flush-heading-3">
                     <div class="py-5 border-b border-gray-200">
                         <div class="pt-5">
-                            <p class="text-[16px] font-semibold text-[#70707C]">By clicking the 'Submit
-                                payment'
-                                button, you confirm that you have read, understand and accept our Terms of Use,
-                                Terms of Sale and Returns Policy, and acknowledge that you have read FOX ERGO's
-                                Privacy Policy.</p>
+                            <p class="text-[16px] font-semibold text-[#70707C]">
+                                {{ __('By clicking the \'Submit payment\' button, you confirm that you have read, understand and accept our Terms of Use,
+                                Terms of Sale and Returns Policy, and acknowledge that you have read FOX ERGO\'s Privacy Policy.') }}
+                            </p>
                         </div>
                         <div class="w-full mt-5"
                              x-data="{ isDisabled: true }"
@@ -192,7 +191,7 @@
                                 class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors"
                                 {{-- @click.prevent="$wire.checkout()" --}}
                             >
-                                Enter card details
+                                {{ __('Enter card details') }}
                             </button>
                         </div>
                     </div>
@@ -201,7 +200,7 @@
 
 
             <!-- In Your Bag Section -->
-            <div class="w-full lg:w-[40%] flex flex-col gap-3">
+            <div class="w-full lg:w-[40%] flex flex-col">
                 @php
                     // Total quantities
                     $totalQty = $cart?->lines->sum('quantity') ?? 0;
@@ -211,11 +210,11 @@
                     $paidQty  = $totalQty - $freeQty;
                 @endphp
 
-                <h2 class="text-[#000000] font-bold text-[24px]">In Your Bag</h2>
+                <h2 class="text-[#000000] font-bold text-[24px]">{{ __('In Your Bag') }}</h2>
 
                 {{-- Total Products --}}
                 <div class="py-2 flex justify-between items-center border-b">
-                    <h3 class="text-[16px] font-normal text-[#111111]">Total Products</h3>
+                    <h3 class="text-[16px] font-normal text-[#111111]">{{ __('Total Products') }}</h3>
                     <p class="text-[14px] font-normal text-[#111111]">
                         {{ $totalQty }} items
                         <span class="text-[12px] text-gray-500">({{ $paidQty }} paid, {{ $freeQty }} free)</span>
@@ -224,7 +223,7 @@
 
                 {{-- Subtotal --}}
                 <div class="py-2 flex justify-between items-center">
-                    <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>
+                    <h3 class="text-[16px] font-normal text-[#111111]">{{ __('Subtotal') }}</h3>
                     <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->subTotal->formatted() }}</p>
                 </div>
 
@@ -254,7 +253,7 @@
                 {{-- Discount --}}
                 @if ($cart?->discountTotal && $cart->discountTotal->value > 0)
                     <div class="py-2 flex justify-between items-center">
-                        <h3 class="text-[16px] font-normal text-[#111111]">Discount</h3>
+                        <h3 class="text-[16px] font-normal text-[#111111]">{{ __('Discount') }}</h3>
                         <p class="text-[14px] font-normal text-[#111111]">
                             -{{ $cart->discountTotal->formatted() }}
                         </p>
@@ -263,7 +262,7 @@
 
                 {{-- Total --}}
                 <div class="py-2 flex justify-between items-center border-b">
-                    <h3 class="text-[16px] font-normal text-[#111111]">Total</h3>
+                    <h3 class="text-[16px] font-normal text-[#111111]">{{ __('Total') }}</h3>
                     <p class="text-[14px] font-normal text-[#111111]">{{ $cart?->total->formatted() }}</p>
                 </div>
 
@@ -305,7 +304,7 @@
                                     </h2>
                                 </a>
                                 <p class="font-normal text-[16px] text-black">
-                                    Qty: {{ $line->quantity }} @ {{ $priceLabel }}
+                                    {{ __('Qty:') }} {{ $line->quantity }} @ {{ $priceLabel }}
                                 </p>
                             </div>
                         </div>

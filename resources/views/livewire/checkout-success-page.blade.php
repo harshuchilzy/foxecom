@@ -8,17 +8,17 @@
                 </span>
 
                 <span class="block mt-1 text-black">
-                    Thank You
+                    {{ __('Thank You') }}
                 </span>
             </h1>
 
             <p class="mt-4 font-medium sm:text-lg">
-                Your Order will be delivered with invoice <strong>#9ds69hs</strong> You can track the delivery in the order section.
+                {{ __('Your Order will be delivered with invoice') }} <strong>#{{ $order->reference }}</strong> {{ __('You can track the delivery in the order section.') }}
             </p>
 
             <a class="w-[150px] items-center justify-center gap-2 rounded-[60px] hover:bg-[#1275EE] bg-[#11316d] text-white font-inter font-bold cursor-pointer inline-block px-8 py-3 mt-8 text-sm text-center hover:ring-1 hover:shadow-lg"
                href="{{ url('/') }}">
-                Continue
+                {{ __('Continue') }}
             </a>
         </div>
     </div>
