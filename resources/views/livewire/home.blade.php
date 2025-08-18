@@ -116,7 +116,7 @@
                 </div>
 
                 <div class="overflow-x-auto pb-2">
-                    <div class="md:w-full relative flex md:grid md:grid-cols-3 gap-3 md:gap-6">
+                    <div class="w-full flex overflow-x-auto md:overflow-x-visible md:grid md:grid-cols-3 gap-3 md:gap-6 pb-4">
                         @foreach ($latestDiscounts as $discount)
                             @php
                                 if (isset($discount->data['display_type']) && !in_array('latest-promotions', $discount->data['display_type'])) {
@@ -173,7 +173,7 @@
                                 $productBrandSlug = $this->getBrandSlug($productBrandId);
                             @endphp
 
-                            <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full" style="background-image: url({{ $promoCoverImage }}); background-repeat: no-repeat; background-size: cover;">
+                            <div class="overflow-hidden rounded-[20px] h-[200px] !w-[150px] flex-shrink-0 sm:!w-auto lg:h-[350px] p-4 lg:p-8 {{ $cardBg }} shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full" style="background-image: url({{ $promoCoverImage }}); background-repeat: no-repeat; background-size: cover;">
                                 <div class="items-center justify-between w-full lg:flex hidden">
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-2xl mt-2 {{ $textClass }} ">{{ $title }}</h3>
@@ -185,6 +185,8 @@
                                         <a href="{{ route('brand.view', ['slug' => $productBrandSlug]) }}">
                                             <div class="mb-1 uppercase text-xs sm:text-lg font-semibold bg-gradient-to-r from-[#2A86F8] via-[#E64889] to-[#F4530C] text-transparent bg-clip-text">{{ $productBrand }}</div>
                                         </a>
+                                    @else
+                                        <div class="h-4"></div>
                                     @endif
                                     <a href="{{ route('discount.show', ['id' => $discount->id]) }}">
                                         <h3 class="font-semibold text-xs sm:text-lg uppercase mt-2 {{ $textClass }} ">{{ $title }}</h3>

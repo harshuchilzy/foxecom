@@ -109,6 +109,15 @@ input::-webkit-inner-spin-button {
     display: block;
 }
 
+@media screen and (max-width: 767px) {
+    .swiper-slide-next .swiper-slider-claim-progress {
+        display: none;
+    }
+    .swiper-slide-active .swiper-slider-claim-progress {
+        display: block;
+    }
+}
+
 .mySecondSwiper .swiper-wrapper .swiper-slide a {
     width: 305px !important;
     display: block;

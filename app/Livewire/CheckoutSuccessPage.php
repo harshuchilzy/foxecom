@@ -17,17 +17,33 @@ class CheckoutSuccessPage extends Component
 
     public function mount(): void
     {
-        $this->cart = CartSession::current();
+        $previousCart = null;
 
-        $previousCartId = $this->cart->id - 1;
-        $newCart = Cart::find($previousCartId);
-  
-        if (! $newCart || ! $newCart->completedOrder) {
+        if (auth()->check()) {
+            if(auth()->user()->customers) {
+                $customerId = auth()->user()->customers->first()->id;
+                $newCart = Cart::where('customer_id', $customerId)
+                            ->orderBy('id', 'desc')
+                            ->first();
+            }
+            // Get previous cart (one before the newest)
+            
+            if ($newCart) {
+                $previousCart = Cart::where('id', '<', $newCart->id)
+                                ->when(auth()->user()->customers, function($query) use ($customerId) {
+                                    return $query->where('customer_id', $customerId);
+                                })
+                                ->orderBy('id', 'desc')
+                                ->first();
+            }
+        }
+
+        if (! $previousCart || ! $previousCart->completedOrder) {
             $this->redirect('/');
             return;
         }
        
-        $this->order = $newCart->completedOrder;
+        $this->order = $previousCart->completedOrder;
        
         CartSession::forget();
     }

@@ -136,7 +136,6 @@ class CheckoutPage extends Component
 
             return;
         }
-        dd($this->cart);
 
         if ($this->payment_intent) {
             $payment = Payments::driver($this->paymentType)->cart($this->cart)->withData([
