@@ -107,7 +107,7 @@
             </div>
 
             <!-- Latest Promotions section --> 
-            <div class="bg-white px-4 lg:px-8 xl:px-16 py-12 max-w-[1440px] mx-auto w-full">
+            {{-- <div class="bg-white px-4 lg:px-8 xl:px-16 py-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
                         <span class="font-bold text-black opacity-90">{{$metaFields['latest-promotion-bold-title'] ?? 'The latest promotions.'}}</span>
@@ -227,10 +227,10 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
 
             <!-- All Promotions Section --> 
-            <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:pt-0 xl:pb-12 max-w-[1440px] mx-auto w-full">
+            <div class="bg-white px-4 lg:px-8 xl:px-16 py-6 xl:pt-14 xl:pb-12 max-w-[1440px] mx-auto w-full">
                 <div class="flex w-full justify-start pb-5">
                     <h2 class="text-left text-[16px] lg:text-[28px] font-inter">
                         <span class="font-bold text-black opacity-90">{{$metaFields['offers-bold-title'] ?? 'All Offers.'}}</span>
