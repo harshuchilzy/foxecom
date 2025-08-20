@@ -66,7 +66,7 @@ class NgeniusPayment extends AbstractPayment
                     'action' => 'SALE',
                     'amount' => [
                         'currencyCode' => 'GBP',
-                        'value' => (int)round($totalPrice->value * 100),
+                        'value' => (int)round($totalPrice->value),
                     ],
                 ],
             ]
