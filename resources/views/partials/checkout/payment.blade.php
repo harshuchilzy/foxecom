@@ -1,10 +1,55 @@
-<div>
-    <div id="ngenius-3ds-mount" class="h-56 hidden"></div>
+<div x-data="{ paymentMethod: @entangle('paymentType'), paymentBox: true }">
+    <div class="flex gap-4 mt-4">
+        <button @class([
+            'px-5 py-2 text-sm border font-medium rounded-lg cursor-pointer',
+            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'card',
+            'text-gray-500 hover:text-gray-700' => $paymentType !== 'card',
+        ])
+                type="button"
+                @click="paymentBox = true"
+                wire:click.prevent="$set('paymentType', 'card')">
+            Pay by card
+        </button>
 
-    <div wire:ignore>
-        <div id="ngenius-mount" class="h-56 my-4"></div>
+        <button @class([
+            'px-5 py-2 text-sm border font-medium rounded-lg cursor-pointer',
+            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'cash-in-hand',
+            'text-gray-500 hover:text-gray-700' => $paymentType !== 'cash-in-hand',
+        ])
+                type="button"
+                @click="paymentBox = false"
+                wire:click.prevent="$set('paymentType', 'cash-in-hand')">
+            Pay with cash
+        </button>
+    </div>
+
+    <div x-show="paymentBox">
+        <div id="ngenius-3ds-mount" class="h-56 hidden"></div>
+
+        <div wire:ignore>
+            <div id="ngenius-mount" class="h-56 my-4"></div>
+        </div>
+    </div>
+    <div class="my-6" x-show="!paymentBox">
+        <label for="clientPassword" class="block mb-2 text-sm font-medium text-gray-900 ">Client Payment Password</label>
+        <div class="flex md:flex-row flex-col gap-2 w-full">
+            <input type="password" id="clientPassword" wire:model="clientPassword" class="bg-gray-50 border w-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 " placeholder="" />
+            <button type="button" class="!text-white !bg-[#0066FF] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="" primary >
+                <span wire:loading.remove wire:target="">Verify</span>
+                <span wire:loading wire:target="">Verifying...</span>
+            </button>
+        </div>
+        @if ($errors->has('client-key-error'))
+            <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                role="alert">
+                @foreach ($errors->get('client-key-error') as $error)
+                    {{ $error }}
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
+
 
 @script
 <script>
@@ -132,5 +177,6 @@
     }
 
     initializePaymentForm();
+
 </script>
 @endscript

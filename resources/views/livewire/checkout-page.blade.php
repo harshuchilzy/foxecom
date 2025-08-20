@@ -155,10 +155,10 @@
                         </svg>
                     </button>
                 </h2>
-
+  
                 <!-- Payments Section - content -->
                 @include('partials.checkout.payment')
-
+  
                 <!-- Order Review Section - header -->
                 <h2 id="accordion-flush-heading-3">
                     <button type="button"
@@ -178,22 +178,34 @@
                                 Terms of Sale and Returns Policy, and acknowledge that you have read FOX ERGO\'s Privacy Policy.') }}
                             </p>
                         </div>
+
                         <div class="w-full mt-5"
-                             x-data="{ isDisabled: true }"
+                             x-data="{ isDisabled: true, paymentMethod: @entangle('paymentType') }"
                              @switchsubmitpaymentbtn.window="isDisabled = $event.detail.switch; console.log(isDisabled)"
                         >
-                            <button
-                                id="payBtn"
-                                x-bind:disabled="isDisabled"
-                                :class="isDisabled
-                                  ? 'bg-gray-400 cursor-not-allowed'
-                                  : '!bg-blue-500 hover:bg-blue-500 cursor-pointer'"
-                                class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors"
-                                {{-- @click.prevent="$wire.checkout()" --}}
-                            >
-                                {{ __('Enter card details') }}
-                            </button>
+                            @if ($paymentType == 'card')
+                                <button
+                                    id="payBtn"
+                                    x-bind:disabled="isDisabled"
+                                    :class="isDisabled
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : '!bg-blue-500 hover:bg-blue-500 cursor-pointer'"
+                                    class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors"
+                                    {{-- @click.prevent="$wire.checkout()" --}}
+                                >
+                                    {{ __('Enter card details') }}
+                                </button>
+                            @else    
+                                <button
+                                    id="cashCheckoutBtn"
+                                    class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors !bg-blue-500 hover:bg-blue-500 cursor-pointer"
+                                    @click.prevent="$wire.checkout()"
+                                >
+                                    {{ __('Checkout') }}
+                                </button>
+                            @endif
                         </div>
+
                     </div>
                 </div>
             </div>

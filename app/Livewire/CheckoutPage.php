@@ -36,6 +36,8 @@ class CheckoutPage extends Component
      */
     public $selectedShippingAddress;
 
+    public $clientPassword;
+
     /**
      * The shipping address instance.
      */
@@ -86,7 +88,7 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'cash-in-hand';
+    public string $paymentType = 'card';
 
     /**
      * {@inheritDoc}
@@ -297,17 +299,25 @@ class CheckoutPage extends Component
 
     public function checkout()
     {
+        if( empty($this->clientPassword) ) {
+            $this->addError('client-key-error', 'Client password is empty');
+            return;
+        }
+
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
 
+        
         CartSession::clear();
 
-        $this->cart->user->attach($this->cart->discounts);
+        //$this->cart->user->attach($this->cart->discounts);
 
         if ($payment->success) {
-            Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
+        //     Log::info('Cart: ' . print_r($this->cart, true));
+        // Log::info('Order: ' . print_r($this->cart->order, true));
+            //Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
             return redirect()->route('checkout-success.view');
         }
 
