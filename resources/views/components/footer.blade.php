@@ -11,10 +11,10 @@
                 <p class="text-[#1B1819] uppercase font-normal text-[12px] mb-4">Information</p>
                 <ul class="text-[#1B1819] font-normal font-inter text-[16px] flex flex-col gap-1">
                     <li><a href="{{route('privacy-policy')}}">Privacy</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="{{route('faq')}}">FAQ</a></li>
                     <li><a href="{{route('delivery-policy')}}">Shipping and Payment</a></li>
-                    <li><a href="#">Partners</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="{{ route('partners') }}">Partners</a></li>
+                    <li><a href="{{ route('blogs') }}">Blog</a></li>
                     <li><a href="{{route('contact')}}">Contacts</a></li>
                 </ul>
             </div>
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('js/age-verification.js') }}"></script>
+    {{-- <script src="{{ asset('js/age-verification.js') }}"></script> --}}
 
     <!-- Age Verification Popup -->
     <x-notifications.age-verification/>

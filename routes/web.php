@@ -29,9 +29,9 @@ use Lunar\Facades\CartSession;
 require __DIR__ . '/auth.php';
 
 //Blog Page
-Route::get('blog', function () {
-    return view('pages.blog');
-})->name('blog');
+Route::get('blogs', function () {
+    return view('pages.blogs');
+})->name('blogs');
 
 //About Page
 Route::get('about', function () {

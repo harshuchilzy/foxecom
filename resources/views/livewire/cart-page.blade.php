@@ -124,7 +124,7 @@
 
             <div>
                 <div x-data="{ expanded: false }" class="w-full">
-                    <div class="flex justify-between items-center">
+                    {{-- <div class="flex justify-between items-center">
                         <h2 class="text-[16px] font-normal text-[#111111]">Do you have a Promo Code?</h2>
 
                         <button @click="expanded = !expanded" class="text-black focus:outline-none">
@@ -154,7 +154,7 @@
                         <p class="text-gray-700 w-full">Coupon Code:</p>
                         <input type="text" placeholder="Type here..." wire:model="couponCode"
                                class="mt-2 w-full border rounded px-3 py-2 focus:outline-none focus:ring"/>
-                    </div>
+                    </div> --}}
 
                     <div class="py-3 flex justify-between items-center">
                         <h3 class="text-[16px] font-normal text-[#111111]">Subtotal</h3>

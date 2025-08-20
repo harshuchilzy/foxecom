@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use Illuminate\View\View;
-use Livewire\Component;
-use Lunar\Facades\CartSession;
 use Lunar\Models\Cart;
+use Livewire\Component;
 use Lunar\Models\Order;
+use Illuminate\View\View;
+use Lunar\Facades\CartSession;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutSuccessPage extends Component
 {
@@ -16,14 +17,34 @@ class CheckoutSuccessPage extends Component
 
     public function mount(): void
     {
-        // $this->cart = CartSession::current();
-        // if (! $this->cart || ! $this->cart->completedOrder) {
-        //     $this->redirect('/');
+        $previousCart = null;
 
-        //     return;
-        // }
-        // $this->order = $this->cart->completedOrder;
+        if (auth()->check()) {
+            if(auth()->user()->customers) {
+                $customerId = auth()->user()->customers->first()->id;
+                $newCart = Cart::where('customer_id', $customerId)
+                            ->orderBy('id', 'desc')
+                            ->first();
+            }
+            // Get previous cart (one before the newest)
+            
+            if ($newCart) {
+                $previousCart = Cart::where('id', '<', $newCart->id)
+                                ->when(auth()->user()->customers, function($query) use ($customerId) {
+                                    return $query->where('customer_id', $customerId);
+                                })
+                                ->orderBy('id', 'desc')
+                                ->first();
+            }
+        }
 
+        if (! $previousCart || ! $previousCart->completedOrder) {
+            $this->redirect('/');
+            return;
+        }
+       
+        $this->order = $previousCart->completedOrder;
+       
         CartSession::forget();
     }
 

@@ -48,7 +48,10 @@ class AddToCart extends Component
                 'quantity' => $existing->quantity + $this->quantity
             ]]));
         } else {
-            CartSession::manager()->add($this->purchasable, $this->quantity);
+            CartSession::manager()->add(
+                $this->purchasable, 
+                $this->quantity
+            );
         }
 
         $this->dispatch('add-to-cart');
