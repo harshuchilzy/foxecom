@@ -40,6 +40,7 @@ class CheckoutPage extends Component
     public $clientPassword;
     public $authentication = false;
     public $staffMemberFound = null;
+    public $isVerified = false;
 
     /**
      * The shipping address instance.
@@ -424,6 +425,9 @@ class CheckoutPage extends Component
     {
         $staff = Staff::get();
 
+        $this->authentication = false;
+        $this->staffMemberFound = null;
+
         foreach ($staff as $member) {
             if ($member->authentication_key == $this->clientPassword) {
                 $this->authentication = true;
@@ -433,7 +437,7 @@ class CheckoutPage extends Component
         }
 
         // Log::info($this->authentication);
-        Log::info('member: ' . print_r($this->staffMemberFound, true));
+        //Log::info('member: ' . print_r($this->staffMemberFound, true));
 
         if ($this->authentication && $this->staffMemberFound) { 
             $this->cart->update([
@@ -443,14 +447,15 @@ class CheckoutPage extends Component
                     'Authenticated At' => now()->toISOString(),
                 ])
             ]);
-
-            //return true;
+            $this->isVerified = true;
+            return true;
         } else {
             $this->addError('client-key-error', 'Authentication failed.');
-            //return false;
+            $this->isVerified = false;
+            return false;
         }
 
-        Log::info('cart: ' . print_r($this->cart, true));
+        //Log::info('cart: ' . print_r($this->cart, true));
     }
 
     public function render(): View

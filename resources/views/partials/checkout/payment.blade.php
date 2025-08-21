@@ -36,7 +36,19 @@
     <div class="my-6" x-show="!paymentBox">
         <label for="clientPassword" class="block mb-2 text-sm font-medium text-gray-900 ">Client Payment Password</label>
         <div class="flex md:flex-row flex-col gap-2 w-full">
-            <input type="password" id="clientPassword" wire:model="clientPassword" class="bg-gray-50 border w-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 " placeholder="" />
+            <div class="w-full relative">
+                <input type="password" id="clientPassword" wire:model="clientPassword" @class([
+                    'bg-gray-50 border w-full text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5', 'border-gray-300' => $isVerified == false, 'border-green-300' => $isVerified == true]) placeholder="" />
+                
+                @if($isVerified)
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-green-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                @endif
+            </div>
+
             <button type="button" class="!text-white !bg-[#0066FF] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="verifyAuthenticationKey" primary >
                 <span wire:loading.remove wire:target="verifyAuthenticationKey">Verify</span>
                 <span wire:loading wire:target="verifyAuthenticationKey">Verifying...</span>
