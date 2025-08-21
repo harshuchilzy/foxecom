@@ -22,28 +22,36 @@ class CheckoutSuccessPage extends Component
         if (auth()->check()) {
             if(auth()->user()->customers) {
                 $customerId = auth()->user()->customers->first()->id;
-                $newCart = Cart::where('customer_id', $customerId)
-                            ->orderBy('id', 'desc')
-                            ->first();
+                // $newCart = Cart::where('customer_id', $customerId)
+                //             ->orderBy('created_at', 'asc')
+                //             ->first();
             }
             // Get previous cart (one before the newest)
             
-            if ($newCart) {
-                $previousCart = Cart::where('id', '<', $newCart->id)
-                                ->when(auth()->user()->customers, function($query) use ($customerId) {
-                                    return $query->where('customer_id', $customerId);
-                                })
-                                ->orderBy('id', 'desc')
-                                ->first();
+            // if ($newCart) {
+            //     $previousCart = Cart::where('id', '<', $newCart->id)
+            //                     ->when(auth()->user()->customers, function($query) use ($customerId) {
+            //                         return $query->where('customer_id', $customerId);
+            //                     })
+            //                     ->orderBy('created_at', 'asc')
+            //                     ->first();
+            // }
+
+            if ($customerId) {
+                $secondRecentCart = Cart::where('customer_id', $customerId)
+                    ->orderByDesc('created_at')
+                    ->skip(1)            
+                    ->first();          
             }
+
         }
 
-        if (! $previousCart || ! $previousCart->completedOrder) {
+        if (! $secondRecentCart || ! $secondRecentCart->completedOrder) {
             $this->redirect('/');
             return;
         }
        
-        $this->order = $previousCart->completedOrder;
+        $this->order = $secondRecentCart->completedOrder;
        
         CartSession::forget();
     }

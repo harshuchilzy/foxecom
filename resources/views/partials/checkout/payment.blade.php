@@ -21,6 +21,9 @@
                 wire:click.prevent="$set('paymentType', 'cash-in-hand')">
             Pay with cash
         </button>
+        {{-- @php
+            echo $paymentType;
+        @endphp --}}
     </div>
 
     <div x-show="paymentBox">
@@ -34,9 +37,9 @@
         <label for="clientPassword" class="block mb-2 text-sm font-medium text-gray-900 ">Client Payment Password</label>
         <div class="flex md:flex-row flex-col gap-2 w-full">
             <input type="password" id="clientPassword" wire:model="clientPassword" class="bg-gray-50 border w-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 " placeholder="" />
-            <button type="button" class="!text-white !bg-[#0066FF] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="" primary >
-                <span wire:loading.remove wire:target="">Verify</span>
-                <span wire:loading wire:target="">Verifying...</span>
+            <button type="button" class="!text-white !bg-[#0066FF] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="verifyAuthenticationKey" primary >
+                <span wire:loading.remove wire:target="verifyAuthenticationKey">Verify</span>
+                <span wire:loading wire:target="verifyAuthenticationKey">Verifying...</span>
             </button>
         </div>
         @if ($errors->has('client-key-error'))

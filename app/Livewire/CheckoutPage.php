@@ -2,20 +2,21 @@
 
 namespace App\Livewire;
 
-use App\Mail\CustomerNewOrderMail;
 use Lunar\Models\Cart;
 use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Models\Address;
 use Lunar\Models\Country;
 use Lunar\Facades\Payments;
+use Lunar\Admin\Models\Staff;
 use Lunar\Models\CartAddress;
 use Lunar\Facades\CartSession;
 use WireUi\Traits\WireUiActions;
+use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Lunar\Facades\ShippingManifest;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutPage extends Component
 {
@@ -37,6 +38,8 @@ class CheckoutPage extends Component
     public $selectedShippingAddress;
 
     public $clientPassword;
+    public $authentication = false;
+    public $staffMemberFound = null;
 
     /**
      * The shipping address instance.
@@ -304,26 +307,21 @@ class CheckoutPage extends Component
             return;
         }
 
-        Log::info("Cart: " . print_r($this->payment_intent, true));
+        if( !$this->verifyAuthenticationKey() ) {
+            return;
+        }
 
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
-
         
-        CartSession::clear();
-
-        //$this->cart->user->attach($this->cart->discounts);
+        // CartSession::clear();
 
         if ($payment->success) {
-            Log::info("payemnt success");
-        // Log::info('Order: ' . print_r($this->cart->order, true));
-        //     Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
-           return redirect()->route('checkout-success.view');
-        } else {
-Log::info("payemnt not success");
-        }
+            //Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
+            return redirect()->route('checkout-success.view');
+        } 
 
         return redirect()->route('checkout-success.view');
     }
@@ -420,6 +418,46 @@ Log::info("payemnt not success");
     public function confirmPayment(): void
     {
         $this->currentStep = $this->steps['payment'] + 1;
+    }
+
+    public function verifyAuthenticationKey() 
+    {
+        $userId = auth()->id();
+        $secondRecentCart = Cart::where('customer_id', $userId)
+                    ->orderBy('created_at', 'desc')
+                    ->skip(1)            
+                    ->first(); 
+        Log::info('cart: ' . print_r($secondRecentCart, true));
+
+        $staff = Staff::get();
+
+        foreach ($staff as $member) {
+            if ($member->authentication_key == $this->clientPassword) {
+                $this->authentication = true;
+                $this->staffMemberFound = $member;
+                break; 
+            }
+        }
+
+        // Log::info($this->authentication);
+        // Log::info('member: ' . print_r($this->staffMemberFound, true));
+
+        if ($this->authentication && $this->staffMemberFound) { 
+            $this->cart->update([
+                'meta' => array_merge((array) $this->cart->meta ?? [], [
+                    'authentication_key' => $this->staffMemberFound->authentication_key,
+                    'staff_id' => $this->staffMemberFound->id,
+                    'authenticated_at' => now()->toISOString(),
+                ])
+            ]);
+
+            return true;
+        } else {
+            $this->addError('client-key-error', 'Authentication failed.');
+            return false;
+        }
+
+        //Log::info('cart: ' . print_r($this->cart, true));
     }
 
     public function render(): View

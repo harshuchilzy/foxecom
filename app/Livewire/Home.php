@@ -10,6 +10,7 @@ use Illuminate\View\View;
 use App\Models\Redemption;
 use Lunar\Models\Discount;
 use Lunar\Models\Collection;
+use Lunar\Facades\CartSession;
 use Lunar\DiscountTypes\BuyXGetY;
 use Illuminate\Support\Facades\DB;
 

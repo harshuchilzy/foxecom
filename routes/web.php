@@ -192,13 +192,13 @@ Route::get('unsubscribe', function(){
     return redirect()->route('home');
 })->name('unsubscribe');
 
-Route::middleware('auth')
-    ->prefix('checkout')
-    ->as('checkout.')
-    ->controller(CheckoutController::class)
-    ->group(function () {
-        Route::post('initiate', 'initiate')->name('initiate');
-        Route::post('complete', 'complete')->name('complete');
-    });
+// Route::middleware('auth')
+//     ->prefix('checkout')
+//     ->as('checkout.')
+//     ->controller(CheckoutController::class)
+//     ->group(function () {
+//         Route::post('initiate', 'initiate')->name('initiate');
+//         Route::post('complete', 'complete')->name('complete');
+//     });
 
 

@@ -2,7 +2,7 @@
 
 return [
 
-    'default' => env('PAYMENTS_TYPE', 'ngenius'),
+    // 'default' => env('PAYMENTS_TYPE', 'ngenius'),
 
     'types' => [
         'cash-in-hand' => [

@@ -2,14 +2,17 @@
 
 namespace App\Providers;
 
-use Lunar\Models\CartLine;
+use App\Models\MyStaff;
 
 //use App\Filament\Resources\RedemptionResource;
+use Lunar\Models\CartLine;
 use Lunar\Facades\Payments;
+use Lunar\Admin\Models\Staff;
 use App\Payments\NgeniusPayment;
 use Lunar\Base\ShippingModifiers;
 use Lunar\Shipping\ShippingPlugin;
 use App\Modifiers\ShippingModifier;
+use Illuminate\Foundation\AliasLoader;
 use Lunar\Actions\Carts\CalculateLine;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\PageResource;
@@ -18,8 +21,10 @@ use Lunar\Admin\Support\Facades\LunarPanel;
 use App\Filament\Resources\RedemptionResource;
 use Lunar\Validation\CartLine\CartLineQuantity;
 use App\Filament\Resources\ProductReviewResource;
+use Lunar\Admin\Filament\Resources\StaffResource;
 use App\Validation\CartLine\CustomCartLineQuantity;
 use Lunar\Admin\Filament\Resources\DiscountResource;
+use App\Filament\Extensions\MyStaffExtensions\MyStaffResourceExtension;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
@@ -31,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // $loader = AliasLoader::getInstance();
+        // $loader->alias(Staff::class, MyStaff::class);
+
         LunarPanel::panel(function ($panel) {
             return $panel
                 ->brandName('Foxergo')
@@ -57,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
         LunarPanel::extensions([
             ListDiscounts::class => MyListDiscountPageExtension::class,
             DiscountResource::class => MyDiscountResourceExtension::class,
+            StaffResource::class => MyStaffResourceExtension::class
         ]);
 
         Payments::extend('ngenius', function ($app) {
@@ -84,6 +93,6 @@ class AppServiceProvider extends ServiceProvider
 
         //replace CartLineQuantity with CustomCartLineQuantity
         $this->app->bind(CartLineQuantity::class, CustomCartLineQuantity::class);
-
+    
     }
 }
