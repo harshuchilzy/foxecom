@@ -55,7 +55,7 @@
 
 
 @script
-{{-- <script>
+<script>
     let sessionId = null;
     const csrfToken = '{{ csrf_token() }}';
     let payBtn = document.getElementById('payBtn');
@@ -181,5 +181,5 @@
 
     initializePaymentForm();
 
-</script> --}}
+</script>
 @endscript

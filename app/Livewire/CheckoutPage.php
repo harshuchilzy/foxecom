@@ -444,13 +444,13 @@ class CheckoutPage extends Component
                 ])
             ]);
 
-            //return true;
+            return true;
         } else {
             $this->addError('client-key-error', 'Authentication failed.');
-            //return false;
+            return false;
         }
 
-        Log::info('cart: ' . print_r($this->cart, true));
+        //Log::info('cart: ' . print_r($this->cart, true));
     }
 
     public function render(): View

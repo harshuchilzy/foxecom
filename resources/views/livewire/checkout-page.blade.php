@@ -183,7 +183,7 @@
                              x-data="{ isDisabled: true, paymentMethod: @entangle('paymentType') }"
                              @switchsubmitpaymentbtn.window="isDisabled = $event.detail.switch; console.log(isDisabled)"
                         >
-                            @if ($paymentType == 'card')
+                            @if ($paymentType == 'ngenius')
                                 <button
                                     id="payBtn"
                                     x-bind:disabled="isDisabled"
