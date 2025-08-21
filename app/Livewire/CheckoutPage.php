@@ -425,6 +425,9 @@ class CheckoutPage extends Component
     {
         $staff = Staff::get();
 
+        $this->authentication = false;
+        $this->staffMemberFound = null;
+
         foreach ($staff as $member) {
             if ($member->authentication_key == $this->clientPassword) {
                 $this->authentication = true;
@@ -434,7 +437,7 @@ class CheckoutPage extends Component
         }
 
         // Log::info($this->authentication);
-        Log::info('member: ' . print_r($this->staffMemberFound, true));
+        //Log::info('member: ' . print_r($this->staffMemberFound, true));
 
         if ($this->authentication && $this->staffMemberFound) { 
             $this->cart->update([
