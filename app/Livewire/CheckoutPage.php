@@ -88,7 +88,7 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'card';
+    public string $paymentType = 'ngenius';
 
     /**
      * {@inheritDoc}
@@ -304,6 +304,8 @@ class CheckoutPage extends Component
             return;
         }
 
+        Log::info("Cart: " . print_r($this->payment_intent, true));
+
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
@@ -315,10 +317,12 @@ class CheckoutPage extends Component
         //$this->cart->user->attach($this->cart->discounts);
 
         if ($payment->success) {
-        //     Log::info('Cart: ' . print_r($this->cart, true));
+            Log::info("payemnt success");
         // Log::info('Order: ' . print_r($this->cart->order, true));
-            //Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
-            return redirect()->route('checkout-success.view');
+        //     Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
+           return redirect()->route('checkout-success.view');
+        } else {
+Log::info("payemnt not success");
         }
 
         return redirect()->route('checkout-success.view');

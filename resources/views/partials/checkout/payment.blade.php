@@ -2,12 +2,12 @@
     <div class="flex gap-4 mt-4">
         <button @class([
             'px-5 py-2 text-sm border font-medium rounded-lg cursor-pointer',
-            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'card',
-            'text-gray-500 hover:text-gray-700' => $paymentType !== 'card',
+            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'ngenius',
+            'text-gray-500 hover:text-gray-700' => $paymentType !== 'ngenius',
         ])
                 type="button"
                 @click="paymentBox = true"
-                wire:click.prevent="$set('paymentType', 'card')">
+                wire:click.prevent="$set('paymentType', 'ngenius')">
             Pay by card
         </button>
 
@@ -52,7 +52,7 @@
 
 
 @script
-<script>
+{{-- <script>
     let sessionId = null;
     const csrfToken = '{{ csrf_token() }}';
     let payBtn = document.getElementById('payBtn');
@@ -178,5 +178,5 @@
 
     initializePaymentForm();
 
-</script>
+</script> --}}
 @endscript

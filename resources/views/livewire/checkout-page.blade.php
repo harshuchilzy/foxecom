@@ -195,15 +195,43 @@
                                 >
                                     {{ __('Enter card details') }}
                                 </button>
-                            @else    
-                                <button
-                                    id="cashCheckoutBtn"
-                                    class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors !bg-blue-500 hover:bg-blue-500 cursor-pointer"
-                                    @click.prevent="$wire.checkout()"
-                                >
-                                    {{ __('Checkout') }}
-                                </button>
                             @endif
+                            
+                            @if ($paymentType == 'cash-in-hand')
+                                <form wire:submit="checkout">
+                                    <div class="p-4 text-sm text-left text-blue-700 rounded-lg bg-blue-50">
+                                        Pay using just your client password, no card details needed.
+                                    </div>
+
+                                    <button class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors !bg-blue-500 hover:bg-blue-500 cursor-pointer"
+                                            type="submit"
+                                            wire:key="payment_submit_btn">
+                                        <span wire:loading.remove.delay
+                                            wire:target="checkout">
+                                            Submit Order
+                                        </span>
+                                        <span wire:loading.delay
+                                            wire:target="checkout">
+                                            <svg class="w-5 h-5 text-white animate-spin"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24">
+                                                <circle class="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        stroke-width="4"></circle>
+                                                <path class="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </form>
+                            @endif    
+                                     
                         </div>
 
                     </div>
