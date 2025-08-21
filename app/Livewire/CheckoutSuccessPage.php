@@ -21,7 +21,8 @@ class CheckoutSuccessPage extends Component
 
         if (auth()->check()) {
             if(auth()->user()->customers) {
-                $customerId = auth()->user()->customers->first()->id;
+                $customer = auth()->user()->customers->first();
+                
                 // $newCart = Cart::where('customer_id', $customerId)
                 //             ->orderBy('created_at', 'asc')
                 //             ->first();
@@ -37,21 +38,26 @@ class CheckoutSuccessPage extends Component
             //                     ->first();
             // }
 
-            if ($customerId) {
-                $secondRecentCart = Cart::where('customer_id', $customerId)
-                    ->orderByDesc('created_at')
-                    ->skip(1)            
-                    ->first();          
-            }
+            // if ($customerId) {
+            //     $secondRecentCart = Cart::where('customer_id', $customerId)
+            //         ->orderByDesc('created_at')
+            //         ->skip(1)            
+            //         ->first();          
+            // }
 
         }
 
-        if (! $secondRecentCart || ! $secondRecentCart->completedOrder) {
+        // if (! $secondRecentCart || ! $secondRecentCart->completedOrder) {
+        //     $this->redirect('/');
+        //     return;
+        // }
+        if( $customer->orders->last() ) {
             $this->redirect('/');
             return;
         }
        
-        $this->order = $secondRecentCart->completedOrder;
+        // $this->order = $secondRecentCart->completedOrder;
+        $this->order = $customer->orders->last();
        
         CartSession::forget();
     }

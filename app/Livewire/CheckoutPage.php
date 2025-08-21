@@ -422,13 +422,6 @@ class CheckoutPage extends Component
 
     public function verifyAuthenticationKey() 
     {
-        $userId = auth()->id();
-        $secondRecentCart = Cart::where('customer_id', $userId)
-                    ->orderBy('created_at', 'desc')
-                    ->skip(1)            
-                    ->first(); 
-        Log::info('cart: ' . print_r($secondRecentCart, true));
-
         $staff = Staff::get();
 
         foreach ($staff as $member) {
@@ -440,24 +433,24 @@ class CheckoutPage extends Component
         }
 
         // Log::info($this->authentication);
-        // Log::info('member: ' . print_r($this->staffMemberFound, true));
+        Log::info('member: ' . print_r($this->staffMemberFound, true));
 
         if ($this->authentication && $this->staffMemberFound) { 
             $this->cart->update([
                 'meta' => array_merge((array) $this->cart->meta ?? [], [
-                    'authentication_key' => $this->staffMemberFound->authentication_key,
-                    'staff_id' => $this->staffMemberFound->id,
-                    'authenticated_at' => now()->toISOString(),
+                    'Authentication Key' => $this->staffMemberFound->authentication_key,
+                    'Staff Member' => $this->staffMemberFound->first_name . ' ' . $this->staffMemberFound->last_name,
+                    'Authenticated At' => now()->toISOString(),
                 ])
             ]);
 
-            return true;
+            //return true;
         } else {
             $this->addError('client-key-error', 'Authentication failed.');
-            return false;
+            //return false;
         }
 
-        //Log::info('cart: ' . print_r($this->cart, true));
+        Log::info('cart: ' . print_r($this->cart, true));
     }
 
     public function render(): View
