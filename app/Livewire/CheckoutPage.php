@@ -40,6 +40,7 @@ class CheckoutPage extends Component
     public $clientPassword;
     public $authentication = false;
     public $staffMemberFound = null;
+    public $isVerified = false;
 
     /**
      * The shipping address instance.
@@ -443,10 +444,11 @@ class CheckoutPage extends Component
                     'Authenticated At' => now()->toISOString(),
                 ])
             ]);
-
+            $this->isVerified = true;
             return true;
         } else {
             $this->addError('client-key-error', 'Authentication failed.');
+            $this->isVerified = false;
             return false;
         }
 
