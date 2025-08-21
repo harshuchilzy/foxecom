@@ -183,7 +183,7 @@
                              x-data="{ isDisabled: true, paymentMethod: @entangle('paymentType') }"
                              @switchsubmitpaymentbtn.window="isDisabled = $event.detail.switch; console.log(isDisabled)"
                         >
-                            @if ($paymentType == 'card')
+                            @if ($paymentType == 'ngenius')
                                 <button
                                     id="payBtn"
                                     x-bind:disabled="isDisabled"
@@ -193,7 +193,7 @@
                                     class="mt-3 block px-5 py-4 w-1/2 text-white h-14 text-[16px] text-inter rounded-full font-normal text-center transition-colors"
                                     {{-- @click.prevent="$wire.checkout()" --}}
                                 >
-                                    {{ __('Enter card details') }}
+                                    {{ __('Place Order') }}
                                 </button>
                             @endif
                             
