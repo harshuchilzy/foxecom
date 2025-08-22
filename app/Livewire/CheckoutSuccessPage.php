@@ -51,7 +51,7 @@ class CheckoutSuccessPage extends Component
         //     $this->redirect('/');
         //     return;
         // }
-        if( $customer->orders->last() ) {
+        if( !$customer->orders->last() ) {
             $this->redirect('/');
             return;
         }

@@ -76,7 +76,7 @@ class ProductsPage extends Component
      */
     public function getProductsProperty()
     {
-        $query = Product::with(['variants.basePrices', 'defaultUrl']);
+        $query = Product::with(['variants.basePrices', 'defaultUrl'])->where('status', 'published');
 
         if ($this->selectedBrand) {
             $query->where('brand_id', $this->selectedBrand);
