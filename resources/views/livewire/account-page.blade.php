@@ -40,20 +40,6 @@
             </div>
         </div> --}}
 
-        <a href="{{ route('contact') }}">
-            <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
-                <div class="">
-                    <div class="bg-[#0B0E2D] p-3 rounded-full">
-                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 1.5835C11.0833 1.5835 4.75 7.91683 4.75 15.8335V26.9168C4.75 28.1766 5.25045 29.3848 6.14124 30.2756C7.03204 31.1664 8.24022 31.6668 9.5 31.6668H14.25V19.0002H7.91667V15.8335C7.91667 12.894 9.08437 10.0749 11.1629 7.9964C13.2414 5.91787 16.0605 4.75016 19 4.75016C21.9395 4.75016 24.7586 5.91787 26.8371 7.9964C28.9156 10.0749 30.0833 12.894 30.0833 15.8335V19.0002H23.75V31.6668H30.0833V33.2502H19V36.4168H28.5C29.7598 36.4168 30.968 35.9164 31.8588 35.0256C32.7496 34.1348 33.25 32.9266 33.25 31.6668V15.8335C33.25 7.91683 26.8692 1.5835 19 1.5835Z" fill="white"/></svg>
-                    </div>
-                </div>
-                <div class="flex flex-col">
-                    <p class="font-inter font-semibold text-[15px] text-black">Customer Service</p>
-                    <p class="font-inter font-normal text-[12px] text-black">Contact support or resolve an issue.</p>
-                </div>
-            </div>
-        </a>
-
         <a href="{{ route('addresses') }}">
             <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
                 <div class="">
@@ -80,17 +66,19 @@
             </div>
         </div>
         
-        <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
-            <div class="">
-                <div class="bg-[#0B0E2D] p-3 rounded-full">
-                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 1.5835C11.0833 1.5835 4.75 7.91683 4.75 15.8335V26.9168C4.75 28.1766 5.25045 29.3848 6.14124 30.2756C7.03204 31.1664 8.24022 31.6668 9.5 31.6668H14.25V19.0002H7.91667V15.8335C7.91667 12.894 9.08437 10.0749 11.1629 7.9964C13.2414 5.91787 16.0605 4.75016 19 4.75016C21.9395 4.75016 24.7586 5.91787 26.8371 7.9964C28.9156 10.0749 30.0833 12.894 30.0833 15.8335V19.0002H23.75V31.6668H30.0833V33.2502H19V36.4168H28.5C29.7598 36.4168 30.968 35.9164 31.8588 35.0256C32.7496 34.1348 33.25 32.9266 33.25 31.6668V15.8335C33.25 7.91683 26.8692 1.5835 19 1.5835Z" fill="white"/></svg>
+        <a href="{{ route('contact') }}">
+            <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
+                <div class="">
+                    <div class="bg-[#0B0E2D] p-3 rounded-full">
+                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 1.5835C11.0833 1.5835 4.75 7.91683 4.75 15.8335V26.9168C4.75 28.1766 5.25045 29.3848 6.14124 30.2756C7.03204 31.1664 8.24022 31.6668 9.5 31.6668H14.25V19.0002H7.91667V15.8335C7.91667 12.894 9.08437 10.0749 11.1629 7.9964C13.2414 5.91787 16.0605 4.75016 19 4.75016C21.9395 4.75016 24.7586 5.91787 26.8371 7.9964C28.9156 10.0749 30.0833 12.894 30.0833 15.8335V19.0002H23.75V31.6668H30.0833V33.2502H19V36.4168H28.5C29.7598 36.4168 30.968 35.9164 31.8588 35.0256C32.7496 34.1348 33.25 32.9266 33.25 31.6668V15.8335C33.25 7.91683 26.8692 1.5835 19 1.5835Z" fill="white"/></svg>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <p class="font-inter font-semibold text-[15px] text-black">Customer Service</p>
+                    <p class="font-inter font-normal text-[12px] text-black">Contact support or resolve an issue.</p>
                 </div>
             </div>
-            <div class="flex flex-col">
-                <p class="font-inter font-semibold text-[15px] text-black">Customer Service</p>
-                <p class="font-inter font-normal text-[12px] text-black">Contact support or resolve an issue.</p>
-            </div>
-        </div>
+        </a>
 
 
 
