@@ -29,6 +29,11 @@
                 <a href="tel:+447925606692"><p class="font-semibold text-[14px] text-[#1B1819]">+44 7925 606692</p></a>
                 <a href="mailto:accounts@foxergo.com"><p class="font-semibold text-[14px] text-[#1B1819]">accounts@foxergo.com</p></a>
             </div>
+
+            <div class="mt-4">
+                <p class="font-semibold text-[14px] text-[#1B1819]">FOXERGO LIMITED</p>
+                <p class="font-normal text-[14px] text-[#1B1819]">Registration Number 14166866</p>
+            </div>
         </div>
     </div>
 

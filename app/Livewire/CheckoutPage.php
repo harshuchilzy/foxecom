@@ -267,6 +267,8 @@ class CheckoutPage extends Component
             $customer = auth()->user()->customers->first();
             $this->shipping = $customer->addresses->find($this->selectedShippingAddress)?->toArray();
             $this->cart->setShippingAddress($this->shipping);
+
+            $this->saveShippingOption();
         }
     }
 

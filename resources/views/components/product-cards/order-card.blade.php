@@ -27,7 +27,7 @@
                 <p class="font-inter font-normal text-[12px] text-black">{{$order->note}}</p>
             </div>
             @foreach($order->lines as $line)
-                @if($line->type == 'physical')
+                @if($line->type == 'physical' && $line->purchasable)
                     @php
                         $product = $line->purchasable->product;
                     @endphp
