@@ -28,7 +28,7 @@
             </div>
         </a>
 
-        <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
+        {{-- <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
             <div class="">
                 <div class="bg-[#0B0E2D] p-3 rounded-full">
                     <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.75 9.5H33.25V28.5H4.75V9.5ZM19 14.25C20.2598 14.25 21.468 14.7504 22.3588 15.6412C23.2496 16.532 23.75 17.7402 23.75 19C23.75 20.2598 23.2496 21.468 22.3588 22.3588C21.468 23.2496 20.2598 23.75 19 23.75C17.7402 23.75 16.532 23.2496 15.6412 22.3588C14.7504 21.468 14.25 20.2598 14.25 19C14.25 17.7402 14.7504 16.532 15.6412 15.6412C16.532 14.7504 17.7402 14.25 19 14.25ZM11.0833 12.6667C11.0833 13.5065 10.7497 14.312 10.1558 14.9058C9.56197 15.4997 8.75652 15.8333 7.91667 15.8333V22.1667C8.75652 22.1667 9.56197 22.5003 10.1558 23.0942C10.7497 23.688 11.0833 24.4935 11.0833 25.3333H26.9167C26.9167 24.4935 27.2503 23.688 27.8442 23.0942C28.438 22.5003 29.2435 22.1667 30.0833 22.1667V15.8333C29.2435 15.8333 28.438 15.4997 27.8442 14.9058C27.2503 14.312 26.9167 13.5065 26.9167 12.6667H11.0833Z" fill="white"/></svg>
@@ -38,19 +38,7 @@
                 <p class="font-inter font-semibold text-[15px] text-black">Your Payments</p>
                 <p class="font-inter font-normal text-[12px] text-black">Manage cards, billing info, and payment methods.</p>
             </div>
-        </div>
-
-        <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
-            <div class="">
-                <div class="bg-[#0B0E2D] p-3 rounded-full">
-                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 1.5835C11.0833 1.5835 4.75 7.91683 4.75 15.8335V26.9168C4.75 28.1766 5.25045 29.3848 6.14124 30.2756C7.03204 31.1664 8.24022 31.6668 9.5 31.6668H14.25V19.0002H7.91667V15.8335C7.91667 12.894 9.08437 10.0749 11.1629 7.9964C13.2414 5.91787 16.0605 4.75016 19 4.75016C21.9395 4.75016 24.7586 5.91787 26.8371 7.9964C28.9156 10.0749 30.0833 12.894 30.0833 15.8335V19.0002H23.75V31.6668H30.0833V33.2502H19V36.4168H28.5C29.7598 36.4168 30.968 35.9164 31.8588 35.0256C32.7496 34.1348 33.25 32.9266 33.25 31.6668V15.8335C33.25 7.91683 26.8692 1.5835 19 1.5835Z" fill="white"/></svg>
-                </div>
-            </div>
-            <div class="flex flex-col">
-                <p class="font-inter font-semibold text-[15px] text-black">Customer Service</p>
-                <p class="font-inter font-normal text-[12px] text-black">Contact support or resolve an issue.</p>
-            </div>
-        </div>
+        </div> --}}
 
         <a href="{{ route('addresses') }}">
             <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
@@ -65,7 +53,7 @@
                 </div>
             </div>
         </a>
-
+        
         <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
             <div class="">
                 <div class="bg-[#0B0E2D] p-3 rounded-full">
@@ -77,6 +65,20 @@
                 <p class="font-inter font-normal text-[12px] text-black">Change your email, password, or sign-in settings.</p>
             </div>
         </div>
+        
+        <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
+            <div class="">
+                <div class="bg-[#0B0E2D] p-3 rounded-full">
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 1.5835C11.0833 1.5835 4.75 7.91683 4.75 15.8335V26.9168C4.75 28.1766 5.25045 29.3848 6.14124 30.2756C7.03204 31.1664 8.24022 31.6668 9.5 31.6668H14.25V19.0002H7.91667V15.8335C7.91667 12.894 9.08437 10.0749 11.1629 7.9964C13.2414 5.91787 16.0605 4.75016 19 4.75016C21.9395 4.75016 24.7586 5.91787 26.8371 7.9964C28.9156 10.0749 30.0833 12.894 30.0833 15.8335V19.0002H23.75V31.6668H30.0833V33.2502H19V36.4168H28.5C29.7598 36.4168 30.968 35.9164 31.8588 35.0256C32.7496 34.1348 33.25 32.9266 33.25 31.6668V15.8335C33.25 7.91683 26.8692 1.5835 19 1.5835Z" fill="white"/></svg>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <p class="font-inter font-semibold text-[15px] text-black">Customer Service</p>
+                <p class="font-inter font-normal text-[12px] text-black">Contact support or resolve an issue.</p>
+            </div>
+        </div>
+
+
 
         <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
             <div class="">
