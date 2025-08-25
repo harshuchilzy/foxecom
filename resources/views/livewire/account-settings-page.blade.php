@@ -68,7 +68,7 @@
 
                         <!-- Read -->
                         <p x-show="!edit.email" class="mt-1 text-lg font-medium text-gray-900 font-inter">
-                            bbbbtes@gmail.com
+                            {{ $email }}
                         </p>
 
                         <!-- Edit -->
@@ -76,13 +76,16 @@
                             x-transition.opacity.duration.200ms x-collapse>
                             <div>
                                 <label class="block text-sm text-gray-600 mb-1">Email</label>
-                                <input type="email"
+                                <input type="email" wire:model="email"
                                     class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500" />
                             </div>
 
                             <div class="flex gap-3">
-                                <button
-                                    class="!text-white !bg-[#11316d] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-[60px] text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg">Save</button>
+                                <button wire:click="updateEmail"
+                                    class="!text-white !bg-[#11316d] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-[60px] text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg">
+                                    <span wire:loading.remove wire:target="updateEmail">Save</span>
+                                    <span wire:loading wire:target="updateEmail">Saving...</span>
+                                </button>
                                 <button @click="edit.email=false"
                                     class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-[60px] border border-gray-200 hover:bg-gray-100 focus:z-10  focus:ring-gray-100 cursor-pointer font-inter hover:shadow-lg">Cancel</button>
                             </div>
@@ -90,7 +93,7 @@
                     </div>
                     <button @click="edit.email=!edit.email"
                         class="text-[#1275EE] hover:text-[#11316d] cursor-pointer font-medium font-inter"
-                        x-text="edit.name ? '' : 'Edit'"></button>
+                        x-text="edit.email ? '' : 'Edit'"></button>
                 </div>
             </div>
 
@@ -103,6 +106,9 @@
                         <!-- Read -->
                         <p class="mt-1 text-lg font-medium text-gray-900 font-inter">
                             {{ $phone }}
+                        </p>
+                        <p class="mt-2 text-sm text-gray-600">
+                            Receive notifications with this mobile number.
                         </p>
 
                         <!-- Edit -->

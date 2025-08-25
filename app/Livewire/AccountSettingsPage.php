@@ -40,6 +40,9 @@ class AccountSettingsPage extends Component
         $this->customer = auth()->check() ? auth()->user()->customers->first() : null;
     }
 
+    /**
+     * Update Name
+     */
     public function updateName()
     {
         $this->validate(['firstName' => 'required|min:2']);
@@ -68,9 +71,22 @@ class AccountSettingsPage extends Component
         $this->validate(['email' => 'required|email|unique:users,email,' . Auth::id()]);
 
         // Auth::user()->update(['email' => $this->email]);
+
+        // if ($this->customer) {
+        //     $this->customer->update([
+        //         'meta' => array_merge((array) $this->customer->meta ?? [], [
+        //             'email' => $this->email,
+        //         ]),
+        //     ]);
+        // }
+
+        $this->edit['email'] = false;
         session()->flash('message', 'Email updated successfully.');
     }
 
+    /**
+     * Update Phone Number
+     */
     public function updatePhone()
     {
         $this->validate(['phone' => 'required']);
@@ -88,6 +104,9 @@ class AccountSettingsPage extends Component
         session()->flash('message', 'Phone number updated successfully.');
     }
 
+    /**
+     * Update Company Name
+     */
     public function updateCompany()
     {
         $this->validate(['company' => 'required']);
@@ -106,9 +125,11 @@ class AccountSettingsPage extends Component
         session()->flash('message', 'Company name updated successfully.');
     }
 
+    /**
+     * Update Password
+     */
     public function updatePassword()
     {
-        // Validate inputs
         $this->validate([
             'currentPassword' => ['required'],
             'password' => ['required', 'confirmed', PasswordRule::min(8)],
@@ -116,7 +137,6 @@ class AccountSettingsPage extends Component
 
         $user = Auth::user();
 
-        // Check current password
         if (!Hash::check($this->currentPassword, $user->password)) {
             $this->addError('currentPassword', 'Your current password is incorrect.');
             return;
@@ -124,7 +144,6 @@ class AccountSettingsPage extends Component
 
         $hashPassword = Hash::make($this->password);    
 
-        // Update user's password (HASHED)
         $user->forceFill([
             'password' => $hashPassword,
         ])->save();
