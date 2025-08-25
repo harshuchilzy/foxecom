@@ -66,6 +66,12 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->placeholder('https://example.com/video.mp4')
                     ->visible(fn ($get) => $get('data.banner_type') === 'video')
                     ->columnSpanFull(),
+                TextInput::make('data.label_title')
+                    ->label('Offer Label Title')
+                    ->placeholder('Add your label heading here'),
+                TextInput::make('data.label_content')
+                    ->label('Offer Label Content')
+                    ->placeholder('Add your label content here'),
                 Textarea::make('data.description')
                     ->label('Description')
                     ->autosize()

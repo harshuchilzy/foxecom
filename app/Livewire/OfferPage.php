@@ -27,6 +27,8 @@ class OfferPage extends Component
     {
         $this->discount = Discount::findOrFail($id);
         $this->getProductUrl();
+        // Log::info(print_r($this->discount, true));
+
     }
 
     public function getProductUrl()
@@ -47,10 +49,16 @@ class OfferPage extends Component
         $discountType = class_basename($this->discount->type);
         $couponAmount = $discount->data['coupon_amount'] ?? 0;
         $couponCode = $this->discount->coupon;
+        $productQuantity = $this->discount->data['min_qty'] ?? 0;
+        $rewardQuantity = $this->discount->data['reward_qty'] ?? 0;
+        $labelTitle = $this->discount->data['label_title'] ?? null;
+        $labelContent = $this->discount->data['label_content'] ?? null;
+        $claimed = (int)( (($this->discount->uses > 0 ? $this->discount->uses : 1) / ($this->discount->max_uses > 0 ? $this->discount->max_uses : 1)) * 100 );
         $displayText = match ($discountType) {
             'percentage' => "{$couponAmount}% off",
-            'fixed_cart' => "Save $ {$couponAmount} on cart",
-            'fixed_product' => "$ {$couponAmount} off each item",
+            'fixed_cart' => "Save {$couponAmount} on cart",
+            'fixed_product' => "{$couponAmount} off each item",
+            'BuyXGetY'     => "Buy {$productQuantity} Outers </br>Get {$rewardQuantity} FREE!",
             default => "Redeem offer"
         };
 
@@ -60,7 +68,10 @@ class OfferPage extends Component
             'discountType' => $discountType,
             'couponAmount' => $couponAmount,
             'displayText' => $displayText,
-            'couponCode' => $couponCode
+            'couponCode' => $couponCode,
+            'claimed' => $claimed,
+            'labelTitle' => $labelTitle,
+            'labelContent' => $labelContent,
         ]);
     }
 }
