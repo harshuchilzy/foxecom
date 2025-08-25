@@ -568,11 +568,14 @@
                             <div style="background-image: url('{{ asset('images/offerbgimg.png') }}');"
                                  class="p-4 mt-5 bg-contain bg-no-repeat bg-center absolute right-0 top-[150px] w-[135px] h-[350px] flex flex-col items-start justify-center md:hidden">
                                 @php
-                                    $name = $this->getDiscount()?->name;
-                                    $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
+                                    // $name = $this->getDiscount()?->name;
+                                    // $parts = preg_split('/\b(Get|get)\b/i', $name, 2, PREG_SPLIT_DELIM_CAPTURE);
+                                    $productQuantity = $this->getDiscount()?->data['min_qty'] ?? 0;
+                                    $rewardQuantity = $this->getDiscount()?->data['reward_qty'] ?? 0;
+                                    $labelContent = $this->getDiscount()?->data['label_content'] ?? null;
                                 @endphp
 
-                                @if(count($parts) === 3)
+                                {{-- @if(count($parts) === 3)
                                     <p class="text-[16px] font-normal text-white font-inter">
                                         {{ trim($parts[0]) }}
                                     </p>
@@ -583,7 +586,19 @@
                                     <p class="text-[16px] font-normal text-white font-inter">
                                         {{ $name }}
                                     </p>
+                                @endif --}}
+
+                                @if ($labelContent)
+                                    {!! $labelContent !!}
+                                @else
+                                    <p class="text-sm font-normal text-white font-inter">
+                                        {{ __('Buy') }} <span class="font-bold">{{ $productQuantity }}</span> {{ __('Outers') }}
+                                    </p>
+                                    <p class="text-[16px] font-bold text-white font-inter">
+                                        {{ __('Get') }} <span class="font-bold">{{ $rewardQuantity }}</span> {{ __('FREE') }}
+                                    </p>
                                 @endif
+
                             </div>
                         @endif
                     @endif

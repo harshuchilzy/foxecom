@@ -27,7 +27,7 @@ class OfferPage extends Component
     {
         $this->discount = Discount::findOrFail($id);
         $this->getProductUrl();
-        Log::info(print_r($this->discount->data, true));
+        // Log::info(print_r($this->discount, true));
 
     }
 
@@ -58,7 +58,7 @@ class OfferPage extends Component
             'percentage' => "{$couponAmount}% off",
             'fixed_cart' => "Save {$couponAmount} on cart",
             'fixed_product' => "{$couponAmount} off each item",
-            'BuyXGetY'     => "Buy {$productQuantity} outers </br>Get {$rewardQuantity} Free!",
+            'BuyXGetY'     => "Buy {$productQuantity} Outers </br>Get {$rewardQuantity} FREE!",
             default => "Redeem offer"
         };
 
