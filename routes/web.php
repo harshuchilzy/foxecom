@@ -112,7 +112,7 @@ Route::get('checkout/success', CheckoutSuccessPage::class)->middleware('auth')->
 Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
 
 //Orders Page - livewire
-Route::get('/user-settings', AccountSettingsPage::class)->middleware('auth')->name('settings');
+Route::get('/settings', AccountSettingsPage::class)->middleware('auth')->name('settings');
 
 //Cart Page - livewire
 Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');

@@ -54,17 +54,19 @@
             </div>
         </a>
         
-        <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
-            <div class="">
-                <div class="bg-[#0B0E2D] p-3 rounded-full">
-                    <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32.5 13.0001H27.625V10.0913C27.625 5.85007 24.5212 2.06382 20.2962 1.65757C19.1675 1.54893 18.0285 1.67728 16.9523 2.03439C15.8761 2.39151 14.8863 2.96951 14.0464 3.73137C13.2065 4.49323 12.5351 5.42214 12.075 6.45858C11.615 7.49502 11.3766 8.61613 11.375 9.75007V13.0001H6.5V35.7501H32.5V13.0001ZM19.5 27.6251C17.7125 27.6251 16.25 26.1626 16.25 24.3751C16.25 22.5876 17.7125 21.1251 19.5 21.1251C21.2875 21.1251 22.75 22.5876 22.75 24.3751C22.75 26.1626 21.2875 27.6251 19.5 27.6251ZM14.625 13.0001V9.75007C14.625 7.05257 16.8025 4.87507 19.5 4.87507C22.1975 4.87507 24.375 7.05257 24.375 9.75007V13.0001H14.625Z" fill="white"/></svg>
+        <a href="{{ route('settings') }}">
+            <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
+                <div class="">
+                    <div class="bg-[#0B0E2D] p-3 rounded-full">
+                        <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32.5 13.0001H27.625V10.0913C27.625 5.85007 24.5212 2.06382 20.2962 1.65757C19.1675 1.54893 18.0285 1.67728 16.9523 2.03439C15.8761 2.39151 14.8863 2.96951 14.0464 3.73137C13.2065 4.49323 12.5351 5.42214 12.075 6.45858C11.615 7.49502 11.3766 8.61613 11.375 9.75007V13.0001H6.5V35.7501H32.5V13.0001ZM19.5 27.6251C17.7125 27.6251 16.25 26.1626 16.25 24.3751C16.25 22.5876 17.7125 21.1251 19.5 21.1251C21.2875 21.1251 22.75 22.5876 22.75 24.3751C22.75 26.1626 21.2875 27.6251 19.5 27.6251ZM14.625 13.0001V9.75007C14.625 7.05257 16.8025 4.87507 19.5 4.87507C22.1975 4.87507 24.375 7.05257 24.375 9.75007V13.0001H14.625Z" fill="white"/></svg>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <p class="font-inter font-semibold text-[15px] text-black">Login & Security</p>
+                    <p class="font-inter font-normal text-[12px] text-black">Change your email, password, or sign-in settings.</p>
                 </div>
             </div>
-            <div class="flex flex-col">
-                <p class="font-inter font-semibold text-[15px] text-black">Login & Security</p>
-                <p class="font-inter font-normal text-[12px] text-black">Change your email, password, or sign-in settings.</p>
-            </div>
-        </div>
+        </a>
         
         <a href="{{ route('contact') }}">
             <div class="border border-[#008ECC] rounded-[6px] p-5 flex gap-4 items-center justify-start">
