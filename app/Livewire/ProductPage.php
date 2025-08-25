@@ -353,7 +353,7 @@ class ProductPage extends Component
                     'sku' => $variant->sku,
                     'price' => $variant->basePrices->first()->price?->formatted(),
                     'outer_box_qty' => $outerBoxQty,
-                    'unit_price_per_outer_box' =>  $basePrice ? ( new Price($unitPricePerOuterBox, $basePrice->currency, $basePrice->unitQty) )->formatted() : null,
+                    'unit_price_per_outer_box' => $basePrice ? ( new Price(intval($unitPricePerOuterBox), $basePrice->currency, intval($basePrice->unitQty)) )->formatted() : null,
                     'stock' => $variant->stock,
                     'quantity_increment' => $variant->quantity_increment,
                     'options' => $variant->values->map(function ($value) {

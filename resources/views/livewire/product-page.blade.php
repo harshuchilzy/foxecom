@@ -6,7 +6,7 @@
                     @if(!empty($this->images) && count($this->images) > 0)
                     @foreach($this->images as $image)
 
-                            '{{ $image->getUrl() }}',
+                            `{{ $image->getUrl() }}`,
 
                         @endforeach
                     @else
@@ -96,7 +96,7 @@
                         @if(!empty($this->images) && count($this->images) > 0)
                            @foreach($this->images as $image)
 
-                                '{{ $image->getUrl() }}',
+                                `{{ $image->getUrl() }}`,
 
                             @endforeach
                         @else
