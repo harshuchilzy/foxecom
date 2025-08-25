@@ -193,7 +193,7 @@
                 <!-- Product review subsection - Mobile -->
                 <div class="md:hidden flex items-center justify-between px-3 lg:px-4">
                     <x-product-price class="font-medium flex justify-between items-center" :variant="$this->variant"/>
-                    <div class="flex items-center gap-2 flex-wrap">
+                    <div class="flex items-center gap-2 flex-wrap justify-end">
                         <div class="flex items-center">
                             @for ($i = 1; $i <= 5; $i++)
                                 @php
@@ -243,10 +243,14 @@
                             </svg>
                             </button>
                         </h2>
-                        <div id="short-description-accordion" class="hidden"
+                        <div id="short-description-accordion" class="hidden mt-4"
                              aria-labelledby="short-description-accordion-flush-heading-1">
                             <div class="flex flex-col items-start gap-3">
-                                {!! $this->product->translateAttribute('short-description') !!}
+                                @if ( $discountId )
+                                    {!! $this->product->translateAttribute('offer-short-description') !!}
+                                @else
+                                    {!! $this->product->translateAttribute('short-description') !!}
+                                @endif
                             </div>
                         </div>
                     </div>
