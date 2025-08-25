@@ -46,6 +46,14 @@ return [
             'favourite' => true,
         ],
 
+        'order-delivered' => [
+            'label' => 'Order Delivered',
+            'color' => '#05a300',
+            'mailers' => [],
+            'notifications' => [],
+            'favourite' => true,
+        ],
+
         'payment-received' => [
             'label' => 'Payment Received',
             'color' => '#6a67ce',

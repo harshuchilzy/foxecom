@@ -49,7 +49,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'phone' => ['required', 'string', 'max:15'],// 'regex:/^\d+$/'],
             'company_name' => ['required', 'string', 'max:255'],
             'company_type' => ['required', 'string'],
-            'company_registration' => ['required', 'string', 'max:50'],
+            'company_registration' => ['nullable', 'string', 'max:50'],
             'store_name' => ['nullable', 'string', 'max:255'],
             'address_line_1' => ['required', 'string', 'max:255'],
             'address_line_2' => ['nullable', 'string', 'max:255'],
@@ -130,6 +130,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <label class="flex items-center space-x-2">
                 <input type="radio" wire:model="customer_type" value="wholesaler" />
                 <span class="text-[#222222]">Wholesaler</span>
+            </label>
+            <label class="flex items-center space-x-2">
+                <input type="radio" wire:model="customer_type" value="sole-retailer" />
+                <span class="text-[#222222]">Sole Retailer</span>
             </label>
         </div>
     </div>
@@ -330,8 +334,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Company Registration Number -->
                 <div class=" p-3">
-                    <label for="company_registration" class="uppercase text-xs text-[#222222]">Company Registration Number <span
-                            class="text-red-500 text-xs">*</span></label>
+                    <label for="company_registration" class="uppercase text-xs text-[#222222]">Company Registration Number
+                        {{-- <span class="text-red-500 text-xs">*</span> --}}
+                    </label>
                     <input type="text" wire:model="company_registration" id="company_registration"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                         placeholder="Enter registration number" />
