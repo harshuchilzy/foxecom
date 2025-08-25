@@ -309,97 +309,99 @@
                 </div>
 
                 <!-- Product options and add to cart subsection -->
-                <form class="mt-4">
-                    <div class="space-y-4">
-                        @if (count($this->productOptions))
-                            @foreach ($this->productOptions as $option)
-                                <fieldset class="mb-1">
+                @unless ($discountId)
+                    <form class="mt-4">
+                        <div class="space-y-4">
+                            @if (count($this->productOptions))
+                                @foreach ($this->productOptions as $option)
+                                    <fieldset class="mb-1">
 
-                                    <div class="mt-4">
-                                        <label for="quantity"
-                                               class="sr-only">
-                                            {{ __('Quantity') }}
-                                        </label>
-                                        <label for="quantity" class="sr-only">{{ __('Choose quantity:') }}</label>
-                                    </div>
+                                        <div class="mt-4">
+                                            <label for="quantity"
+                                                class="sr-only">
+                                                {{ __('Quantity') }}
+                                            </label>
+                                            <label for="quantity" class="sr-only">{{ __('Choose quantity:') }}</label>
+                                        </div>
 
-                                    <div class="md:max-w-[90%]">
-                                        <div class="flex flex-col items-center md:items-start gap-1 mb-2 mt-2"
-                                             x-data="{
-                                                selectedOption: @entangle('selectedOptionValues').live,
-                                                selectedValues: [],
-                                                selectedValue: ''
-                                            }"
-                                             x-init="selectedValues = Object.values(selectedOption);
-                                            $watch('selectedOption', value =>
-                                                selectedValues = Object.values(selectedOption)
-                                            )">
+                                        <div class="md:max-w-[90%]">
+                                            <div class="flex flex-col items-center md:items-start gap-1 mb-2 mt-2"
+                                                x-data="{
+                                                    selectedOption: @entangle('selectedOptionValues').live,
+                                                    selectedValues: [],
+                                                    selectedValue: ''
+                                                }"
+                                                x-init="selectedValues = Object.values(selectedOption);
+                                                $watch('selectedOption', value =>
+                                                    selectedValues = Object.values(selectedOption)
+                                                )">
 
-                                            <legend class="text-xs font-medium text-gray-700">
-                                                {{ $option['option']->translate('name') }}
-                                                <span>:
-                                                    {{optional(
-                                                        collect($option['values'])->firstWhere('id', $selectedOptionValues[$option['option']->id] ?? null)
-                                                    )?->translate('name')}}
-                                                </span>
-                                            </legend>
+                                                <legend class="text-xs font-medium text-gray-700">
+                                                    {{ $option['option']->translate('name') }}
+                                                    <span>:
+                                                        {{optional(
+                                                            collect($option['values'])->firstWhere('id', $selectedOptionValues[$option['option']->id] ?? null)
+                                                        )?->translate('name')}}
+                                                    </span>
+                                                </legend>
 
-                                            <select
-                                                id="option-select-{{ $option['option']->id }}"
-                                                x-model="selectedValue"
-                                                class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
-                                                wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
-                                            >
-                                                <option value="">-- {{ __('Select') }} {{ $option['option']->translate('name') }}
-                                                    --
-                                                </option>
-
-                                                @foreach ($option['values'] as $value)
-                                                    <option value="{{ $value->id }}"
-                                                            @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
-                                                                selected
-                                                        @endif
-                                                    >
-                                                        {{ $value->translate('name') }}
+                                                <select
+                                                    id="option-select-{{ $option['option']->id }}"
+                                                    x-model="selectedValue"
+                                                    class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
+                                                    wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
+                                                >
+                                                    <option value="">-- {{ __('Select') }} {{ $option['option']->translate('name') }}
+                                                        --
                                                     </option>
-                                                @endforeach
-                                            </select>
+
+                                                    @foreach ($option['values'] as $value)
+                                                        <option value="{{ $value->id }}"
+                                                                @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
+                                                                    selected
+                                                            @endif
+                                                        >
+                                                            {{ $value->translate('name') }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                @endforeach
+                                <div class="w-full md:max-w-[90%] mb-4">
+                                    @if (auth()->check())
+                                        <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
+                                    @endif
+
+                                </div>
+                            @else
+                                <fieldset>
+                                    <legend class="text-xs font-medium text-gray-700">
+                                    </legend>
+
+                                    <div
+                                        class="flex flex-col md:flex-row md:items-start gap-4 mb-4 md:max-w-[90%] mt-4 items-center"
+                                        x-data="{
+                                            selectedOption: @entangle('selectedOptionValues').live,
+                                            selectedValues: [],
+                                        }"
+                                        x-init="selectedValues = Object.values(selectedOption);
+                                        $watch('selectedOption', value =>
+                                            selectedValues = Object.values(selectedOption)
+                                        )">
+
+                                        <div class="w-full">
+                                            @if (auth()->check())
+                                                <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$quantity">
+                                            @endif
                                         </div>
                                     </div>
                                 </fieldset>
-                            @endforeach
-                            <div class="w-full md:max-w-[90%] mb-4">
-                                @if (auth()->check())
-                                    <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
-                                @endif
-
-                            </div>
-                        @else
-                            <fieldset>
-                                <legend class="text-xs font-medium text-gray-700">
-                                </legend>
-
-                                <div
-                                    class="flex flex-col md:flex-row md:items-start gap-4 mb-4 md:max-w-[90%] mt-4 items-center"
-                                    x-data="{
-                                        selectedOption: @entangle('selectedOptionValues').live,
-                                        selectedValues: [],
-                                    }"
-                                    x-init="selectedValues = Object.values(selectedOption);
-                                    $watch('selectedOption', value =>
-                                        selectedValues = Object.values(selectedOption)
-                                    )">
-
-                                    <div class="w-full">
-                                        @if (auth()->check())
-                                            <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$quantity">
-                                        @endif
-                                    </div>
-                                </div>
-                            </fieldset>
-                        @endif
-                    </div>
-                </form>
+                            @endif
+                        </div>
+                    </form>
+                @endunless
 
 
                 <div>
@@ -658,7 +660,7 @@
             }"
         >
             <h2 class="text-[26px] lg:text-[32px] font-bold text-black mb-6">
-                {{ __('Unmatched Features for an Exceptional Vaping Journey') }}
+                {{ $this->product->translateAttribute('subtitle') }}
             </h2>
 
             <div
