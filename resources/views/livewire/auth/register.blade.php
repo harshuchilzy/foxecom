@@ -430,8 +430,37 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
                 <div class="p-3 city-select">
                     <!-- City -->
-                    <label for="city" class="uppercase text-xs text-[#222222]">Select City <span class="text-red-500 text-xs">*</span></label>
-                    <div x-data="{
+                    <label for="city" class="uppercase text-xs text-[#222222]">City <span class="text-red-500 text-xs">*</span></label>
+                    <input type="text" wire:model="city" id="city"
+                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
+                        placeholder="E.g. London" />
+                    @error('city')
+                    <div class="mt-3 text-sm font-medium text-red-500">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
+                    
+                    <label for="city" class="uppercase text-xs text-[#222222]">City <span class="text-red-500 text-xs">*</span></label>
+                    <input type="text" wire:model="city" id="city"
+                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
+                        placeholder="E.g. London" />
+                    @error('city')
+                    <div class="mt-3 text-sm font-medium text-red-500">
+                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        {{ $message }}
+                    </div>
+                    @enderror
+                    {{-- <label for="city" class="uppercase text-xs text-[#222222]">Select City <span class="text-red-500 text-xs">*</span></label> --}}
+                    {{-- <div x-data="{
                             open: false,
                             search: '',
                             selected: @entangle('city'),
@@ -485,9 +514,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
                                 No results found.
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    @error('city')
+                    {{-- @error('city')
                     <div class="mt-3 text-sm font-medium text-red-500">
                         <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
@@ -496,7 +525,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                         </svg>
                         {{ $message }}
                     </div>
-                    @enderror
+                    @enderror --}}
                 </div>
 
                 <!-- Postcode -->

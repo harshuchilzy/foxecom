@@ -20,7 +20,6 @@
 
     @include('partials.head')
 
-    @laravelPWA
 </head>
 
 <body class="antialiased text-gray-900">

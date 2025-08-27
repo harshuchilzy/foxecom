@@ -14,9 +14,11 @@ use App\Livewire\AddressPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
+use Lunar\Facades\CartSession;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Mail\CustomerWelcomeMail;
+use App\Livewire\AccountSettingsPage;
 use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\UpdatePrice;
@@ -24,7 +26,6 @@ use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use Lunar\Models\Order as ModelsOrder;
 use App\Http\Controllers\CheckoutController;
-use Lunar\Facades\CartSession;
 
 require __DIR__ . '/auth.php';
 
@@ -109,6 +110,9 @@ Route::get('checkout/success', CheckoutSuccessPage::class)->middleware('auth')->
 
 //Orders Page - livewire
 Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
+
+//Orders Page - livewire
+Route::get('/settings', AccountSettingsPage::class)->middleware('auth')->name('settings');
 
 //Cart Page - livewire
 Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
