@@ -9,6 +9,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CustomerWelcomeMail;
+use App\Mail\AdminNewCustomerMail;
 
 new #[Layout('components.layouts.auth')] class extends Component {
 
@@ -60,10 +61,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'postcode' => ['required', 'string', 'max:20'],
             'company_sector' => ['nullable', 'string', 'max:100'],
             'store_url' => ['nullable', 'string', 'url', 'max:255'],
-            'registration_certificate' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'vat_certificate' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'proof_of_id' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'proof_of_address' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'registration_certificate' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'vat_certificate' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'proof_of_id' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'proof_of_address' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -120,6 +121,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         if ($this->customer_type === 'wholesaler') {
             $this->showWholesalerPopup = true;
             Mail::to($validated['email'])->send(new CustomerWelcomeMail($validated['first_name'], $validated['last_name'], $this->customer_type));
+            Mail::to('joe@foxergo.com')->send(new AdminNewCustomerMail($validated['first_name'], $validated['last_name'], $validated['email'], $validated['phone']));
         } else {
             Auth::login($user);
             Mail::to($validated['email'])->send(new CustomerWelcomeMail($validated['first_name'], $validated['last_name'], $this->customer_type));

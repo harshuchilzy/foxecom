@@ -80,7 +80,7 @@
 
         <!-- Header -->
         <div class="header">
-            <img class="logo" src="https://i.imgur.com/KO1vcE9.png" alt="Foxergo Logo" />
+            <img class="logo" src="{{ url('/') .'/images/blacklogo.png' }}" alt="Foxergo Logo" />
         </div>
 
         <!-- Title -->
