@@ -47,8 +47,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'password' => ['required', 'string', 'confirmed', 'min:8', Rules\Password::defaults()],
             'country_code' => ['required', 'string', 'max:5'],
             'phone' => ['required', 'string', 'max:15'],// 'regex:/^\d+$/'],
-            'company_name' => ['required', 'string', 'max:255'],
-            'company_type' => ['required', 'string'],
+            'company_name' => ['nullable', 'string', 'max:255'],
+            'company_type' => ['nullable', 'string'],
             'company_registration' => ['nullable', 'string', 'max:50'],
             'store_name' => ['nullable', 'string', 'max:255'],
             'address_line_1' => ['required', 'string', 'max:255'],
@@ -77,7 +77,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                         'first_name' => $validated['first_name'],
                         'last_name' => $validated['last_name'],
                         'company_name' => $validated['company_name'],
-                        'vat_no' => null,
+                        // 'vat_no' => null,
                         'meta' => $validated,
                     ]);
 
@@ -290,7 +290,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         <div class="space-y-4">
             <!-- Company Name -->
-            <div class="border border-theme-zinc p-3">
+            {{-- <div class="border border-theme-zinc p-3">
                 <label for="company_name" class="uppercase text-xs text-[#222222]">Company Name <span
                         class="text-red-500 text-xs">*</span></label>
                 <input type="text" wire:model="company_name" id="company_name"
@@ -306,10 +306,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     {{ $message }}
                 </div>
                 @enderror
-            </div>
+            </div> --}}
 
             <!-- Company Type -->
-            <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
+            {{-- <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
                 <div class=" p-3">
                     <label for="company_type" class="uppercase text-xs text-[#222222]">Choose Company Type</label>
                     <select wire:model="company_type" id="company_type"
@@ -334,9 +334,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
                 <!-- Company Registration Number -->
                 <div class=" p-3">
-                    <label for="company_registration" class="uppercase text-xs text-[#222222]">Company Registration Number
-                        {{-- <span class="text-red-500 text-xs">*</span> --}}
-                    </label>
+                    <label for="company_registration" class="uppercase text-xs text-[#222222]">Company Registration Number</label>
                     <input type="text" wire:model="company_registration" id="company_registration"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                         placeholder="Enter registration number" />
@@ -351,7 +349,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     </div>
                     @enderror
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Store Name -->
             <div class="border border-theme-zinc p-3">
@@ -420,7 +418,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             <div class="grid md:grid-cols-2 gap-4 border border-theme-zinc">
                 <div class="p-3 city-select">
                     <!-- City -->
-                    <label for="city" class="uppercase text-xs text-[#222222]">City <span class="text-red-500 text-xs">*</span></label>
+                    <label for="city" class="uppercase text-xs text-[#222222]">City</label>
                     <input type="text" wire:model="city" id="city"
                         class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
                         placeholder="E.g. London" />
@@ -434,88 +432,6 @@ new #[Layout('components.layouts.auth')] class extends Component {
                         {{ $message }}
                     </div>
                     @enderror
-                    
-                    <label for="city" class="uppercase text-xs text-[#222222]">City <span class="text-red-500 text-xs">*</span></label>
-                    <input type="text" wire:model="city" id="city"
-                        class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
-                        placeholder="E.g. London" />
-                    @error('city')
-                    <div class="mt-3 text-sm font-medium text-red-500">
-                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        {{ $message }}
-                    </div>
-                    @enderror
-                    {{-- <label for="city" class="uppercase text-xs text-[#222222]">Select City <span class="text-red-500 text-xs">*</span></label> --}}
-                    {{-- <div x-data="{
-                            open: false,
-                            search: '',
-                            selected: @entangle('city'),
-                            options: [],
-                            country: @entangle('country'),
-                            init() {
-                                this.fetchOptions();
-
-                                // Watch country and refetch cities when it changes
-                                this.$watch('country', value => {
-                                    this.search = '';
-                                    this.selected = '';
-                                    this.fetchOptions();
-                                });
-                            },
-                            fetchOptions() {
-                                fetch(`{{ route('api.cities.search') }}?country=${this.country}&search=${encodeURIComponent(this.search)}`)
-                                    .then(res => res.json())
-                                    .then(data => this.options = data);
-                            },
-                            selectOption(option) {
-                                this.selected = option.value;
-                                this.open = false;
-                            },
-                            selectedLabel() {
-                                const option = this.options.find(o => o.value === this.selected);
-                                return option ? option.label : '';
-                            }
-                        }" x-init="init()" class="relative w-full">
-                        <button type="button" @click="open = !open"
-                            class="w-full px-4 py-2 text-sm text-left bg-white border border-[#6B7280] rounded-0 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <span x-text="selectedLabel() || 'Select a city...'"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline float-right" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-
-                        <div x-show="open" @click.away="open = false"
-                            class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-                            <input type="text" x-model="search" @input="fetchOptions()" placeholder="Search city..."
-                                class="w-full px-4 py-2 border-b border-gray-300 text-sm focus:outline-none" />
-
-                            <template x-for="option in options" :key="option.value">
-                                <div @click="selectOption(option)" class="px-4 py-2 cursor-pointer hover:bg-blue-100"
-                                    x-text="option.label"></div>
-                            </template>
-
-                            <div x-show="!options.length" class="px-4 py-2 text-gray-500 text-sm">
-                                No results found.
-                            </div>
-                        </div>
-                    </div> --}}
-
-                    {{-- @error('city')
-                    <div class="mt-3 text-sm font-medium text-red-500">
-                        <svg class="shrink-0 size-5 inline" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        {{ $message }}
-                    </div>
-                    @enderror --}}
                 </div>
 
                 <!-- Postcode -->
@@ -538,7 +454,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             </div>
 
             <!-- Sector -->
-            <div class="border border-theme-zinc p-3">
+            {{-- <div class="border border-theme-zinc p-3">
                 <label for="company_sector" class="uppercase text-xs text-[#222222]">What sector is your company in?</label>
                 <input type="text" wire:model="company_sector" id="company_sector"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -553,10 +469,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     {{ $message }}
                 </div>
                 @enderror
-            </div>
+            </div> --}}
 
             <!-- Website Link -->
-            <div class="border border-theme-zinc p-3">
+            {{-- <div class="border border-theme-zinc p-3">
                 <label for="store_url" class="uppercase text-xs text-[#222222]">Website Link</label>
                 <input type="url" wire:model="store_url" id="store_url"
                     class="bg-whiterounded-0 block w-full py-2 text-zinc-900 placeholder-zinc-400 focus:outline-none"
@@ -571,7 +487,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     {{ $message }}
                 </div>
                 @enderror
-            </div>
+            </div> --}}
         </div>
 
         <div x-data="{ customerType: @entangle('customer_type') }" class="my-4">
