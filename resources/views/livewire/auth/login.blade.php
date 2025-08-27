@@ -44,7 +44,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         Session::regenerate();
 
         $customer = auth()->check() ? auth()->user()->customers->first() : null;
-        if ($customer->customerGroups->first()->handle == 'wholesale') {
+        if (($customer->customerGroups->first()->handle == 'wholesale') && ($customer->meta['wholesale_approved'] ?? false) == false) {
             $this->showWholesalerPopup = true;
             Auth::logout();
             return;
@@ -187,7 +187,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
                     </div>
 
                     <div class="relative inline-block mb-2">
-                        <h3 class="text-2xl font-bold text-gray-800 font-inter">Thank You!</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 font-inter">Under Review!</h3>
                         <svg class="absolute -top-3 -right-8 h-6 w-6 text-yellow-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M12 2l1.2 3.7L17 7l-3.8 1.3L12 12l-1.2-3.7L7 7l3.8-1.3L12 2zm7 9l.8 2.3L22 14l-2.2.7L19 17l-.8-2.3L16 14l2.2-.7L19 11zM5 13l.7 2L8 16l-2.3.7L5 19l-.7-2-2.3-.3L4 15 5 13z"/>
                         </svg>
