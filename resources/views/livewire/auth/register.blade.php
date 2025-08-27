@@ -99,7 +99,17 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'billing_default' => true,
         ]);
 
-        $groupHandle = $this->customer_type === 'wholesaler' ? 'wholesale' : 'retail';
+        switch ($this->customer_type) {
+            case 'wholesaler':
+                $groupHandle = 'wholesale';
+                break;
+            case 'sole-retailer':
+                $groupHandle = 'sole-retailer'; // dedicated group for sole retailers
+                break;
+            default:
+                $groupHandle = 'retail';
+                break;
+        }
         $customerGroup = \Lunar\Models\CustomerGroup::where('handle', $groupHandle)->first();
         if ($customerGroup) {
             $customer->customerGroups()->attach($customerGroup);
