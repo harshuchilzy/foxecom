@@ -17,6 +17,7 @@ use Lunar\Actions\Carts\CalculateLine;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\PageResource;
 use App\Actions\Carts\CustomCalculateLine;
+use App\Filament\Extensions\MyCustomerExtensions\MyCustomerResourceExtension;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use App\Filament\Resources\RedemptionResource;
 use Lunar\Validation\CartLine\CartLineQuantity;
@@ -28,6 +29,7 @@ use App\Filament\Extensions\MyStaffExtensions\MyStaffResourceExtension;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
+use Lunar\Admin\Filament\Resources\CustomerResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -65,7 +67,8 @@ class AppServiceProvider extends ServiceProvider
         LunarPanel::extensions([
             ListDiscounts::class => MyListDiscountPageExtension::class,
             DiscountResource::class => MyDiscountResourceExtension::class,
-            StaffResource::class => MyStaffResourceExtension::class
+            StaffResource::class => MyStaffResourceExtension::class,
+            CustomerResource::class => MyCustomerResourceExtension::class
         ]);
 
         Payments::extend('ngenius', function ($app) {

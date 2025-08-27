@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\DB;
 
 class Home extends Component
 {
+    public function mount()
+    {
+        $customers = \Lunar\Models\Customer::get();
+        dd($customers->first()->customerGroups->first()->name);
+    }
+
     /**
      * Return the sale collection.
      */
