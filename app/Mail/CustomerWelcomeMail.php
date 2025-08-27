@@ -16,7 +16,7 @@ class CustomerWelcomeMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(private $first_name, private $last_name)
+    public function __construct(private $first_name, private $last_name, private $customer_type)
     {
         //
     }
@@ -41,6 +41,7 @@ class CustomerWelcomeMail extends Mailable
             with: array(
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
+                'customer_type' => $this->customer_type,
                 'login_url' => route('login'),
                 'unsubscribe_url' => route('unsubscribe')
             )
