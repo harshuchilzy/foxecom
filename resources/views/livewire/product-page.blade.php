@@ -361,8 +361,8 @@
 
                                                     @foreach ($option['values'] as $value)
                                                         <option value="{{ $value->id }}"
-                                                                @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
-                                                                    selected
+                                                            @if(isset($selectedOptionValues[$option['option']->id]) && $selectedOptionValues[$option['option']->id] == $value->id)
+                                                                selected
                                                             @endif
                                                         >
                                                             {{ $value->translate('name') }}
@@ -373,11 +373,20 @@
                                         </div>
                                     </fieldset>
                                 @endforeach
-                                <div class="w-full md:max-w-[90%] mb-4">
+                                <div class="w-full md:max-w-[90%] mb-4 relative">
                                     @if (auth()->check())
                                         <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
-                                    @endif
 
+                                        <!-- Loader -->
+                                        <div class="absolute inset-0 flex items-center justify-center bg-white/70 rounded-lg" wire:loading wire:target="selectedOptionValues">
+                                            <div class="w-full flex justify-center items-center h-full">
+                                                <svg class="animate-spin h-5 w-5 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0H4z"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             @else
                                 <fieldset>
