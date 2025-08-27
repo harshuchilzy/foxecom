@@ -375,8 +375,8 @@
                                 @endforeach
                                 <div class="w-full md:max-w-[90%] mb-4 relative">
                                     @if (auth()->check())
-                                        <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity">
-
+                                        <livewire:components.add-to-cart :purchasable="$this->variant" :wire:key="$this->variant->id" :quantity="$this->quantity" >
+ 
                                         <!-- Loader -->
                                         <div class="absolute inset-0 flex items-center justify-center bg-white/70 rounded-lg" wire:loading wire:target="selectedOptionValues">
                                             <div class="w-full flex justify-center items-center h-full">
@@ -385,7 +385,7 @@
                                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0H4z"></path>
                                                 </svg>
                                             </div>
-                                        </div>
+                                        </div> 
                                     @endif
                                 </div>
                             @else
