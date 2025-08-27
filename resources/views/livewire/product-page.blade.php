@@ -355,7 +355,7 @@
                                                     class="bg-gray-50 border border-[#282828] text-gray-900 text-sm block px-[24px] rounded-[100px] w-full h-12 cursor-pointer font-inter"
                                                     wire:change="$set('selectedOptionValues.{{ $option['option']->id }}', $event.target.value)"
                                                 >
-                                                    <option value="">-- {{ __('Select') }} {{ $option['option']->translate('name') }}
+                                                    <option value="" disabled>-- {{ __('Select') }} {{ $option['option']->translate('name') }}
                                                         --
                                                     </option>
 
