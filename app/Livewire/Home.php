@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class Home extends Component
 {
+    
     /**
      * Return the sale collection.
      */
