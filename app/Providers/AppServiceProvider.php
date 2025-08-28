@@ -29,6 +29,7 @@ use App\Filament\Extensions\MyStaffExtensions\MyStaffResourceExtension;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
+use App\Filament\Resources\ConfigurationResource;
 use Lunar\Admin\Filament\Resources\CustomerResource;
 
 class AppServiceProvider extends ServiceProvider
@@ -54,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
                 ->resources([
                     ProductReviewResource::class,
                     PageResource::class,
+                    ConfigurationResource::class,
                     //RedemptionResource::class,
                 ]);
         })->register();
