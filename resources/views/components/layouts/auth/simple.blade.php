@@ -7,7 +7,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap" rel="stylesheet">
     </head>
     <body class="min-h-screen bg-white antialiased">
-        <div style="background-image: url({{url('images/reg-background.jpg')}})" class="bg-cover bg-no-repeat bg-left-top flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+        <div style="background-image: url({{url('images/reg-bg.webp')}})" class="bg-cover bg-no-repeat bg-left-top flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div class="flex w-full max-w-3xl flex-col gap-2 max-h-max md:max-h-screen overflow-y-hidden">
                 <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>
                     <span class="flex items-center justify-center rounded-md">
