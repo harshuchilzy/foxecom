@@ -47,7 +47,7 @@ class MyCustomerResourceExtension extends ResourceExtension
                         Hidden::make('meta')
                             ->default(fn ($record) => (array) ($record?->meta ?? [])),
                         Toggle::make('meta.wholesale_approved')
-                            ->label('Enable Wholesale Access')
+                            ->label('Enable Access')
                 ]),
                     
             ]);

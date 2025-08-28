@@ -9,10 +9,13 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CustomerWelcomeMail;
+use App\Mail\AdminNewCustomerMail;
 
 new #[Layout('components.layouts.auth')] class extends Component {
 
     use Livewire\WithFileUploads;
+
+    public $showWholesalerPopup = false;
 
     public string $first_name = '';
     public string $last_name = '';
@@ -58,10 +61,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'postcode' => ['required', 'string', 'max:20'],
             'company_sector' => ['nullable', 'string', 'max:100'],
             'store_url' => ['nullable', 'string', 'url', 'max:255'],
-            'registration_certificate' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'vat_certificate' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'proof_of_id' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'proof_of_address' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'registration_certificate' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'vat_certificate' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'proof_of_id' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'proof_of_address' => [$this->customer_type == 'wholesaler' ? 'required' : 'nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -115,11 +118,15 @@ new #[Layout('components.layouts.auth')] class extends Component {
             $customer->customerGroups()->attach($customerGroup);
         }
 
-        Auth::login($user);
-
-        Mail::to($validated['email'])->send(new CustomerWelcomeMail($validated['first_name'], $validated['last_name']));
-
-        $this->redirectIntended(route('home', absolute: false), navigate: true);
+        if ($this->customer_type === 'wholesaler') {
+            $this->showWholesalerPopup = true;
+            Mail::to($validated['email'])->send(new CustomerWelcomeMail($validated['first_name'], $validated['last_name'], $this->customer_type));
+            Mail::to('joe@foxergo.com')->send(new AdminNewCustomerMail($validated['first_name'], $validated['last_name'], $validated['email'], $validated['phone']));
+        } else {
+            Auth::login($user);
+            Mail::to($validated['email'])->send(new CustomerWelcomeMail($validated['first_name'], $validated['last_name'], $this->customer_type));
+            $this->redirectIntended(route('home', absolute: false), navigate: true);
+        }
     }
 }; ?>
 
@@ -588,4 +595,37 @@ new #[Layout('components.layouts.auth')] class extends Component {
             class="bg-gray-300 hover:bg-gray-500 px-5 py-5 w-full font-semibold text-white block text-center"
             wire:navigate>{{ __('Sign in to your FOXERGO account') }}</a>
     </div>
+
+    @if($showWholesalerPopup)
+        <!-- Popup Container -->
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md transition-opacity duration-300 opacity-100">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-transform duration-300 scale-100" role="dialog" aria-modal="true">
+                <!-- Popup Content -->
+                <div class="p-8 text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#1275EE]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 1.75a10.25 10.25 0 1 0 0 20.5 10.25 10.25 0 0 0 0-20.5Zm4.58 7.97-5.18 5.18a.75.75 0 0 1-1.06 0l-2.17-2.17a.75.75 0 1 1 1.06-1.06l1.64 1.64 4.65-4.65a.75.75 0 0 1 1.06 1.06Z"/>
+                        </svg>
+                    </div>
+
+                    <div class="relative inline-block mb-2">
+                        <h3 class="text-2xl font-bold text-gray-800 font-inter">Under Review!</h3>
+                        <svg class="absolute -top-3 -right-8 h-6 w-6 text-yellow-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 2l1.2 3.7L17 7l-3.8 1.3L12 12l-1.2-3.7L7 7l3.8-1.3L12 2zm7 9l.8 2.3L22 14l-2.2.7L19 17l-.8-2.3L16 14l2.2-.7L19 11zM5 13l.7 2L8 16l-2.3.7L5 19l-.7-2-2.3-.3L4 15 5 13z"/>
+                        </svg>
+                        <svg class="absolute -bottom-3 -left-8 h-5 w-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 4l.7 2.1L15 7l-2.3.9L12 10l-.7-2.1L9 7l2.3-.9L12 4z"/>
+                        </svg>
+                    </div>
+
+                    <p class="text-gray-600 mb-6 font-inter">Thank you for your interest, our team is working hard to get your approval first.</p>
+
+                    <a href="{{ route('home') }}" class="bg-[#11316d] cursor-pointer font-inter hover:bg-[#1275EE] text-white font-medium py-3 px-6 rounded-lg transition duration-200 transform hover:scale-105 w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1275EE]">
+                        Return to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+
 </div>

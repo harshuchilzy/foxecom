@@ -9,16 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CustomerWelcomeMail extends Mailable
+class AdminNewCustomerMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(private $first_name, private $last_name, private $customer_type)
+    public function __construct(private $first_name, private $last_name, private $email, private $phone)
     {
-        //
+
     }
 
     /**
@@ -27,7 +27,7 @@ class CustomerWelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome to Foxergo',
+            subject: 'Admin New Wholesale Customer Mail',
         );
     }
 
@@ -37,13 +37,12 @@ class CustomerWelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.welcome-customer',
+            view: 'mail.admin.new-customer',
             with: array(
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
-                'customer_type' => $this->customer_type,
-                'login_url' => route('login'),
-                'unsubscribe_url' => route('unsubscribe')
+                'email' => $this->email,
+                'phone' => $this->phone,
             )
         );
     }
