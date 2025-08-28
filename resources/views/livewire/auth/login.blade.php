@@ -158,7 +158,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
         
         <!-- Sing in button -->
         <div class="flex items-center justify-end">
-            <button type="submit" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5 cursor-pointer">{{__('Sign In')}}</button>
+            <button type="submit" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5 cursor-pointer">
+                <span wire:loading.remove wire:target="login">{{__('Sign In')}}</span>
+                <span wire:loading wire:target="login">{{__('Signing In...')}}</span>
+            </button>
         </div>
     </form>
 
