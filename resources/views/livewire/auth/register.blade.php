@@ -581,8 +581,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
 
         <div class="flex items-center justify-end">
-            <button type="submit"
-                class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5 cursor-pointer">{{__('Sign Up')}}</button>
+            <button type="submit" class="w-full text-white bg-themeblue font-semibold hover:bg-blue-600 py-5 px-5 cursor-pointer">
+                <span wire:loading.remove wire:target="register">{{ __('Sign Up') }}</span>
+                <span wire:loading wire:target="register">{{__('Signing up...')}}</span>
+            </button>
         </div>
     </form>
 
