@@ -68,7 +68,7 @@ class CheckoutPage extends Component
      */
     public $chosenShipping = null;
 
-    
+
 
     /**
      * The checkout steps.
@@ -162,7 +162,7 @@ class CheckoutPage extends Component
         $customer = auth()->check() ? auth()->user()->customers->first() : null;
 
         if (($this->shipping) && $customer) {
-            
+
             $this->shipping = $customer->addresses->where('billing_default', 1)->first()?->toArray();
 
             if (empty($this->shipping)) {
@@ -177,7 +177,7 @@ class CheckoutPage extends Component
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         if (($this->billing) && $customer) {
-            
+
             $this->billing = $customer->addresses->where('billing_default', 1)->first()?->toArray();
             $this->cart->setBillingAddress($this->billing);
             $this->billing = new CartAddress($this->billing);
@@ -210,7 +210,7 @@ class CheckoutPage extends Component
     {
         $shippingAddress = $this->cart->shippingAddress;
         $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
-        
+
         if ($shippingAddress) {
 
             // Do we have a selected option?
@@ -225,7 +225,7 @@ class CheckoutPage extends Component
             }
 
         }
-       
+
     }
 
     public function saveAndContinueToNext()
@@ -318,13 +318,16 @@ class CheckoutPage extends Component
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
-        
+
         // CartSession::clear();
 
+        $order = $this->cart->order ?? $this->cart->createOrder();
+        Log::info('order details', [$order->toArray()]);
+
         if ($payment->success) {
-            //Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
+            // Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
             return redirect()->route('checkout-success.view');
-        } 
+        }
 
         return redirect()->route('checkout-success.view');
     }
@@ -423,7 +426,7 @@ class CheckoutPage extends Component
         $this->currentStep = $this->steps['payment'] + 1;
     }
 
-    public function verifyAuthenticationKey() 
+    public function verifyAuthenticationKey()
     {
         $staff = Staff::get();
 
@@ -434,14 +437,14 @@ class CheckoutPage extends Component
             if ($member->authentication_key == $this->clientPassword) {
                 $this->authentication = true;
                 $this->staffMemberFound = $member;
-                break; 
+                break;
             }
         }
 
         // Log::info($this->authentication);
         //Log::info('member: ' . print_r($this->staffMemberFound, true));
 
-        if ($this->authentication && $this->staffMemberFound) { 
+        if ($this->authentication && $this->staffMemberFound) {
             $this->cart->update([
                 'meta' => array_merge((array) $this->cart->meta ?? [], [
                     'Authentication Key' => $this->staffMemberFound->authentication_key,
