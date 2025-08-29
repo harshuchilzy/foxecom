@@ -15,13 +15,14 @@ use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
 use Lunar\Facades\CartSession;
+use App\Mail\AdminNewOrderMail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Mail\CustomerWelcomeMail;
-use App\Livewire\AccountSettingsPage;
 use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\UpdatePrice;
+use App\Livewire\AccountSettingsPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use Lunar\Models\Order as ModelsOrder;
@@ -206,3 +207,12 @@ Route::middleware('auth')
     });
 
 
+// Route::get('/test-mail', function(){
+//     $orders = Order::get();
+//     $order = $orders->last();
+//     $email = $order->customer->email;
+//     Mail::to('wrablranasinghe@gmail.com')->send(new AdminNewOrderMail($order));
+//     echo '<pre>';
+//     print_r($order->customer->meta['email']);
+//     echo '</pre>';
+// });

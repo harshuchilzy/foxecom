@@ -99,11 +99,11 @@
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td>{{ $order->customer->email }}</td>
+                        <td>{{ $order->customer->meta['email'] }}</td>
                     </tr>
                     <tr>
                         <th>Phone</th>
-                        <td>{{ $order->customer->phone }}</td>
+                        <td>{{ $order->customer->meta['phone'] }}</td>
                     </tr>
                     <tr>
                         <th>Shipping Address</th>
