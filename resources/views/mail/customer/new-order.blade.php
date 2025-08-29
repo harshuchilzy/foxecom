@@ -98,7 +98,7 @@
 
         <!-- Header -->
         <div class="header">
-            <img src="{{ url('/') .'/images/blacklogo.png' }}" width="64" style="display:block;" />
+            <img class="logo" src="{{ url('/') .'/images/blacklogo.png' }}" alt="Foxergo Logo"/>
         </div>
 
         <!-- Content -->

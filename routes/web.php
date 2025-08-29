@@ -19,6 +19,7 @@ use App\Mail\AdminNewOrderMail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Mail\CustomerWelcomeMail;
+use App\Mail\AdminNewCustomerMail;
 use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\UpdatePrice;
@@ -211,7 +212,7 @@ Route::middleware('auth')
 //     $orders = Order::get();
 //     $order = $orders->last();
 //     $email = $order->customer->email;
-//     Mail::to('wrablranasinghe@gmail.com')->send(new AdminNewOrderMail($order));
+//     Mail::to(auth()->user())->send(new CustomerNewOrderMail($order));
 //     echo '<pre>';
 //     print_r($order->customer->meta['email']);
 //     echo '</pre>';
