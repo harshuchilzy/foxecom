@@ -319,13 +319,8 @@ class CheckoutPage extends Component
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
-<<<<<<< HEAD
         
         $customer = auth()->user()->customers->first();
-        $order = $customer->orders->last();
-=======
-
->>>>>>> 40e2812d4915ea079827c9838b6ddfd2e2799f50
         // CartSession::clear();
 
         $order = $this->cart->order ?? $this->cart->createOrder();
