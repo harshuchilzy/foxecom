@@ -29,19 +29,19 @@
     <div class="flex gap-6 items-start flex-col md:flex-row">
         <!-- Placed orders subsection -->
         <div class="w-full md:w-[75%]">
-            @if ($orderCount > 0)
-                @foreach ($orders as $order)
-                    <x-product-cards.order-card :order="$order"/>
-                @endforeach
-            @else
+            @forelse ($orders as $order)
+                <x-product-cards.order-card :order="$order" />
+            @empty
                 <div class="py-5 text-[16px] text-gray-600 font-semibold">
-                    {{ ('No orders found.') }}
+                    {{ __('No orders found.') }}
+                </div>
+            @endforelse
+
+            @if ($orders->hasPages())
+                <div class="mt-4">
+                    {{ $orders->links() }}
                 </div>
             @endif
-
-            <div class="mt-4">
-                {{ $orders->links() }}
-            </div>
         </div>
 
         <!-- Order suggestion subsection -->

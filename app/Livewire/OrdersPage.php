@@ -164,16 +164,22 @@ class OrdersPage extends Component
                 break;
             case 'past-month':
                 $query->whereBetween('created_at', [
-                    now()->subMonth()->startOfMonth(),
-                    now()->subMonth()->endOfMonth()
+                    now()->subMonth()->startOfDay(),
+                    now()->endOfDay(),
                 ]);
+                break;
+            case 'all':
+                break;
+            default:
                 break;
         }
         
+        $this->orderCount = (clone $query)->count();
+
         $orders = $query->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
-        $this->orderCount = $query->count();
+        // $this->orderCount = $query->count();
         $this->totalRevenue = $query->clone()
             ->where('status', '!=', 'cancelled')
             ->sum('total');
