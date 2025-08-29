@@ -11,6 +11,7 @@ use Lunar\Facades\Payments;
 use Lunar\Admin\Models\Staff;
 use Lunar\Models\CartAddress;
 use Lunar\Facades\CartSession;
+use App\Mail\AdminNewOrderMail;
 use WireUi\Traits\WireUiActions;
 use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Collection;
@@ -319,10 +320,13 @@ class CheckoutPage extends Component
             'payment_intent' => $this->payment_intent,
         ])->authorize();
         
+        $customer = auth()->user()->customers->first();
+        $order = $customer->orders->last();
         // CartSession::clear();
 
         if ($payment->success) {
-            //Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
+            Mail::to($customer)->send(new CustomerNewOrderMail($order));
+            Mail::to('joe@foxergo.com')->send(new AdminNewOrderMail($order));
             return redirect()->route('checkout-success.view');
         } 
 
