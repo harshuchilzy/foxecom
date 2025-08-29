@@ -323,12 +323,16 @@ class CheckoutPage extends Component
         $customer = auth()->user()->customers->first();
         // CartSession::clear();
 
-        $order = $this->cart->order ?? $this->cart->createOrder();
-        Log::info('order details', [$order->toArray()]);
+        $order = $this->cart->orders->last();
 
         if ($payment->success) {
             Mail::to($customer)->send(new CustomerNewOrderMail($order));
-            Mail::to('joe@foxergo.com')->send(new AdminNewOrderMail($order));
+
+            $admins = Staff::get();
+            foreach ($admins as $admin) {
+                Mail::to($admin)->send(new AdminNewOrderMail($order));
+            }
+
             return redirect()->route('checkout-success.view');
         }
 

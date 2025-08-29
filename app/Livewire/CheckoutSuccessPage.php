@@ -22,35 +22,9 @@ class CheckoutSuccessPage extends Component
         if (auth()->check()) {
             if(auth()->user()->customers) {
                 $customer = auth()->user()->customers->first();
-                
-                // $newCart = Cart::where('customer_id', $customerId)
-                //             ->orderBy('created_at', 'asc')
-                //             ->first();
             }
-            // Get previous cart (one before the newest)
-            
-            // if ($newCart) {
-            //     $previousCart = Cart::where('id', '<', $newCart->id)
-            //                     ->when(auth()->user()->customers, function($query) use ($customerId) {
-            //                         return $query->where('customer_id', $customerId);
-            //                     })
-            //                     ->orderBy('created_at', 'asc')
-            //                     ->first();
-            // }
-
-            // if ($customerId) {
-            //     $secondRecentCart = Cart::where('customer_id', $customerId)
-            //         ->orderByDesc('created_at')
-            //         ->skip(1)            
-            //         ->first();          
-            // }
-
         }
 
-        // if (! $secondRecentCart || ! $secondRecentCart->completedOrder) {
-        //     $this->redirect('/');
-        //     return;
-        // }
         if( !$customer->orders->last() ) {
             $this->redirect('/');
             return;

@@ -163,8 +163,6 @@ class NgeniusPayment extends AbstractPayment
             Mail::to($admin)->send(new AdminNewOrderMail($this->order));
         }
 
-        Mail::to('joe@foxergo.com')->send(new AdminNewOrderMail($this->order));
-
         return new PaymentCapture(
             success: true,
             message: 'Payment recorded and order placed',

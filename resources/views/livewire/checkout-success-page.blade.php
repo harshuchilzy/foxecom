@@ -18,7 +18,7 @@
             </a>
 
             <p class="mt-4 font-medium sm:text-lg">
-                {{ __('Your Order will be delivered with invoice') }} <strong>#{{ $order->reference }}</strong> {{ __('You can track the delivery in the order section.') }}
+                {{ __('Your Order will be delivered with invoice') }} <a href="{{ route('redemptions') }}" class="text-[#0066FF] hover:text-[#11316d]"><strong>#{{ $order->reference }}</strong></a> {{ __('You can track the delivery in the order section.') }}
             </p>
 
 
