@@ -292,6 +292,11 @@
                                           
                                         @endphp
 
+                                        @if (isset($_GET['test']))
+                                            {{$brandSlug}}
+                                            {{$brandImageUrl}}
+                                        @endif
+
                                         @if (!empty($brandImageUrl) && !empty($brandSlug))
                                             <a href="{{ route('brand.view', ['slug' => $brandSlug]) }}" class="z-1 relative">
                                                 <img class="h-[25px] lg:h-[45px] mb-2" src="{{ $brandImageUrl }}" alt="{{ $firstProduct?->brand?->name ?? 'Brand Logo' }}">
