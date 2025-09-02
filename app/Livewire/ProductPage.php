@@ -460,6 +460,7 @@ class ProductPage extends Component
         foreach ($this->loadVariations() as $variant) {
             $this->quantities[$variant['id']] = 1;
             $this->toggles[$variant['id']] = false;
+            $this->flavorQty[$variant['id']] = 0;
         }
     }
 
