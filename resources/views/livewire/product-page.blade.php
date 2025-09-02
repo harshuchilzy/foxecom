@@ -314,7 +314,7 @@
 
                 <!-- Product options and add to cart subsection -->
                 @unless ($discountId)
-                    <form class="mt-4">
+                    {{-- <form class="mt-4">
                         <div class="space-y-4">
                             @if (count($this->productOptions))
                                 @foreach ($this->productOptions as $option)
@@ -413,7 +413,122 @@
                                 </fieldset>
                             @endif
                         </div>
-                    </form>
+                    </form> --}}
+
+                    <div x-data="{ showFlavorsModal: @entangle('showFlavorsAddToCartPopup') }">
+                        <!-- Select flavors button -->
+                        <div class="md:max-w-[90%] mt-5">
+                            <button
+                                class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter hover:bg-[#454545] hover:shadow-lg" @click="showFlavorsModal = true">
+                                {{ __('Select Flavours') }}
+                            </button>
+                        </div>
+
+                        <!-- Flavors add to cart Modal -->
+                        <div x-show="showFlavorsModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
+                            <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showFlavorsModal = false"
+                                x-data="{
+                                    flavorQty: @entangle('flavorQty').live,
+                                    loadingVariantId: @entangle('loadingVariantId').live
+                                }">
+                                <div class="sticky top-0 left-0 w-full bg-white z-20 pt-6 pb-2 border-b rounded-tr-2xl rounded-tl-2xl">
+                                    <!-- Close Button -->
+                                    <button @click="showFlavorsModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold cursor-pointer z-50">&times;</button>
+
+                                    <!-- Product Name -->
+                                    <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
+                                        {{ $this->product->translateAttribute('name') }}
+                                    </h2>
+
+                                    <div class="lg:flex w-full gap-2 items-center">
+                                        <div class="w-full px-4">
+                                            <p class="font-medium text-center">
+                                                {{ __('Discover the perfect taste for you! Choose from our wide range of flavors, each crafted to delight your senses. Select your favorite flavor now and make your experience unique.') }}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    @if ($errors->has('flavor-error'))
+                                        <div class="p-2 mt-2 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                                            role="alert">
+                                            @foreach ($errors->get('flavor-error') as $error)
+                                                {{ $error }}
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="max-h-[75vh] overflow-auto p-6 pt-4 mt-10 md:mt-0">
+                                    <!-- Product Boxes -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        @foreach($this->loadVariations() as $index => $variant)
+                                            <!-- Product Box -->
+                                            <div 
+                                                class="bulk-order-product-box border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
+
+                                                <img src="{{ $variant['image_url'] }}" alt="" class="w-32 min-w-32 h-32 min-h-32 object-cover rounded">
+
+                                                <div class="flex flex-col justify-between w-full h-full">
+
+                                                    <div class="md:text-left text-center">
+                                                        <div class="text-[16px] font-medium font-inter">{{ $variant['name'] }}</div>
+                                                    </div>
+
+                                                    <div class="md:text-end mt-2">
+                                                        <div class="flex flex-col md:items-start items-center md:pb-2 pb-4 mt-2">
+                                                            <span class="text-[#1275EE] text-sm font-semibold ml-1">
+                                                                {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }}
+                                                            </span>
+
+                                                            <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
+                                                                <button
+                                                                    type="button"
+                                                                    class="px-2 text-xl cursor-pointer"
+                                                                    @click="if((flavorQty['{{ $variant['id'] }}'] ?? 0) > 0){ flavorQty['{{ $variant['id'] }}']--; }">-
+                                                                </button>
+
+                                                                <input type="number" min="0"
+                                                                    x-model.number="flavorQty['{{ $variant['id'] }}']"
+                                                                    class="w-full text-center border-0 p-0 m-0 nobutton" />
+
+                                                                <button
+                                                                    type="button"
+                                                                    class="px-2 text-xl cursor-pointer"
+                                                                    @click="flavorQty['{{ $variant['id'] }}'] = Number(flavorQty['{{ $variant['id'] }}'] ?? 0) + 1;">+
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="relative">
+                                                            <button type="button"
+                                                                class="bg-[#282828] px-[24px] py-[6px] rounded-[100px] text-white text-center text-[14px] font-bold !w-full md:w-1/2 font-inter cursor-pointer"
+                                                                x-on:click="loadingVariantId = {{ $variant['id'] }}"
+                                                                wire:click="flavorAddToCart({{ $variant['id'] }}, flavorQty['{{ $variant['id'] }}'] || 1)"
+                                                                wire:key="add-to-cart-{{ $variant['id'] }}"
+                                                                x-bind:disabled="!flavorQty['{{ $variant['id'] }}'] || flavorQty['{{ $variant['id'] }}'] < 1"
+                                                            >
+                                                                <template x-if="loadingVariantId === {{ $variant['id'] }}">
+                                                                    <span>{{ __('Adding...') }}</span>
+                                                                </template>
+                                                                <template x-if="loadingVariantId !== {{ $variant['id'] }}">
+                                                                    <span>{{ __('Add to Cart') }}</span>
+                                                                </template>
+                                                            </button>
+                                                           
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
                 @endunless
 
 

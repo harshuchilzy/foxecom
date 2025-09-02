@@ -15,7 +15,7 @@ use Lunar\DiscountTypes\BuyXGetY;
 use Illuminate\Support\Facades\DB;
 
 class Home extends Component
-{
+{ 
     
     /**
      * Return the sale collection.
@@ -70,6 +70,17 @@ class Home extends Component
                         : null;
 
         return $brandSlug;
+    }
+
+    public function getProductUrl( $discount )
+    {
+        $productUrl = $discount->discountables?->where('type', 'condition')->first()?->discountable->defaultUrl->slug;
+    
+        if(empty($this->productUrl)){
+            $productUrl = $discount->discountables?->where('type', 'reward')->first()?->discountable->defaultUrl->slug;
+        }
+ 
+        return $productUrl;
     }
 
     public function render(): View

@@ -12,12 +12,14 @@ use Lunar\Models\Currency;
 use Lunar\Models\Discount;
 use App\Models\ReviewImage;
 use App\Traits\FetchesUrls;
+use Lunar\Base\Purchasable;
 use App\Models\ProductReview;
 use Livewire\WithFileUploads;
 use Lunar\Facades\CartSession;
 use Lunar\Models\ProductVariant;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductPage extends Component
@@ -106,6 +108,18 @@ class ProductPage extends Component
      * Sum of the selected toggles
      */
     public $sumOfSelectedToggles;
+
+    /**
+     * Show Flavors Add to Cart Popup
+     */
+    public bool $showFlavorsAddToCartPopup = false;
+
+    /**
+     * Selected Flavors Quantities
+     */
+    public array $flavorQty = [];
+
+    public ?int $loadingVariantId = null;
 
     public function mount($slug): void
     {
@@ -606,6 +620,51 @@ class ProductPage extends Component
     {
         $discount = Discount::find($this->discountId);
         return $discount;
+    }
+
+    public function flavorAddToCart($variantId, $quantity): void
+    {
+        // Find the purchasable item
+        $purchasable = ProductVariant::find($variantId);;
+
+        if (!$purchasable) {
+            $this->addError('flavor-error', 'Product not found.');
+            return;
+        }
+
+        // Validate quantity
+        $validator = Validator::make(
+            ['quantity' => $quantity],
+            ['quantity' => 'required|numeric|min:0|max:10000']
+        );
+
+        if ($validator->fails()) {
+            $this->addError('flavor-error', 'Invalid quantity.');
+            return;
+        }
+
+        if ($purchasable->stock < $quantity) {
+            $this->addError('flavor-error', 'The quantity exceeds the available stock.');
+            return;
+        }
+
+        $existing = CartSession::lines()
+            ->get()
+            ->first(fn ($l) => $l->purchasable_id === $purchasable->id && empty($l->meta['free']));
+
+        if ($existing) {
+            CartSession::updateLines(collect([[
+                'id' => $existing->id,
+                'quantity' => $existing->quantity + $quantity
+            ]]));
+        } else {
+            CartSession::manager()->add($purchasable, $quantity);
+        }
+
+        $this->dispatch('add-to-cart');
+
+            $this->loadingVariantId = null;
+       
     }
 
     public function render(): View
