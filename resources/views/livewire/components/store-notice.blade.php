@@ -1,8 +1,8 @@
 <div class="store-notice">
     @if ($storeNoticeStatus)
-        <div x-data="{ open: true }" class="">
+        <div x-data="{ storeNotice: true }" class="">
             <div 
-                x-show="open"
+                x-show="storeNotice"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 -translate-y-5"
                 x-transition:enter-end="opacity-100 translate-y-0"
@@ -31,7 +31,7 @@
                     </div>
 
                     <!-- Close Button -->
-                    <button @click="open = false" class="ml-4 text-white hover:text-[#11316d] transition cursor-pointer">
+                    <button @click="storeNotice = false" class="ml-4 text-white hover:text-[#11316d] transition cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -42,7 +42,7 @@
 
             <!-- Spacer -->
             <div 
-                x-show="open"
+                x-show="storeNotice"
                 x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 -translate-y-5"
                 x-transition:enter-end="opacity-100 translate-y-0"

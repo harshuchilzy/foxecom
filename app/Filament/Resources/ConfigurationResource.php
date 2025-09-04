@@ -69,8 +69,7 @@ class ConfigurationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('key'),
-                Tables\Columns\TextColumn::make('value')->limit(50),
-                Tables\Columns\BooleanColumn::make('enabled')->label('Enabled'),
+                Tables\Columns\TextColumn::make('value')->limit(50)
             ])
             ->filters([
                 //
