@@ -1,4 +1,5 @@
 <header class="w-full bg-themeblack text-white relative" x-data="{ show: false }">
+    @livewire('components.store-notice')
     <!-- Header - Desktop -->
     <div class="lg:flex items-center container mx-auto gap-8 hidden p-4">
         <!-- Site Logo -->
