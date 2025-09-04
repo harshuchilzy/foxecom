@@ -326,7 +326,7 @@ class CheckoutPage extends Component
         $order = $this->cart->orders->last();
 
         if ($payment->success) {
-            if($customer){
+            if($customer->email){
                 Mail::to($customer->email)->send(new CustomerNewOrderMail($order));
             }
             $admins = Staff::get();
