@@ -10,10 +10,12 @@ class ListConfigurations extends ListRecords
 {
     protected static string $resource = ConfigurationResource::class;
 
-    protected function getHeaderActions(): array
+    protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\Action::make('configure')
+                ->label('Edit Configurations')
+                ->url(static::$resource::getUrl('edit', ['record' => 1])), // Using a dummy ID
         ];
     }
 }

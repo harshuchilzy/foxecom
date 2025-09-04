@@ -10,22 +10,26 @@ class Configuration extends Model
     use HasFactory;
 
     protected $fillable = [
-        'admin_new_order_email',
-        'admin_new_order_email_enabled',
-        'wholesale_new_customer_email',
-        'wholesale_new_customer_email_enabled',
-        'meta',
+        'key',
+        'value',
+        'type'
     ];
 
     protected $casts = [
-        'admin_new_order_email_enabled' => 'boolean',
-        'wholesale_new_customer_email_enabled' => 'boolean',
-        'meta' => 'array',
+        'value' => 'string',
     ];
 
-    // Singleton pattern to get the configuration
-    public static function getConfiguration()
+    public static function getValue($key, $default = null)
     {
-        return static::firstOrCreate([]);
+        $config = self::where('key', $key)->first();
+        return $config ? $config->value : $default;
+    }
+
+    public static function setValue($key, $value, $type = 'string')
+    {
+        return self::updateOrCreate(
+            ['key' => $key],
+            ['value' => $value, 'type' => $type]
+        );
     }
 }

@@ -9,15 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-     public function up()
+    public function up()
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->id();
-            $table->string('admin_new_order_email')->nullable();
-            $table->boolean('admin_new_order_email_enabled')->default(false);
-            $table->string('wholesale_new_customer_email')->nullable();
-            $table->boolean('wholesale_new_customer_email_enabled')->default(false);
-            $table->json('meta')->nullable();
+            $table->string('key')->unique();
+            $table->text('value')->nullable();
+            $table->string('type')->default('string');
             $table->timestamps();
         });
     }

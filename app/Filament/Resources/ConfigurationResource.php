@@ -19,49 +19,48 @@ class ConfigurationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
-    protected static ?string $navigationLabel = 'Configuration';
+    protected static ?string $navigationLabel = 'Configurations';
 
     protected static ?string $navigationGroup = 'Settings';
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->take(1);
-    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Email Notifications')
+                Forms\Components\Section::make('Admin Order Email')
                     ->schema([
                         Forms\Components\TextInput::make('admin_new_order_email')
-                            ->label('Admin New Order Email')
+                            ->label('Email Address')
                             ->email()
-                            ->placeholder('admin@example.com'),
-                            
+                            ->required()
+                            ->default(fn() => Configuration::getValue('admin_new_order_email', '')),
                         Forms\Components\Toggle::make('admin_new_order_email_enabled')
-                            ->label('Enable Admin New Order Email')
-                            ->default(false),
-                            
-                        Forms\Components\TextInput::make('wholesale_new_customer_email')
-                            ->label('Wholesale New Customer Notification Email')
-                            ->email()
-                            ->placeholder('wholesale@example.com'),
-                            
-                        Forms\Components\Toggle::make('wholesale_new_customer_email_enabled')
-                            ->label('Enable Wholesale New Customer Notification')
-                            ->default(false),
-                    ])
-                    ->columns(1),
-                    
-                Forms\Components\Section::make('Additional Settings')
-                    ->schema([
-                        Forms\Components\KeyValue::make('meta')
-                            ->label('Meta Data')
-                            ->keyLabel('Key')
-                            ->valueLabel('Value')
-                            ->reorderable(),
+                            ->label('Enable Notification')
+                            ->default(fn() => Configuration::getValue('admin_new_order_email_enabled', false))
                     ]),
+                    
+                Forms\Components\Section::make('Wholesale Customer Notification')
+                    ->schema([
+                        Forms\Components\TextInput::make('wholesale_new_customer_email')
+                            ->label('Email Address')
+                            ->email()
+                            ->required()
+                            ->default(fn() => Configuration::getValue('wholesale_new_customer_email', '')),
+                        Forms\Components\Toggle::make('wholesale_new_customer_email_enabled')
+                            ->label('Enable Notification')
+                            ->default(fn() => Configuration::getValue('wholesale_new_customer_email_enabled', false))
+                    ]),
+                    
+                Forms\Components\Section::make('Store Notice')
+                    ->schema([
+                        Forms\Components\Textarea::make('store_notice')
+                            ->label('Notice Text')
+                            ->rows(3)
+                            ->default(fn() => Configuration::getValue('store_notice', '')),
+                        Forms\Components\Toggle::make('store_notice_enabled')
+                            ->label('Enable Store Notice')
+                            ->default(fn() => Configuration::getValue('store_notice_enabled', false))
+                    ])
             ]);
     }
 
@@ -69,47 +68,26 @@ class ConfigurationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('admin_new_order_email')
-                    ->label('Admin Email'),
-                    
-                Tables\Columns\IconColumn::make('admin_new_order_email_enabled')
-                    ->label('Admin Enabled')
-                    ->boolean(),
-                    
-                Tables\Columns\TextColumn::make('wholesale_new_customer_email')
-                    ->label('Wholesale Email'),
-                    
-                Tables\Columns\IconColumn::make('wholesale_new_customer_email_enabled')
-                    ->label('Wholesale Enabled')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('key'),
+                Tables\Columns\TextColumn::make('value')->limit(50),
+                Tables\Columns\BooleanColumn::make('enabled')->label('Enabled'),
             ])
-            ->filters([])
+            ->filters([
+                //
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([]);
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]);
     }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
-    // public static function getPages(): array
-    // {
-    //     return [
-    //         'index' => Pages\ListConfigurations::route('/'),
-    //         'create' => Pages\CreateConfiguration::route('/create'),
-    //         'edit' => Pages\EditConfiguration::route('/{record}/edit'),
-    //     ];
-    // }
-
+    
     public static function getPages(): array
     {
         return [
             'index' => \App\Filament\Resources\ConfigurationResource\Pages\ListConfigurations::route('/'),
+            'create' => \App\Filament\Resources\ConfigurationResource\Pages\CreateConfiguration::route('/create'),
             'edit' => \App\Filament\Resources\ConfigurationResource\Pages\EditConfiguration::route('/{record}/edit'),
         ];
     }
