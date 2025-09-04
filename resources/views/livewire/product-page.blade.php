@@ -237,7 +237,7 @@
                          data-inactive-classes="text-gray-500 w-full" class="w-full px-5 py-3 my-3 rounded-[8px] [box-shadow:0px_4px_14px_0px_#0000001A]">
                         <h2 id="short-description-accordion-flush-heading-1 w-full">
                             <button type="button" class="flex lg:mb-3 items-center justify-between !w-full py-1 lg:py-5 font-medium rtl:text-right text-gray-500 lg:border-b border-gray-200 gap-3" data-accordion-target="#short-description-accordion" aria-expanded="true" aria-controls="short-description-accordion">
-                            <span>{{ __('Descripion') }}</span>
+                            <span>{{ __('Description') }}</span>
                             <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                             </svg>

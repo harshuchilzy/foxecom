@@ -19,10 +19,10 @@
             <div class="px-6 py-5 border-b border-gray-100">
                 <div class="flex justify-between items-start gap-6">
                     <div class="flex-1">
-                        <h3 class="text-sm font-medium text-gray-500 font-inter">Name</h3>
+                        <h3 x-show="!edit.name" class="text-sm font-medium text-gray-500 font-inter">Name</h3>
 
                         <!-- Read -->
-                        <p class="mt-1 text-lg font-medium text-gray-900 font-inter">
+                        <p x-show="!edit.name" class="mt-1 text-lg font-medium text-gray-900 font-inter">
                             {{ $firstName }} {{ $lastName }}
                         </p>
 
@@ -64,7 +64,7 @@
             <div class="px-6 py-5 border-b border-gray-100">
                 <div class="flex justify-between items-start gap-6">
                     <div class="flex-1">
-                        <h3 class="text-sm font-medium text-gray-500 font-inter">Email</h3>
+                        <h3 x-show="!edit.email" class="text-sm font-medium text-gray-500 font-inter">Email</h3>
 
                         <!-- Read -->
                         <p x-show="!edit.email" class="mt-1 text-lg font-medium text-gray-900 font-inter">
@@ -101,13 +101,13 @@
             <div class="px-6 py-5 border-b border-gray-100">
                 <div class="flex justify-between items-start gap-6">
                     <div class="flex-1">
-                        <h3 class="text-sm font-medium text-gray-500 font-inter">Phone number</h3>
+                        <h3 x-show="!edit.phoneNumber" class="text-sm font-medium text-gray-500 font-inter">Phone number</h3>
 
                         <!-- Read -->
-                        <p class="mt-1 text-lg font-medium text-gray-900 font-inter">
+                        <p x-show="!edit.phoneNumber" class="mt-1 text-lg font-medium text-gray-900 font-inter">
                             {{ $phone }}
                         </p>
-                        <p class="mt-2 text-sm text-gray-600">
+                        <p x-show="!edit.phoneNumber" class="mt-2 text-sm text-gray-600">
                             Receive notifications with this mobile number.
                         </p>
 
@@ -141,10 +141,10 @@
             <div class="px-6 py-5 border-b border-gray-100">
                 <div class="flex justify-between items-start gap-6">
                     <div class="flex-1">
-                        <h3 class="text-sm font-medium text-gray-500 font-inter">Company Name</h3>
+                        <h3 x-show="!edit.company" class="text-sm font-medium text-gray-500 font-inter">Company Name</h3>
 
                         <!-- Read -->
-                        <p class="mt-1 text-lg font-medium text-gray-900 font-inter">
+                        <p x-show="!edit.company" class="mt-1 text-lg font-medium text-gray-900 font-inter">
                             {{ $company }}
                         </p>
 
@@ -177,7 +177,7 @@
             <div class="px-6 py-5">
                 <div class="flex justify-between items-start gap-6">
                     <div class="flex-1">
-                        <h3 class="text-sm font-medium text-gray-500 font-inter">Password</h3>
+                        <h3 x-show="!edit.password" class="text-sm font-medium text-gray-500 font-inter">Password</h3>
 
                         <!-- Read -->
                         <p x-show="!edit.password" class="mt-1 text-lg font-medium text-gray-900 font-inter">********
