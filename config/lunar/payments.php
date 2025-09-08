@@ -9,6 +9,10 @@ return [
             'driver' => 'offline',
             'authorized' => 'payment-offline',
         ],
+        'pay-via-bank' => [
+            'driver' => 'offline',
+            'authorized' => 'payment-offline',
+        ],
         'card' => [
             'driver' => 'stripe',
             'released' => 'payment-received',

@@ -30,32 +30,40 @@ return [
 
     'statuses' => [
 
-        'awaiting-payment' => [
-            'label' => 'Awaiting Payment',
-            'color' => '#848a8c',
-            'mailers' => [],
-            'notifications' => [],
-            'favourite' => true,
-        ],
-
         'payment-offline' => [
-            'label' => 'Payment Offline',
+            'label' => 'To Be Collected',
             'color' => '#0A81D7',
             'mailers' => [],
             'notifications' => [],
             'favourite' => true,
         ],
 
-        'order-delivered' => [
-            'label' => 'Order Delivered',
-            'color' => '#05a300',
+        'awaiting-payment' => [
+            'label' => 'Awaiting Card Payment',
+            'color' => '#848a8c',
+            'mailers' => [],
+            'notifications' => [],
+            'favourite' => true,
+        ],
+
+        'paid-by-cash' => [
+            'label' => 'Paid By Cash',
+            'color' => '#0A81D7',
+            'mailers' => [],
+            'notifications' => [],
+            'favourite' => true,
+        ],
+
+        'paid-by-bank' => [
+            'label' => 'Paid By Bank',
+            'color' => '#0A81D7',
             'mailers' => [],
             'notifications' => [],
             'favourite' => true,
         ],
 
         'payment-received' => [
-            'label' => 'Payment Received',
+            'label' => 'Paid By Card',
             'color' => '#6a67ce',
             'mailers' => [
                 CustomerNewOrderMail::class
@@ -67,6 +75,14 @@ return [
 
         'dispatched' => [
             'label' => 'Dispatched',
+            'mailers' => [],
+            'notifications' => [],
+            'favourite' => true,
+        ],
+
+        'order-delivered' => [
+            'label' => 'Order Delivered',
+            'color' => '#05a300',
             'mailers' => [],
             'notifications' => [],
             'favourite' => true,
