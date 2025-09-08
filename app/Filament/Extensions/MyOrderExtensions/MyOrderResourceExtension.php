@@ -28,6 +28,19 @@ class MyOrderResourceExtension extends ResourceExtension
     public function extendTable(Table $table): Table
     {
         return $table
+            ->columns([
+                ...$table->getColumns(),
+                TextColumn::make('meta.Payment Method')
+                    ->label('Payment Method')
+                    ->formatStateUsing(function ($state) {
+                        return match($state) {
+                            'cash-in-hand' => 'Pay with Cash',
+                            'pay-via-bank' => 'Pay via Bank',
+                            'ngenius' => 'Pay via Card',
+                            default => $state,
+                        };
+                    }),
+            ])
             ->actions([
                 ...$table->getActions(), // Keep existing actions
                 DeleteAction::make()

@@ -452,9 +452,16 @@ class CheckoutPage extends Component
         // Log::info($this->authentication);
         //Log::info('member: ' . print_r($this->staffMemberFound, true));
 
+        $paymentMethods = [
+            'cash-in-hand'   => 'Pay with cash',
+            'pay-via-bank'   => 'Pay via bank transfer',
+            'ngenius'        => 'Pay via Card',
+        ];
+
         if ($this->authentication && $this->staffMemberFound) {
             $this->cart->update([
                 'meta' => array_merge((array) $this->cart->meta ?? [], [
+                    'Payment Method' => $paymentMethods[$this->paymentType] ?? 'Unknown',
                     'Authentication Key' => $this->staffMemberFound->authentication_key,
                     'Staff Member' => $this->staffMemberFound->first_name . ' ' . $this->staffMemberFound->last_name,
                     'Authenticated At' => now()->toISOString(),
