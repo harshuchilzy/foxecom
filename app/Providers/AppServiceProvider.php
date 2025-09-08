@@ -29,8 +29,10 @@ use App\Filament\Extensions\MyStaffExtensions\MyStaffResourceExtension;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
 use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
+use App\Filament\Extensions\MyOrderExtensions\MyOrderResourceExtension;
 use App\Filament\Resources\ConfigurationResource;
 use Lunar\Admin\Filament\Resources\CustomerResource;
+use Lunar\Admin\Filament\Resources\OrderResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -70,7 +72,8 @@ class AppServiceProvider extends ServiceProvider
             ListDiscounts::class => MyListDiscountPageExtension::class,
             DiscountResource::class => MyDiscountResourceExtension::class,
             StaffResource::class => MyStaffResourceExtension::class,
-            CustomerResource::class => MyCustomerResourceExtension::class
+            CustomerResource::class => MyCustomerResourceExtension::class,
+            OrderResource::class => MyOrderResourceExtension::class,
         ]);
 
         Payments::extend('ngenius', function ($app) {
