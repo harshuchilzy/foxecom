@@ -1,6 +1,23 @@
 <div class="store-notice">
     @if ($storeNoticeStatus)
-        <div x-data="{ storeNotice: true }" class="">
+        <div 
+            x-data="{ 
+                storeNotice: true,
+                init() {
+                    if (document.cookie.includes('storeNoticeClosed=true')) {
+                        this.storeNotice = false;
+                    }
+                },
+                closeNotice() {
+                    this.storeNotice = false;
+                    const d = new Date();
+                    d.setTime(d.getTime() + (5 * 60 * 1000)); 
+                    document.cookie = 'storeNoticeClosed=true; expires=' + d.toUTCString() + '; path=/';
+                }
+             }" 
+            x-cloak
+            class=""
+        >
             <div 
                 x-show="storeNotice"
                 x-transition:enter="transition ease-out duration-300"
@@ -31,7 +48,7 @@
                     </div>
 
                     <!-- Close Button -->
-                    <button @click="storeNotice = false" class="ml-4 text-white hover:text-[#11316d] transition cursor-pointer">
+                    <button @click="closeNotice()" class="ml-4 text-white hover:text-[#11316d] transition cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
