@@ -364,9 +364,15 @@
 
                         <div class="flex gap-5 items-center justify-start py-3 border-b last:border-none">
                             <div>
-                                <img class="w-[60px] h-[60px] object-contain"
-                                     src="{{ $product->thumbnail?->getUrl() }}"
-                                     alt="{{ $product->translateAttribute('name') }}">
+                                @if ($line->purchasable->images->first()->getUrl())
+                                    <img class="w-[60px] h-[60px] object-contain"
+                                        src="{{ $line->purchasable->images->first()->getUrl() }}"
+                                        alt="{{ $product->translateAttribute('name') }}">
+                                @else
+                                    <img class="w-[60px] h-[60px] object-contain"
+                                        src="{{ $product->thumbnail?->getUrl() }}"
+                                        alt="{{ $product->translateAttribute('name') }}">
+                                @endif
                             </div>
                             <div class="flex-1">
                                 <a href="{{ route('product.view', $product->defaultUrl->slug) }}" wire:navigate>
