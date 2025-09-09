@@ -364,7 +364,7 @@
 
                         <div class="flex gap-5 items-center justify-start py-3 border-b last:border-none">
                             <div>
-                                @if ($line->purchasable->images->first()->getUrl())
+                                @if ($line->purchasable->images->first()?->getUrl())
                                     <img class="w-[60px] h-[60px] object-contain"
                                         src="{{ $line->purchasable->images->first()->getUrl() }}"
                                         alt="{{ $product->translateAttribute('name') }}">
