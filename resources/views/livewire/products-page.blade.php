@@ -1,7 +1,18 @@
 <div>
     <!-- Hero banner section -->
-    <div class="w-full">
-        <img class="w-full h-[35vh] lg:h-auto object-cover object-top-right" src="{{asset('/images/wholesale-hero.jpg')}}"/>
+    <div class="w-full md:block hidden">
+        @if (!empty($desktopBanner))
+            <img class="w-full h-[35vh] lg:h-auto object-cover object-top-right" src="{{asset('storage/' . $desktopBanner)}}"/>
+        @else
+            <img class="w-full lg:h-auto object-cover object-top-right" src="{{asset('/images/wholesale-hero.jpg')}}"/>
+        @endif
+    </div>
+    <div class="w-full md:hidden block">
+        @if (!empty($mobileBanner))
+            <img class="w-full h-auto object-cover object-top-right" src="{{asset('storage/' . $mobileBanner)}}"/>
+        @else
+            <img class="w-full lg:h-auto object-cover object-top-right" src="{{asset('/images/wholesale-hero.jpg')}}"/>
+        @endif
     </div>
 
     <!-- Collection of products and filter section -->

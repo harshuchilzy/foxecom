@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -27,6 +28,25 @@ class ConfigurationResource extends Resource
     {
         return $form
             ->schema([
+                 Forms\Components\Section::make('Wholesale Page Banner')
+                    ->schema([
+                        Forms\Components\FileUpload::make('desktop_wholesale_banner')
+                            ->label('Desktop Banner')
+                            ->required()
+                            ->image()
+                            ->directory('images')
+                            ->preserveFilenames()
+                            ->maxSize(2048)
+                            ->default(fn() => Configuration::getValue('desktop_wholesale_banner', '')),
+                        Forms\Components\FileUpload::make('mobile_wholesale_banner')
+                            ->label('Mobile Banner')
+                            ->image()
+                            ->directory('images')
+                            ->preserveFilenames()
+                            ->maxSize(2048)
+                            ->default(fn() => Configuration::getValue('mobile_wholesale_banner', '')),
+                    ])->columns(2),
+
                 Forms\Components\Section::make('Admin Order Email')
                     ->schema([
                         Forms\Components\TextInput::make('admin_new_order_email')

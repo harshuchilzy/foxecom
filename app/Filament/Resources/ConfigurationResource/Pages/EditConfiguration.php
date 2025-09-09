@@ -28,6 +28,10 @@ class EditConfiguration extends EditRecord
     protected function afterSave(): void
     {
         $data = $this->form->getState();
+
+        // Save admin new order email settings
+        Configuration::setValue('mobile_wholesale_banner', $data['mobile_wholesale_banner']);
+        Configuration::setValue('desktop_wholesale_banner', $data['desktop_wholesale_banner']);
         
         // Save admin new order email settings
         Configuration::setValue('admin_new_order_email', $data['admin_new_order_email']);
@@ -55,6 +59,8 @@ class EditConfiguration extends EditRecord
     {
         // Pre-fill the form with existing values
         $this->form->fill([
+            'mobile_wholesale_banner' => Configuration::getValue('mobile_wholesale_banner', ''),
+            'desktop_wholesale_banner' => Configuration::getValue('desktop_wholesale_banner', ''),
             'admin_new_order_email' => Configuration::getValue('admin_new_order_email', ''),
             'admin_new_order_email_enabled' => Configuration::getValue('admin_new_order_email_enabled', false),
             'wholesale_new_customer_email' => Configuration::getValue('wholesale_new_customer_email', ''),

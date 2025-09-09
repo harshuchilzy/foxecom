@@ -7,6 +7,7 @@ use Lunar\Models\Brand;
 use Lunar\Models\Product;
 use App\Traits\FetchesUrls;
 use Lunar\Models\Collection;
+use App\Models\Configuration;
 use Illuminate\Support\Facades\Log;
 use Lunar\Models\Collection as CollectionModel;
 
@@ -52,6 +53,9 @@ class ProductsPage extends Component
      */
     public $collections;
 
+    public string $mobileBanner;
+    public string $desktopBanner;
+
     public function mount(): void
     {
         $this->collections = CollectionModel::with([
@@ -61,6 +65,9 @@ class ProductsPage extends Component
         ])->get();
 
         $this->brands = Brand::all();
+
+        $this->mobileBanner =  Configuration::getValue('mobile_wholesale_banner', '');
+        $this->desktopBanner =  Configuration::getValue('desktop_wholesale_banner', '');
     }
 
     /**
