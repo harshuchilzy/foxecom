@@ -17,22 +17,24 @@ use Lunar\Actions\Carts\CalculateLine;
 use Illuminate\Support\ServiceProvider;
 use App\Filament\Resources\PageResource;
 use App\Actions\Carts\CustomCalculateLine;
-use App\Filament\Extensions\MyCustomerExtensions\MyCustomerResourceExtension;
 use Lunar\Admin\Support\Facades\LunarPanel;
 use App\Filament\Resources\RedemptionResource;
 use Lunar\Validation\CartLine\CartLineQuantity;
+use App\Filament\Resources\ConfigurationResource;
 use App\Filament\Resources\ProductReviewResource;
+use Lunar\Admin\Filament\Resources\OrderResource;
 use Lunar\Admin\Filament\Resources\StaffResource;
 use App\Validation\CartLine\CustomCartLineQuantity;
+use Lunar\Admin\Filament\Resources\CustomerResource;
 use Lunar\Admin\Filament\Resources\DiscountResource;
+use Lunar\Admin\Filament\Widgets\Dashboard\Orders\OrderStatsOverview;
+use App\Filament\Extensions\MyOrderExtensions\MyOrderResourceExtension;
 use App\Filament\Extensions\MyStaffExtensions\MyStaffResourceExtension;
 use Lunar\Admin\Filament\Resources\DiscountResource\Pages\ListDiscounts;
+use App\Filament\Extensions\MyCustomerExtensions\MyCustomerResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
-use App\Filament\Extensions\MyOrderExtensions\MyOrderResourceExtension;
-use App\Filament\Resources\ConfigurationResource;
-use Lunar\Admin\Filament\Resources\CustomerResource;
-use Lunar\Admin\Filament\Resources\OrderResource;
+use App\Filament\Widgets\OrderStatsOverviewExtension;
 
 class AppServiceProvider extends ServiceProvider
 {
