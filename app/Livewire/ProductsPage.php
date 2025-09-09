@@ -108,42 +108,38 @@ class ProductsPage extends Component
             });
         }
 
+        // if ($this->selectedPriceRange) {
+        //     [$min, $max] = explode('-', $this->selectedPriceRange);
+        //     $min = (int) $min;
+        //     $max = $max === '' ? null : (int) $max;
+        //     $products = $products->filter(function ($product) use ($min, $max) {
+        //         $price = $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+        //         return $price >= $min && ($max === null || $price <= $max);
+        //     });
+        // }
+       
         if ($this->selectedPriceRange) {
             [$min, $max] = explode('-', $this->selectedPriceRange);
-            $min = (int) $min;
-            $max = $max === '' ? null : (int) $max;
+            
+            $min = (int)($min * 100); // convert to cents
+            $max = $max === '' ? null : (int)($max * 100); // convert to cents
+            Log::info('Min: ' . $min . 'Max: ' . $max);
             $products = $products->filter(function ($product) use ($min, $max) {
-                $price = $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+                $price = (int)($product->variants->first()?->basePrices->first()?->price->value ?? 0);
                 return $price >= $min && ($max === null || $price <= $max);
             });
         }
-       
-//         if ($this->selectedPriceRange) {
-//     [$min, $max] = explode('-', $this->selectedPriceRange);
-    
-//     $min = (int)($min * 100); // convert to cents
-//     $max = $max === '' ? null : (int)($max * 100); // convert to cents
-//     Log::info('Min: ' . $min . 'Max: ' . $max);
-//     $products = $products->filter(function ($product) use ($min, $max) {
-//         $price = (int)($product->variants->first()?->basePrices->first()?->price->value ?? 0);
-//         Log::info('Price: ' . $price);
-//         if($price >= $min && ($max === null || $price <= $max)) {
-//             Log::info('price in: ' . $price);
-//         }else{
-//             Log::info('price out: ' . $price);
-//         }
-//         return $price >= $min && ($max === null || $price <= $max);
-//     });
-// }
 
 
-        if ($this->sortOption === 'price-asc') {
+        if ($this->sortOption === 'price_asc') {
             $products = $products->sortBy(function ($product) {
-                return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
+                return $product->variants->first()?->basePrices->first()?->price->value ?? PHP_INT_MAX;
             });
-        } elseif ($this->sortOption === 'price-desc') {
+        } 
+        
+        if ($this->sortOption === 'price_desc') {
             $products = $products->sortByDesc(function ($product) {
-                return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
+                return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
             });
         }
 
@@ -202,8 +198,6 @@ class ProductsPage extends Component
 
         $minPrice = $prices->min();
         $maxPrice = $prices->max();
-
-        Log::info('max price: ' . $maxPrice . '| min price ' . $minPrice);
 
         $ranges = [];
         $step = 10; // choose a reasonable step now that prices are decimals
