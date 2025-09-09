@@ -14,7 +14,7 @@
         </div>
 
         <!-- Collection of products subsection -->
-        <div class="swiper mySecondSwiper px-5 max-w-[1280px] relative mx-auto">
+        <div class="swiper mySecondSwiper px-5 max-w-[1280px] relative mx-auto" wire:ignore>
             <div class="swiper-wrapper py-8 px-5 !h-[200px] lg:!h-full gap-[75px] xl:gap-0">
                 @foreach ($this->collections as $collection)
                     <x-product-cards.category-card :collection="$collection" />
@@ -53,6 +53,7 @@
                 </div>
                 <div>
                     <form class="max-w-sm mx-auto relative">
+                        {{-- {{dd($this->priceRanges)}} --}}
                         <label for="price_select" class="sr-only">{{ __('Price select') }}</label>
                         <select wire:model.live="selectedPriceRange" class="block py-1.5 lg:py-2 w-full text-sm text-[#000000] font-semibold text-[15px] lg:text-[18px] px-6 lg:px-12 border border-[#008ECC] rounded-[30px] bg-white appearance-none focus:outline-none focus:ring-0 peer">
                             <option value="">{{ __('Select Price Range') }}</option>
@@ -87,11 +88,17 @@
 
     <!-- Product boxes section -->
     <div class="max-w-[1280px] mx-auto px-2 py-8">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
-            @foreach ($this->products as $product)
-                <x-product-cards.general-card :product="$product" />
-            @endforeach
-        </div>
+        @if (count($this->products) > 0)
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-5">
+                @foreach ($this->products as $product)
+                    <x-product-cards.general-card :product="$product" />
+                @endforeach
+            </div>
+        @else
+            <div class="font-inter bg-gray-100 text-gray-600 border border-gray-200 rounded-lg py-4 px-6 text-center">
+                {{ __('No products found.') }}
+            </div>
+        @endif
     </div>
 
 </div>
