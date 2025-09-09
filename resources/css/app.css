@@ -118,9 +118,11 @@ input::-webkit-inner-spin-button {
     }
 }
 
-.mySecondSwiper .swiper-wrapper .swiper-slide a {
-    width: 305px !important;
-    display: block;
+@media screen and (min-width: 1279px) {
+    .mySecondSwiper .swiper-wrapper .swiper-slide a {
+        width: 305px !important;
+        display: block;
+    }
 }
 
 .swiper-backface-hidden .swiper-slide {

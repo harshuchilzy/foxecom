@@ -26,9 +26,11 @@
 
         <!-- Collection of products subsection -->
         <div class="swiper mySecondSwiper px-5 max-w-[1280px] relative mx-auto" wire:ignore>
-            <div class="swiper-wrapper py-8 px-5 !h-[200px] lg:!h-full gap-[75px] xl:gap-0">
+            <div class="swiper-wrapper py-8 px-5 !h-[200px] lg:!h-full md:gap-0 xl:gap-0">
                 @foreach ($this->collections as $collection)
-                    <x-product-cards.category-card :collection="$collection" />
+                    <div class="swiper-slide">
+                        <x-product-cards.category-card :collection="$collection" />
+                    </div>
                 @endforeach
             </div>
 

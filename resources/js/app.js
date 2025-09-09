@@ -42,16 +42,16 @@ document.addEventListener('DOMContentLoaded', function () {
             clickable: true,
         },
         breakpoints: {
-            340: {
-                slidesPerView: 2.2,
-            },
-            768: {
-                slidesPerView: 4,
-            },
-            1024: {
-                slidesPerView: 4,
-            },
-        }
+        340: {
+            slidesPerView: 2,
+        },
+        768: {
+            slidesPerView: 3,
+        },
+        1024: {
+            slidesPerView: 4,
+        },
+    }
     });
 });
 
