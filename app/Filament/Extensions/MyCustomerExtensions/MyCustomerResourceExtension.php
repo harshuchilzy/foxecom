@@ -33,6 +33,7 @@ class MyCustomerResourceExtension extends ResourceExtension
                 ...$form->getComponents(withHidden: true),
                 
                 Section::make()
+                    ->columnSpan(4)
                     ->hidden(function (?Customer $record) {
                         if (!$record) return false;
                         
@@ -52,6 +53,19 @@ class MyCustomerResourceExtension extends ResourceExtension
                     
             ]);
                
+    }
+
+
+    public function extendTable(Table $table): Table
+    {
+        return $table
+            ->columns([
+                ...$table->getColumns(),
+                TextColumn::make('addresses.postcode')
+                    ->label(__('Postcodes'))
+                    ->sortable()
+                    ->searchable(),
+            ]);
     }
 
     

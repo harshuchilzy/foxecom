@@ -30,6 +30,10 @@ class MyOrderResourceExtension extends ResourceExtension
         return $table
             ->columns([
                 ...$table->getColumns(),
+                TextColumn::make('billingAddress.postcode')
+                    ->label(__('lunarpanel::order.table.postcode.label'))
+                    ->toggleable()
+                    ->searchable(),
                 TextColumn::make('meta.Payment Method')
                     ->label('Payment Method')
                     ->formatStateUsing(function ($state) {
