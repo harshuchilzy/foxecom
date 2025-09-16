@@ -16,13 +16,25 @@ class ShippingModifier
          * your own shipping options that will appear at checkout
          */
 
+        // if(config('shipping-tables.enabled') == false){
+        //     \Lunar\Facades\ShippingManifest::addOption(
+        //         new \Lunar\DataTypes\ShippingOption(
+        //             name: 'Basic Delivery',
+        //             description: 'Basic Delivery',
+        //             identifier: 'BASDEL',
+        //             price: new \Lunar\DataTypes\Price(0, $cart->currency, 1),
+        //             taxClass: \Lunar\Models\TaxClass::getDefault()
+        //         )
+        //     );
+        // }
+
         if(config('shipping-tables.enabled') == false){
             \Lunar\Facades\ShippingManifest::addOption(
                 new \Lunar\DataTypes\ShippingOption(
-                    name: 'Basic Delivery',
-                    description: 'Basic Delivery',
-                    identifier: 'BASDEL',
-                    price: new \Lunar\DataTypes\Price(0, $cart->currency, 1),
+                    name: 'Delivery Costs',
+                    description: 'Delivery Costs',
+                    identifier: 'delivery-costs',
+                    price: new \Lunar\DataTypes\Price(1000, $cart->currency, 1),
                     taxClass: \Lunar\Models\TaxClass::getDefault()
                 )
             );

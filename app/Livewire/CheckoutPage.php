@@ -113,6 +113,8 @@ class CheckoutPage extends Component
      */
     public $payment_intent_client_secret = null;
 
+    public bool $waiveDeliveryFee = false;
+
     /**
      * Payment string
      */
@@ -216,12 +218,26 @@ class CheckoutPage extends Component
 
             // Do we have a selected option?
             if ($this->shippingOption && $shippingAddress->id) {
-                $this->chosenShipping = $this->shippingOption->getIdentifier();
+                //$this->chosenShipping = $this->shippingOption->getIdentifier();
+                if (($this->cart->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
+                    $this->chosenShipping = 'delivery-costs';
+                } else {
+                    $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                }
+
                 $this->currentStep = $this->steps['shipping_option'] + 1;
                 $this->deliveryOptionVerified = true;
+
             } else {
                 $this->currentStep = $this->steps['shipping_option'];
-                $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                //$this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+
+                if (($this->cart->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
+                    $this->chosenShipping = 'delivery-costs';
+                } else {
+                    $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                }
+
                 return;
             }
 
@@ -252,7 +268,7 @@ class CheckoutPage extends Component
         if (!$shippingAddress) {
             return;
         }
-
+      
         if ($option = $shippingAddress->shipping_option) {
             return ShippingManifest::getOptions($this->cart)->first(function ($opt) use ($option) {
                 return $opt->getIdentifier() == $option;
@@ -301,7 +317,8 @@ class CheckoutPage extends Component
     {
         $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $this->chosenShipping);
         CartSession::setShippingOption($option);
-        $this->refreshCart();
+        // $this->refreshCart();
+        $this->dispatch('cartUpdated');
     }
 
     public function checkout()
@@ -476,6 +493,25 @@ class CheckoutPage extends Component
         }
 
         //Log::info('cart: ' . print_r($this->cart, true));
+    }
+
+    public function changeDeliveryFee() {
+        
+        if (($this->cart->subTotal->value < 10000) && ($this->waiveDeliveryFee == false) ) {
+            $this->chosenShipping = 'delivery-costs';
+        } else {
+            $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+        }
+        
+        $this->saveShippingOption();
+    }
+
+    public function updatedPaymentType($value)
+    {
+        if ($value != 'cash-in-hand') {
+            $this->waiveDeliveryFee = false;
+            $this->changeDeliveryFee();
+        }   
     }
 
     public function render(): View
