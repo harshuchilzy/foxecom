@@ -163,11 +163,10 @@
 
                     @if ($this->shippingOption)
                         <div class="py-3 flex justify-between items-center">
-                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->getDescription() }}
+                            <h3 class="text-[16px] font-normal text-[#111111]">{{ $this->shippingOption->name }}
                             </h3>
                             <p class="text-[14px] font-normal text-[#111111]">{{
                             $this->shippingOption->getPrice()->formatted() }}</p>
-                            
                         </div>
                     @endif
 

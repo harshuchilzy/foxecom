@@ -218,8 +218,8 @@ class CheckoutPage extends Component
 
             // Do we have a selected option?
             if ($this->shippingOption && $shippingAddress->id) {
-                //$this->chosenShipping = $this->shippingOption->getIdentifier();
-                if (($this->cart->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
+
+                if (($this->cart?->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
                     $this->chosenShipping = 'delivery-costs';
                 } else {
                     $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
@@ -230,9 +230,8 @@ class CheckoutPage extends Component
 
             } else {
                 $this->currentStep = $this->steps['shipping_option'];
-                //$this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
 
-                if (($this->cart->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
+                if (($this->cart?->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
                     $this->chosenShipping = 'delivery-costs';
                 } else {
                     $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
@@ -497,7 +496,7 @@ class CheckoutPage extends Component
 
     public function changeDeliveryFee() {
         
-        if (($this->cart->subTotal->value < 10000) && ($this->waiveDeliveryFee == false) ) {
+        if (($this->cart?->subTotal->value < 10000) && ($this->waiveDeliveryFee == false) ) {
             $this->chosenShipping = 'delivery-costs';
         } else {
             $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
