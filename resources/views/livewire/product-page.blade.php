@@ -192,7 +192,11 @@
 
                 <!-- Product review subsection - Mobile -->
                 <div class="md:hidden flex items-center justify-between px-3 lg:px-4">
-                    <x-product-price class="font-medium flex justify-between items-center" :variant="$this->variant"/>
+                    @if (auth()->check())
+                        <x-product-price class="font-medium flex justify-between items-center" :variant="$this->variant"/>
+                    @else
+                        <p class="text-[16px] font-semibold text-[#1275EE]">{{ __('Register to see the price') }}</p>    
+                    @endif
                     <div class="flex items-center gap-2 flex-wrap justify-end">
                         <div class="flex items-center">
                             @for ($i = 1; $i <= 5; $i++)
