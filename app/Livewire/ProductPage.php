@@ -138,7 +138,7 @@ class ProductPage extends Component
         );
 
         if (! $this->url) {
-            abort(404);
+            abort(404, 'Product not found.');
         }
 
         $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
@@ -215,7 +215,7 @@ class ProductPage extends Component
     /**
      * Computed property to return product.
      */
-    public function getProductProperty(): Product
+    public function getProductProperty(): ?Product
     {
         return $this->url->element;
     }

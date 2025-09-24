@@ -32,9 +32,9 @@ use App\Http\Controllers\CheckoutController;
 require __DIR__ . '/auth.php';
 
 //Blog Page
-Route::get('blogs', function () {
-    return view('pages.blogs');
-})->name('blogs');
+// Route::get('blogs', function () {
+//     return view('pages.blogs');
+// })->name('blogs');
 
 //About Page
 Route::get('about', function () {
@@ -206,6 +206,7 @@ Route::middleware('auth')
         Route::post('initiate', 'initiate')->name('initiate');
         Route::post('complete', 'complete')->name('complete');
     });
+
 
 
 // Route::get('/test-mail', function(){

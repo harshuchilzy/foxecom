@@ -14,7 +14,7 @@
                     <li><a href="{{route('faq')}}">FAQ</a></li>
                     <li><a href="{{route('delivery-policy')}}">Shipping and Payment</a></li>
                     <li><a href="{{ route('partners') }}">Partners</a></li>
-                    <li><a href="{{ route('blogs') }}">Blog</a></li>
+                    {{-- <li><a href="{{ route('blogs') }}">Blog</a></li> --}}
                     <li><a href="{{route('contact')}}">Contacts</a></li>
                 </ul>
             </div>

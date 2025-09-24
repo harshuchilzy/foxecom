@@ -1,17 +1,17 @@
 <x-layouts.app.layout>
     <!-- Partners Page Content (place inside your site's main content area between header and footer) -->
-    <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="max-w-[1440px] mx-auto px-4 py-12">
         <!-- Page title & intro -->
         <div class="text-center max-w-3xl mx-auto">
             <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Our Partners</h1>
             <p class="mt-3 text-gray-600">We proudly collaborate with leading brands and distributors in the vapor
-                industry. Dummy partners shown below — replace with your own.</p>
+                industry.</p>
         </div>
 
         <!-- Logo cloud / partner grid -->
         <div class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
             <!-- Card 1 -->
-            <div
+            {{-- <div
                 class="flex flex-col items-center bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
                 <img src="{{ asset('images/logo.png') }}" alt="VapeCo logo" class="mb-4" />
                 <h3 class="text-base font-semibold">VapeCo</h3>
@@ -65,7 +65,7 @@
                 <img src="{{ asset('images/logo.png') }}" alt="Volt Labs logo" class="mb-4" />
                 <h3 class="text-base font-semibold">Volt Labs</h3>
                 <p class="text-sm text-gray-600 text-center mt-2">Batteries & accessories.</p>
-            </div>
+            </div> --}}
         </div>
 
         <!-- CTA -->
