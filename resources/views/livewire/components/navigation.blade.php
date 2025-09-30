@@ -109,12 +109,12 @@
                         <ul x-on:click.away="mobileMenu = false"
                             class="p-6 space-y-4 bg-white border border-gray-100 shadow-xl rounded-xl">
                             @foreach ($this->collections as $collection)
-                            <li>
-                                <a class="text-sm font-medium"
-                                    href="{{ route('collection.view', $collection->defaultUrl->slug) }}" wire:navigate>
-                                    {{ $collection->translateAttribute('name') }}
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="text-sm font-medium"
+                                        href="{{ route('collection.view', $collection->defaultUrl->slug) }}" wire:navigate>
+                                        {{ $collection->translateAttribute('name') }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
