@@ -177,7 +177,7 @@
                                         <td align="center" style="padding:0;">
                                             <div
                                                 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#575757;">
-                                                Foxergo Ltd., 24 Sanderling Way, Porthcawl, Wales, CF36 3TD<br>
+                                                Foxergo Ltd., Unit 6, Preston Trade Park, Ribbleton Lane, Preston, PR1 5EZ<br>
                                                 Phone: +44 7925 606692 — Email: <a href="mailto:accounts@foxergo.com"
                                                     style="color:#575757;">accounts@foxergo.com</a>
                                             </div>

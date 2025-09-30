@@ -54,8 +54,8 @@
             </a>
         </div>
         <div class="flex flex-col items-start">
-            <p class="font-semibold text-[14px] text-[#1B1819]">24 Sanderling Way, Porthcawl,</p>
-            <p class="font-semibold text-[14px] text-[#1B1819]">Wales, CF36 3TD</p>
+            <p class="font-semibold text-[14px] text-[#1B1819]">Unit 6, Preston Trade Park, Ribbleton Lane,</p>
+            <p class="font-semibold text-[14px] text-[#1B1819]">Preston, PR1 5EZ</p>
         </div>
         <div class="flex items-center gap-3 md:gap-6 flex-col md:flex-row">
             <div>
