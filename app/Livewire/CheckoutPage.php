@@ -140,6 +140,7 @@ class CheckoutPage extends Component
 
     public function mount(): void
     {
+
         if (!$this->cart = CartSession::current()) {
             $this->redirect('/');
 
@@ -347,6 +348,9 @@ class CheckoutPage extends Component
             }
             $admins = Staff::get();
             foreach ($admins as $admin) {
+                if (in_array($admin->email, ['info@dayzsolutions.com', 'pieter@dayzsolutions.com'])) {
+                    continue;
+                }
                 Mail::to($admin)->send(new AdminNewOrderMail($order));
             }
 

@@ -160,6 +160,9 @@ class NgeniusPayment extends AbstractPayment
 
         $admins = Staff::get();
         foreach ($admins as $admin) {
+            if (in_array($admin->email, ['info@dayzsolutions.com', 'pieter@dayzsolutions.com'])) {
+                continue;
+            }
             Mail::to($admin)->send(new AdminNewOrderMail($this->order));
         }
 
