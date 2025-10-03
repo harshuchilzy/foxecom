@@ -44,6 +44,9 @@ class EditConfiguration extends EditRecord
         // Save store notice settings
         Configuration::setValue('store_notice', $data['store_notice']);
         Configuration::setValue('store_notice_enabled', $data['store_notice_enabled'], 'boolean');
+
+        // Save VAT number settings
+        Configuration::setValue('vat_number', $data['vat_number']);
         
         // Clear any cached configurations
         Cache::forget('app-configurations');
@@ -67,6 +70,7 @@ class EditConfiguration extends EditRecord
             'wholesale_new_customer_email_enabled' => Configuration::getValue('wholesale_new_customer_email_enabled', false),
             'store_notice' => Configuration::getValue('store_notice', ''),
             'store_notice_enabled' => Configuration::getValue('store_notice_enabled', false),
+            'vat_number' => Configuration::getValue('vat_number', ''),
         ]);
     }
 }

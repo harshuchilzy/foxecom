@@ -80,6 +80,13 @@ class ConfigurationResource extends Resource
                         Forms\Components\Toggle::make('store_notice_enabled')
                             ->label('Enable Store Notice')
                             ->default(fn() => Configuration::getValue('store_notice_enabled', false))
+                    ]),
+                
+                Forms\Components\Section::make('Store VAT Number')
+                    ->schema([
+                        Forms\Components\TextInput::make('vat_number')
+                            ->label('VAT Number')
+                            ->default(fn() => Configuration::getValue('vat_number', '')),
                     ])
             ]);
     }
