@@ -11,10 +11,10 @@
                 <p class="text-[#1B1819] uppercase font-normal text-[12px] mb-4">Information</p>
                 <ul class="text-[#1B1819] font-normal font-inter text-[16px] flex flex-col gap-1">
                     <li><a href="{{route('privacy-policy')}}">Privacy</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="{{route('faq')}}">FAQ</a></li>
                     <li><a href="{{route('delivery-policy')}}">Shipping and Payment</a></li>
-                    <li><a href="#">Partners</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="{{ route('partners') }}">Partners</a></li>
+                    {{-- <li><a href="{{ route('blogs') }}">Blog</a></li> --}}
                     <li><a href="{{route('contact')}}">Contacts</a></li>
                 </ul>
             </div>
@@ -24,11 +24,15 @@
 
         <!-- Contact Details -->
         <div class="flex flex-col items-start lg:items-start">
-            <a href="tel:+447925606692" class="bg-[#1B1819] text-white py-[8px] px-[16px] rounded-lg cursor-pointer">Request
-                a call</a>
+            <a href="tel:+447925606692" class="bg-[#1B1819] text-white py-[8px] px-[16px] rounded-lg cursor-pointer">Call Now</a>
             <div class="mt-4">
                 <a href="tel:+447925606692"><p class="font-semibold text-[14px] text-[#1B1819]">+44 7925 606692</p></a>
                 <a href="mailto:accounts@foxergo.com"><p class="font-semibold text-[14px] text-[#1B1819]">accounts@foxergo.com</p></a>
+            </div>
+
+            <div class="mt-4">
+                <p class="font-semibold text-[14px] text-[#1B1819]">FOXERGO LIMITED</p>
+                <p class="font-normal text-[14px] text-[#1B1819]">Registration Number 14166866</p>
             </div>
         </div>
     </div>
@@ -50,8 +54,8 @@
             </a>
         </div>
         <div class="flex flex-col items-start">
-            <p class="font-semibold text-[14px] text-[#1B1819]">24 Sanderling Way, Porthcawl,</p>
-            <p class="font-semibold text-[14px] text-[#1B1819]">Wales, CF36 3TD</p>
+            <p class="font-semibold text-[14px] text-[#1B1819]">Unit 6, Preston Trade Park, Ribbleton Lane,</p>
+            <p class="font-semibold text-[14px] text-[#1B1819]">Preston, PR1 5EZ</p>
         </div>
         <div class="flex items-center gap-3 md:gap-6 flex-col md:flex-row">
             <div>
@@ -63,8 +67,8 @@
             </div>
         </div>
     </div>
-    
-    <script src="{{ asset('js/age-verification.js') }}"></script>
+
+    {{-- <script src="{{ asset('js/age-verification.js') }}"></script> --}}
 
     <!-- Age Verification Popup -->
     <x-notifications.age-verification/>

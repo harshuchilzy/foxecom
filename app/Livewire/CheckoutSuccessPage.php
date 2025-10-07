@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use Illuminate\View\View;
-use Livewire\Component;
-use Lunar\Facades\CartSession;
 use Lunar\Models\Cart;
+use Livewire\Component;
 use Lunar\Models\Order;
+use Illuminate\View\View;
+use Lunar\Facades\CartSession;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutSuccessPage extends Component
 {
@@ -16,14 +17,22 @@ class CheckoutSuccessPage extends Component
 
     public function mount(): void
     {
-        // $this->cart = CartSession::current();
-        // if (! $this->cart || ! $this->cart->completedOrder) {
-        //     $this->redirect('/');
+        $previousCart = null;
 
-        //     return;
-        // }
-        // $this->order = $this->cart->completedOrder;
+        if (auth()->check()) {
+            if(auth()->user()->customers) {
+                $customer = auth()->user()->customers->first();
+            }
+        }
 
+        if( !$customer->orders->last() ) {
+            $this->redirect('/');
+            return;
+        }
+       
+        // $this->order = $secondRecentCart->completedOrder;
+        $this->order = $customer->orders->last();
+       
         CartSession::forget();
     }
 

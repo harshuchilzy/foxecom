@@ -9,16 +9,21 @@ use App\Livewire\OfferPage;
 use App\Livewire\OrdersPage;
 use App\Livewire\SearchPage;
 use Illuminate\Http\Request;
+use App\Livewire\AccountPage;
 use App\Livewire\AddressPage;
 use App\Livewire\ProductPage;
 use App\Livewire\CheckoutPage;
 use App\Livewire\ProductsPage;
+use Lunar\Facades\CartSession;
+use App\Mail\AdminNewOrderMail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Livewire\CollectionPage;
 use App\Mail\CustomerWelcomeMail;
+use App\Mail\AdminNewCustomerMail;
 use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\UpdatePrice;
+use App\Livewire\AccountSettingsPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use Lunar\Models\Order as ModelsOrder;
@@ -26,87 +31,103 @@ use App\Http\Controllers\CheckoutController;
 
 require __DIR__ . '/auth.php';
 
-Route::get('blog', function () {
-    return view('pages.blog');
-})->name('blog');
+//Blog Page
+// Route::get('blogs', function () {
+//     return view('pages.blogs');
+// })->name('blogs');
 
+//About Page
 Route::get('about', function () {
     return view('pages.about');
 })->name('about');
 
+//Terms and Conditions Page
 Route::get('terms-and-conditions', function () {
     return view('pages.terms-and-conditions');
 })->name('terms-conditions');
 
+//Privacy Policy Page
 Route::get('privacy-policy', function () {
     return view('pages.privacy-policy');
 })->name('privacy-policy');
 
+//Refund Policy Page
 Route::get('refund-policy', function () {
     return view('pages.refund-policy');
 })->name('refund-policy');
 
+//Delivery Policy Page
 Route::get('delivery-policy', function () {
     return view('pages.delivery-policy');
 })->name('delivery-policy');
 
+//Contact Page
 Route::get('contact', function () {
     return view('pages.contact');
 })->name('contact');
 
+//FAQ Page
 Route::get('faq', function () {
     return view('pages.faq');
 })->name('faq');
 
+//Partners Page
 Route::get('partners', function () {
     return view('pages.partners');
 })->name('partners');
 
+//Privacy Page
 Route::get('privacy', function () {
     return view('pages.privacy');
 })->name('privacy');
 
+//Shipping and Payment Page
 Route::get('shipping-and-payment', function () {
     return view('pages.shipping-and-payment');
 })->name('shipping-and-payment');
 
-Route::get('/offer', function () {
-    return view('offerpage');
-})->name('offers');
-
-Route::get('/wholesale', function () {
-    return view('wholesale');
-})->name('wholesale');
-
-Route::get('/account', function () {
-    return view('account');
-})->name('account')->middleware('auth');
-
-Route::get('/new-checkout', function () {
-    return view('checkout');
-});
-
+//Home Page - livewire
 Route::get('/', Home::class)->name('home');
 
+//Single Collections Page - livewire
 Route::get('/collections/{slug}', CollectionPage::class)->middleware('auth')->name('collection.view');
 
+//Single Brands Page - livewire
 Route::get('/brands/{slug}', BrandPage::class)->middleware('auth')->name('brand.view');
 
+//Products Page - livewire
 Route::get('products', ProductsPage::class)->name('products.index');
 
+//Single Product Page - livewire
 Route::get('/products/{slug}', ProductPage::class)->name('product.view');
 
+//Search Page - livewire
 Route::get('search', SearchPage::class)->name('search.view');
 
+//Checkout Page - livewire
 Route::get('checkout', CheckoutPage::class)->middleware('auth')->name('checkout.view');
 
+//Checkout Success Page - livewire
 Route::get('checkout/success', CheckoutSuccessPage::class)->middleware('auth')->name('checkout-success.view');
 
+//Orders Page - livewire
 Route::get('/orders', OrdersPage::class)->middleware('auth')->name('redemptions');
 
-Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
+//Orders Page - livewire
+Route::get('/settings', AccountSettingsPage::class)->middleware('auth')->name('settings');
 
+//Cart Page - livewire
+Route::get('/cart', CartPage::class)->middleware('auth')->name('cart');
+Route::get('/cart/empty', function () {
+    CartSession::clear();
+    return redirect()->route('cart');
+})->middleware('auth')->name('cart.empty');
+
+//Address Page - livewire
 Route::get('/addresses', AddressPage::class)->name('addresses')->middleware('auth');
+
+//Account Page - livewire
+Route::get('/account', AccountPage::class)->middleware('auth')->name('account');
 
 // Move to API
 Route::get('/address/search', function (Request $request) {
@@ -134,21 +155,8 @@ Route::get('/address/search', function (Request $request) {
     return response()->json($addresses);
 })->middleware('auth')->name('api.address.search');
 
-// Route::get('test', function () {
-
-//     $user = auth()->user();
-//     $customer = $user->customers->first();
-//     $billing_address = $customer->addresses->where('billing_default', 1)->first();
-//     echo $billing_address->country;
-//     echo '<pre>';
-//     print_r($customer->addresses->where('billing_default', 1)->first()->toArray());
-//     echo '</pre>';
-// });
-
-
-// Route::get('/offers/{id}', OfferPage::class)->name('redemption.show');
+//Single Offer Page - livewire
 Route::get('/offers/{id}', OfferPage::class)->middleware('auth')->name('discount.show');
-
 
 Route::redirect('admin', '/dashboard');
 
@@ -199,21 +207,14 @@ Route::middleware('auth')
         Route::post('complete', 'complete')->name('complete');
     });
 
-Route::get('temp', function(){
-        // $user = User::find();
-        // phpinfo();
-        echo 'OK';
-        $order = Lunar\Models\Order::find(3);
-;
-            Mail::to('testreceiver@gmail.com')->send(new CustomerNewOrderMail($order));
 
-        // $record = ModelsOrder::find(3);
-        // return response()->streamDownload(function () use ($record) {
-        //     echo Pdf::loadView('lunarpanel::pdf.order', [
-        //         'record' => $record,
-        //     ])->stream();
-        // }, name: "Order-{$record->reference}.pdf");
-    });
 
-// Price updating route    
-// Route::get('update-prices', [UpdatePrice::class, 'update']);
+// Route::get('/test-mail', function(){
+//     $orders = Order::get();
+//     $order = $orders->last();
+//     $email = $order->customer->email;
+//     Mail::to(auth()->user())->send(new CustomerNewOrderMail($order));
+//     echo '<pre>';
+//     print_r($order->customer->meta['email']);
+//     echo '</pre>';
+// });

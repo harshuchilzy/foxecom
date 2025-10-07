@@ -41,7 +41,7 @@ class CustomerNewOrderMail extends Mailable implements ShouldQueue
             with: array(
                 'first_name' => $this->order->customer->first_name,
                 'last_name' => $this->order->customer->last_name,
-                'order_link' => '',
+                'order_link' => route('redemptions'),
                 'unsubscribe_url' => '',
                 'order' => $this->order
             )

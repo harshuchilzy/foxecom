@@ -1,51 +1,3 @@
-@php
-    use Lunar\Models\ProductVariant;
-    use Lunar\Models\Product;
-    use Lunar\Models\Url;
-
-    $bannerImage = $discount->data['banner_image'] ?? null;
-    $mobileBannerImage = $discount->data['mobile_banner_image'] ?? $bannerImage;
-    $discountType = class_basename($discount->type);
-    $couponAmount = $discount->data['coupon_amount'] ?? 0;
-    $displayText = match ($discountType) {
-        'percentage' => "{$couponAmount}% off",
-        'fixed_cart' => "Save $ {$couponAmount} on cart",
-        'fixed_product' => "${$couponAmount} off each item",
-        default => "Redeem offer"
-    };
-
-    // New logic: use lunar_discountables and lunar_urls directly
-    $productId = DB::table('lunar_discount_purchasables')
-            ->where('discount_id', $id)
-            ->where('type', 'condition')
-            ->where('purchasable_type', 'product')
-            ->value('purchasable_id');
-
-    $productUrl = null;
-
-
-    if ($productId) {
-        $productUrl = Url::where('element_type', 'product')
-            ->where('element_id', $productId)
-            ->where('default', true)
-            ->value('slug');
-
-        if (!$productUrl) {
-            $productUrl = Url::where('element_type', 'product')
-                ->where('element_id', $productId)
-                ->orderByDesc('default')
-                ->value('slug');
-        }
-    }
-
-    $couponCode = $discount->coupon;
-
-    if(empty($productUrl)){
-        $productUrl = $discount->discountables->where('type', 'reward')->first()->discountable->defaultUrl->slug;
-    }
-
-@endphp
-
 <div class="w-full relative">
     <!-- Offer banner - Desktop -->
     <img src="{{ asset('storage/' . $bannerImage) }}" class="w-full hidden lg:block"/>
@@ -62,25 +14,37 @@
     <!-- Offer label - Desktop -->
     <div class="hidden lg:flex gap-5 items-center justify-between px-10 py-26 bg-no-repeat absolute top-1/2 -translate-y-1/2 right-0 offer-txt-bg">
         <div class="claim-offer-label">
-            <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
-            <p class="font-bold text-white text-[24px]">{{ $displayText }}</p>
+
+            @if ( ($discountType == 'BuyXGetY') && empty($labelTitle) )
+                <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ round($claimed) }}% Claimed</h2>
+            @elseif (!empty($labelTitle))
+                <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $labelTitle }}</h2>
+            @else
+                <h2 class="text-[#FEE8FF] text-[32px] font-extrabold">{{ $discount->name }}</h2>
+            @endif
+            
+            @if (!empty($labelContent))
+                <p class="font-bold text-white text-[20px] leading-[24px]">{{ $labelContent }}</p>
+            @else
+                <p class="font-bold text-white text-[20px] leading-[24px]">{!! $displayText !!}</p>   
+            @endif
 
             @if (auth()->check())
                 @if ($productUrl)
                     <a href="{{ route('product.view', ['slug' => $productUrl]) }}?discount={{ $discount->id }}"
-                    class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                        Claim here
+                    class="bg-[#1275EE] rounded-[45px] px-12 py-2 text-white mt-3 inline-block">
+                        {{ __('Claim here') }}
                     </a>
                 @elseif ($discountType === 'AmountOff' && $couponCode)
                     <a href="{{ route('cart', ['discount' => $discount->id]) }}"
-                        class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                        Claim here
+                        class="bg-[#1275EE] rounded-[45px] px-12 py-2 text-white mt-3 inline-block">
+                        {{ __('Claim here') }}
                     </a>
                 @endif
             @else
                 <a href="{{ route('register') }}"
                 class="bg-[#1275EE] rounded-[45px] px-12 py-3 text-white mt-4 inline-block">
-                    Register now
+                    {{ __('Register now') }}
                 </a>
             @endif
         </div>
@@ -95,7 +59,7 @@
 
     <!-- Offer slider - Mobile -->
     <div class="lg:hidden absolute top-10/12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-        <h1 class="text-white text-sm tracking-wider mb-2 absolute top-[15px] left-[85px] font-semibold">Slide to Claim Offer</h1>
+        <h1 class="text-white text-sm tracking-wider mb-2 absolute top-[15px] left-[85px] font-semibold">{{ __('Slide to Claim Offer') }}</h1>
         <input type="range" value="0" class="pullee mx-auto" placeholder="Slide to Claim Offer" />
     </div>
 

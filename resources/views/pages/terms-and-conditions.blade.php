@@ -10,7 +10,7 @@
                         <h2 class="text-2xl font-bold mb-4">1. Introduction Agreement</h2>
                         <p class="mb-4">Welcome to FOXERGO. These Terms and Conditions ("Terms") govern your access to and use of our website, services, products, and all related platforms (collectively referred to as the “Services”). By engaging with our Services in any capacity—whether as a visitor, registered user, or customer—you agree to be legally bound by these Terms. If you do not accept these Terms, you must refrain from using our Services.</p>
 
-                        <p class="mb-4">These Terms constitute a legally binding agreement between you (the “Customer,” “User,” or “You”) and FOXERGO LTD (“FOXERGO,” “we,” “us,” or “our”), a company registered in the UK with its registered office at 24 Sanderling Way, Porthcawl, Wales, CF36 3TD.</p>
+                        <p class="mb-4">These Terms constitute a legally binding agreement between you (the “Customer,” “User,” or “You”) and FOXERGO LTD (“FOXERGO,” “we,” “us,” or “our”), a company registered in the UK with its registered office at Unit 6, Preston Trade Park, Ribbleton Lane, Preston, PR1 5EZ</p>
 
                         <p class="mb-4">FOXERGO is a UK-based company specialising in B2B distribution and marketing infrastructure across the vape and FMCG industries. Our Services are designed exclusively for trade customers, not for individual consumer use. As such, all users accessing our Services are presumed to be acting in a business capacity and not as private individuals.</p>
 
@@ -596,7 +596,7 @@
                             <li><strong>Business Name:</strong> FOXERGO LIMITED</li>
                             <li><strong>Email:</strong> <a href="mailto:accounts@foxergo.com" class="text-blue-600 underline">accounts@foxergo.com</a></li>
                             <li><strong>Phone:</strong> +44 7925 606692</li>
-                            <li><strong>Address:</strong> 24 Sanderling Way, Porthcawl, Wales, CF36 3TD</li>
+                            <li><strong>Address:</strong> Unit 6, Preston Trade Park, Ribbleton Lane, Preston, PR1 5EZ</li>
                         </ul>
                     </section>
                 </div>

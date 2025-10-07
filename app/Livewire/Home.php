@@ -10,11 +10,13 @@ use Illuminate\View\View;
 use App\Models\Redemption;
 use Lunar\Models\Discount;
 use Lunar\Models\Collection;
+use Lunar\Facades\CartSession;
 use Lunar\DiscountTypes\BuyXGetY;
 use Illuminate\Support\Facades\DB;
 
 class Home extends Component
-{
+{ 
+    
     /**
      * Return the sale collection.
      */
@@ -68,6 +70,19 @@ class Home extends Component
                         : null;
 
         return $brandSlug;
+    }
+
+    public function getProductUrl( $discount )
+    {
+        //$productUrl = $discount->discountables?->where('type', 'condition')->first()?->discountable->defaultUrl->slug;
+        $productUrl = $discount->discountables?->where('type', 'condition')->first()?->discountable?->defaultUrl?->slug ?? null;
+    
+        if(empty($this->productUrl)){
+            //$productUrl = $discount->discountables?->where('type', 'reward')->first()?->discountable->defaultUrl->slug;
+            $productUrl = $discount->discountables?->where('type', 'reward')->first()?->discountable?->defaultUrl?->slug ?? null;
+        }
+ 
+        return $productUrl;
     }
 
     public function render(): View

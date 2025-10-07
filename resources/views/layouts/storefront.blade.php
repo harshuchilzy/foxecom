@@ -17,6 +17,7 @@
     {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
     @include('partials.head')
+
 </head>
 
 <body class="antialiased text-gray-900">

@@ -20,6 +20,7 @@
     @livewireStyles
     {{-- @stripeScripts --}}
     @include('partials.head')
+
 </head>
 
 <body class="antialiased text-gray-900">

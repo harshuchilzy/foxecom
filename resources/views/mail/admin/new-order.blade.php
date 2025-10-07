@@ -80,7 +80,7 @@
 
         <!-- Header -->
         <div class="header">
-            <img class="logo" src="https://i.imgur.com/KO1vcE9.png" alt="Foxergo Logo" />
+            <img class="logo" src="{{ url('/') .'/images/blacklogo.png' }}" alt="Foxergo Logo" />
         </div>
 
         <!-- Title -->
@@ -99,11 +99,11 @@
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td>{{ $order->customer->email }}</td>
+                        <td>{{ $order->customer->meta['email'] }}</td>
                     </tr>
                     <tr>
                         <th>Phone</th>
-                        <td>{{ $order->customer->phone }}</td>
+                        <td>{{ $order->customer->meta['phone'] }}</td>
                     </tr>
                     <tr>
                         <th>Shipping Address</th>
@@ -190,7 +190,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            Foxergo Ltd., 24 Sanderling Way, Porthcawl, Wales, CF36 3TD<br />
+            Foxergo Ltd., Unit 6, Preston Trade Park, Ribbleton Lane, Preston, PR1 5EZ<br />
             Phone: +44 7925 606692 — Email: <a href="mailto:accounts@foxergo.com" style="color:#575757;">accounts@foxergo.com</a>
         </div>
     </div>

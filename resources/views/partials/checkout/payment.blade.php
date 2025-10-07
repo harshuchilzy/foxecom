@@ -1,10 +1,99 @@
-<div>
-    <div id="ngenius-3ds-mount" class="h-56 hidden"></div>
+<div x-data="{ paymentMethod: @entangle('paymentType'), paymentBox: true, waiveDeliveryFee: @entangle('waiveDeliveryFee') }">
+    <div class="flex gap-4 mt-4">
+        <button @class([
+            'px-5 py-2 text-sm border font-medium rounded-lg cursor-pointer',
+            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'ngenius',
+            'text-gray-500 hover:text-gray-700' => $paymentType !== 'ngenius',
+        ])
+                type="button"
+                @click="paymentBox = true; waiveDeliveryFee = false"
+                wire:click.prevent="$set('paymentType', 'ngenius')">
+            Pay by Card
+        </button>
 
-    <div wire:ignore>
-        <div id="ngenius-mount" class="h-56 my-4"></div>
+        <button @class([
+            'px-5 py-2 text-sm border font-medium rounded-lg cursor-pointer',
+            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'cash-in-hand',
+            'text-gray-500 hover:text-gray-700' => $paymentType !== 'cash-in-hand',
+        ])
+                type="button"
+                @click="paymentBox = false"
+                wire:click.prevent="$set('paymentType', 'cash-in-hand')">
+            Pay with Cash
+        </button>
+
+        <button @class([
+            'px-5 py-2 text-sm border font-medium rounded-lg cursor-pointer',
+            'text-green-700 border-green-600 bg-green-50' => $paymentType === 'pay-via-bank',
+            'text-gray-500 hover:text-gray-700' => $paymentType !== 'pay-via-bank',
+        ])
+                type="button"
+                @click="paymentBox = false;"
+                wire:click.prevent="$set('paymentType', 'pay-via-bank')">
+            Pay via Bank Transfer
+        </button>
+        {{-- @php
+            echo $paymentType;
+        @endphp --}}
+    </div>
+
+    <div x-show="paymentBox">
+        <div id="ngenius-3ds-mount" class="h-56 hidden"></div>
+
+        <div wire:ignore>
+            <div id="ngenius-mount" class="h-56 my-4"></div>
+        </div>
+    </div>
+    <div class="my-6" x-show="!paymentBox">
+        <label for="clientPassword" class="block mb-2 text-sm font-medium text-gray-900 ">Client Payment Password</label>
+        <div class="flex md:flex-row flex-col gap-2 w-full">
+            <div class="w-full relative">
+                <input type="password" id="clientPassword" wire:model="clientPassword" @class([
+                    'bg-gray-50 border w-full text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5', 'border-gray-300' => $isVerified == false, 'border-green-300' => $isVerified == true]) placeholder="" />
+                
+                @if($isVerified)
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-green-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                @endif
+            </div>
+
+            <button type="button" class="!text-white !bg-[#0066FF] hover:!bg-[#1275EE] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm font-inter px-5 py-2.5 text-center cursor-pointer hover:shadow-lg"  wire:click="verifyAuthenticationKey" primary >
+                <span wire:loading.remove wire:target="verifyAuthenticationKey">Verify</span>
+                <span wire:loading wire:target="verifyAuthenticationKey">Verifying...</span>
+            </button>
+        </div>
+        @if ($errors->has('client-key-error'))
+            <div class="p-2 mt-4 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                role="alert">
+                @foreach ($errors->get('client-key-error') as $error)
+                    {{ $error }}
+                @endforeach
+            </div>
+        @endif
+
+        @if ($paymentType == 'cash-in-hand')
+            <div class="mt-4">
+                <div class="flex items-center">
+                    <input 
+                        type="checkbox" 
+                        id="waiveDeliveryFee" 
+                        wire:model="waiveDeliveryFee"
+                        wire:change="changeDeliveryFee"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    >
+                    <label for="waiveDeliveryFee" class="ml-2 text-sm font-medium text-gray-900 cursor-pointer">
+                        Waive delivery fee
+                    </label>
+                </div>
+            </div>
+        @endif
+
     </div>
 </div>
+
 
 @script
 <script>
@@ -132,5 +221,6 @@
     }
 
     initializePaymentForm();
+
 </script>
 @endscript

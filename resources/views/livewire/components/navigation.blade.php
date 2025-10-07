@@ -1,4 +1,5 @@
 <header class="w-full bg-themeblack text-white relative" x-data="{ show: false }">
+    @livewire('components.store-notice')
     <!-- Header - Desktop -->
     <div class="lg:flex items-center container mx-auto gap-8 hidden p-4">
         <!-- Site Logo -->
@@ -108,12 +109,12 @@
                         <ul x-on:click.away="mobileMenu = false"
                             class="p-6 space-y-4 bg-white border border-gray-100 shadow-xl rounded-xl">
                             @foreach ($this->collections as $collection)
-                            <li>
-                                <a class="text-sm font-medium"
-                                    href="{{ route('collection.view', $collection->defaultUrl->slug) }}" wire:navigate>
-                                    {{ $collection->translateAttribute('name') }}
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="text-sm font-medium"
+                                        href="{{ route('collection.view', $collection->defaultUrl->slug) }}" wire:navigate>
+                                        {{ $collection->translateAttribute('name') }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -205,13 +206,16 @@
                 <p class="text-[#ADADAD] font-normal text-[16px] ml-2 py-3">More</p>
                 <ul class="menu text-black w-full p-0 font-normal text-[16px] font-inter">
                     <li class="pb-2">
-                        <summary class="!bg-transparent">About us</summary>
+                        <summary class="!bg-transparent"><a href="{{ route('about') }}">About us</a></summary>
                     </li>
                     <li class="pb-2">
-                        <summary>Privacy policy</summary>
+                        <summary class="!bg-transparent"><a href="{{ route('contact') }}">Contact us</a></summary>
                     </li>
                     <li class="pb-2">
-                        <summary>Terms and conditions</summary>
+                        <summary><a href="{{ route('privacy-policy') }}">Privacy policy</a></summary>
+                    </li>
+                    <li class="pb-2">
+                        <summary><a href="{{ route('terms-conditions') }}">Terms and conditions</a></summary>
                     </li>
                 </ul>
             </div>

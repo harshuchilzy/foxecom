@@ -12,12 +12,14 @@ use Lunar\Models\Currency;
 use Lunar\Models\Discount;
 use App\Models\ReviewImage;
 use App\Traits\FetchesUrls;
+use Lunar\Base\Purchasable;
 use App\Models\ProductReview;
 use Livewire\WithFileUploads;
 use Lunar\Facades\CartSession;
 use Lunar\Models\ProductVariant;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductPage extends Component
@@ -107,6 +109,18 @@ class ProductPage extends Component
      */
     public $sumOfSelectedToggles;
 
+    /**
+     * Show Flavors Add to Cart Popup
+     */
+    public bool $showFlavorsAddToCartPopup = false;
+
+    /**
+     * Selected Flavors Quantities
+     */
+    public array $flavorQty = [];
+
+    public ?int $loadingVariantId = null;
+
     public function mount($slug): void
     {
         $this->discountId = request()->get('discount');
@@ -124,7 +138,7 @@ class ProductPage extends Component
         );
 
         if (! $this->url) {
-            abort(404);
+            abort(404, 'Product not found.');
         }
 
         $this->selectedOptionValues = $this->productOptions->mapWithKeys(function ($data) {
@@ -201,7 +215,7 @@ class ProductPage extends Component
     /**
      * Computed property to return product.
      */
-    public function getProductProperty(): Product
+    public function getProductProperty(): ?Product
     {
         return $this->url->element;
     }
@@ -257,7 +271,7 @@ class ProductPage extends Component
     {
         return ProductReview::where('product_id', $this->product->id)
             ->where('approved', true)
-            ->avg('rating'); 
+            ->avg('rating');
     }
 
     /**
@@ -265,11 +279,11 @@ class ProductPage extends Component
      */
     public function getFormattedAverageProperty(): string
     {
-        return number_format($this->averageRating, 1) ?: '0.0'; 
+        return number_format($this->averageRating, 1) ?: '0.0';
     }
 
     /**
-     * Submit Product Review 
+     * Submit Product Review
      */
     public function submitReview()
     {
@@ -292,7 +306,7 @@ class ProductPage extends Component
 
         session()->flash('success', 'Review submitted and awaiting approval.');
 
-        $this->closeReviewPopup();
+        $this->showReviewPopup = false;
     }
 
     /**
@@ -304,23 +318,22 @@ class ProductPage extends Component
             abort(400, 'No discount provided.');
         }
 
-        $discount = Discount::find($this->discountId);
+        $discount = $this->getDiscount();
 
         if (!$discount) {
             abort(404, 'Discount not found.');
         }
 
-        $cart = \Lunar\Facades\CartSession::current();
+        $cart = CartSession::current();
         if(!$cart){
-            $cart = \Lunar\Models\Cart::create([
+            $cart = Cart::create([
                 'currency_id' => Currency::getDefault()->id,
                 'channel_id' => Channel::getDefault()->id,
             ]);
         }
+
         $cart->coupon_code = $discount->coupon;
-
         $cart->calculate();
-
         $cart->save();
 
         session(['active_discount_id' => $this->discountId]);
@@ -339,7 +352,6 @@ class ProductPage extends Component
      */
     public function loadVariations()
     {
-        
         $this->variations = $this->product->variants()
             ->with(['values.option', 'images'])
             ->get()
@@ -355,13 +367,7 @@ class ProductPage extends Component
                     'sku' => $variant->sku,
                     'price' => $variant->basePrices->first()->price?->formatted(),
                     'outer_box_qty' => $outerBoxQty,
-                    'unit_price_per_outer_box' =>  $basePrice 
-                                                        ? (new Price(
-                                                            $unitPricePerOuterBox,
-                                                            $basePrice->currency,
-                                                            $basePrice->unitQty
-                                                        ))->formatted()
-                                                        : null,
+                    'unit_price_per_outer_box' => $basePrice ? ( new Price(intval($unitPricePerOuterBox), $basePrice->currency, intval($basePrice->unitQty)) )->formatted() : null,
                     'stock' => $variant->stock,
                     'quantity_increment' => $variant->quantity_increment,
                     'options' => $variant->values->map(function ($value) {
@@ -387,7 +393,7 @@ class ProductPage extends Component
         $optionNames = $variant->values->map(function ($value) {
             return $value->translate('name');
         })->implode(' / ');
-        
+
         return "{$productName} - {$optionNames}";
     }
 
@@ -412,9 +418,7 @@ class ProductPage extends Component
      */
     public function getLargestQuantityIncrement()
     {
-        //$this->maxQuantityIncrement = $this->product->attr('outer-box') ?? 1;
-
-        $discount = Discount::find($this->discountId);
+        $discount = $this->getDiscount();
         if($discount){
             $discountType = class_basename($discount->type);
 
@@ -424,8 +428,9 @@ class ProductPage extends Component
                     // if (is_int($this->rewardItems)) {
                     //     $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
                     // }
-                    $this->maxQuantityIncrement = $discount->data['min_qty'];
                     $this->rewardItems = $discount->data['reward_qty'];
+
+                    $this->maxQuantityIncrement = $discount->data['min_qty'] + $this->rewardItems;
                 }
             }
         }
@@ -437,7 +442,7 @@ class ProductPage extends Component
     public function getSumOfSelectedToggles()
     {
         $this->sumOfSelectedToggles = 0;
-        
+
         foreach ($this->toggles as $key => $isSelected) {
             if ($isSelected && isset($this->quantities[$key])) {
                 $this->sumOfSelectedToggles += $this->quantities[$key];
@@ -455,6 +460,7 @@ class ProductPage extends Component
         foreach ($this->loadVariations() as $variant) {
             $this->quantities[$variant['id']] = 1;
             $this->toggles[$variant['id']] = false;
+            $this->flavorQty[$variant['id']] = 0;
         }
     }
 
@@ -463,7 +469,6 @@ class ProductPage extends Component
      */
     public function addSelectedToCart()
     {
-
         $validatedData = $this->validate([
             'quantities.*' => 'required|numeric|min:1',
             'toggles.*' => 'nullable|boolean',
@@ -485,11 +490,11 @@ class ProductPage extends Component
         foreach ($this->loadVariations() as $variant) {
             $variantId = $variant['id'];
             $quantity = $this->quantities[$variantId] ?? 0;
-            
+
             // Only add to cart if toggle is enabled or if you want all variants
             if ($this->toggles[$variantId] && $quantity > 0) {
                 $purchasable = ProductVariant::find($variantId);
-                
+
                 if ($purchasable->stock < $quantity) {
                     $this->addError('bulk-popup-error', "Not enough stock for {$variant['name']}");
                     $hasError = true;
@@ -499,12 +504,14 @@ class ProductPage extends Component
                 $linesToAdd[] = [
                     'purchasable' => $purchasable,
                     'quantity' => $quantity,
+                    'meta' => [
+                        'from_popup' => true
+                    ]
                 ];
             }
         }
 
         if ($hasError) {
-            Log::info('has error');
             return;
         }
 
@@ -512,7 +519,6 @@ class ProductPage extends Component
             $this->addError('bulk-popup-error', 'Please select at least one variant');
             return;
         }
-
 
         // Add all selected items to cart
         foreach ($linesToAdd as $line) {
@@ -533,15 +539,15 @@ class ProductPage extends Component
             }
         }
 
-        $discount = Discount::find($this->discountId);
+        $discount = $this->getDiscount();
 
         if (!$discount) {
             abort(404, 'Discount not found.');
         }
 
-        $cart = \Lunar\Facades\CartSession::current();
+        $cart = CartSession::current();
         if(!$cart){
-            $cart = \Lunar\Models\Cart::create([
+            $cart = Cart::create([
                 'currency_id' => Currency::getDefault()->id,
                 'channel_id' => Channel::getDefault()->id,
             ]);
@@ -590,22 +596,76 @@ class ProductPage extends Component
 
         $lowest = $pricesWithEffectivePrice->sortBy('per_unit_price')->first();
         $highest = $pricesWithEffectivePrice->sortByDesc('per_unit_price')->first();
-       
+
         $lowest->price->value = $lowest->per_unit_price;
-    
+
         $highest->price->value = $highest->per_unit_price;
-       
+
 
         if($lowest->price->value == $highest->price->value){
-            $finalPrice = $highest->price->formatted; 
+            $finalPrice = $highest->price->formatted;
         }else{
-            $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted; 
+            $finalPrice = $lowest->price->formatted . ' - ' . $highest->price->formatted;
         }
         return array(
-            'discount' => 0, 
+            'discount' => 0,
             'price' => $finalPrice
         );
-        
+
+    }
+
+    /**
+     * Get Discount
+     */
+    public function getDiscount()
+    {
+        $discount = Discount::find($this->discountId);
+        return $discount;
+    }
+
+    public function flavorAddToCart($variantId, $quantity): void
+    {
+        // Find the purchasable item
+        $purchasable = ProductVariant::find($variantId);;
+
+        if (!$purchasable) {
+            $this->addError('flavor-error', 'Product not found.');
+            return;
+        }
+
+        // Validate quantity
+        $validator = Validator::make(
+            ['quantity' => $quantity],
+            ['quantity' => 'required|numeric|min:0|max:10000']
+        );
+
+        if ($validator->fails()) {
+            $this->addError('flavor-error', 'Invalid quantity.');
+            return;
+        }
+
+        if ($purchasable->stock < $quantity) {
+            $this->addError('flavor-error', 'The quantity exceeds the available stock.');
+            return;
+        }
+
+        $existing = CartSession::lines()
+            ->get()
+            ->first(fn ($l) => $l->purchasable_id === $purchasable->id && empty($l->meta['free']));
+
+        if ($existing) {
+            CartSession::updateLines(collect([[
+                'id' => $existing->id,
+                'quantity' => $existing->quantity + $quantity
+            ]]));
+        } else {
+            CartSession::manager()->add($purchasable, $quantity);
+        }
+
+        $this->dispatch('add-to-cart');
+
+            $this->loadingVariantId = null;
+       
     }
 
     public function render(): View

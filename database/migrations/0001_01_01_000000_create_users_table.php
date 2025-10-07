@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('company_name');
-            $table->string('company_type');
-            $table->string('company_registration');
+            $table->string('company_name')->nullable();
+            $table->string('company_type')->nullable();
+            $table->string('company_registration')->nullable();
             $table->string('company_sector')->nullable();
             $table->string('store_name')->nullable();
             $table->string('store_url')->nullable();

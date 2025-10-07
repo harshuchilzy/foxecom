@@ -11,6 +11,7 @@
 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 {{-- <script src="https://paypage-uat.ngenius-payments.com/hosted-sessions/sdk.js"></script> --}}
 <script src="https://paypage.ngenius-payments.com/hosted-sessions/sdk.js"></script>
+{{-- <script src="https://paypage.sandbox.ngenius-payments.com/hosted-sessions/sdk.js"></script> --}}
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
 @livewireStyles

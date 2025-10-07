@@ -18,6 +18,8 @@ class ProductPrice extends Component
 
     public $priceAmount = 0;
 
+    public $outerBoxQty = 1;
+
     /**
      * Create a new component instance.
      *
@@ -29,17 +31,30 @@ class ProductPrice extends Component
                 $variant ?: $product->variants->first()
             )->get()->matched;
 
+            // $customerGroups = auth()->user()->customers->first()->customerGroups->pluck('id')->toArray();
+            // $this->outerBoxPrice = $variant->prices->whereIn('customer_group_id', $customerGroups)->first()->price->formatted() ?? 0;
+
+            // $this->outerBoxPrice = Pricing::for(
+            //     $variant ?: $product->variants->first()
+            // )->get()->matched;
+
             $outerBoxQty = $variant->product->attr('outer-box') ?? 1;
             if($this->price->compare_price->value > 0 && !isset($this->price->updated)){
                 $this->price->compare_price->value = ($this->price->compare_price->value / $outerBoxQty);
                 $this->price->price->value = ($this->price->price->value / $outerBoxQty);
+
+                // $this->price->price->boxValue = $this->price->price->value * $outerBoxQty;
                 $this->price->updated = true;
             }
             
             if(!isset($this->price->updated)){
                 $this->price->updated = true;
                 $this->price->price->value = ($this->price->price->value / $outerBoxQty);
+                // $this->price->price->boxValue = $this->price->price->value * $outerBoxQty;
+
             }
+
+            $this->outerBoxQty = $outerBoxQty;
     }
 
     /**

@@ -45,10 +45,10 @@ return [
             Lunar\Pipelines\Cart\CalculateLines::class,
             Lunar\Pipelines\Cart\ApplyShipping::class,
             Lunar\Pipelines\Cart\ApplyDiscounts::class,
-            \App\Filament\PipeLines\Cart\BuyXGetYDiscountItems::class,
+            // \App\Filament\PipeLines\Cart\BuyXGetYDiscountItems::class,
             Lunar\Pipelines\Cart\CalculateTax::class,
             Lunar\Pipelines\Cart\Calculate::class,
-            App\Filament\PipeLines\Cart\BuyXGetYDiscountTotals::class,
+            // App\Filament\PipeLines\Cart\BuyXGetYDiscountTotals::class,
         ],
 
         /*
@@ -56,7 +56,7 @@ return [
         */
         'cart_lines' => [
             Lunar\Pipelines\CartLine\GetUnitPrice::class,
-            // App\Filament\PipeLines\Cart\OuterBoxPricing::class, //new addition unit price formatted before calculations.
+            //App\Filament\PipeLines\Cart\OuterBoxPricing::class, //new addition unit price formatted before calculations.
         ],
     ],
 

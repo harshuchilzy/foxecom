@@ -7,6 +7,7 @@ use Lunar\Models\Brand;
 use Lunar\Models\Product;
 use App\Traits\FetchesUrls;
 use Lunar\Models\Collection;
+use App\Models\Configuration;
 use Illuminate\Support\Facades\Log;
 use Lunar\Models\Collection as CollectionModel;
 
@@ -52,6 +53,9 @@ class ProductsPage extends Component
      */
     public $collections;
 
+    public string $mobileBanner;
+    public string $desktopBanner;
+
     public function mount(): void
     {
         $this->collections = CollectionModel::with([
@@ -61,6 +65,9 @@ class ProductsPage extends Component
         ])->get();
 
         $this->brands = Brand::all();
+
+        $this->mobileBanner =  Configuration::getValue('mobile_wholesale_banner', '');
+        $this->desktopBanner =  Configuration::getValue('desktop_wholesale_banner', '');
     }
 
     /**
@@ -76,7 +83,7 @@ class ProductsPage extends Component
      */
     public function getProductsProperty()
     {
-        $query = Product::with(['variants.basePrices', 'defaultUrl']);
+        $query = Product::with(['variants.basePrices', 'defaultUrl'])->where('status', 'published');
 
         if ($this->selectedBrand) {
             $query->where('brand_id', $this->selectedBrand);
@@ -101,23 +108,38 @@ class ProductsPage extends Component
             });
         }
 
+        // if ($this->selectedPriceRange) {
+        //     [$min, $max] = explode('-', $this->selectedPriceRange);
+        //     $min = (int) $min;
+        //     $max = $max === '' ? null : (int) $max;
+        //     $products = $products->filter(function ($product) use ($min, $max) {
+        //         $price = $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+        //         return $price >= $min && ($max === null || $price <= $max);
+        //     });
+        // }
+       
         if ($this->selectedPriceRange) {
             [$min, $max] = explode('-', $this->selectedPriceRange);
-            $min = (int) $min;
-            $max = $max === '' ? null : (int) $max;
+            
+            $min = (int)($min * 100); // convert to cents
+            $max = $max === '' ? null : (int)($max * 100); // convert to cents
+            Log::info('Min: ' . $min . 'Max: ' . $max);
             $products = $products->filter(function ($product) use ($min, $max) {
-                $price = $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+                $price = (int)($product->variants->first()?->basePrices->first()?->price->value ?? 0);
                 return $price >= $min && ($max === null || $price <= $max);
             });
         }
 
-        if ($this->sortOption === 'price-asc') {
+
+        if ($this->sortOption === 'price_asc') {
             $products = $products->sortBy(function ($product) {
-                return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
+                return $product->variants->first()?->basePrices->first()?->price->value ?? PHP_INT_MAX;
             });
-        } elseif ($this->sortOption === 'price-desc') {
+        } 
+        
+        if ($this->sortOption === 'price_desc') {
             $products = $products->sortByDesc(function ($product) {
-                return optional($product->variants->first()?->basePrices->first())->price->value ?? 0;
+                return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
             });
         }
 
@@ -127,38 +149,76 @@ class ProductsPage extends Component
     /**
      * Get price range - Filter
      */
+    // public function getPriceRangesProperty()
+    // {
+    //     $minPrice = Product::with('variants.basePrices')
+    //         ->get()
+    //         ->map(function ($product) {
+    //             return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+    //         })->min();
+
+    //     $maxPrice = Product::with('variants.basePrices')
+    //         ->get()
+    //         ->map(function ($product) {
+    //             return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
+    //         })->max();
+    //         Log::info('max price: ' . $maxPrice . '| min price' . $minPrice);
+    //     $ranges = [];
+    //     $step = 1000;
+    //     for ($price = floor($minPrice / $step) * $step; $price < $maxPrice; $price += $step) {
+    //         $ranges[] = [
+    //             'min' => $price,
+    //             'max' => $price + $step - 1,
+    //             'label' => number_format($price) . ' - ' . number_format($price + $step - 1)
+    //         ];
+    //     }
+
+    //     $ranges[] = [
+    //         'min' => $price,
+    //         'max' => null,
+    //         'label' => number_format($price) . '+'
+    //     ];
+
+    //     return $ranges;
+    // }
+
     public function getPriceRangesProperty()
     {
-        $minPrice = Product::with('variants.basePrices')
+        $prices = Product::with('variants.basePrices')
             ->get()
             ->map(function ($product) {
-                return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
-            })->min();
+                return $product->variants->first()?->basePrices->first()?->price->value / 100 ?? 0;
+            })
+            ->filter() // remove null/0
+            ->values();
 
-        $maxPrice = Product::with('variants.basePrices')
-            ->get()
-            ->map(function ($product) {
-                return $product->variants->first()?->basePrices->first()?->price->value ?? 0;
-            })->max();
+        if ($prices->isEmpty()) {
+            return [];
+        }
+
+        $minPrice = $prices->min();
+        $maxPrice = $prices->max();
 
         $ranges = [];
-        $step = 1000;
+        $step = 10; // choose a reasonable step now that prices are decimals
+
         for ($price = floor($minPrice / $step) * $step; $price < $maxPrice; $price += $step) {
             $ranges[] = [
-                'min' => $price,
-                'max' => $price + $step - 1,
-                'label' => number_format($price) . ' - ' . number_format($price + $step - 1)
+                'min'   => $price,
+                'max'   => $price + $step - 0.01,
+                'label' => number_format($price, 2) . ' - ' . number_format($price + $step - 0.01, 2)
             ];
         }
 
         $ranges[] = [
-            'min' => $price,
-            'max' => null,
-            'label' => number_format($price) . '+'
+            'min'   => $price,
+            'max'   => null,
+            'label' => number_format($price, 2) . '+'
         ];
 
         return $ranges;
     }
+
 
     /**
      * Get price ranger for individul products

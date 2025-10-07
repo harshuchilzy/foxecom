@@ -3,7 +3,7 @@
         <button
             class="grid w-16 h-16 transition lg:border-l border-gray-100 lg:border-l-transparent hover:opacity-75 cursor-pointer pr-3 lg:pr-0"
             x-on:click="linesVisible = !linesVisible">
-            <span class="sr-only">Cart</span>
+            <span class="sr-only">{{ __('Cart') }}</span>
 
             <span class="place-self-center relative ">
                 <svg width="53" height="38" viewBox="0 0 53 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,7 +11,7 @@
                         d="M52.7 10.2683C52.5473 10.1087 52.3448 9.97836 52.1094 9.88837C51.8741 9.79839 51.6128 9.75135 51.3476 9.75123H16.0201L13.3459 2.96201C12.2972 0.288603 9.8053 0 8.78325 0H1.65299C0.739077 0 0 0.54473 0 1.21691C0 1.88909 0.739909 2.43379 1.65294 2.43379H8.78236C9.00791 2.43379 9.69622 2.43379 10.1657 3.62803L19.365 28.5183C19.5648 29.0435 20.2148 29.4062 20.9563 29.4062H43.4266C44.1241 29.4062 44.7466 29.0845 44.9822 28.601L52.9023 11.3798C53.0846 11.0067 53.0088 10.5912 52.7 10.2683ZM42.2633 26.973H22.211L16.9492 12.1857H48.9975L42.2633 26.973ZM38.985 31.8725C36.6862 31.8725 34.8235 33.2439 34.8235 34.9363C34.8235 36.6287 36.6862 38 38.985 38C41.2838 38 43.1465 36.6287 43.1465 34.9363C43.1465 33.2439 41.2838 31.8725 38.985 31.8725ZM24.0037 31.8725C21.7049 31.8725 19.8422 33.2439 19.8422 34.9363C19.8422 36.6287 21.7049 38 24.0037 38C26.3025 38 28.1652 36.6287 28.1652 34.9363C28.1652 33.2439 26.3025 31.8725 24.0037 31.8725Z"
                         fill="white"/>
                 </svg>
-                <span class="absolute top-[20%] right-[25%] text-[15px] font-bold text-[#D8AC27]" x-text="count"></span>
+                <span class="absolute top-1/2 left-[32px] -translate-x-1/2 -translate-y-1/2 text-[15px] font-bold text-[#D8AC27]" x-text="count"></span>
             </span>
         </button>
 
@@ -23,7 +23,7 @@
         <div
             class="absolute inset-x-0 top-auto z-50 w-screen max-w-sm px-6 py-8 mx-auto mt-4 bg-white border border-gray-100 shadow-xl sm:left-auto rounded-xl"
             x-show="linesVisible" x-on:click.away="linesVisible = false" x-transition x-cloak>
-            <button class="absolute text-gray-500 transition-transform top-3 right-3 hover:scale-110" type="button"
+            <button class="absolute text-gray-500 transition-transform top-3 right-3 hover:scale-110 cursor-pointer hover:text-red-700" type="button"
                     aria-label="Close" x-on:click="linesVisible = false">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
@@ -104,22 +104,35 @@
                         </div>
                     @else
                         <p class="py-4 text-sm font-medium text-center text-gray-500">
-                            Your cart is empty
+                            {{ __('Your cart is empty') }}
                         </p>
                     @endif
 
-                    <dl class="flex flex-wrap pt-4 mt-6 text-sm border-t border-gray-100">
-                        <dt class="w-1/2 font-medium">
-                            Sub Total
-                        </dt>
+                    <div class="pt-4 mt-6 border-t"> 
+                        <dl class="flex flex-wrap px-1 text-sm border-gray-100">
+                            <dt class="w-1/2 font-medium text-[#222]">
+                                {{ __('Sub Total') }}
+                            </dt>
 
-                        <dd class="w-1/2 text-right">
-                            {{ $this->cart->subTotal->formatted() }}
-                        </dd>
-                    </dl>
+                            <dd class="w-1/2 text-right text-[#222]">
+                                {{ $this->cart->subTotal->formatted() }}
+                            </dd>
+                        </dl>
+                        @if ($this->cart?->discountTotal && $this->cart?->discountTotal->value > 0)
+                            <dl class="flex flex-wrap mt-1 px-1 text-sm border-gray-100 bg-green-200 rounded">
+                                <dt class="w-1/2 font-medium text-[#222]">
+                                    {{ __('Discount') }}
+                                </dt>
+
+                                <dd class="w-1/2 text-right text-[#222]">
+                                    -{{ $this->cart?->discountTotal->formatted() }}
+                                </dd>
+                            </dl>
+                        @endif
+                    </div>
                 @else
                     <p class="py-4 text-sm font-medium text-center text-gray-500">
-                        Your cart is empty
+                        {{ __('Your cart is empty') }}
                     </p>
                 @endif
             </div>
@@ -139,18 +152,18 @@
                     <button
                         class="hover:bg-[#D9D9D966] hover:text-black block cursor-pointer w-full p-3 text-sm font-medium text-blue-800 border border-blue-600 hover:border-black rounded-[100px]"
                         type="button" wire:click="updateLines">
-                        <span wire:loading.remove wire:target="updateLines">Update Cart</span>
-                        <span wire:loading wire:target="updateLines">Updating...</span>
+                        <span wire:loading.remove wire:target="updateLines">{{ __('Update Cart') }}</span>
+                        <span wire:loading wire:target="updateLines">{{ __('Updating...') }}</span>
                     </button>
 
                     <a class="block w-full p-3 text-sm font-medium text-center text-white bg-blue-600 rounded-[100px] hover:bg-[#11316d] hover:shadow-lg"
                        href="{{ route('checkout.view') }}" wire:navigate>
-                        Checkout
+                        {{ __('Checkout') }}
                     </a>
 
                     <a class="inline-block text-sm font-medium text-gray-600 underline hover:text-gray-500"
                        href="{{ route('cart') }}">
-                        View Cart
+                        {{ __('View Cart') }}
                     </a>
                 </div>
             @endif

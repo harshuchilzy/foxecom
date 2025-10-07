@@ -1,9 +1,9 @@
 <section>
     <div class="max-w-screen-xl px-4 py-12 mx-auto sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold">
-            Search Results
+            {{ __('Search Results') }}
             @if (isset($term))
-                for <u>{{ $term }}</u>
+                {{ __('for') }} <u>{{ $term }}</u>
             @endif
         </h1>
 

@@ -98,7 +98,7 @@
 
         <!-- Header -->
         <div class="header">
-            <img src="{{ url('/') .'/images/blacklogo.png' }}" width="64" style="display:block;" />
+            <img class="logo" src="{{ url('/') .'/images/blacklogo.png' }}" alt="Foxergo Logo"/>
         </div>
 
         <!-- Content -->
@@ -190,7 +190,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            Foxergo Ltd., 24 Sanderling Way, Porthcawl, Wales, CF36 3TD<br>
+            Foxergo Ltd., Unit 6, Preston Trade Park, Ribbleton Lane, Preston, PR1 5EZ<br>
             Phone: +44 7925 606692 — Email: <a href="mailto:accounts@foxergo.com" style="color:#575757;">accounts@foxergo.com</a><br>
             <a href="{{ $unsubscribe_url }}" style="color:#575757;">Unsubscribe</a> from our emails
         </div>

@@ -2,10 +2,14 @@
 
 return [
 
-    'default' => env('PAYMENTS_TYPE', 'ngenius'),
+    // 'default' => env('PAYMENTS_TYPE', 'ngenius'),
 
     'types' => [
         'cash-in-hand' => [
+            'driver' => 'offline',
+            'authorized' => 'payment-offline',
+        ],
+        'pay-via-bank' => [
             'driver' => 'offline',
             'authorized' => 'payment-offline',
         ],

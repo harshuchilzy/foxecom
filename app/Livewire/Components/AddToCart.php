@@ -32,16 +32,11 @@ class AddToCart extends Component
     public function addToCart(): void
     {
         $this->validate();
-        $outerBoxQty = $this->purchasable?->product->attr('outer-box') ?? 1;
-        $this->outer_box_qty = ($this->quantity) * ($outerBoxQty);       
-        //Log::info(print_r($this->outer_box_qty, true));
-        if ($this->purchasable->stock < $this->outer_box_qty) {
+       
+        if ($this->purchasable->stock < $this->quantity) {
             $this->addError('quantity', 'The quantity exceeds the available stock.');
             return;
         }
-
-        // $productVariantQuantityIncrement = $this->quantity * $this->purchasable?->quantity_increment;
-        $productVariantQuantityIncrement = $this->quantity * $outerBoxQty;
 
         $existing = CartSession::lines()
             ->get()
@@ -50,11 +45,13 @@ class AddToCart extends Component
         if ($existing) {
             CartSession::updateLines(collect([[
                 'id' => $existing->id,
-                'quantity' => $existing->quantity + $this->outer_box_qty
+                'quantity' => $existing->quantity + $this->quantity
             ]]));
         } else {
-            // CartSession::manager()->add($this->purchasable, $this->outer_box_qty);
-            CartSession::manager()->add($this->purchasable, $productVariantQuantityIncrement);
+            CartSession::manager()->add(
+                $this->purchasable, 
+                $this->quantity
+            );
         }
 
         $this->dispatch('add-to-cart');

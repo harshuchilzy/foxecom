@@ -2,20 +2,22 @@
 
 namespace App\Livewire;
 
-use App\Mail\CustomerNewOrderMail;
 use Lunar\Models\Cart;
 use Livewire\Component;
 use Illuminate\View\View;
 use Lunar\Models\Address;
 use Lunar\Models\Country;
 use Lunar\Facades\Payments;
+use Lunar\Admin\Models\Staff;
 use Lunar\Models\CartAddress;
 use Lunar\Facades\CartSession;
+use App\Mail\AdminNewOrderMail;
 use WireUi\Traits\WireUiActions;
+use App\Mail\CustomerNewOrderMail;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Lunar\Facades\ShippingManifest;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutPage extends Component
 {
@@ -35,6 +37,11 @@ class CheckoutPage extends Component
      * Selected ShippingAddress
      */
     public $selectedShippingAddress;
+
+    public $clientPassword;
+    public $authentication = false;
+    public $staffMemberFound = null;
+    public $isVerified = false;
 
     /**
      * The shipping address instance.
@@ -62,7 +69,7 @@ class CheckoutPage extends Component
      */
     public $chosenShipping = null;
 
-    
+
 
     /**
      * The checkout steps.
@@ -86,7 +93,7 @@ class CheckoutPage extends Component
     /**
      * The payment type we want to use.
      */
-    public string $paymentType = 'cash-in-hand';
+    public string $paymentType = 'ngenius';
 
     /**
      * {@inheritDoc}
@@ -105,6 +112,8 @@ class CheckoutPage extends Component
      * Payment intent client secret
      */
     public $payment_intent_client_secret = null;
+
+    public bool $waiveDeliveryFee = false;
 
     /**
      * Payment string
@@ -131,6 +140,7 @@ class CheckoutPage extends Component
 
     public function mount(): void
     {
+
         if (!$this->cart = CartSession::current()) {
             $this->redirect('/');
 
@@ -156,7 +166,7 @@ class CheckoutPage extends Component
         $customer = auth()->check() ? auth()->user()->customers->first() : null;
 
         if (($this->shipping) && $customer) {
-            
+
             $this->shipping = $customer->addresses->where('billing_default', 1)->first()?->toArray();
 
             if (empty($this->shipping)) {
@@ -171,7 +181,7 @@ class CheckoutPage extends Component
         $this->billing = $this->cart->billingAddress ?: new CartAddress;
 
         if (($this->billing) && $customer) {
-            
+
             $this->billing = $customer->addresses->where('billing_default', 1)->first()?->toArray();
             $this->cart->setBillingAddress($this->billing);
             $this->billing = new CartAddress($this->billing);
@@ -204,22 +214,35 @@ class CheckoutPage extends Component
     {
         $shippingAddress = $this->cart->shippingAddress;
         $this->shipping = $this->cart->shippingAddress?->toArray() ?? [];
-        
+
         if ($shippingAddress) {
 
             // Do we have a selected option?
             if ($this->shippingOption && $shippingAddress->id) {
-                $this->chosenShipping = $this->shippingOption->getIdentifier();
+
+                if (($this->cart?->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
+                    $this->chosenShipping = 'delivery-costs';
+                } else {
+                    $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                }
+
                 $this->currentStep = $this->steps['shipping_option'] + 1;
                 $this->deliveryOptionVerified = true;
+
             } else {
                 $this->currentStep = $this->steps['shipping_option'];
-                $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+
+                if (($this->cart?->subTotal->value < 10000) && $this->waiveDeliveryFee == false ) {
+                    $this->chosenShipping = 'delivery-costs';
+                } else {
+                    $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+                }
+
                 return;
             }
 
         }
-       
+
     }
 
     public function saveAndContinueToNext()
@@ -245,7 +268,7 @@ class CheckoutPage extends Component
         if (!$shippingAddress) {
             return;
         }
-
+      
         if ($option = $shippingAddress->shipping_option) {
             return ShippingManifest::getOptions($this->cart)->first(function ($opt) use ($option) {
                 return $opt->getIdentifier() == $option;
@@ -261,6 +284,8 @@ class CheckoutPage extends Component
             $customer = auth()->user()->customers->first();
             $this->shipping = $customer->addresses->find($this->selectedShippingAddress)?->toArray();
             $this->cart->setShippingAddress($this->shipping);
+
+            $this->saveShippingOption();
         }
     }
 
@@ -292,22 +317,43 @@ class CheckoutPage extends Component
     {
         $option = $this->shippingOptions->first(fn ($option) => $option->getIdentifier() == $this->chosenShipping);
         CartSession::setShippingOption($option);
-        $this->refreshCart();
+        // $this->refreshCart();
+        $this->dispatch('cartUpdated');
     }
 
     public function checkout()
     {
+        if( empty($this->clientPassword) ) {
+            $this->addError('client-key-error', 'Client password is empty');
+            return;
+        }
+
+        if( !$this->verifyAuthenticationKey() ) {
+            return;
+        }
+
         $payment = Payments::cart($this->cart)->withData([
             'payment_intent_client_secret' => $this->payment_intent_client_secret,
             'payment_intent' => $this->payment_intent,
         ])->authorize();
+        
+        $customer = auth()->user()->customers->first();
+        // CartSession::clear();
 
-        CartSession::clear();
-
-        $this->cart->user->attach($this->cart->discounts);
+        $order = $this->cart->orders->last();
 
         if ($payment->success) {
-            Mail::to($this->cart->order->customer->email)->send(new CustomerNewOrderMail($this->cart->order));
+            if($customer->email){
+                Mail::to($customer->email)->send(new CustomerNewOrderMail($order));
+            }
+            $admins = Staff::get();
+            foreach ($admins as $admin) {
+                if (in_array($admin->email, ['info@dayzsolutions.com', 'pieter@dayzsolutions.com'])) {
+                    continue;
+                }
+                Mail::to($admin)->send(new AdminNewOrderMail($order));
+            }
+
             return redirect()->route('checkout-success.view');
         }
 
@@ -406,6 +452,69 @@ class CheckoutPage extends Component
     public function confirmPayment(): void
     {
         $this->currentStep = $this->steps['payment'] + 1;
+    }
+
+    public function verifyAuthenticationKey()
+    {
+        $staff = Staff::get();
+
+        $this->authentication = false;
+        $this->staffMemberFound = null;
+
+        foreach ($staff as $member) {
+            if ($member->authentication_key == $this->clientPassword) {
+                $this->authentication = true;
+                $this->staffMemberFound = $member;
+                break;
+            }
+        }
+
+        // Log::info($this->authentication);
+        //Log::info('member: ' . print_r($this->staffMemberFound, true));
+
+        $paymentMethods = [
+            'cash-in-hand'   => 'Pay with cash',
+            'pay-via-bank'   => 'Pay via bank transfer',
+            'ngenius'        => 'Pay via Card',
+        ];
+
+        if ($this->authentication && $this->staffMemberFound) {
+            $this->cart->update([
+                'meta' => array_merge((array) $this->cart->meta ?? [], [
+                    'Payment Method' => $paymentMethods[$this->paymentType] ?? 'Unknown',
+                    'Authentication Key' => $this->staffMemberFound->authentication_key,
+                    'Staff Member' => $this->staffMemberFound->first_name . ' ' . $this->staffMemberFound->last_name,
+                    'Authenticated At' => now()->toISOString(),
+                ])
+            ]);
+            $this->isVerified = true;
+            return true;
+        } else {
+            $this->addError('client-key-error', 'Authentication failed.');
+            $this->isVerified = false;
+            return false;
+        }
+
+        //Log::info('cart: ' . print_r($this->cart, true));
+    }
+
+    public function changeDeliveryFee() {
+        
+        if (($this->cart?->subTotal->value < 10000) && ($this->waiveDeliveryFee == false) ) {
+            $this->chosenShipping = 'delivery-costs';
+        } else {
+            $this->chosenShipping = $this->shippingOptions->first()?->getIdentifier();
+        }
+        
+        $this->saveShippingOption();
+    }
+
+    public function updatedPaymentType($value)
+    {
+        if ($value != 'cash-in-hand') {
+            $this->waiveDeliveryFee = false;
+            $this->changeDeliveryFee();
+        }   
     }
 
     public function render(): View

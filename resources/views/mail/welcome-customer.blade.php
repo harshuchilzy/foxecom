@@ -104,34 +104,48 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td align="left" style="padding:10px 25px;">
-                                            <div
-                                                style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;color:#555;">
-                                                Hello <strong>{{ $first_name }} {{ $last_name }}</strong>,<br><br>
-                                                Thank you for registering with Foxergo! Your account has been
-                                                successfully created. Click the button below to log in and start using
-                                                your account.
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if ($customer_type === 'wholesaler')
+                                        <tr>
+                                            <td align="left" style="padding:10px 25px;">
+                                                
+                                                <div
+                                                    style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;color:#555;">
+                                                    Hello <strong>{{ $first_name }} {{ $last_name }}</strong>,<br><br>
+                                                    Thank you for your interest, our team is working hard to get your approval first.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td align="left" style="padding:10px 25px;">
+                                                
+                                                <div
+                                                    style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:22px;color:#555;">
+                                                    Hello <strong>{{ $first_name }} {{ $last_name }}</strong>,<br><br>
+                                                    Thank you for registering with Foxergo! Your account has been
+                                                    successfully created. Click the button below to log in and start using
+                                                    your account.
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                    <tr>
-                                        <td align="center" style="padding:30px 25px 50px;">
-                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation"
-                                                style="border-collapse:separate;">
-                                                <tr>
-                                                    <td align="center" bgcolor="#2F67F6"
-                                                        style="border-radius:3px;padding:15px 25px;">
-                                                        <a href="{{ $login_url }}"
-                                                            style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;color:#ffffff;text-decoration:none;">
-                                                            Login to Your Account
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td align="center" style="padding:30px 25px 50px;">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                                    style="border-collapse:separate;">
+                                                    <tr>
+                                                        <td align="center" bgcolor="#2F67F6"
+                                                            style="border-radius:3px;padding:15px 25px;">
+                                                            <a href="{{ $login_url }}"
+                                                                style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:15px;color:#ffffff;text-decoration:none;">
+                                                                Login to Your Account
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    @endif
 
                                     <tr>
                                         <td align="left" style="padding:10px 25px;">
@@ -163,7 +177,7 @@
                                         <td align="center" style="padding:0;">
                                             <div
                                                 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#575757;">
-                                                Foxergo Ltd., 24 Sanderling Way, Porthcawl, Wales, CF36 3TD<br>
+                                                Foxergo Ltd., Unit 6, Preston Trade Park, Ribbleton Lane, Preston, PR1 5EZ<br>
                                                 Phone: +44 7925 606692 — Email: <a href="mailto:accounts@foxergo.com"
                                                     style="color:#575757;">accounts@foxergo.com</a>
                                             </div>

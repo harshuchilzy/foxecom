@@ -3,20 +3,20 @@
     <div class="bg-[#D9D9D966] rounded-tl-[6px] rounded-tr-[6px] p-4 flex justify-between flex-col md:flex-row gap-3 md:gap-0">
         <div class="flex gap-3 w-full md:w-[70%] lg:w-[50%]">
             <div class="flex flex-col gap-1 w-[30%]">
-                <p class="font-inter text-normal text-[12px] text-black uppercase">Order Placed</p>
+                <p class="font-inter text-normal text-[12px] text-black uppercase">{{ __('Order Placed') }}</p>
                 <p class="font-inter text-normal text-[12px] text-black">{{date_format($order->created_at,"d F Y")}}</p>
             </div>
             <div class="flex flex-col gap-1 w-[20%]">
-                <p class="font-inter text-normal text-[12px] text-black uppercase">Total</p>
+                <p class="font-inter text-normal text-[12px] text-black uppercase">{{ __('Total') }}</p>
                 <p class="font-inter text-normal text-[12px] text-black">{{$order->total->formatted}}</p>
             </div>
             <div class="flex flex-col gap-1 w-[50%]">
-                <p class="font-inter text-normal text-[12px] text-black uppercase">Dispatch to</p>
+                <p class="font-inter text-normal text-[12px] text-black uppercase">{{ __('Dispatch to') }}</p>
                 <p class="font-inter text-normal text-[12px] text-black">{{$order->billingAddress->first_name}} {{$order->billingAddress->last_name}}</p>
             </div>
         </div>
         <div>
-            <p class="font-inter text-normal text-[12px] text-black uppercase">ORDER: <span>{{$order->reference}}</span></p>
+            <p class="font-inter text-normal text-[12px] text-black uppercase">{{ __('ORDER:') }} <span>{{$order->reference}}</span></p>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
                 <p class="font-inter font-normal text-[12px] text-black">{{$order->note}}</p>
             </div>
             @foreach($order->lines as $line)
-                @if($line->type == 'physical')
+                @if($line->type == 'physical' && $line->purchasable)
                     @php
                         $product = $line->purchasable->product;
                     @endphp
@@ -41,10 +41,10 @@
                                         <thead class="text-xs text-gray-900 uppercase">
                                             <tr>
                                                 <th scope="col" class="px-1 py-2">
-                                                    Flavours ordered :
+                                                    {{ __('Flavours ordered :') }}
                                                 </th>
                                                 <th scope="col" class="px-3 py-2 text-normal">
-                                                    Quantity (Outers):
+                                                    {{ __('Quantity (Outers):') }}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -63,7 +63,7 @@
                                         <thead class="text-xs text-gray-900 uppercase">
                                             <tr>
                                                 <th scope="col" class="px-1 py-2">
-                                                    Quantity (Outers):
+                                                    {{ __('Quantity (Outers):') }}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -94,7 +94,7 @@
                                     :quantity="$formattedQuantity"
                                     :type="'orderBtn'"
                                 />
-                                <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px] hover:bg-[#D9D9D966] hover:shadow-lg">View your item</a>
+                                <a href="{{ route('product.view', $product->defaultUrl->slug) }}" class="bg-[#FFFFFF] border border-[#33A5D6] rounded-[15px] px-4 py-2 text-black font-roboto text-normal text-[12px] hover:bg-[#D9D9D966] hover:shadow-lg">{{ __('View your item') }}</a>
                             </div>
                         </div>
                     </div>
@@ -104,8 +104,8 @@
 
         <div class="w-full lg:w-1/4 flex flex-col gap-2">
             <button wire:click.prevent="downloadInvoice({{$order->id}})" class="border border-[#626262] rounded-[15px] bg-white text-black font-roboto text-normal text-[14px] w-full py-1 cursor-pointer hover:bg-[#D9D9D966] hover:shadow-lg">
-                <span wire:loading.remove wire:target="downloadInvoice()">Download Invoice</span>
-                <span wire:loading wire:target="downloadInvoice()">Downloading...</span>
+                <span wire:loading.remove wire:target="downloadInvoice()">{{ __('Download Invoice') }}</span>
+                <span wire:loading wire:target="downloadInvoice()">{{ __('Downloading...') }}</span>
             </button>
         </div>
     </div>
