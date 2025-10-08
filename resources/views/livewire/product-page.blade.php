@@ -550,8 +550,8 @@
                                 </button>
                             </div>
 
-                            <!-- Claim Offer Now Modal -->
-                            <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
+                            <!-- Claim Offer Old Modal -->
+                            {{-- <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
                                 <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false"
                                     x-data="{
                                         quantities: @entangle('quantities').live,
@@ -681,6 +681,278 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> --}}
+
+                            <!-- Claim Offer New Modal -->
+                            <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
+                                <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false"
+                                    x-data="{
+                                        quantities: @entangle('quantities').live,
+                                        podsQuantities: @entangle('podsQuantities').live,
+                                        toggles: @entangle('toggles').live,
+                                        podsToggles: @entangle('podsToggles').live,
+                                        sumOfSelectedKitsToggles: 0,
+                                        sumOfSelectedPodsToggles: 0,
+                                        calculateSum() {
+                                            this.sumOfSelectedKitsToggles = Object.entries(this.toggles)
+                                                .filter(([key, on]) => on && this.quantities[key])
+                                                .reduce((sum, [key]) => sum + Number(this.quantities[key] ?? 0), 0);
+                                            $wire.set('sumOfSelectedKitsToggles', this.sumOfSelectedKitsToggles);
+                                        },
+                                        podsCalculateSum() {
+                                            this.sumOfSelectedPodsToggles = Object.entries(this.podsToggles)
+                                                .filter(([key, on]) => on && this.podsQuantities[key])
+                                                .reduce((sum, [key]) => sum + Number(this.podsQuantities[key] ?? 0), 0);
+                                            $wire.set('sumOfSelectedPodsToggles', this.sumOfSelectedPodsToggles);
+                                        }
+                                    }">
+                                    <div class="sticky top-0 left-0 w-full bg-white z-20 pt-6 pb-2 border-b rounded-tr-2xl rounded-tl-2xl">
+                                        <!-- Close Button -->
+                                        <button @click="showModal = false" class="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl font-bold cursor-pointer z-50">&times;</button>
+
+                                        <!-- Product Name -->
+                                        <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
+                                            {{ __('Buy :min KITs / Get :reward PODs', ['min' => $this->minItemsQty, 'reward' => $this->rewardItems]) }}
+                                        </h2>
+
+                                        <div class="lg:flex w-full gap-2 items-center">
+                                            <div class="lg:w-2/3 w-full px-4">
+                                                <p class="font-medium lg:text-left text-center">
+                                                    {{ __('You can select') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d Items', $this->maxQuantityIncrement) }}</span> {{ __('including') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d KITs', $this->minItemsQty) }}</span> {{ __('and') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d PODs', $this->rewardItems) }}</span>
+                                                </p>
+                                                @if ($this->rewardItems)
+                                                    <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">{{ sprintf('%02d', $this->rewardItems) }} {{ __('FREE item(s)') }}</span>
+                                                @endif
+                                                
+                                            </div>
+
+                                            <!-- Add to Cart Button -->
+                                            <div class="text-center lg:w-1/3 w-full px-4">
+                                                <button type="button"
+                                                    class="bg-[#282828] px-[24px] py-2 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 font-inter"
+                                                    wire:click="addDiscountablesToCart"
+                                                    :disabled="sumOfSelectedKitsToggles < {{ $this->minItemsQty }} || sumOfSelectedPodsToggles < {{ $this->rewardItems }}"
+                                                    :class="{
+                                                        'opacity-50 cursor-not-allowed': sumOfSelectedKitsToggles < {{ $this->minItemsQty }} || sumOfSelectedPodsToggles < {{ $this->rewardItems }},
+                                                        'hover:bg-[#454545] cursor-pointer': sumOfSelectedKitsToggles >= {{ $this->minItemsQty }} && sumOfSelectedPodsToggles >= {{ $this->rewardItems }}
+                                                    }">
+                                                    <span wire:loading.remove wire:target="addDiscountablesToCart">{{ __('Add to Cart') }}</span>
+                                                    <span wire:loading wire:target="addDiscountablesToCart">{{ __('Adding...') }}</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                         @if ($errors->has('kits-pods-popup-error'))
+                                            <div class="p-2 mt-2 text-xs font-medium text-center text-red-700 rounded bg-red-50"
+                                                role="alert">
+                                                @foreach ($errors->get('kits-pods-popup-error') as $error)
+                                                    {{ $error }}
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="max-h-[75vh] overflow-auto p-6 pt-4 mt-10 md:mt-0" x-data="{ openAccordion1: false, openAccordion2: false }">
+                                        <!-- KITs Container -->
+                                        <div class="border rounded-lg shadow-sm">
+                                            <!-- Header -->
+                                            <button 
+                                                @click="openAccordion1 = !openAccordion1" 
+                                                class="w-full flex justify-between items-center px-6 py-4 bg-gray-100 hover:bg-gray-200 rounded-t-lg focus:outline-none transition cursor-pointer">
+                                                
+                                                <div class="lg:text-left text-center pb-2">
+                                                    <span class="text-lg font-semibold mr-2">KITs ({{ $this->minItemsQty }})</span>
+                                                    <strong :class="sumOfSelectedKitsToggles > {{ $this->minItemsQty }} ? 'text-red-600' : 'text-themeblue'">
+                                                        {{ __('Selected:') }}
+                                                        <span x-text="String(sumOfSelectedKitsToggles).padStart(2, '0')"></span>
+                                                        {{ __('item(s)') }}
+                                                    </strong>
+                                                </div>
+                                                <svg 
+                                                    :class="{'rotate-180': openAccordion1}" 
+                                                    class="w-5 h-5 text-gray-600 transform transition-transform duration-300" 
+                                                    fill="none" stroke="currentColor" stroke-width="2" 
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                                
+                                            </button>
+
+                                            <!-- Content -->
+                                            <div 
+                                                class="transition-all duration-500 ease-in-out overflow-hidden"
+                                                :class="openAccordion1 ? 'max-h-[100%] opacity-100' : 'max-h-0 opacity-0'"
+                                            >
+                                                <div class="p-3 pt-4 mt-10 md:mt-0 border-t bg-white">
+                                                    <!-- Product Boxes -->
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        @foreach($this->loadConditionProducts() as $index => $variant)
+                                                            <!-- Product Box -->
+                                                            <div x-data="{
+                                                                    isSelected: $wire.entangle('toggles.{{ $variant['id'] }}').live,
+                                                                    maxSelected: {{ $this->minItemsQty }},
+                                                                    get isDisabled() {
+                                                                        return !this.isSelected && sumOfSelectedKitsToggles >= this.maxSelected;
+                                                                    }
+                                                                }"
+                                                                :class="{ 'border-blue-600 selected': isSelected }"
+                                                                class="bulk-order-product-box border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
+
+                                                                <img src="{{ $variant['image_url'] }}" alt="" class="w-32 min-w-32 h-32 min-h-32 object-cover rounded">
+
+                                                                <div class="flex flex-col justify-between w-full h-full">
+
+                                                                    <div class="md:text-left text-center">
+                                                                        <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
+
+                                                                        <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
+                                                                            <span class="text-[#1275EE] text-lg font-semibold">
+                                                                                {{ $variant['price'] }} + {{ __('VAT') }}
+                                                                            </span>
+
+                                                                            <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="px-2 text-3xl cursor-pointer"
+                                                                                    @click="if((quantities['{{ $variant['id'] }}'] ?? 1) > 1){ quantities['{{ $variant['id'] }}']--; $nextTick(() => calculateSum()); }">-
+                                                                                </button>
+
+                                                                                <input type="number" min="1"
+                                                                                    x-model.number="quantities['{{ $variant['id'] }}'] || 0"
+                                                                                    @input.debounce.0ms="calculateSum()"
+                                                                                    class="w-full text-center border-0 p-0 m-0 nobutton" />
+
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="px-2 text-3xl cursor-pointer"
+                                                                                    @click="quantities['{{ $variant['id'] }}'] = Number(quantities['{{ $variant['id'] }}'] ?? 0) + 1; $nextTick(() => calculateSum());" >+
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="md:text-end">
+                                                                        <div class="group relative inline-block w-10 h-6">
+                                                                            <input type="checkbox" class="sr-only"
+                                                                                id="toggle_{{ $variant['id'] }}"
+                                                                                wire:model.live="toggles.{{ $variant['id'] }}"
+                                                                                @change="calculateSum()"
+                                                                                :disabled="isDisabled"
+                                                                            >
+                                                                            <label for="toggle_{{ $variant['id'] }}" class="block h-6 cursor-pointer rounded-full bg-gray-300 transition-colors duration-200 group-has-[input:checked]:bg-green-500">
+                                                                                <span class="absolute h-5 w-5 top-0.5 left-0.5 bg-white rounded-full shadow-sm transition-transform duration-200 group-has-[input:checked]:translate-x-4"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- PODs Container -->
+                                        <div class="border rounded-lg shadow-sm mt-4">
+                                            <!-- Header -->
+                                            <button 
+                                                @click="openAccordion2 = !openAccordion2" 
+                                                class="w-full flex justify-between items-center px-6 py-4 bg-gray-100 hover:bg-gray-200 rounded-t-lg focus:outline-none transition cursor-pointer">
+                                                <div class="lg:text-left text-center pb-2">
+                                                    <span class="text-lg font-semibold mr-2">PODs ({{ $this->rewardItems }})</span>
+                                                    <strong :class="sumOfSelectedPodsToggles > {{ $this->rewardItems }} ? 'text-red-600' : 'text-themeblue'">
+                                                        {{ __('Selected:') }}
+                                                        <span x-text="String(sumOfSelectedPodsToggles).padStart(2, '0')"></span>
+                                                        {{ __('item(s)') }}
+                                                    </strong>
+                                                </div>
+                                                <svg 
+                                                    :class="{'rotate-180': openAccordion2}" 
+                                                    class="w-5 h-5 text-gray-600 transform transition-transform duration-300" 
+                                                    fill="none" stroke="currentColor" stroke-width="2" 
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            </button>
+
+                                            <!-- Content -->
+                                            <div 
+                                                class="transition-all duration-500 ease-in-out overflow-hidden"
+                                                :class="openAccordion2 ? 'max-h-[100%] opacity-100' : 'max-h-0 opacity-0'"
+                                            >
+                                                <div class="p-3 pt-4 mt-10 md:mt-0 border-t bg-white">
+                                                    <!-- Product Boxes -->
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                        @foreach($this->loadRewardedProducts() as $index => $variant)
+                                                            <!-- Product Box -->
+                                                            <div x-data="{
+                                                                    isPodsSelected: $wire.entangle('podsToggles.{{ $variant['id'] }}').live,
+                                                                    maxPodsSelected: {{ $this->rewardItems }},
+                                                                    get isPodsDisabled() {
+                                                                        return !this.isPodsSelected && sumOfSelectedPodsToggles >= this.maxPodsSelected;
+                                                                    }
+                                                                }"
+                                                                :class="{ 'border-blue-600 podsSelected': isPodsSelected }"
+                                                                class="bulk-order-product-box border-2 rounded-lg p-4 flex flex-col md:flex-row items-center text-center gap-3 transition-colors duration-200" >
+
+                                                                <img src="{{ $variant['image_url'] }}" alt="" class="w-32 min-w-32 h-32 min-h-32 object-cover rounded">
+
+                                                                <div class="flex flex-col justify-between w-full h-full">
+
+                                                                    <div class="md:text-left text-center">
+                                                                        <div class="text-lg font-medium font-inter">{{ $variant['name'] }}</div>
+
+                                                                        <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
+                                                                            <span class="text-[#1275EE] text-lg font-semibold">
+                                                                                {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }}
+                                                                            </span>
+
+                                                                            <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="px-2 text-3xl cursor-pointer"
+                                                                                    @click="if((podsQuantities['{{ $variant['id'] }}'] ?? 1) > 1){ podsQuantities['{{ $variant['id'] }}']--; $nextTick(() => podsCalculateSum()); }">-
+                                                                                </button>
+
+                                                                                <input type="number" min="1" 
+                                                                                    x-model.number="podsQuantities['{{ $variant['id'] }}'] || 0"
+                                                                                    @input.debounce.0ms="podsCalculateSum()"
+                                                                                    class="w-full text-center border-0 p-0 m-0 nobutton" />
+
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="px-2 text-3xl cursor-pointer"
+                                                                                    @click="podsQuantities['{{ $variant['id'] }}'] = Number(podsQuantities['{{ $variant['id'] }}'] ?? 0) + 1; $nextTick(() => podsCalculateSum());" >+
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="md:text-end">
+                                                                        <div class="group relative inline-block w-10 h-6">
+                                                                            <input type="checkbox" class="sr-only"
+                                                                                id="pods_toggle_{{ $variant['id'] }}"
+                                                                                wire:model.live="podsToggles.{{ $variant['id'] }}"
+                                                                                @change="podsCalculateSum()"
+                                                                                :disabled="isPodsDisabled"
+                                                                            >
+                                                                            <label for="pods_toggle_{{ $variant['id'] }}" class="block h-6 cursor-pointer rounded-full bg-gray-300 transition-colors duration-200 group-has-[input:checked]:bg-green-500">
+                                                                                <span class="absolute h-5 w-5 top-0.5 left-0.5 bg-white rounded-full shadow-sm transition-transform duration-200 group-has-[input:checked]:translate-x-4"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>

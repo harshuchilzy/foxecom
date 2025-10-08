@@ -90,9 +90,19 @@ class ProductPage extends Component
     public array $quantities = [];
 
     /**
+     * Selected PODs Variant Quantities
+     */
+    public array $podsQuantities = [];
+
+    /**
      * Selected Variant Toggles
      */
     public array $toggles = [];
+
+    /**
+     * Selected PODs Variant Toggles
+     */
+    public array $podsToggles = [];
 
     /**
      * Maximum outer box quantity
@@ -105,9 +115,24 @@ class ProductPage extends Component
     public $rewardItems;
 
     /**
+     * Min items qty to get reward
+     */
+    public $minItemsQty;
+
+    /**
      * Sum of the selected toggles
      */
     public $sumOfSelectedToggles;
+
+    /**
+     * Sum of the selected KITs toggles
+     */
+    public $sumOfSelectedKitsToggles;
+
+    /**
+     * Sum of the selected PODs toggles
+     */
+    public $sumOfSelectedPodsToggles;
 
     /**
      * Show Flavors Add to Cart Popup
@@ -147,6 +172,7 @@ class ProductPage extends Component
 
         $this->initializeQuantities();
         $this->getLargestQuantityIncrement();
+
     }
 
     /**
@@ -398,6 +424,19 @@ class ProductPage extends Component
     }
 
     /**
+     * Get Discount Product Variant Name
+     */
+    protected function getDiscountVariantName($discountable, $variant)
+    {
+        $productName = $discountable->translate('name');
+        $optionNames = $variant->values->map(function ($value) {
+            return $value->translate('name');
+        })->implode(' / ');
+
+        return "{$productName} - {$optionNames}";
+    }
+
+    /**
      * Get Variant Image
      */
     protected function getVariantImage($variant)
@@ -408,6 +447,22 @@ class ProductPage extends Component
 
         if ($this->product->images->isNotEmpty()) {
             return $this->product->images->first()->getUrl();
+        }
+
+        return asset('images/placeholder.jpg');
+    }
+
+    /**
+     * Get Discount product Variant Image
+     */
+    protected function getDiscountVariantImage($discountable, $variant)
+    {
+        if ($variant->images->isNotEmpty()) {
+            return $variant->images->first()->getUrl();
+        }
+
+        if ($discountable->images->isNotEmpty()) {
+            return $discountable->images->first()->getUrl();
         }
 
         return asset('images/placeholder.jpg');
@@ -429,7 +484,7 @@ class ProductPage extends Component
                     //     $this->maxQuantityIncrement = $this->maxQuantityIncrement + $this->rewardItems;
                     // }
                     $this->rewardItems = $discount->data['reward_qty'];
-
+                    $this->minItemsQty = $discount->data['min_qty'];
                     $this->maxQuantityIncrement = $discount->data['min_qty'] + $this->rewardItems;
                 }
             }
@@ -449,6 +504,36 @@ class ProductPage extends Component
             }
         }
         return $this->sumOfSelectedToggles;
+    }
+
+    /**
+     * Sum of the selected discount KITs toggles
+     */
+    public function getSumOfSelectedKitsToggles()
+    {
+        $this->sumOfSelectedKitsToggles = 0;
+
+        foreach ($this->toggles as $key => $isSelected) {
+            if ($isSelected && isset($this->quantities[$key])) {
+                $this->sumOfSelectedKitsToggles += $this->quantities[$key];
+            }
+        }
+        return $this->sumOfSelectedKitsToggles;
+    }
+
+    /**
+     * Sum of the selected discount PODs toggles
+     */
+    public function getSumOfSelectedPodsToggles()
+    {
+        $this->sumOfSelectedPodsToggles = 0;
+
+        foreach ($this->podsToggles as $key => $isSelected) {
+            if ($isSelected && isset($this->podsQuantities[$key])) {
+                $this->sumOfSelectedPodsToggles += $this->podsQuantities[$key];
+            }
+        }
+        return $this->sumOfSelectedPodsToggles;
     }
 
     /**
@@ -666,6 +751,269 @@ class ProductPage extends Component
 
             $this->loadingVariantId = null;
        
+    }
+
+    /**
+     * Load all discount products - Conditions
+     * @return array|null
+     */
+    public function loadConditionProducts()
+    {
+        $discount = $this->getDiscount();
+
+        if($discount->status == "active") {
+            $conditionProducts = $discount->discountableConditions()
+                                    ->where('discountable_type', Product::morphName())
+                                    ->with('discountable')
+                                    ->get()
+                                    ->pluck('discountable');
+
+            $allConditionVariations = [];
+
+            foreach($conditionProducts as $conditionProduct) {
+                $variationsConditionProduct = $conditionProduct?->variants()
+                        ->with(['values.option', 'images'])
+                        ->get()
+                        ->map(function ($variant) use ($conditionProduct) {
+                            $outerBoxQty = $conditionProduct->attr('outer-box') ?? 1;
+                            $basePrice = $variant->basePrices->first()->price;
+                            $unitPricePerOuterBox = $basePrice?->value / $outerBoxQty;
+
+                            return [
+                                'id' => $variant->id,
+                                'name' => $this->getDiscountVariantName($conditionProduct, $variant),
+                                'image_url' => $this->getDiscountVariantImage($conditionProduct, $variant),
+                                'sku' => $variant->sku,
+                                'price' => $variant->basePrices->first()->price?->formatted(),
+                                'outer_box_qty' => $outerBoxQty,
+                                'unit_price_per_outer_box' => $basePrice ? ( new Price(intval($unitPricePerOuterBox), $basePrice->currency, intval($basePrice->unitQty)) )->formatted() : null,
+                                'stock' => $variant->stock,
+                                'quantity_increment' => $variant->quantity_increment,
+                                'options' => $variant->values->map(function ($value) {
+                                    return [
+                                        'option_id' => $value->option->id,
+                                        'option_name' => $value->option->translate('name'),
+                                        'value_id' => $value->id,
+                                        'value_name' => $value->translate('name'),
+                                    ];
+                                })->toArray()
+                            ];
+                        })->toArray();
+
+                $allConditionVariations = array_merge($allConditionVariations, $variationsConditionProduct);
+            }
+
+            return !empty($allConditionVariations) ? $allConditionVariations : null;
+
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Load all discount products - Rewards
+     * @return array|null
+     */
+    public function loadRewardedProducts()
+    {
+        $discount = $this->getDiscount();
+
+        if($discount->status == "active") {
+            $rewardProducts = $discount->discountableRewards()
+                                    ->where('discountable_type', Product::morphName())
+                                    ->with('discountable')
+                                    ->get()
+                                    ->pluck('discountable');
+
+            $allRewardVariations = [];
+
+            foreach($rewardProducts as $rewardProduct) {
+                $variationsRewardProduct = $rewardProduct?->variants()
+                        ->with(['values.option', 'images'])
+                        ->get()
+                        ->map(function ($variant) use ($rewardProduct) {
+                            $outerBoxQty = $rewardProduct->attr('outer-box') ?? 1;
+                            $basePrice = $variant->basePrices->first()->price;
+                            $unitPricePerOuterBox = $basePrice?->value / $outerBoxQty;
+
+                            return [
+                                'id' => $variant->id,
+                                'name' => $this->getDiscountVariantName($rewardProduct, $variant),
+                                'image_url' => $this->getDiscountVariantImage($rewardProduct, $variant),
+                                'sku' => $variant->sku,
+                                'price' => $variant->basePrices->first()->price?->formatted(),
+                                'outer_box_qty' => $outerBoxQty,
+                                'unit_price_per_outer_box' => $basePrice ? ( new Price(intval($unitPricePerOuterBox), $basePrice->currency, intval($basePrice->unitQty)) )->formatted() : null,
+                                'stock' => $variant->stock,
+                                'quantity_increment' => $variant->quantity_increment,
+                                'options' => $variant->values->map(function ($value) {
+                                    return [
+                                        'option_id' => $value->option->id,
+                                        'option_name' => $value->option->translate('name'),
+                                        'value_id' => $value->id,
+                                        'value_name' => $value->translate('name'),
+                                    ];
+                                })->toArray()
+                            ];
+                        })->toArray();
+
+                $allRewardVariations = array_merge($allRewardVariations, $variationsRewardProduct);
+            }
+
+            return !empty($allRewardVariations) ? $allRewardVariations : null;
+
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Claim now Popup Add to Cart Action - New
+     */
+    public function addDiscountablesToCart()
+    {
+        // $validatedData = $this->validate([
+        //     'quantities.*' => 'required|numeric|min:1',
+        //     'toggles.*' => 'nullable|boolean',
+        //     'podsQuantities.*' => 'required|numeric|min:1',
+        //     'podsToggles.*' => 'nullable|boolean',
+        // ]);
+
+        if ($this->getSumOfSelectedKitsToggles() > $this->minItemsQty) {
+            $this->addError('kits-pods-popup-error', "Please select {$this->minItemsQty} KITs only.");
+            return;
+        }
+
+        if ($this->getSumOfSelectedKitsToggles() < $this->minItemsQty) {
+            $this->addError('kits-pods-popup-error', "Please select {$this->minItemsQty} KITs.");
+            return;
+        }
+
+        if ($this->getSumOfSelectedPodsToggles() > $this->rewardItems) {
+            $this->addError('kits-pods-popup-error', "Please select {$this->rewardItems} PODs only.");
+            return;
+        }
+
+        if ($this->getSumOfSelectedPodsToggles() < $this->rewardItems) {
+            $this->addError('kits-pods-popup-error', "Please select {$this->rewardItems} PODs.");
+            return;
+        }
+
+        $linesToAdd = [];
+        $hasError = false;
+
+        foreach ($this->loadConditionProducts() as $variant) {
+            $variantId = $variant['id'];
+            $quantity = $this->quantities[$variantId] ?? 0;
+
+            // Only add to cart if toggle is enabled or if you want all variants
+            if (isset($this->toggles[$variantId]) && $this->toggles[$variantId] && $quantity > 0) {
+                $purchasable = ProductVariant::find($variantId);
+
+                if ($purchasable->stock < $quantity) {
+                    $this->addError('kits-pods-popup-error', "Not enough stock for {$variant['name']}");
+                    $hasError = true;
+                    continue;
+                }
+
+                $linesToAdd[] = [
+                    'purchasable' => $purchasable,
+                    'quantity' => $quantity,
+                    'meta' => [
+                        'from_popup' => true
+                    ]
+                ];
+            }
+        }
+
+        foreach ($this->loadRewardedProducts() as $podVariant) {
+            $variantId = $podVariant['id'];
+            $quantity = $this->podsQuantities[$variantId] ?? 0;
+ 
+            // Only add to cart if toggle is enabled or if you want all variants
+            if (isset($this->podsToggles[$variantId]) && $this->podsToggles[$variantId] && $quantity > 0) {
+                $purchasable = ProductVariant::find($variantId);
+
+                if ($purchasable->stock < $quantity) {
+                    $this->addError('kits-pods-popup-error', "Not enough stock for {$podVariant['name']}");
+                    $hasError = true;
+                    continue;
+                }
+
+                $linesToAdd[] = [
+                    'purchasable' => $purchasable,
+                    'quantity' => $quantity,
+                    'meta' => [
+                        'from_popup' => true
+                    ]
+                ];
+            }
+        }
+
+        if ($hasError) {
+            return;
+        }
+
+        if (empty($linesToAdd)) {
+            $this->addError('kits-pods-popup-error', 'Please select at least one variant');
+            return;
+        }
+
+        // Add all selected items to cart
+        foreach ($linesToAdd as $line) {
+            $existing = CartSession::lines()
+                ->get()
+                ->first(fn ($l) => ($l->purchasable_id === $line['purchasable']->id) && empty($l->meta['free']));
+
+            if ($existing) {
+                CartSession::updateLines(collect([[
+                    'id' => $existing->id,
+                    'quantity' => $existing->quantity + $line['quantity']
+                ]]));
+            } else {
+                CartSession::manager()->add(
+                    $line['purchasable'], 
+                    $line['quantity']
+                );
+            }
+        }
+
+        $discount = $this->getDiscount();
+
+        if (!$discount) {
+            abort(404, 'Discount not found.');
+        }
+
+        $cart = CartSession::current();
+        if(!$cart){
+            $cart = Cart::create([
+                'currency_id' => Currency::getDefault()->id,
+                'channel_id' => Channel::getDefault()->id,
+            ]);
+        }
+        $cart->coupon_code = $discount->coupon;
+        $cart->calculate();
+        $cart->save();
+
+        $this->dispatch('add-to-cart');
+        $this->dispatch('cart-updated');
+        $this->showBulkAddToCartPopup = false;
+    }
+
+    /**
+     * Check whether this is KITs/PODs Combination
+     * @return bool
+     */
+    public function isKitsPodsCombination() 
+    {
+        $discountables = $this->getDiscount()->discountables;
+        
+        $discountableIds = $discountables->pluck('discountable_id')->unique();
+        if($discountableIds->count() == 1) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function render(): View
