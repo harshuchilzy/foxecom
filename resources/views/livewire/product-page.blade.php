@@ -691,16 +691,16 @@
                             <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
                                 <div class="bg-white rounded-2xl border-gray-300 w-full max-w-4xl mx-4 relative" @click.away="showModal = false"
                                     x-data="{
-                                        quantities: @entangle('quantities').live,
+                                        kitsQuantities: @entangle('kitsQuantities').live,
                                         podsQuantities: @entangle('podsQuantities').live,
-                                        toggles: @entangle('toggles').live,
+                                        kitsToggles: @entangle('kitsToggles').live,
                                         podsToggles: @entangle('podsToggles').live,
                                         sumOfSelectedKitsToggles: 0,
                                         sumOfSelectedPodsToggles: 0,
                                         calculateSum() {
-                                            this.sumOfSelectedKitsToggles = Object.entries(this.toggles)
-                                                .filter(([key, on]) => on && this.quantities[key])
-                                                .reduce((sum, [key]) => sum + Number(this.quantities[key] ?? 0), 0);
+                                            this.sumOfSelectedKitsToggles = Object.entries(this.kitsToggles)
+                                                .filter(([key, on]) => on && this.kitsQuantities[key])
+                                                .reduce((sum, [key]) => sum + Number(this.kitsQuantities[key] ?? 0), 0);
                                             $wire.set('sumOfSelectedKitsToggles', this.sumOfSelectedKitsToggles);
                                         },
                                         podsCalculateSum() {
@@ -818,18 +818,18 @@
                                                                                 <button
                                                                                     type="button"
                                                                                     class="px-2 text-3xl cursor-pointer"
-                                                                                    @click="if((quantities['{{ $variant['id'] }}'] ?? 1) > 1){ quantities['{{ $variant['id'] }}']--; $nextTick(() => calculateSum()); }">-
+                                                                                    @click="if((kitsQuantities['{{ $variant['id'] }}'] ?? 1) > 1){ kitsQuantities['{{ $variant['id'] }}']--; $nextTick(() => calculateSum()); }">-
                                                                                 </button>
 
                                                                                 <input type="number" min="1"
-                                                                                    x-model.number="quantities['{{ $variant['id'] }}'] || 0"
+                                                                                    x-model.number="kitsQuantities['{{ $variant['id'] }}'] || 0"
                                                                                     @input.debounce.0ms="calculateSum()"
                                                                                     class="w-full text-center border-0 p-0 m-0 nobutton" />
 
                                                                                 <button
                                                                                     type="button"
                                                                                     class="px-2 text-3xl cursor-pointer"
-                                                                                    @click="quantities['{{ $variant['id'] }}'] = Number(quantities['{{ $variant['id'] }}'] ?? 0) + 1; $nextTick(() => calculateSum());" >+
+                                                                                    @click="kitsQuantities['{{ $variant['id'] }}'] = Number(kitsQuantities['{{ $variant['id'] }}'] ?? 0) + 1; $nextTick(() => calculateSum());" >+
                                                                                 </button>
                                                                             </div>
                                                                         </div>
@@ -838,12 +838,12 @@
                                                                     <div class="md:text-end">
                                                                         <div class="group relative inline-block w-10 h-6">
                                                                             <input type="checkbox" class="sr-only"
-                                                                                id="toggle_{{ $variant['id'] }}"
-                                                                                wire:model.live="toggles.{{ $variant['id'] }}"
+                                                                                id="kits_toggle_{{ $variant['id'] }}"
+                                                                                wire:model.live="kitsToggles.{{ $variant['id'] }}"
                                                                                 @change="calculateSum()"
                                                                                 :disabled="isDisabled"
                                                                             >
-                                                                            <label for="toggle_{{ $variant['id'] }}" class="block h-6 cursor-pointer rounded-full bg-gray-300 transition-colors duration-200 group-has-[input:checked]:bg-green-500">
+                                                                            <label for="kits_toggle_{{ $variant['id'] }}" class="block h-6 cursor-pointer rounded-full bg-gray-300 transition-colors duration-200 group-has-[input:checked]:bg-green-500">
                                                                                 <span class="absolute h-5 w-5 top-0.5 left-0.5 bg-white rounded-full shadow-sm transition-transform duration-200 group-has-[input:checked]:translate-x-4"></span>
                                                                             </label>
                                                                         </div>

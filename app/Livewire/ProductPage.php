@@ -90,6 +90,11 @@ class ProductPage extends Component
     public array $quantities = [];
 
     /**
+     * Selected KITs Variant Quantities
+     */
+    public array $kitsQuantities = [];
+
+    /**
      * Selected PODs Variant Quantities
      */
     public array $podsQuantities = [];
@@ -98,6 +103,11 @@ class ProductPage extends Component
      * Selected Variant Toggles
      */
     public array $toggles = [];
+
+    /**
+     * Selected KITs Variant Toggles
+     */
+    public array $kitsToggles = [];
 
     /**
      * Selected PODs Variant Toggles
@@ -513,9 +523,9 @@ class ProductPage extends Component
     {
         $this->sumOfSelectedKitsToggles = 0;
 
-        foreach ($this->toggles as $key => $isSelected) {
-            if ($isSelected && isset($this->quantities[$key])) {
-                $this->sumOfSelectedKitsToggles += $this->quantities[$key];
+        foreach ($this->kitsToggles as $key => $isSelected) {
+            if ($isSelected && isset($this->kitsQuantities[$key])) {
+                $this->sumOfSelectedKitsToggles += $this->kitsQuantities[$key];
             }
         }
         return $this->sumOfSelectedKitsToggles;
@@ -546,6 +556,16 @@ class ProductPage extends Component
             $this->quantities[$variant['id']] = 1;
             $this->toggles[$variant['id']] = false;
             $this->flavorQty[$variant['id']] = 0;
+        }
+
+        foreach ($this->loadConditionProducts() as $variant) {
+            $this->kitsQuantities[$variant['id']] = 1;
+            $this->kitsToggles[$variant['id']] = false;
+        }
+
+        foreach ($this->loadRewardedProducts() as $variant) {
+            $this->podsQuantities[$variant['id']] = 1;
+            $this->podsToggles[$variant['id']] = false;
         }
     }
 
@@ -904,10 +924,10 @@ class ProductPage extends Component
 
         foreach ($this->loadConditionProducts() as $variant) {
             $variantId = $variant['id'];
-            $quantity = $this->quantities[$variantId] ?? 0;
+            $quantity = $this->kitsQuantities[$variantId] ?? 0;
 
             // Only add to cart if toggle is enabled or if you want all variants
-            if (isset($this->toggles[$variantId]) && $this->toggles[$variantId] && $quantity > 0) {
+            if (isset($this->kitsToggles[$variantId]) && $this->kitsToggles[$variantId] && $quantity > 0) {
                 $purchasable = ProductVariant::find($variantId);
 
                 if ($purchasable->stock < $quantity) {
