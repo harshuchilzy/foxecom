@@ -154,6 +154,11 @@ class ProductPage extends Component
      */
     public array $flavorQty = [];
 
+    /**
+     * Is KITs/PODs Combination
+     */
+    public bool $isKitsPodsCombination = false;
+
     public ?int $loadingVariantId = null;
 
     public function mount($slug): void
@@ -182,7 +187,7 @@ class ProductPage extends Component
 
         $this->initializeQuantities();
         $this->getLargestQuantityIncrement();
-
+        $this->checkDiscountCombination();
     }
 
     /**
@@ -552,20 +557,26 @@ class ProductPage extends Component
      */
     protected function initializeQuantities()
     {
-        foreach ($this->loadVariations() as $variant) {
-            $this->quantities[$variant['id']] = 1;
-            $this->toggles[$variant['id']] = false;
-            $this->flavorQty[$variant['id']] = 0;
+        if($this->loadVariations()) {
+            foreach ($this->loadVariations() as $variant) {
+                $this->quantities[$variant['id']] = 1;
+                $this->toggles[$variant['id']] = false;
+                $this->flavorQty[$variant['id']] = 0;
+            }
         }
 
-        foreach ($this->loadConditionProducts() as $variant) {
-            $this->kitsQuantities[$variant['id']] = 1;
-            $this->kitsToggles[$variant['id']] = false;
+        if($this->loadConditionProducts()) {
+            foreach ($this->loadConditionProducts() as $variant) {
+                $this->kitsQuantities[$variant['id']] = 1;
+                $this->kitsToggles[$variant['id']] = false;
+            }
         }
 
-        foreach ($this->loadRewardedProducts() as $variant) {
-            $this->podsQuantities[$variant['id']] = 1;
-            $this->podsToggles[$variant['id']] = false;
+        if($this->loadRewardedProducts()) {
+            foreach ($this->loadRewardedProducts() as $variant) {
+                $this->podsQuantities[$variant['id']] = 1;
+                $this->podsToggles[$variant['id']] = false;
+            }
         }
     }
 
@@ -1022,17 +1033,16 @@ class ProductPage extends Component
 
     /**
      * Check whether this is KITs/PODs Combination
-     * @return bool
      */
-    public function isKitsPodsCombination() 
+    public function checkDiscountCombination() 
     {
         $discountables = $this->getDiscount()->discountables;
         
         $discountableIds = $discountables->pluck('discountable_id')->unique();
         if($discountableIds->count() == 1) {
-            return true;
+            $this->isKitsPodsCombination = false;
         }else{
-            return false;
+            $this->isKitsPodsCombination = true;
         }
     }
 
