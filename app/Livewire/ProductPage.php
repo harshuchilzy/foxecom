@@ -792,7 +792,7 @@ class ProductPage extends Component
     {
         $discount = $this->getDiscount();
 
-        if($discount->status == "active") {
+        if($discount && $discount->status == "active") {
             $conditionProducts = $discount->discountableConditions()
                                     ->where('discountable_type', Product::morphName())
                                     ->with('discountable')
@@ -849,7 +849,7 @@ class ProductPage extends Component
     {
         $discount = $this->getDiscount();
 
-        if($discount->status == "active") {
+        if($discount && $discount->status == "active") {
             $rewardProducts = $discount->discountableRewards()
                                     ->where('discountable_type', Product::morphName())
                                     ->with('discountable')
@@ -1036,13 +1036,15 @@ class ProductPage extends Component
      */
     public function checkDiscountCombination() 
     {
-        $discountables = $this->getDiscount()->discountables;
+        $discountables = $this->getDiscount()?->discountables;
         
-        $discountableIds = $discountables->pluck('discountable_id')->unique();
-        if($discountableIds->count() == 1) {
-            $this->isKitsPodsCombination = false;
-        }else{
-            $this->isKitsPodsCombination = true;
+        if($discountables) {
+            $discountableIds = $discountables->pluck('discountable_id')->unique();
+            if($discountableIds->count() == 1) {
+                $this->isKitsPodsCombination = false;
+            }else{
+                $this->isKitsPodsCombination = true;
+            }
         }
     }
 
