@@ -12,7 +12,7 @@
                 <ul class="text-[#1B1819] font-normal font-inter text-[16px] flex flex-col gap-1">
                     <li><a href="{{route('privacy-policy')}}">Privacy</a></li>
                     <li><a href="{{route('faq')}}">FAQ</a></li>
-                    <li><a href="{{route('delivery-policy')}}">Delivery Policy</a></li>
+                    <li><a href="{{route('delivery-policy')}}">Shipping and Payment</a></li>
                     <li><a href="{{ route('partners') }}">Partners</a></li>
                     {{-- <li><a href="{{ route('blogs') }}">Blog</a></li> --}}
                     <li><a href="{{route('contact')}}">Contacts</a></li>
