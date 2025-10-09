@@ -2,7 +2,7 @@
     <div class="max-w-[1440px] mx-auto px-4 py-12 text-black">
         <div class="w-full flex justify-start items-center flex-col">
             <h1 class="font-inter font-semibold text-[32px] text-black">Delivery Policy</h1>
-            <p class="italic mb-4">Last updated: 22/04/2025</p>
+            <p class="italic mb-4 text-left">Last updated: 22/04/2025</p>
             <p class="mb-4">At FOXERGO, we aim to dispatch and deliver all orders quickly, securely, and with full transparency. This Delivery Policy explains how we process, ship, and manage logistics for all online orders.</p>
         </div>
         <div class="py-8 flex gap-8">

@@ -56,6 +56,11 @@ Route::get('refund-policy', function () {
     return view('pages.refund-policy');
 })->name('refund-policy');
 
+//Refund Policy Page
+Route::get('return-policy', function () {
+    return view('pages.return-policy');
+})->name('return-policy');
+
 //Delivery Policy Page
 Route::get('delivery-policy', function () {
     return view('pages.delivery-policy');

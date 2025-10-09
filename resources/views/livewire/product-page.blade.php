@@ -781,7 +781,7 @@
                                         stroke-linejoin="round"/></svg>
                             </span>
 
-                            <span class="text-[16px] font-normal text-black font-inter">{{ __('Delivers in: 1-2 Working Days') }} <a href="{{ route('delivery-policy') }}" class="underline"> {{ __('Shipping & Return') }}</a></span>
+                            <span class="text-[16px] font-normal text-black font-inter">{{ __('Delivers in: 1-2 Working Days') }} <a href="{{ route('delivery-policy') }}" class="underline"> {{ __('Shipping') }}</a> {{ __('&') }} <a href="{{ route('return-policy') }}" class="underline">{{ __('Return') }}</a></span>
                         </div>
                     </div>
                 </div>
