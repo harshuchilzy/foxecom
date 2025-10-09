@@ -756,21 +756,47 @@
                                         @endif
                                     </div>
 
-                                    <div class="max-h-[75vh] overflow-auto p-6 pt-4 mt-10 md:mt-0" x-data="{ openAccordion1: false, openAccordion2: false }">
+                                    <div class="max-h-[75vh] overflow-auto p-6 pt-4 mt-10 md:mt-0" x-data="{ openAccordion1: false, openAccordion2: false }" 
+                                        x-init="
+                                            $watch('sumOfSelectedKitsToggles', value => {
+                                                if(value == {{ $this->minItemsQty }}) {
+                                                    openAccordion1 = false;
+                                                    if(sumOfSelectedPodsToggles == {{ $this->rewardItems }}) {
+                                                        openAccordion2 = false;
+                                                    }else{
+                                                        openAccordion2 = true;
+                                                    }
+                                                    
+                                                }
+                                            });
+                                            $watch('sumOfSelectedPodsToggles', value => {
+                                                if(value == {{ $this->rewardItems }}) {
+                                                    if(sumOfSelectedKitsToggles == {{ $this->minItemsQty }}) {
+                                                        openAccordion1 = false;
+                                                    }else{
+                                                        openAccordion1 = true;
+                                                    }
+                                                    openAccordion2 = false;
+                                                }
+                                            });"
+                                    >
                                         <!-- KITs Container -->
                                         <div class="border rounded-lg shadow-sm">
                                             <!-- Header -->
-                                            <button 
-                                                @click="openAccordion1 = !openAccordion1" 
-                                                class="w-full flex justify-between items-center px-6 py-4 bg-gray-100 hover:bg-gray-200 rounded-t-lg focus:outline-none transition cursor-pointer">
+                                            <button
+                                                @click="openAccordion1 = !openAccordion1"
+                                                class="w-full flex justify-between items-center px-6 py-4 bg-gray-100 hover:bg-gray-200 rounded-t-lg focus:outline-none transition cursor-pointer"
+                                                :class="{ '!bg-green-100': sumOfSelectedKitsToggles == {{ $this->minItemsQty }} }"
+                                            >
                                                 
-                                                <div class="lg:text-left text-center pb-2">
+                                                <div class="lg:text-left text-center flex items-center">
                                                     <span class="text-lg font-semibold mr-2">KITs ({{ $this->minItemsQty }})</span>
-                                                    <strong :class="sumOfSelectedKitsToggles > {{ $this->minItemsQty }} ? 'text-red-600' : 'text-themeblue'">
+                                                    <strong :class="sumOfSelectedKitsToggles > {{ $this->minItemsQty }} ? 'text-red-600' : sumOfSelectedKitsToggles == {{ $this->minItemsQty }} ? 'text-green-600' : 'text-themeblue'">
                                                         {{ __('Selected:') }}
                                                         <span x-text="String(sumOfSelectedKitsToggles).padStart(2, '0')"></span>
-                                                        {{ __('item(s)') }}
+                                                        {{ __('KITs') }}
                                                     </strong>
+                                                    <svg x-show="sumOfSelectedKitsToggles == {{ $this->minItemsQty }}" class="ml-2" fill="#059669" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#059669"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm5.676,8.237-6,5.5a1,1,0,0,1-1.383-.03l-3-3a1,1,0,1,1,1.414-1.414l2.323,2.323,5.294-4.853a1,1,0,1,1,1.352,1.474Z"></path></g></svg>
                                                 </div>
                                                 <svg 
                                                     :class="{'rotate-180': openAccordion1}" 
@@ -778,8 +804,7 @@
                                                     fill="none" stroke="currentColor" stroke-width="2" 
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                                
+                                                </svg>  
                                             </button>
 
                                             <!-- Content -->
@@ -860,16 +885,19 @@
                                         <!-- PODs Container -->
                                         <div class="border rounded-lg shadow-sm mt-4">
                                             <!-- Header -->
-                                            <button 
-                                                @click="openAccordion2 = !openAccordion2" 
-                                                class="w-full flex justify-between items-center px-6 py-4 bg-gray-100 hover:bg-gray-200 rounded-t-lg focus:outline-none transition cursor-pointer">
-                                                <div class="lg:text-left text-center pb-2">
+                                            <button
+                                                @click="openAccordion2 = !openAccordion2"
+                                                class="w-full flex justify-between items-center px-6 py-4 bg-gray-100 hover:bg-gray-200 rounded-t-lg focus:outline-none transition cursor-pointer"
+                                                :class="{ '!bg-green-100': sumOfSelectedPodsToggles == {{ $this->rewardItems }} }"
+                                            >
+                                                <div class="lg:text-left text-center flex items-center">
                                                     <span class="text-lg font-semibold mr-2">PODs ({{ $this->rewardItems }})</span>
-                                                    <strong :class="sumOfSelectedPodsToggles > {{ $this->rewardItems }} ? 'text-red-600' : 'text-themeblue'">
+                                                    <strong :class="sumOfSelectedPodsToggles > {{ $this->rewardItems }} ? 'text-red-600' : sumOfSelectedPodsToggles == {{ $this->rewardItems }} ? 'text-green-600' : 'text-themeblue'">
                                                         {{ __('Selected:') }}
                                                         <span x-text="String(sumOfSelectedPodsToggles).padStart(2, '0')"></span>
-                                                        {{ __('item(s)') }}
+                                                        {{ __('PODs') }}
                                                     </strong>
+                                                    <svg x-show="sumOfSelectedPodsToggles == {{ $this->rewardItems }}" class="ml-2" fill="#059669" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#059669"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm5.676,8.237-6,5.5a1,1,0,0,1-1.383-.03l-3-3a1,1,0,1,1,1.414-1.414l2.323,2.323,5.294-4.853a1,1,0,1,1,1.352,1.474Z"></path></g></svg>
                                                 </div>
                                                 <svg 
                                                     :class="{'rotate-180': openAccordion2}" 
