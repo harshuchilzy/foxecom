@@ -159,6 +159,16 @@ class ProductPage extends Component
      */
     public bool $isKitsPodsCombination = false;
 
+    /**
+     * Product Announcement Text
+     */
+    public string $productAnnouncement = '';
+
+    /**
+     * Reward Announcement Text
+     */
+    public string $rewardAnnouncement = '';
+
     public ?int $loadingVariantId = null;
 
     public function mount($slug): void
@@ -578,6 +588,7 @@ class ProductPage extends Component
                 $this->podsToggles[$variant['id']] = false;
             }
         }
+        
     }
 
     /**
@@ -794,6 +805,10 @@ class ProductPage extends Component
         $discount = $this->getDiscount();
 
         if($discount && $discount->status == "active") {
+            // Set announcement texts
+            $this->productAnnouncement = $discount->data['product_announcement'] ?? '';
+            $this->rewardAnnouncement = $discount->data['reward_announcement'] ?? '';
+
             $conditionProducts = $discount->discountableConditions()
                                     ->where('discountable_type', Product::morphName())
                                     ->with('discountable')

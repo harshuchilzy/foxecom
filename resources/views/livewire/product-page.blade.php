@@ -717,13 +717,13 @@
 
                                             <!-- Product Name -->
                                             <h2 class="text-2xl font-semibold mb-6 text-center opacity-90 font-inter">
-                                                {{ __('Buy :min KITs / Get :reward PODs', ['min' => $this->minItemsQty, 'reward' => $this->rewardItems]) }}
+                                                {{ __('Buy :min :kits / Get :reward :pods', ['min' => $this->minItemsQty, 'kits' => $this->productAnnouncement ? $this->productAnnouncement : 'KITs', 'reward' => $this->rewardItems, 'pods' => $this->rewardAnnouncement ? $this->rewardAnnouncement : 'PODs']) }}
                                             </h2>
 
                                             <div class="lg:flex w-full gap-2 items-center">
                                                 <div class="lg:w-2/3 w-full px-4">
                                                     <p class="font-medium lg:text-left text-center">
-                                                        {{ __('You can select') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d Items', $this->maxQuantityIncrement) }}</span> {{ __('including') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d KITs', $this->minItemsQty) }}</span> {{ __('and') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d PODs', $this->rewardItems) }}</span>
+                                                        {{ __('You can select') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d Items', $this->maxQuantityIncrement) }}</span> {{ __('including') }} <span class="font-semibold text-themeblue">{{ sprintf('%02d', $this->minItemsQty) }} {{ $this->productAnnouncement ? $this->productAnnouncement : 'KITs' }}</span> {{ __('and') }} <span class="font-semibold text-themeblue">{{ $this->rewardItems }} {{ $this->rewardAnnouncement ? $this->rewardAnnouncement : 'PODs' }}</span>
                                                     </p>
                                                     @if ($this->rewardItems)
                                                         <span class="inline-flex items-center px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-md ">{{ sprintf('%02d', $this->rewardItems) }} {{ __('FREE item(s)') }}</span>
@@ -791,11 +791,11 @@
                                                 >
                                                     
                                                     <div class="lg:text-left text-center flex items-center">
-                                                        <span class="text-lg font-semibold mr-2">KITs ({{ $this->minItemsQty }})</span>
+                                                        <span class="text-lg font-semibold mr-2">{{ $this->productAnnouncement ? $this->productAnnouncement : 'KITs' }} ({{ $this->minItemsQty }})</span>
                                                         <strong :class="sumOfSelectedKitsToggles > {{ $this->minItemsQty }} ? 'text-red-600' : sumOfSelectedKitsToggles == {{ $this->minItemsQty }} ? 'text-green-600' : 'text-themeblue'">
                                                             {{ __('Selected:') }}
                                                             <span x-text="String(sumOfSelectedKitsToggles).padStart(2, '0')"></span>
-                                                            {{ __('KITs') }}
+                                                            {{ $this->productAnnouncement ? $this->productAnnouncement : 'KITs' }}
                                                         </strong>
                                                         <svg x-show="sumOfSelectedKitsToggles == {{ $this->minItemsQty }}" class="ml-2" fill="#059669" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#059669"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm5.676,8.237-6,5.5a1,1,0,0,1-1.383-.03l-3-3a1,1,0,1,1,1.414-1.414l2.323,2.323,5.294-4.853a1,1,0,1,1,1.352,1.474Z"></path></g></svg>
                                                     </div>
@@ -892,11 +892,11 @@
                                                     :class="{ '!bg-green-100': sumOfSelectedPodsToggles == {{ $this->rewardItems }} }"
                                                 >
                                                     <div class="lg:text-left text-center flex items-center">
-                                                        <span class="text-lg font-semibold mr-2">PODs ({{ $this->rewardItems }})</span>
+                                                        <span class="text-lg font-semibold mr-2">{{ $this->rewardAnnouncement ? $this->rewardAnnouncement : 'PODs'}} ({{ $this->rewardItems }})</span>
                                                         <strong :class="sumOfSelectedPodsToggles > {{ $this->rewardItems }} ? 'text-red-600' : sumOfSelectedPodsToggles == {{ $this->rewardItems }} ? 'text-green-600' : 'text-themeblue'">
                                                             {{ __('Selected:') }}
                                                             <span x-text="String(sumOfSelectedPodsToggles).padStart(2, '0')"></span>
-                                                            {{ __('PODs') }}
+                                                            {{ $this->rewardAnnouncement ? $this->rewardAnnouncement : 'PODs'}}
                                                         </strong>
                                                         <svg x-show="sumOfSelectedPodsToggles == {{ $this->rewardItems }}" class="ml-2" fill="#059669" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#059669"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm5.676,8.237-6,5.5a1,1,0,0,1-1.383-.03l-3-3a1,1,0,1,1,1.414-1.414l2.323,2.323,5.294-4.853a1,1,0,1,1,1.352,1.474Z"></path></g></svg>
                                                     </div>

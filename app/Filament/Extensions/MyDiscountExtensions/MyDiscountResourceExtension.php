@@ -77,6 +77,12 @@ class MyDiscountResourceExtension extends ResourceExtension
                     ->autosize()
                     ->placeholder('Brief about the discount images')
                     ->columnSpanFull(),
+                TextInput::make('data.product_announcement')
+                    ->label('Product Announcement Text')
+                    ->placeholder('Add your product announcement text here'),
+                TextInput::make('data.reward_announcement')
+                    ->label('Reward Announcement Text')
+                    ->placeholder('Add your reward announcement text here'),
             ])->columns(2);
     }
 
