@@ -147,6 +147,7 @@ class ProductPage extends Component
 
         $this->initializeQuantities();
         $this->getLargestQuantityIncrement();
+
     }
 
     /**
@@ -552,6 +553,7 @@ class ProductPage extends Component
                 'channel_id' => Channel::getDefault()->id,
             ]);
         }
+  
         $cart->coupon_code = $discount->coupon;
         $cart->calculate();
         $cart->save();
