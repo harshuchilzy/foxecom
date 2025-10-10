@@ -192,12 +192,22 @@ class WorldpayPayment extends AbstractPayment
 
     public function capture(Transaction|\Lunar\Models\Contracts\Transaction $transaction = null, $amount = 0): PaymentCapture
     {
+        $transactionReference = session('worldpay_transaction_reference')
+            ?? ExtendLunarOrder::find($this->order->id)->transaction_reference
+            ?? 'unknown';
+
+        if (!$transactionReference) {
+            return new PaymentCapture(
+                success: false,
+                message: 'No transaction reference available',
+            );
+        }
         Transaction::create([
             'order_id' => $this->order->id,
             'driver' => 'worldpay',
             'success' => true,
             'amount' => $this->order->total,
-            'reference' => $this->order->meta['worldpay']['transaction_reference'] ?? 'unknown',
+            'reference' => $transactionReference,
             'status' => 'CAPTURED',
             'type' => 'capture',
             'card_type' => 'card'
