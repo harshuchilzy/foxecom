@@ -35,6 +35,7 @@ use App\Filament\Extensions\MyCustomerExtensions\MyCustomerResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyDiscountResourceExtension;
 use App\Filament\Extensions\MyDiscountExtensions\MyListDiscountPageExtension;
 use App\Filament\Widgets\OrderStatsOverviewExtension;
+use App\Payments\WorldpayPayment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -78,8 +79,8 @@ class AppServiceProvider extends ServiceProvider
             OrderResource::class => MyOrderResourceExtension::class,
         ]);
 
-        Payments::extend('ngenius', function ($app) {
-            return $app->make(NgeniusPayment::class);
+        Payments::extend('worldpay', function ($app) {
+            return $app->make(WorldpayPayment::class);
         });
 
         $shippingModifiers->add(

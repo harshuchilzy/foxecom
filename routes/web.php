@@ -26,8 +26,8 @@ use App\Http\Controllers\UpdatePrice;
 use App\Livewire\AccountSettingsPage;
 use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
-use Lunar\Models\Order as ModelsOrder;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\WorldpayHppController;
 
 require __DIR__ . '/auth.php';
 
@@ -189,25 +189,19 @@ Route::get('/api/cities/search', function () {
         default => [],
     };
     return collect($cities)
-        ->filter(fn ($city) => str_contains(strtolower($city['label']), $search))
+        ->filter(fn($city) => str_contains(strtolower($city['label']), $search))
         ->values()
         ->toArray();
 })->name('api.cities.search');
 
-Route::get('unsubscribe', function(){
+Route::get('unsubscribe', function () {
     return redirect()->route('home');
 })->name('unsubscribe');
 
-Route::middleware('auth')
-    ->prefix('checkout')
-    ->as('checkout.')
-    ->controller(CheckoutController::class)
+Route::middleware('auth')->prefix('checkout')->as('checkout.')->controller(CheckoutController::class)
     ->group(function () {
-        Route::post('initiate', 'initiate')->name('initiate');
-        Route::post('complete', 'complete')->name('complete');
+        Route::get('finalize', 'finalize')->name('finalize');
     });
-
-
 
 // Route::get('/test-mail', function(){
 //     $orders = Order::get();

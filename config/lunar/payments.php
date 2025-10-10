@@ -17,12 +17,14 @@ return [
             'driver' => 'stripe',
             'released' => 'payment-received',
         ],
-        'ngenius' => [
-            'driver' => 'ngenius',
-            'base_uri' => env('NGENIUS_BASE_URI'),
-            'api_key' => env('NGENIUS_API_KEY'),
-            'sdk_key' => env('NGENIUS_SDK_API_KEY'),
-            'outlet_ref' => env('NGENIUS_OUTLET_REF'),
+        'worldpay' => [
+            'driver' => 'worldpay',
+            'base_url' => env('WORLDPAY_HPP_BASE_URL'),
+            'api_key' => env('WORLDPAY_HPP_API_KEY'),
+            'username' => env('WORLDPAY_HPP_USERNAME'),
+            'password' => env('WORLDPAY_HPP_PASSWORD'),
+            'accept_header' => env('WORLDPAY_HPP_ACCEPT_HEADER'),
+            'merchant_entity' => env('WORLDPAY_HPP_MERCHANT_ENTITY'),
         ],
     ],
 
