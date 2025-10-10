@@ -420,13 +420,19 @@
                     </form> --}}
 
                     <div x-data="{ showFlavorsModal: @entangle('showFlavorsAddToCartPopup') }">
-                        <!-- Select flavors button -->
-                        <div class="md:max-w-[90%] mt-5">
-                            <button
-                                class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter hover:bg-[#454545] hover:shadow-lg" @click="showFlavorsModal = true">
-                                {{ __('Select Flavours') }}
-                            </button>
-                        </div>
+
+                        @if (auth()->check())
+                            <!-- Select flavors button -->
+                            <div class="md:max-w-[90%] mt-5">
+                                <button
+                                    class="bg-[#282828] lg:px-[24px] h-12 rounded-[100px] text-white text-center text-[18px] font-bold !w-full md:w-1/2 cursor-pointer font-inter hover:bg-[#454545] hover:shadow-lg" @click="showFlavorsModal = true">
+                                    {{ __('Select Flavours') }}
+                                </button>
+                            </div>
+                        @else
+                            <p class="text-[16px] font-semibold text-[#1275EE] mt-5">{{ __('Register to add to cart') }}</p>
+                        @endif
+                        
 
                         <!-- Flavors add to cart Modal -->
                         <div x-show="showFlavorsModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-auto">
@@ -481,7 +487,7 @@
                                                     <div class="md:text-end mt-2">
                                                         <div class="flex flex-col md:items-start items-center md:pb-2 pb-4 mt-2">
                                                             <span class="text-[#1275EE] text-sm font-semibold ml-1">
-                                                                {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }}
+                                                                {{ $variant['price'] }} + {{ __('VAT') }}
                                                             </span>
 
                                                             <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
@@ -542,13 +548,18 @@
                         <div class="md:max-w-[90%] mt-5"></div>
 
                         <div x-data="{ showModal: @entangle('showBulkAddToCartPopup') }">
-                            <!-- Claim Offer Now Trigger Button -->
-                            <div class="md:max-w-[90%] mt-5">
-                                <button
-                                    class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter hover:bg-[#1275EE] hover:text-white hover:lg:border-[#1275EE] hover:shadow-lg" @click="showModal = true">
-                                    {{ __('Claim Offer Now') }}
-                                </button>
-                            </div>
+
+                            @if (auth()->check())
+                                <!-- Claim Offer Now Trigger Button -->
+                                <div class="md:max-w-[90%] mt-5">
+                                    <button
+                                        class="bg-[#F7B538] lg:bg-white px-[24px] py-[16px] rounded-[100px] text-[#282828] text-center text-[18px] font-bold w-full lg:border border-[#282828] cursor-pointer font-inter hover:bg-[#1275EE] hover:text-white hover:lg:border-[#1275EE] hover:shadow-lg" @click="showModal = true">
+                                        {{ __('Claim Offer Now') }}
+                                    </button>
+                                </div>
+                            @else
+                                <p class="text-[16px] font-semibold text-[#1275EE] mt-5">{{ __('Register to add to cart') }}</p>
+                            @endif
 
                             @if (!$isKitsPodsCombination)
                                 <!-- Claim Offer Old Modal -->
@@ -641,7 +652,7 @@
 
                                                                 <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
                                                                     <span class="text-[#1275EE] text-lg font-semibold">
-                                                                        {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }}
+                                                                        {{ $variant['price'] }} + {{ __('VAT') }}
                                                                     </span>
 
                                                                     <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
@@ -938,7 +949,7 @@
 
                                                                             <div class="flex flex-col md:items-start items-center md:pb-2 pb-4">
                                                                                 <span class="text-[#1275EE] text-lg font-semibold">
-                                                                                    {{ $variant['unit_price_per_outer_box'] }} + {{ __('VAT') }}
+                                                                                    {{ $variant['price'] }} + {{ __('VAT') }}
                                                                                 </span>
 
                                                                                 <div class="border border-[#D9D9D9] rounded-[50px] flex items-center gap-2 px-1 w-[50%] sm:w-full lg:w-[50%]">
