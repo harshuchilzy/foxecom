@@ -29,6 +29,9 @@ class WorldpayPayment extends AbstractPayment
     protected $authHeader;
     protected $acceptHeader;
     protected $merchantEntity;
+    protected $transactionReference;
+    protected $cardType;
+    protected $cardLast4Digits;
 
     public function setConfig(array $config): static
     {
@@ -192,25 +195,16 @@ class WorldpayPayment extends AbstractPayment
 
     public function capture(Transaction|\Lunar\Models\Contracts\Transaction $transaction = null, $amount = 0): PaymentCapture
     {
-        $transactionReference = session('worldpay_transaction_reference')
-            ?? ExtendLunarOrder::find($this->order->id)->transaction_reference
-            ?? 'unknown';
-
-        if (!$transactionReference) {
-            return new PaymentCapture(
-                success: false,
-                message: 'No transaction reference available',
-            );
-        }
         Transaction::create([
             'order_id' => $this->order->id,
             'driver' => 'worldpay',
             'success' => true,
             'amount' => $this->order->total,
-            'reference' => $transactionReference,
+            'reference' => $this->transactionReference,
             'status' => 'CAPTURED',
             'type' => 'capture',
-            'card_type' => 'card'
+            'card_type' => $this->cardType ?? 'unknow',
+            'last_four' => $this->cardLast4Digits ?? 'unknown'
         ]);
 
         $this->order->placed_at = now();
@@ -293,38 +287,86 @@ class WorldpayPayment extends AbstractPayment
             return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Lookup URL not available.']);
         }
 
-        $correlationId = Str::uuid()->toString();
-
         try {
-            $res = $this->http->get($lookupHref, [
-                'headers' => [
-                    'Authorization' => $this->authHeader,
-                    'WP-CorrelationId' => $correlationId,
-                ],
-            ]);
+            $correlationId = Str::uuid()->toString();
+            $maxRetries = 5;
+            $attemptDelay = 1;
+            $success = false;
+            $body = null;
 
-            $statusCode = $res->getStatusCode();
-            $body = json_decode((string)$res->getBody(), true) ?: [];
+            for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
+                $res = $this->http->get($lookupHref, [
+                    'headers' => [
+                        'Authorization' => $this->authHeader,
+                        'WP-CorrelationId' => $correlationId,
+                    ],
+                    'http_errors' => false,
+                    'timeout' => 15,
+                ]);
 
-            Log::info('Worldpay lookup response', [
-                'order_id' => $order->id,
-                'lookupHref' => $lookupHref,
-                'status' => $statusCode,
-                'correlation_id' => $correlationId,
-                'body_snippet' => array_slice($body, 0, 10),
-            ]);
+                $status = $res->getStatusCode();
+                $raw = (string) $res->getBody();
+                $body = json_decode($raw, true) ?: [];
 
-            if ($statusCode !== 200) {
+                $payments = data_get($body, '_embedded.payments', []);
+                if ($status === 200 && !empty($payments) && is_array($payments)) {
+                    $success = true;
+
+                    $this->cardType = data_get($body, '_embedded.payments.0.paymentInstrument.card.brand') ?? null;
+                    $this->cardLast4Digits = data_get($body, '_embedded.payments.0.paymentInstrument.card.number.last4Digits') ?? null;
+                    $this->transactionReference = $order->transaction_reference;
+
+                    Log::info('Worldpay lookup response', [
+                        'order_id' => $order->id,
+                        'body' => $body,
+                    ]);
+
+                    break;
+                }
+
+                if ($status === 200 && empty($payments)) {
+                    Log::info('Worldpay lookup returned 200 but payments empty; will retry', [
+                        'order_id' => $order->id,
+                        'attempt' => $attempt,
+                    ]);
+
+                    sleep($attemptDelay);
+                    $attemptDelay *= 2;
+                    continue;
+                }
+
+                Log::warning('Worldpay lookup non-successful attempt (will retry)', [
+                    'order_id' => $order->id,
+                    'status' => $status,
+                    'attempt' => $attempt,
+                    'body' => $body,
+                ]);
+
+                sleep($attemptDelay);
+                $attemptDelay *= 2;
+            }
+
+            if (! $success) {
                 $wp = is_array($order->worldpay_meta) ? $order->worldpay_meta : (array) ($order->worldpay_meta ?? []);
-                $wp['status'] = 'payment-failed';
-                $wp['lookup_response'] = $body;
+                $wp['status'] = 'lookup_unconfirmed';
+                $wp['lookup_last_checked_at'] = now()->toDateTimeString();
+                $wp['lookup_last_http_status'] = $status;
+                $wp['lookup_last_response'] = $body;
+                $wp['wp_correlation_id'] = $correlationId;
 
                 $order->worldpay_meta = $wp;
-                $order->status = 'failed';
+                $order->status = 'pending_payment';
                 $order->save();
 
+                Log::warning('Worldpay lookup exhausted: no confirmed payment; user redirected and meta updated', [
+                    'order_id' => $order->id,
+                    'last_status' => $status,
+                ]);
 
-                return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Payment not successful according to lookup.']);
+                return redirect()->route('checkout.view')->with([
+                    'success' => false,
+                    'message' => 'Payment not confirmed yet. We will confirm it shortly — please check your email or try again.',
+                ]);
             }
 
             $authResp = $this->authorize();
