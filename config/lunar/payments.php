@@ -24,6 +24,7 @@ return [
             'username' => env('WORLDPAY_HPP_USERNAME'),
             'password' => env('WORLDPAY_HPP_PASSWORD'),
             'accept_header' => env('WORLDPAY_HPP_ACCEPT_HEADER'),
+            'content_type_header' => env('WORLDPAY_HPP_CONTENT_TYPE_HEADER'),
             'merchant_entity' => env('WORLDPAY_HPP_MERCHANT_ENTITY'),
         ],
     ],

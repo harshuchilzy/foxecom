@@ -28,6 +28,7 @@ class WorldpayPayment extends AbstractPayment
     protected Client $http;
     protected $authHeader;
     protected $acceptHeader;
+    protected $contentTypeHeader;
     protected $merchantEntity;
     protected $transactionReference;
     protected $cardType;
@@ -44,6 +45,7 @@ class WorldpayPayment extends AbstractPayment
         $this->authHeader = 'Basic ' . base64_encode("{$username}:{$password}");
         $this->acceptHeader = $config['accept_header'];
         $this->merchantEntity = $config['merchant_entity'];
+        $this->contentTypeHeader = $config['content_type_header'];
 
         $this->http = new Client([
             'base_uri' => $baseUrl,
@@ -110,7 +112,7 @@ class WorldpayPayment extends AbstractPayment
                 'headers' => [
                     'Authorization' => $this->authHeader,
                     'Accept' => $this->acceptHeader,
-                    'Content-Type' => $this->acceptHeader,
+                    'Content-Type' => $this->contentTypeHeader,
                     'WP-CorrelationId' => $wpCorrelationId,
                 ],
                 'json' => $payload,
