@@ -13,8 +13,6 @@
                         <h3 class="text-2xl font-semibold mb-4 text-black">1. Delivery Regions</h3>
                         <ul class="list-disc pl-6 mb-4  text-black">
                             <li>United Kingdom (UK)</li>
-                            <li>United Arab Emirates (UAE)</li>
-                            <li>Selected international locations (subject to approval)</li>
                         </ul>
                     </section>
 
@@ -30,8 +28,6 @@
                         <h3 class="text-2xl font-semibold mb-4  text-black">3. Delivery Times</h3>
                         <ul class="list-disc pl-6 mb-4  text-black">
                             <li>UK: 1–3 business days from dispatch</li>
-                            <li>UAE: 2–5 business days depending on customs clearance</li>
-                            <li>International: Varies by location and courier</li>
                         </ul>
                         <p class="text-black">Note: All timeframes are estimates and not guaranteed.</p>
                     </section>
@@ -60,16 +56,16 @@
                         </ul>
                     </section>
 
-                    <section class="mb-12">
+                    {{-- <section class="mb-12">
                         <h3 class="text-2xl font-semibold mb-4 text-black">7. International Duties & Customs</h3>
                         <ul class="list-disc pl-6 mb-4 text-black">
                             <li>Customers are responsible for any import duties, taxes, or clearance fees on international orders.</li>
                             <li>FOXERGO will supply necessary customs documentation, but delays or charges at the border are beyond our control.</li>
                         </ul>
-                    </section>
+                    </section> --}}
 
                     <section class="mb-12">
-                        <h3 class="text-2xl font-semibold mb-4 text-black">8. Delivery Issues</h3>
+                        <h3 class="text-2xl font-semibold mb-4 text-black">7. Delivery Issues</h3>
                         <ul class="list-disc pl-6 mb-4 text-black">
                             <li>Report damaged or missing items within 48 hours of delivery with photo evidence.</li>
                             <li>Contact <a href="mailto:accounts@foxergo.com" class="text-blue-600 underline">accounts@foxergo.com</a> for assistance.</li>
