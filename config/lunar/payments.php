@@ -26,6 +26,8 @@ return [
             'accept_header' => env('WORLDPAY_HPP_ACCEPT_HEADER'),
             'content_type_header' => env('WORLDPAY_HPP_CONTENT_TYPE_HEADER'),
             'merchant_entity' => env('WORLDPAY_HPP_MERCHANT_ENTITY'),
+            'webhook_secret' => env('WORLDPAY_HPP_WEBHOOK_SECRET'),
+            'webhook_secrets' => env('WORLDPAY_HPP_WEBHOOK_SECRETS')
         ],
     ],
 

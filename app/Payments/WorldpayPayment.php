@@ -9,7 +9,6 @@ use Lunar\Admin\Models\Staff;
 use Lunar\Base\DataTransferObjects\PaymentCapture;
 use Lunar\Base\DataTransferObjects\PaymentRefund;
 use Lunar\Base\DataTransferObjects\PaymentAuthorize;
-use Lunar\Events\PaymentAttemptEvent;
 use Lunar\Facades\DB;
 use Lunar\Models\Discount;
 use Lunar\Models\OrderLine;
@@ -18,17 +17,17 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Lunar\PaymentTypes\AbstractPayment;
 use Illuminate\Support\Str;
-use Lunar\Models\Order as ModelsOrder;
 use App\Models\ExtendLunarOrder;
 use GuzzleHttp\Exception\RequestException;
 use Lunar\Facades\CartSession;
+use Lunar\Models\Order;
 
 class WorldpayPayment extends AbstractPayment
 {
     protected Client $http;
     protected $authHeader;
     protected $acceptHeader;
-    protected $contentTypeHeader;
+    protected $contentType;
     protected $merchantEntity;
     protected $transactionReference;
     protected $cardType;
@@ -44,12 +43,12 @@ class WorldpayPayment extends AbstractPayment
 
         $this->authHeader = 'Basic ' . base64_encode("{$username}:{$password}");
         $this->acceptHeader = $config['accept_header'];
+        $this->contentType = $config['content_type_header'];
         $this->merchantEntity = $config['merchant_entity'];
-        $this->contentTypeHeader = $config['content_type_header'];
 
         $this->http = new Client([
             'base_uri' => $baseUrl,
-            'timeout' => 10,
+            'timeout' => 15,
         ]);
 
         return $this;
@@ -57,7 +56,7 @@ class WorldpayPayment extends AbstractPayment
 
     public function getConfig(): array
     {
-        return $this->config;
+        return $this->config ?? [];
     }
 
     public function initiateHostedPaymentPage()
@@ -70,8 +69,7 @@ class WorldpayPayment extends AbstractPayment
         $transactionReference = time() . '-' . Str::random(6);
         $wpCorrelationId = Str::uuid()->toString();
 
-        $wpMeta =  [
-            'transaction_reference' => $transactionReference,
+        $wpMeta = [
             'status' => 'initiated',
             'created_at' => now()->toDateTimeString(),
             'wp_correlation_id' => $wpCorrelationId,
@@ -80,17 +78,13 @@ class WorldpayPayment extends AbstractPayment
         $this->order->update([
             'worldpay_meta' => $wpMeta,
             'transaction_reference' => $transactionReference,
-            'status' => 'pending_payment', // set a clear order status
+            'status' => 'awaiting-payment',
         ]);
 
         $payload = [
             'transactionReference' => $transactionReference,
-            'merchant' => [
-                'entity' => $this->merchantEntity
-            ],
-            'narrative' => [
-                'line1' => 'FOXERGO Shop',
-            ],
+            'merchant' => ['entity' => $this->merchantEntity],
+            'narrative' => ['line1' => 'FOXERGO Shop'],
             'value' => [
                 'amount' => intval($cartTotal->value),
                 'currency' => 'GBP',
@@ -112,23 +106,26 @@ class WorldpayPayment extends AbstractPayment
                 'headers' => [
                     'Authorization' => $this->authHeader,
                     'Accept' => $this->acceptHeader,
-                    'Content-Type' => $this->contentTypeHeader,
+                    'Content-Type' => $this->contentType,
                     'WP-CorrelationId' => $wpCorrelationId,
                 ],
                 'json' => $payload,
             ]);
 
             $body = json_decode((string)$res->getBody(), true);
+            Log::info('Worldpay HPP create response', ['order' => $this->order->id, 'body' => $body]);
 
-            \Log::info('Worldpay HPP create response', $body);
+            $redirectUrl = data_get($body, 'url');
+            $lookupHref = data_get($body, '_links.self.href');
 
-            $redirectUrl = $body['url'] ?? null;
-            $lookupHref  = $body['_links']['self']['href'] ?? null;
+            if (!$redirectUrl || !$lookupHref) {
+                Log::error('Worldpay HPP create error: Missing redirect or lookup URL', ['order' => $this->order->id, 'body' => $body]);
+                return redirect()->route('checkout.view')->with('error', 'Invalid response from Worldpay (missing URLs).');
+            }
 
-            $wpMeta = $this->order->fresh()->worldpay_meta ?? [];
-            if (!is_array($wpMeta)) $wpMeta = (array) $wpMeta;
-
-            $wpMeta = array_merge($wpMeta, [
+            $meta = $this->order->worldpay_meta ?? [];
+            if (!is_array($meta)) $meta = (array)$meta;
+            $meta = array_merge($meta, [
                 'response' => $body,
                 'redirect_url' => $redirectUrl,
                 'lookup_href' => $lookupHref,
@@ -136,132 +133,168 @@ class WorldpayPayment extends AbstractPayment
                 'updated_at' => now()->toDateTimeString(),
             ]);
 
-            $this->order->update([
-                'worldpay_meta' => $wpMeta,
-            ]);
+            $this->order->update(['worldpay_meta' => $meta, 'status' => 'awaiting-payment']);
 
             session([
                 'worldpay_order_id' => $this->order->id,
                 'worldpay_transaction_reference' => $transactionReference,
             ]);
 
-            if (!$redirectUrl) {
-                \Log::error('Worldpay HPP create error: No redirect URL in response', $body);
-                return redirect()->route('checkout.view')->with('error', 'No redirect URL returned from Worldpay.');
-            }
-
             return redirect()->away($redirectUrl);
         } catch (RequestException $e) {
-            \Log::error('Worldpay HPP create error: ' . $e->getMessage(), [
-                'body' => $e->hasResponse() ? (string)$e->getResponse()->getBody() : null
+            Log::error('Worldpay HPP create error', [
+                'message' => $e->getMessage(),
+                'response' => $e->hasResponse() ? (string)$e->getResponse()->getBody() : null,
             ]);
 
-            $wpMeta = $this->order->fresh()->worldpay_meta ?? [];
-            if (!is_array($wpMeta)) $wpMeta = (array)$wpMeta;
-            $wpMeta = array_merge($wpMeta, [
+            $meta = $this->order->fresh()->worldpay_meta ?? [];
+            if (!is_array($meta)) $meta = (array)$meta;
+            $meta = array_merge($meta, [
                 'status' => 'failed_to_initiate',
                 'error' => $e->hasResponse() ? json_decode((string)$e->getResponse()->getBody(), true) : $e->getMessage(),
                 'updated_at' => now()->toDateTimeString(),
             ]);
-            $this->order->update(['worldpay_meta' => $wpMeta]);
+            $this->order->update(['worldpay_meta' => $meta]);
 
             return redirect()->route('checkout.view')->with('error', 'Payment initiation failed.');
         }
     }
 
-    public function authorize(): PaymentAuthorize
+    public function verifyAndFinalizePayment()
     {
-        $orderId = session('worldpay_order_id');
-        $this->order = ModelsOrder::find($orderId);
 
-        try {
-            $response = new PaymentAuthorize(
-                success: true,
-                message: 'Payment captured',
-                orderId: $this->order->id,
-                paymentType: 'worldpay',
-            );
-        } catch (\Exception $e) {
-            $response = new PaymentAuthorize(
-                success: false,
-                message: $e->getMessage(),
-                orderId: $this->order->id,
-                paymentType: 'worldpay',
-            );
+        $orderId = session('worldpay_order_id');
+        if (! $orderId) {
+            Log::warning('Worldpay: missing order id in session during finalize');
+            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Order session not found.']);
         }
 
-        PaymentAttemptEvent::dispatch($response);
+        $order = ExtendLunarOrder::find($orderId);
+        Log::info('Worldpay finalize payment for order', ['order_id' => $order]);
+        if (! $order) {
+            Log::warning('Worldpay: missing order for session', ['order_id' => $orderId]);
+            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Order not found.']);
+        }
 
-        return $response;
+        $lookupHref = data_get($order->worldpay_meta, 'lookup_href');
+        if (! $lookupHref) {
+            Log::error('Worldpay: lookup href missing', ['order_id' => $order->id, 'worldpay_meta' => $order->worldpay_meta]);
+            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Lookup URL not available.']);
+        }
+
+        $maxAttempts = 5;
+        $delay = 1;
+        $body = [];
+
+        for ($i = 1; $i <= $maxAttempts; $i++) {
+            try {
+                $res = $this->http->get($lookupHref, [
+                    'headers' => [
+                        'Authorization' => $this->authHeader,
+                    ],
+                    'http_errors' => false,
+                    'timeout' => 10,
+                ]);
+
+                $status = $res->getStatusCode();
+                $raw = (string)$res->getBody();
+                $body = json_decode($raw, true) ?: [];
+
+                $payments = data_get($body, '_embedded.payments', []);
+                if ($status === 200 && !empty($payments) && is_array($payments)) {
+                    $payment = $payments[0];
+
+                    $lastEvent = strtolower(data_get($payment, 'lastEvent'));
+
+                    if ($lastEvent === 'authorizationrequested') {
+                        Log::info('Worldpay payment authorization not yet completed', ['order_id' => $order->id, 'last_event' => $lastEvent]);
+                        sleep($delay);
+                        $delay *= 2;
+                        continue;
+                    }
+
+                    $links = $this->flattenLinks(data_get($payment, '_links', []));
+                    $meta = (array)$order->worldpay_meta;
+                    $meta['worldpay_links'] = array_merge($meta['worldpay_links'] ?? [], $links);
+                    $meta['lookup_response'] = $body;
+                    $meta['status'] = 'awaiting-finalize';
+                    $order->update(['worldpay_meta' => $meta]);
+
+                    $this->cardType = data_get($payment, 'paymentInstrument.card.brand');
+                    $this->cardLast4Digits = data_get($payment, 'paymentInstrument.card.number.last4Digits');
+                    $this->transactionReference = $order->transaction_reference;
+
+                    Log::info('Worldpay lookup confirmed payment', ['order_id' => $order->id, 'payment' => $payment]);
+
+                    Log::info('Worldpay payment last event', ['order_id' => $order->id, 'last_event' => $lastEvent]);
+                    if (Str::contains($lastEvent, 'settlementrequested') || Str::contains($lastEvent, 'settlementrequestsubmitted') || Str::contains($lastEvent, 'authorizationsucceeded') || Str::contains($lastEvent, 'authorized')) {
+                        $this->createOrUpdateTransaction($order, 'intent', $order->transaction_reference, (int)data_get($payment, 'value.amount', 0), $payment);
+
+                        Log::info('Worldpay authorization event processed', ['order_id' => $order->id]);
+
+                        $authResp = $this->authorize();
+                        if (! $authResp->success) {
+                            Log::warning('Worldpay authorize failed', ['order_id' => $order->id, 'auth' => $authResp]);
+                            $meta = (array)$order->worldpay_meta;
+                            $meta['status'] = 'authorize_failed';
+                            $order->update(['worldpay_meta' => $meta, 'status' => 'failed']);
+                            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Authorization failed.']);
+                        }
+
+                        $meta = (array)$order->worldpay_meta;
+                        $meta['status'] = 'success';
+                        $meta['authorized_at'] = now()->toDateTimeString();
+                        $order = Order::find($order->id);
+                        $order->update(['worldpay_meta' => $meta, 'placed_at' => now(), 'status' => 'awaiting-payment']);
+
+                        Log::info('Worldpay payment completed', ['order_id' => $order->id, 'order' => $order]);
+
+                        return redirect()->route('checkout-success.view')->with(['success' => true, 'message' => 'Payment captured and order placed.']);
+                    }
+
+                    break;
+                }
+
+                sleep($delay);
+                $delay *= 2;
+            } catch (\Throwable $e) {
+                Log::error('Worldpay lookup request failed', ['order_id' => $order->id, 'error' => $e->getMessage()]);
+                sleep($delay);
+                $delay *= 2;
+            }
+        }
     }
 
-    public function capture(Transaction|\Lunar\Models\Contracts\Transaction $transaction = null, $amount = 0): PaymentCapture
+    protected function createOrUpdateTransaction($order, string $type, ?string $reference, int $amount, $metaPayload = null)
     {
-        Transaction::create([
-            'order_id' => $this->order->id,
+        $transaction = $order->transactions()
+            ->where('driver', 'worldpay')
+            ->where('type', $type)
+            ->where('reference', $reference)
+            ->first();
+
+        if ($transaction) {
+            $transaction->update([
+                'amount' => $amount,
+                'success' => true,
+                'status' => $type,
+                'meta' => array_merge((array)$transaction->meta, ['worldpay' => $metaPayload]),
+            ]);
+            return $transaction;
+        }
+
+        return $order->transactions()->create([
+            'parent_transaction_id' => null,
+            'type' => $type,
             'driver' => 'worldpay',
+            'amount' => $amount,
+            'reference' => $reference ?? Str::uuid()->toString(),
+            'status' => 'intent',
+            'card_type' => $this->cardType ?? 'unknown',
+            'last_four' => $this->cardLast4Digits ?? 'unknown',
             'success' => true,
-            'amount' => $this->order->total,
-            'reference' => $this->transactionReference,
-            'status' => 'CAPTURED',
-            'type' => 'capture',
-            'card_type' => $this->cardType ?? 'unknow',
-            'last_four' => $this->cardLast4Digits ?? 'unknown'
+            'meta' => ['worldpay' => $metaPayload],
         ]);
-
-        $this->order->placed_at = now();
-        $this->order->status = 'payment-received';
-        $this->order->save();
-
-        if ($user = auth()->user()) {
-            $raw = $this->order->discount_breakdown;
-            $entries = is_string($raw) ? json_decode($raw) : $raw;
-
-            foreach ($entries as $entry) {
-                $discountId = $entry->discount_id ?? null;
-                if (!$discountId) {
-                    continue;
-                }
-
-                $freeQty = OrderLine::where('order_id', $this->order->id)
-                    ->where('meta->free', true)
-                    ->where('meta->discount_id', $discountId)
-                    ->sum('quantity');
-
-                if ($freeQty <= 0) {
-                    continue;
-                }
-
-                $discount = Discount::find($discountId);
-                $rewardQty = data_get($discount->data, 'reward_qty', 1);
-
-                $timesUsed = (int)floor($freeQty / max(1, $rewardQty));
-
-                for ($i = 0; $i < $timesUsed; $i++) {
-                    DB::table('lunar_discount_user')->insert([
-                        'user_id' => $user->id,
-                        'discount_id' => $discountId,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-            }
-        }
-
-        Mail::to(auth()->user())->send(new CustomerNewOrderMail($this->order));
-
-        $admins = Staff::get();
-        foreach ($admins as $admin) {
-            if (in_array($admin->email, ['info@dayzsolutions.com', 'pieter@dayzsolutions.com'])) {
-                continue;
-            }
-            Mail::to($admin)->send(new AdminNewOrderMail($this->order));
-        }
-
-        return new PaymentCapture(
-            success: true,
-            message: 'Payment recorded and order placed',
-        );
     }
 
     public function refund(Transaction|\Lunar\Models\Contracts\Transaction $transaction, int $amount = 0, $notes = null): PaymentRefund
@@ -269,189 +302,114 @@ class WorldpayPayment extends AbstractPayment
         return new PaymentRefund(success: false, message: 'Not implemented');
     }
 
-    public function verifyAndFinalizePayment()
+    public function flattenLinks(array $links): array
     {
-        $orderId = session('worldpay_order_id');
-        if (! $orderId) {
-            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Order session not found.']);
-        }
+        $out = [];
+        foreach ($links as $key => $v) {
+            $href = null;
+            if (is_string($v)) {
+                $href = $v;
+            } elseif (is_array($v) && isset($v['href'])) {
+                if (is_string($v['href'])) {
+                    $href = $v['href'];
+                } elseif (is_array($v['href'])) {
+                    $flat = Arr::flatten($v['href']);
+                    foreach ($flat as $candidate) {
+                        if (is_string($candidate) && trim($candidate) !== '') {
+                            $href = $candidate;
+                            break;
+                        }
+                    }
+                }
+            }
 
-        $order = ExtendLunarOrder::find($orderId);
-        if (! $order) {
-            Log::warning('Worldpay: order id from session not found in DB', ['order_id' => $orderId]);
-            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Order not found.']);
+            if ($href) $out[$key] = $href;
         }
+        return $out;
+    }
 
-        $lookupHref = data_get($order->worldpay_meta, 'lookup_href') ?? null;
-
-        if (! $lookupHref) {
-            Log::error('Worldpay: lookup/redirect href missing for order', ['order_id' => $order->id, 'worldpay_meta' => $order->worldpay_meta]);
-            return redirect()->route('checkout.view')->with(['success' => false, 'message' => 'Lookup URL not available.']);
-        }
+    public function authorize(): PaymentAuthorize
+    {
+        $this->order ??= ExtendLunarOrder::find(session('worldpay_order_id'));
 
         try {
-            $correlationId = Str::uuid()->toString();
-            $maxRetries = 5;
-            $attemptDelay = 1;
-            $success = false;
-            $body = null;
+            return new PaymentAuthorize(success: true, message: 'Authorized', orderId: $this->order->id, paymentType: 'worldpay');
+        } catch (\Throwable $e) {
+            Log::error('Worldpay authorize error', ['error' => $e->getMessage()]);
+            return new PaymentAuthorize(success: false, message: $e->getMessage(), orderId: $this->order->id, paymentType: 'worldpay');
+        }
+    }
 
-            for ($attempt = 1; $attempt <= $maxRetries; $attempt++) {
-                $res = $this->http->get($lookupHref, [
-                    'headers' => [
-                        'Authorization' => $this->authHeader,
-                        'WP-CorrelationId' => $correlationId,
-                    ],
-                    'http_errors' => false,
-                    'timeout' => 15,
-                ]);
+    public function capture(\Lunar\Models\Contracts\Transaction $transaction = null, $amount = 0): PaymentCapture
+    {
+        try {
+            $order = $transaction->order;
 
-                $status = $res->getStatusCode();
-                $raw = (string) $res->getBody();
-                $body = json_decode($raw, true) ?: [];
+            Log::info('Worldpay capture called', ['order_id' => $order->id, 'transaction_id' => $transaction->id, 'amount' => $amount]);
 
-                $payments = data_get($body, '_embedded.payments', []);
-                if ($status === 200 && !empty($payments) && is_array($payments)) {
-                    $success = true;
-
-                    $this->cardType = data_get($body, '_embedded.payments.0.paymentInstrument.card.brand') ?? null;
-                    $this->cardLast4Digits = data_get($body, '_embedded.payments.0.paymentInstrument.card.number.last4Digits') ?? null;
-                    $this->transactionReference = $order->transaction_reference;
-
-                    Log::info('Worldpay lookup response', [
-                        'order_id' => $order->id,
-                        'body' => $body,
-                    ]);
-
-                    break;
-                }
-
-                if ($status === 200 && empty($payments)) {
-                    Log::info('Worldpay lookup returned 200 but payments empty; will retry', [
-                        'order_id' => $order->id,
-                        'attempt' => $attempt,
-                    ]);
-
-                    sleep($attemptDelay);
-                    $attemptDelay *= 2;
-                    continue;
-                }
-
-                Log::warning('Worldpay lookup non-successful attempt (will retry)', [
-                    'order_id' => $order->id,
-                    'status' => $status,
-                    'attempt' => $attempt,
-                    'body' => $body,
-                ]);
-
-                sleep($attemptDelay);
-                $attemptDelay *= 2;
+            if (! $order) {
+                return new PaymentCapture(success: false, message: 'Order not available for capture.');
             }
 
-            if (! $success) {
-                $wp = is_array($order->worldpay_meta) ? $order->worldpay_meta : (array) ($order->worldpay_meta ?? []);
-                $wp['status'] = 'lookup_unconfirmed';
-                $wp['lookup_last_checked_at'] = now()->toDateTimeString();
-                $wp['lookup_last_http_status'] = $status;
-                $wp['lookup_last_response'] = $body;
-                $wp['wp_correlation_id'] = $correlationId;
+            $transaction = $this->createOrUpdateTransaction($order, 'capture', $order->transaction_reference, $amount, null);
 
-                $order->worldpay_meta = $wp;
-                $order->status = 'pending_payment';
-                $order->save();
-
-                Log::warning('Worldpay lookup exhausted: no confirmed payment; user redirected and meta updated', [
-                    'order_id' => $order->id,
-                    'last_status' => $status,
-                ]);
-
-                return redirect()->route('checkout.view')->with([
-                    'success' => false,
-                    'message' => 'Payment not confirmed yet. We will confirm it shortly — please check your email or try again.',
-                ]);
-            }
-
-            $authResp = $this->authorize();
-
-            if (! $authResp->success) {
-                $wp = is_array($order->worldpay_meta) ? $order->worldpay_meta : (array) ($order->worldpay_meta ?? []);
-                $wp['status'] = 'failed';
-                $wp['authorize_response'] = [
-                    'success' => false,
-                    'message' => $authResp->message ?? null,
-                ];
-                $order->worldpay_meta = $wp;
-                $order->status = 'failed';
-                $order->save();
-
-                Log::warning('Worldpay authorize failed', ['order_id' => $order->id, 'auth' => $authResp]);
-
-                return redirect()->route('checkout.view')->with([
-                    'success' => false,
-                    'message' => 'Authorization failed: ' . ($authResp->message ?? 'unknown')
-                ]);
-            }
-
-            $captureResp = $this->capture();
-
-            if (! $captureResp->success) {
-                $wp = is_array($order->worldpay_meta) ? $order->worldpay_meta : (array) ($order->worldpay_meta ?? []);
-                $wp['status'] = 'capture_failed';
-                $wp['capture_response'] = [
-                    'success' => false,
-                    'message' => $captureResp->message ?? null,
-                ];
-                $order->worldpay_meta = $wp;
-                $order->status = 'failed';
-                $order->save();
-
-                Log::warning('Worldpay capture failed', ['order_id' => $order->id, 'capture' => $captureResp]);
-
-                return redirect()->route('checkout.view')->with([
-                    'success' => false,
-                    'message' => 'Capture failed: ' . ($captureResp->message ?? 'unknown')
-                ]);
-            }
-
-            $wp = is_array($order->worldpay_meta) ? $order->worldpay_meta : (array) ($order->worldpay_meta ?? []);
-            $wp['status'] = 'success';
-            $wp['authorized_at'] = now()->toDateTimeString();
-            $wp['authorize_response'] = $authResp;
-            $wp['capture_response'] = $captureResp;
-            $wp['lookup_response'] = $body;
-
-            $order->worldpay_meta = $wp;
             $order->status = 'payment-received';
             $order->save();
 
-            Log::info('Worldpay payment completed', ['order_id' => $order->id]);
+            $this->sendOrderEmails($order->user);
 
-            return redirect()->route('checkout-success.view')->with([
-                'success' => true,
-                'message' => 'Payment authorized and captured successfully.'
-            ]);
-        } catch (RequestException $e) {
-            Log::error('Worldpay HPP lookup error: ' . $e->getMessage(), [
-                'order_id' => $order->id ?? null,
-                'response' => $e->hasResponse() ? (string) $e->getResponse()->getBody() : null,
-                'trace' => $e->getTraceAsString(),
-            ]);
+            Log::info('Worldpay capture completed', ['order_id' => $order->id, 'transaction_id' => $transaction->id]);
 
-            return redirect()->route('checkout.view')->with([
-                'success' => true,
-                'message' => 'Payment verification failed (network).'
-            ]);
+            return new PaymentCapture(success: true, message: 'Payment recorded and order placed');
         } catch (\Throwable $e) {
-            Log::error('Unexpected error in Worldpay verify flow', [
-                'order_id' => $order->id ?? null,
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
+            Log::error('Worldpay capture error', ['error' => $e->getMessage()]);
+            return new PaymentCapture(success: false, message: $e->getMessage());
+        }
+    }
 
-            return redirect()->route('checkout.view')->with([
-                'success' => true,
-                'message' => 'Internal error.'
-            ]);
+    private function sendOrderEmails($user)
+    {
+        $raw = $this->order->discount_breakdown;
+        $entries = is_string($raw) ? json_decode($raw) : $raw;
+
+        foreach ($entries as $entry) {
+            $discountId = $entry->discount_id ?? null;
+            if (!$discountId) {
+                continue;
+            }
+
+            $freeQty = OrderLine::where('order_id', $this->order->id)
+                ->where('meta->free', true)
+                ->where('meta->discount_id', $discountId)
+                ->sum('quantity');
+
+            if ($freeQty <= 0) {
+                continue;
+            }
+
+            $discount = Discount::find($discountId);
+            $rewardQty = data_get($discount->data, 'reward_qty', 1);
+
+            $timesUsed = (int)floor($freeQty / max(1, $rewardQty));
+
+            for ($i = 0; $i < $timesUsed; $i++) {
+                DB::table('lunar_discount_user')->insert([
+                    'user_id' => $user->id,
+                    'discount_id' => $discountId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        Mail::to($user)->send(new CustomerNewOrderMail($this->order));
+
+        $admins = Staff::get();
+        foreach ($admins as $admin) {
+            if (in_array($admin->email, ['info@dayzsolutions.com', 'pieter@dayzsolutions.com'])) {
+                continue;
+            }
+            Mail::to($admin)->send(new AdminNewOrderMail($this->order));
         }
     }
 }

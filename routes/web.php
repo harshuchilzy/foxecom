@@ -28,6 +28,7 @@ use App\Livewire\CheckoutSuccessPage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WorldpayHppController;
+use App\Http\Controllers\WorldpayWebhookController;
 
 require __DIR__ . '/auth.php';
 
@@ -87,7 +88,7 @@ Route::get('shipping-and-payment', function () {
 })->name('shipping-and-payment');
 
 //Home Page - livewire
-Route::get('/', Home::class)->name('home');
+Route::any('/', Home::class)->name('home');
 
 //Single Collections Page - livewire
 Route::get('/collections/{slug}', CollectionPage::class)->middleware('auth')->name('collection.view');
@@ -198,10 +199,12 @@ Route::get('unsubscribe', function () {
     return redirect()->route('home');
 })->name('unsubscribe');
 
-Route::middleware('auth')->prefix('checkout')->as('checkout.')->controller(CheckoutController::class)
-    ->group(function () {
-        Route::get('finalize', 'finalize')->name('finalize');
-    });
+
+Route::middleware('auth')->prefix('checkout')->as('checkout.')->controller(CheckoutController::class)->group(function () {
+    Route::get('finalize', 'finalize')->name('finalize');
+});
+
+Route::post('worldpay/webhooks', WorldpayWebhookController::class)->middleware('auth')->name('worldpay.webhooks');
 
 // Route::get('/test-mail', function(){
 //     $orders = Order::get();
