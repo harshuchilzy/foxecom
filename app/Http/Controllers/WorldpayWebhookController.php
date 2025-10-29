@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExtendLunarOrder;
+use App\Services\WorldpaySignatureVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,12 @@ class WorldpayWebhookController extends Controller
         $sigHeader = $request->header('Event-Signature') ?? $request->header('event-signature');
 
         Log::info('Worldpay webhook received', ['signature' => $sigHeader]);
+
+        // Verify signature
+        if (! WorldpaySignatureVerifier::verify($raw, $sigHeader)) {
+            Log::warning('Worldpay webhook invalid signature', ['ip' => $request->ip()]);
+            return response('Invalid signature', Response::HTTP_BAD_REQUEST);
+        }
 
         $payload = json_decode($raw, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
