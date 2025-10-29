@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Illuminate\Support\Str;
@@ -11,11 +12,11 @@ class WorldpaySignatureVerifier
             return false;
         }
 
-        $secretsJson = config('lunar.payments.worldpay.webhook_secrets') ?? env('WORLDPAY_HPP_WEBHOOK_SECRETS');
-        $fallbackSecret = config('lunar.payments.worldpay.webhook_secret') ?? env('WORLDPAY_HPP_WEBHOOK_SECRET');
+        $secretsJson = config('lunar.payments.worldpay.webhook_secrets');
+        $fallbackSecret = config('lunar.payments.worldpay.webhook_secret');
 
         $secrets = [];
-        if (!empty($secretsJson)) {
+        if (! empty($secretsJson)) {
             $decoded = json_decode($secretsJson, true);
             if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
                 $secrets = $decoded;
@@ -28,7 +29,6 @@ class WorldpaySignatureVerifier
         $parts = array_map('trim', explode(',', $signatureHeader));
 
         foreach ($parts as $part) {
-            // support shorthand: sha256=<hex>
             if (Str::startsWith(strtolower($part), 'sha256=')) {
                 $candidate = substr($part, 7);
                 foreach ($secrets as $k => $s) {
@@ -36,17 +36,18 @@ class WorldpaySignatureVerifier
                         return true;
                     }
                 }
+
                 continue;
             }
 
-            if (!preg_match('#^([^/]+)/([^/]+)/(.+)$#', $part, $m)) {
+            if (! preg_match('#^([^/]+)/([^/]+)/(.+)$#', $part, $m)) {
                 continue;
             }
 
             [$all, $keyId, $hashFn, $signature] = $m;
 
             $secret = $secrets[$keyId] ?? ($secrets['default'] ?? null);
-            if (!$secret) {
+            if (! $secret) {
                 continue;
             }
 
